@@ -96,28 +96,36 @@ async function fetchRelayPromotions(env) {
   const endpoint = customUrl || DEFAULT_RELAY_PROMOTIONS_URL;
   if (!sanitizeHttpUrl(endpoint)) return [];
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), RELAY_FETCH_TIMEOUT_MS);
-  try {
-    const resp = await fetch(endpoint, {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      signal: controller.signal,
-    });
-    if (!resp.ok) return [];
-    const data = await resp.json();
-    const list = Array.isArray(data?.promotions) ? data.promotions : [];
-    const normalized = [];
-    for (let i = 0; i < list.length && normalized.length < MAX_RELAY_PROMOTIONS; i += 1) {
-      const item = normalizePromotion(list[i], i);
-      if (item) normalized.push(item);
-    }
-    return normalized;
-  } catch {
-    return [];
-  } finally {
-    clearTimeout(timer);
+  const endpoints = [endpoint];
+  if (!customUrl && endpoint.startsWith("https://relay.anangeo.com/")) {
+    endpoints.push(endpoint.replace("https://relay.anangeo.com/", "https://anan-social-relay.as720518.workers.dev/"));
   }
+
+  for (const targetUrl of endpoints) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), RELAY_FETCH_TIMEOUT_MS);
+    try {
+      const resp = await fetch(targetUrl, {
+        method: "GET",
+        headers: { Accept: "application/json" },
+        signal: controller.signal,
+      });
+      if (!resp.ok) continue;
+      const data = await resp.json();
+      const list = Array.isArray(data?.promotions) ? data.promotions : [];
+      const normalized = [];
+      for (let i = 0; i < list.length && normalized.length < MAX_RELAY_PROMOTIONS; i += 1) {
+        const item = normalizePromotion(list[i], i);
+        if (item) normalized.push(item);
+      }
+      return normalized;
+    } catch {
+      // try fallback endpoint if available
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  return [];
 }
 
 function renderPromotionsHtmlSection(promotions) {
