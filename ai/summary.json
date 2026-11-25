@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-11-25T14:30:00+08:00",
+  "name": "阿男 GEO 實戰工坊",
+  "alternate_names": ["Anan GEO Workshop", "阿男 GEO", "張簡俊男 GEO 實戰工坊"],
+  "url": "https://anangeo.com/",
+  "language": "zh-Hant",
+  "summary": "獨立、純靜態、以 1,298 筆跨引擎實測原答與 GeoLook (MIT) 延伸體檢為核心的生成式引擎最佳化（GEO）實戰工坊。提供 10 秒免費基礎官網初檢、4 篇公開破案教學、12 題完整問答與透明兩層（入門／企業級）診斷改造服務。",
+  "founder": {
+    "name": "阿男音樂｜張簡俊男",
+    "brand_separation_note": "創辦人另經營客製紀念歌曲品牌「阿男音樂（https://www.cccnan.art/）」，與本工坊品牌 GEO 服務分開營運；cccnan.art 亦作為本工坊第 1 號去敏公開實測案例。"
+  },
+  "same_as": [
+    "https://github.com/as720518/anan-geo-public-site",
+    "https://www.linkedin.com/in/%E9%98%BF%E7%94%B7-cc-6bb966205/",
+    "https://youtube.com/@as720518",
+    "https://www.threads.com/@cccn0518",
+    "https://x.com/0518nan",
+    "https://www.cccnan.art/"
+  ],
+  "contact": {
+    "channel": "LINE",
+    "line_id": "@250ruauk",
+    "url": "https://line.me/R/ti/p/@250ruauk"
+  },
+  "crawler_policy": {
+    "search_and_citation_bots": "allow",
+    "foundation_model_training_bots": "disallow",
+    "robots_url": "https://anangeo.com/robots.txt",
+    "llms_url": "https://anangeo.com/llms.txt",
+    "llms_full_url": "https://anangeo.com/llms-full.txt"
+  },
+  "evidence_highlights": {
+    "case_id": "CASE-01",
+    "case_domain": "www.cccnan.art",
+    "total_samples": 1298,
+    "audit_days": 35,
+    "geolook_score_before": 41,
+    "geolook_score_after": 89,
+    "unbranded_mention_before": "0/22 (0.0%)",
+    "unbranded_mention_latest": "ChatGPT 50.0% (7/14), Perplexity 50.0% exposure (2 text + 5 citation), Gemini 0/14",
+    "official_line_accuracy_latest": "ChatGPT 7/7 (100%), Perplexity 7/7 (100%), Gemini 3/7"
+  },
+  "pages": [
+    { "path": "/", "url": "https://anangeo.com/", "title": "首頁｜10 秒免費基礎 GEO 初檢與 1,298 筆實測儀表板" },
+    { "path": "/guides/why-ai-misses-your-site/", "url": "https://anangeo.com/guides/why-ai-misses-your-site/", "title": "為什麼有官網，AI 還是找不到你？" },
+    { "path": "/guides/multi-platform-citation-matrix/", "url": "https://anangeo.com/guides/multi-platform-citation-matrix/", "title": "一魚多吃：2026 跨平台信源佈局矩陣" },
+    { "path": "/guides/llms-txt-and-schema-guide/", "url": "https://anangeo.com/guides/llms-txt-and-schema-guide/", "title": "llms.txt、Schema 與問答結構化實戰指南" },
+    { "path": "/guides/ai-wrong-price-detective/", "url": "https://anangeo.com/guides/ai-wrong-price-detective/", "title": "AI 報錯舊價破案實錄" },
+    { "path": "/faq/", "url": "https://anangeo.com/faq/", "title": "阿男 GEO 實戰工坊完整 12 題常見問答" },
+    { "path": "/enterprise/", "url": "https://anangeo.com/enterprise/", "title": "B2B 企業 GEO 專頁｜四大產業盲點與 NDA 保密交付樣本" }
+  ],
+  "pricing": [
+    {
+      "tier": "入門方案",
+      "name": "基礎 GEO 健檢與 20 題 AI 診斷報告",
+      "price_twd": 3800,
+      "billing": "單次",
+      "note": "30 天內升級改造可全額折抵"
+    },
+    {
+      "tier": "入門方案",
+      "name": "小型官網 GEO 地基一次改造",
+      "price_twd": 18000,
+      "billing": "單次專案",
+      "note": "限小型官網、不含代寫大量文章"
+    },
+    {
+      "tier": "企業級方案",
+      "name": "企業深度健檢與資安承諾專案",
+      "price_twd": 28000,
+      "billing": "單次專案",
+      "note": "50 題×多平台實測＋企業 NDA 保密承諾書＋視訊報告講解"
+    },
+    {
+      "tier": "企業級方案",
+      "name": "企業月費陪跑監測",
+      "min_price_twd": 25000,
+      "billing": "月起（MON）",
+      "note": "每月跨引擎實測＋結構／內容優化＋GA4 AI 流量追蹤，依題庫與平台數報價"
+    }
+  ],
+  "honest_boundaries": [
+    "不保證 AI 排名、不保證必點名、不保證成交",
+    "絕不使用隱藏提示詞注入或垃圾外鏈等黑帽手法",
+    "只交付可逐項驗證的原答證據、診斷報告與結構化檔案"
+  ]
+}

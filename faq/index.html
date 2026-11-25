@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GEO 常見問答（完整 12 題 FAQ）：費用折抵、企業 NDA、GA4 與 WAF 排錯｜阿男 GEO 實戰工坊</title>
+  <meta name="description" content="阿男 GEO 實戰工坊完整 12 題常見問答：解答 GEO 定義、AI 報錯舊價追查、NT$3,800 折抵規則、NT$18,000 小型官網範圍、企業 NDA 資安、月費陪跑、GA4 追蹤與 WAF 誤擋。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://anangeo.com/faq/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="阿男 GEO 實戰工坊 RSS" href="https://anangeo.com/rss.xml">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:site_name" content="阿男 GEO 實戰工坊">
+  <meta property="og:title" content="GEO 常見問答（完整 12 題 FAQ）｜阿男 GEO 實戰工坊">
+  <meta property="og:description" content="一次看懂入門折抵、小型官網改造邊界、企業 NDA 保密承諾、GA4 AI 流量追蹤與 Cloudflare WAF 爬蟲誤擋排錯。">
+  <meta property="og:url" content="https://anangeo.com/faq/">
+  <meta property="og:image" content="https://anangeo.com/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GEO 常見問答（完整 12 題 FAQ）｜阿男 GEO 實戰工坊">
+  <meta name="twitter:description" content="12 題白話解答品牌與企業導入 GEO 最常遇到的報價、NDA、WAF 與追蹤問題。">
+  <meta name="twitter:image" content="https://anangeo.com/og-cover.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://anangeo.com/#website",
+        "url": "https://anangeo.com/",
+        "name": "阿男 GEO 實戰工坊",
+        "inLanguage": "zh-Hant",
+        "publisher": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://anangeo.com/#organization",
+        "name": "阿男 GEO 實戰工坊",
+        "url": "https://anangeo.com/",
+        "logo": "https://anangeo.com/og-cover.png",
+        "founder": { "@id": "https://anangeo.com/#founder" },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "url": "https://line.me/R/ti/p/@250ruauk",
+          "availableLanguage": ["zh-Hant"]
+        },
+        "sameAs": [
+          "https://github.com/as720518/anan-geo-public-site",
+          "https://www.linkedin.com/in/%E9%98%BF%E7%94%B7-cc-6bb966205/",
+          "https://youtube.com/@as720518",
+          "https://www.threads.com/@cccn0518",
+          "https://x.com/0518nan",
+          "https://www.cccnan.art/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://anangeo.com/#founder",
+        "name": "阿男音樂｜張簡俊男",
+        "url": "https://www.cccnan.art/",
+        "worksFor": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://anangeo.com/faq/#webpage",
+        "url": "https://anangeo.com/faq/",
+        "name": "GEO 常見問答（完整 12 題 FAQ）｜阿男 GEO 實戰工坊",
+        "description": "完整回答 12 個品牌與企業最常問的 GEO 實戰、報價折抵、企業 NDA、GA4 追蹤與技術邊界問題。",
+        "inLanguage": "zh-Hant",
+        "isPartOf": { "@id": "https://anangeo.com/#website" },
+        "breadcrumb": { "@id": "https://anangeo.com/faq/#breadcrumb" },
+        "datePublished": "2026-11-25T00:00:00+08:00",
+        "dateModified": "2026-11-25T14:30:00+08:00"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://anangeo.com/faq/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://anangeo.com/" },
+          { "@type": "ListItem", "position": 2, "name": "常見問答（12 題 FAQ）", "item": "https://anangeo.com/faq/" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://anangeo.com/faq/#faq",
+        "url": "https://anangeo.com/faq/",
+        "inLanguage": "zh-Hant",
+        "isPartOf": { "@id": "https://anangeo.com/faq/#webpage" },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "什麼是 GEO（Generative Engine Optimization）？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GEO 是指生成式引擎最佳化，目標是透過靜態可抓取網頁、搜尋爬蟲放行、精簡索引指引、單一 @graph 結構化資料與跨平台一致事實，讓 ChatGPT、Gemini、Perplexity、豆包、騰訊元寶等 AI 引擎在回答提問時，主動點名並正確引述你的品牌價格、流程與聯絡入口。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "為什麼官網已經改價格了，AI 卻還是回答舊價格或舊流程？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常是因為網路上還留著搜尋引擎舊快照、忘記關閉的舊預覽測試網址，或站外尚未同步更新的公開筆記與社群簡介。實戰上必須先核對正式頁原始碼、將舊測試網域設為 308 永久轉址並加上 noindex，再連續數週以無痕新對話追蹤換版進度。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "做 GEO 可以讓 AI 一定排在前面或必定推薦嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不可以。AI 回答具有隨機性且各引擎檢索演算法持續調整，沒有任何廠商能鎖定特定推薦順序。本工坊不保證 AI 排名、不保證必點名、不保證成交，只交付可逐項查驗的原始問答證據、6 維體檢診斷報告與可直接上線的結構化檔案。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "NT$3,800 基礎 GEO 健檢做完後，升級 NT$18,000 小型官網改造可以折抵嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以。完成 NT$3,800 基礎 GEO 健檢與 20 題 AI 診斷報告後，只要在 30 天內決定升級 NT$18,000 小型官網 GEO 地基一次改造，先前支付的 NT$3,800 可全額折抵，只需補齊差額 NT$14,200。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "NT$18,000 小型官網 GEO 地基一次改造包含與不包含哪些項目？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "包含 20 題摸底診斷、品牌事實單一真相表、robots.txt 爬蟲檢查、/llms.txt 與 sitemap 部署、全站單一 @graph JSON-LD 結構化資料，以及 3～5 個核心服務頁高引用結構改寫與改後複測報告；此方案限小型官網架構，不含代寫大量部落格文章或整站視覺重設計。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "企業級 NT$28,000 深度健檢包含什麼？有提供企業 NDA 保密承諾書嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "企業深度健檢 NT$28,000 包含 50 題×多平台無痕實測、我方與同業 9 維度對照診斷報告、27 隻 AI 爬蟲與 WAF 實測矩陣、可直接交辦工程團隊的修復範本，以及線上視訊報告講解；並隨案提供企業 NDA 保密承諾書（只觸碰公開頁、單戶本機隔離、絕不用於公開模型訓練、結案 30 日可銷毀）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "企業月費陪跑監測（NT$25,000／月起）怎麼計費？包含 GA4 AI 流量追蹤嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "企業月費陪跑監測自 NT$25,000／月起，實際報價依每月固定實測題庫數與監測平台數（如 ChatGPT、Perplexity、Gemini、豆包等）核定。服務包含每月跨引擎無痕複測、結構與內容持續優化、防堵舊價回流，以及協助設定並追蹤 GA4 中的 AI 參照流量與轉換表現。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "網站明明在 robots.txt 放行了 AI 爬蟲，為什麼還是被擋在門外？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "最常見的原因是 Cloudflare Bot Fight Mode、AWS WAF 或主機防火牆規則攔截了帶有 AI 爬蟲 User-Agent 的無頭請求，回傳 HTTP 403 或人機驗證挑戰頁。必須透過模擬各爬蟲 UA 的實地探測比對 HTTP 狀態碼與回傳內文長度，才能抓出 robots.txt 與 WAF 不一致的誤擋漏洞。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "網站只要放了 /llms.txt 就一定會被 AI 推薦嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。/llms.txt 是提供給 AI 代理快速定位核心頁的純文字目錄，屬於定向層加分項而非萬靈丹。真正決定 AI 找不找得到你與會不會說對價格的，仍是靜態 HTML 可讀取性、乾淨 sitemap、單一 @graph Schema 與純文字規格對比表。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "做完官網 GEO 改造後，大概要觀察多久才能判斷成效？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "建議以 8～12 週（約 90 天）為標準觀察窗口。搜尋索引重抓與跨平台信源更新都需要時間，應每週在全新無痕視窗以固定題庫紀錄原答，觀察長期趨勢而非憑單日運氣判斷。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "阿男 GEO 實戰工坊和阿男音樂（www.cccnan.art）是什麼關係？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "兩者皆由創辦人張簡俊男（阿男）獨立營運，但服務對象與業務完全分開。www.cccnan.art 專營原創與客製紀念歌曲創作，同時也是本工坊第 1 號去敏公開實測案例（累積 1,298 筆實測原答）；anangeo.com 則專注提供各行各業品牌官網的 GEO 健檢與結構改造服務。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "預約 GEO 健檢要透過哪個官方入口？第一次詢問需要準備什麼？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "請加入官方 LINE @250ruauk（https://line.me/R/ti/p/@250ruauk），用文字傳送三項基本資訊即可開始評估（不用先通電話）：① 您的官網網址或主要公開頁面；② 主力產品或服務的公開價格區間與交付方式；③ 您最希望客戶問 AI 時會提到您的 3 個真實問題。"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-lockup" href="/" aria-label="返回阿男 GEO 實戰工坊首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect x="1.5" y="1.5" width="31" height="31" rx="8" stroke="#D9A74A" stroke-width="1.6"/>
+            <path d="M9 22.5L14.2 11.5L18.5 19.5L22 14.2L25.5 22.5" stroke="#ECF1F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="25.5" cy="10.5" r="2.5" fill="#34B399"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>阿男 GEO 實戰工坊</strong>
+          <small>1,298 筆實測證據・GeoLook (MIT) 延伸</small>
+        </span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">選單</button>
+      <nav class="site-nav" id="site-nav" aria-label="主要導覽">
+        <a href="/#live-check">10 秒免費初檢</a>
+        <a href="/#dashboard">1,298 筆實測</a>
+        <a href="/#guides">實戰教學</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/" aria-current="page">常見問答</a>
+        <a class="nav-cta" href="/#contact">預約 GEO 健檢</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="subpage-hero">
+      <div class="container">
+        <ol class="breadcrumb" aria-label="麵包屑導覽">
+          <li><a href="/">首頁</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li aria-current="page">常見問答（12 題 FAQ）</li>
+        </ol>
+        <p class="eyebrow">COMPLETE FAQ・完整 12 題透明問答</p>
+        <h1>阿男 GEO 實戰工坊常見問答（完整 12 題）</h1>
+        <p class="subpage-lead">
+          本頁 FAQ 是指針對個人品牌、中小官網與 B2B 企業導入生成式引擎最佳化（GEO）時最常詢問的 12 個關鍵問題，從技術原理、AI 報錯舊價、計費折抵、企業 NDA 保密承諾到 GA4 流量追蹤，用白話一次講清楚，絕不包裝話術。
+        </p>
+        <div class="subpage-meta">
+          <span>作者：阿男 GEO 實戰工坊</span>
+          <span>收錄題數：12 題完整問答（與 JSON-LD 100% 一致）</span>
+          <span>最後更新：2026-11-25</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="subpage-body">
+      <div class="container subpage-stack">
+        <article class="subpage-card">
+          <h2>四組方案重點快速比較（下單前先核對）</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>方案層級</th>
+                  <th>方案名稱</th>
+                  <th>公開費用</th>
+                  <th>核心交付與邊界說明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>入門 01</td>
+                  <td>基礎 GEO 健檢與 20 題 AI 診斷報告</td>
+                  <td class="mono">NT$3,800／單次</td>
+                  <td>20 題無痕實測＋6 維診斷清單；30 天內升級改造可全額折抵</td>
+                </tr>
+                <tr>
+                  <td>入門 02</td>
+                  <td>小型官網 GEO 地基一次改造</td>
+                  <td class="mono">NT$18,000／專案</td>
+                  <td>全站技術地基＋3～5 個核心服務頁改寫；限小型官網、不含代寫大量文章</td>
+                </tr>
+                <tr>
+                  <td>企業 01</td>
+                  <td>企業深度健檢與資安承諾專案</td>
+                  <td class="mono">NT$28,000／專案</td>
+                  <td>50 題×多平台實測＋企業 NDA 保密承諾書＋線上視訊報告講解</td>
+                </tr>
+                <tr>
+                  <td>企業 02</td>
+                  <td>企業月費陪跑監測</td>
+                  <td class="mono">NT$25,000／月起</td>
+                  <td>每月跨引擎複測＋結構／內容優化＋GA4 AI 流量追蹤，依題庫與平台數報價</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <section aria-label="12 題常見問答清單">
+          <h2 style="font-family:var(--font-display);font-size:1.38rem;margin:0 0 16px;">12 題常見問答全文</h2>
+          <div class="faq-list">
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q01.</span> 什麼是 GEO（Generative Engine Optimization）？</span></summary>
+              <div class="faq-answer">
+                <p>GEO 是指生成式引擎最佳化，目標是透過靜態可抓取網頁、搜尋爬蟲放行、精簡索引指引、單一 <code>@graph</code> 結構化資料與跨平台一致事實，讓 ChatGPT、Gemini、Perplexity、豆包、騰訊元寶等 AI 引擎在回答提問時，主動點名並正確引述你的品牌價格、流程與聯絡入口。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q02.</span> 為什麼官網已經改價格了，AI 卻還是回答舊價格或舊流程？</span></summary>
+              <div class="faq-answer">
+                <p>通常是因為網路上還留著搜尋引擎舊快照、忘記關閉的舊預覽測試網址，或站外尚未同步更新的公開筆記與社群簡介。實戰上必須先核對正式頁原始碼、將舊測試網域設為 308 永久轉址並加上 <code>noindex</code>，再連續數週以無痕新對話追蹤換版進度。完整案例請見<a href="/guides/ai-wrong-price-detective/">《AI 報錯舊價破案實錄》</a>。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q03.</span> 做 GEO 可以讓 AI 一定排在前面或必定推薦嗎？</span></summary>
+              <div class="faq-answer">
+                <p>不可以。AI 回答具有隨機性且各引擎檢索演算法持續調整，沒有任何廠商能鎖定特定推薦順序。本工坊不保證 AI 排名、不保證必點名、不保證成交，只交付可逐項查驗的原始問答證據、6 維體檢診斷報告與可直接上線的結構化檔案。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q04.</span> NT$3,800 基礎 GEO 健檢做完後，升級 NT$18,000 小型官網改造可以折抵嗎？</span></summary>
+              <div class="faq-answer">
+                <p>可以。完成 NT$3,800 基礎 GEO 健檢與 20 題 AI 診斷報告後，只要在 30 天內決定升級 NT$18,000 小型官網 GEO 地基一次改造，先前支付的 NT$3,800 可全額折抵，只需補齊差額 NT$14,200。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q05.</span> NT$18,000 小型官網 GEO 地基一次改造包含與不包含哪些項目？</span></summary>
+              <div class="faq-answer">
+                <p>包含 20 題摸底診斷、品牌事實單一真相表、<code>robots.txt</code> 爬蟲檢查、<code>/llms.txt</code> 與 <code>sitemap</code> 部署、全站單一 <code>@graph</code> JSON-LD 結構化資料，以及 3～5 個核心服務頁高引用結構改寫與改後複測報告；此方案限小型官網架構，不含代寫大量部落格文章或整站視覺重設計。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q06.</span> 企業級 NT$28,000 深度健檢包含什麼？有提供企業 NDA 保密承諾書嗎？</span></summary>
+              <div class="faq-answer">
+                <p>企業深度健檢 NT$28,000 包含 50 題×多平台無痕實測、我方與同業 9 維度對照診斷報告、27 隻 AI 爬蟲與 WAF 實測矩陣、可直接交辦工程團隊的修復範本，以及線上視訊報告講解；並隨案提供企業 NDA 保密承諾書（只觸碰公開頁、單戶本機隔離、絕不用於公開模型訓練、結案 30 日可銷毀）。詳見<a href="/enterprise/">《B2B 企業 GEO 專頁》</a>。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q07.</span> 企業月費陪跑監測（NT$25,000／月起）怎麼計費？包含 GA4 AI 流量追蹤嗎？</span></summary>
+              <div class="faq-answer">
+                <p>企業月費陪跑監測自 NT$25,000／月起，實際報價依每月固定實測題庫數與監測平台數（如 ChatGPT、Perplexity、Gemini、豆包等）核定。服務包含每月跨引擎無痕複測、結構與內容持續優化、防堵舊價回流，以及協助設定並追蹤 GA4 中的 AI 參照流量與轉換表現。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q08.</span> 網站明明在 <code>robots.txt</code> 放行了 AI 爬蟲，為什麼還是被擋在門外？</span></summary>
+              <div class="faq-answer">
+                <p>最常見的原因是 Cloudflare Bot Fight Mode、AWS WAF 或主機防火牆規則攔截了帶有 AI 爬蟲 User-Agent 的無頭請求，回傳 HTTP 403 或人機驗證挑戰頁。必須透過模擬各爬蟲 UA 的實地探測比對 HTTP 狀態碼與回傳內文長度，才能抓出 <code>robots.txt</code> 與 WAF 不一致的誤擋漏洞。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q09.</span> 網站只要放了 <code>/llms.txt</code> 就一定會被 AI 推薦嗎？</span></summary>
+              <div class="faq-answer">
+                <p>不會。<code>/llms.txt</code> 是提供給 AI 代理快速定位核心頁的純文字目錄，屬於定向層加分項而非萬靈丹。真正決定 AI 找不找得到你與會不會說對價格的，仍是靜態 HTML 可讀取性、乾淨 <code>sitemap</code>、單一 <code>@graph</code> Schema 與純文字規格對比表。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q10.</span> 做完官網 GEO 改造後，大概要觀察多久才能判斷成效？</span></summary>
+              <div class="faq-answer">
+                <p>建議以 8～12 週（約 90 天）為標準觀察窗口。搜尋索引重抓與跨平台信源更新都需要時間，應每週在全新無痕視窗以固定題庫紀錄原答，觀察長期趨勢而非憑單日運氣判斷。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q11.</span> 阿男 GEO 實戰工坊和阿男音樂（www.cccnan.art）是什麼關係？</span></summary>
+              <div class="faq-answer">
+                <p>兩者皆由創辦人張簡俊男（阿男）獨立營運，但服務對象與業務完全分開。<code>www.cccnan.art</code> 專營原創與客製紀念歌曲創作，同時也是本工坊第 1 號去敏公開實測案例（累積 1,298 筆實測原答）；<code>anangeo.com</code> 則專注提供各行各業品牌官網的 GEO 健檢與結構改造服務。</p>
+              </div>
+            </details>
+
+            <details class="faq-item" open>
+              <summary><span><span class="faq-q-num">Q12.</span> 預約 GEO 健檢要透過哪個官方入口？第一次詢問需要準備什麼？</span></summary>
+              <div class="faq-answer">
+                <p>請加入官方 LINE <strong>@250ruauk</strong>（<a href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">點此開啟 LINE</a>），用文字傳送三項基本資訊即可開始評估（不用先通電話）：① 您的官網網址或主要公開頁面；② 主力產品或服務的公開價格區間與交付方式；③ 您最希望客戶問 AI 時會提到您的 3 個真實問題。</p>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <article class="subpage-card">
+          <h2>預約與合作三步驟（全程文字對焦，免先通電話）</h2>
+          <ol class="check-list">
+            <li><strong>第一步｜免費初檢摸底</strong>：先回到首頁執行 10 秒免費基礎初檢，或勾選一位同行對手做初步對照。</li>
+            <li><strong>第二步｜加 LINE 傳送 3 項資料</strong>：將官網網址、主力方案公開價目與 3 個最希望 AI 推薦你的提問傳至官方 LINE <code>@250ruauk</code>。</li>
+            <li><strong>第三步｜確認範圍與啟動實測</strong>：核對需求規模（個人入門 NT$3,800／NT$18,000 或企業級 NT$28,000／NT$25,000 月起），確認交付清單後即啟動實測與改造。</li>
+          </ol>
+        </article>
+
+        <section class="subpage-cta-banner" aria-label="免費初檢行動呼籲">
+          <div class="subpage-cta-copy">
+            <span class="eyebrow">TRY IT FREE・先測現況再決定方案</span>
+            <h2>想先看看自己官網現在在 AI 眼裡拿幾分？</h2>
+            <p>輸入網址 10 秒看紅黃綠燈，免登入、免安裝，也能勾選同行對手直接 PK。</p>
+          </div>
+          <div class="subpage-cta-actions">
+            <a class="btn btn-primary" href="/#live-check">回首頁・10 秒免費初檢</a>
+            <a class="btn btn-secondary" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">LINE @250ruauk 免費諮詢</a>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
+        <p class="footer-note">
+          純靜態前端＋Cloudflare Workers 即時基礎初檢・基於開源專案
+          <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook (MIT)</a> 延伸改作，與創辦人客製歌曲品牌
+          <a href="https://www.cccnan.art/work/" target="_blank" rel="noopener noreferrer">阿男音樂（cccnan.art）</a> 分開營運。
+        </p>
+        <p class="footer-updated">最後更新：2026-11-25｜官方 LINE：@250ruauk</p>
+      </div>
+      <div class="footer-links">
+        <a href="/">首頁</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/guides/why-ai-misses-your-site/">實戰教學</a>
+        <a href="/llms.txt" rel="nofollow">llms.txt</a>
+        <a href="/robots.txt" rel="nofollow">robots.txt</a>
+        <a href="/data/case-cccnan.json" rel="nofollow">case-cccnan.json</a>
+        <a href="/LICENSE" rel="nofollow">MIT LICENSE</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var btn = document.getElementById("nav-toggle");
+      var nav = document.getElementById("site-nav");
+      if (btn && nav) {
+        btn.addEventListener("click", function () {
+          var open = nav.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", String(open));
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

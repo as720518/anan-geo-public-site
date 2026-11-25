@@ -1,8 +1,10 @@
 # 鎖死基礎模型訓練爬蟲（未授權訓練資料集與模型學習爬蟲）
 User-agent: GPTBot
 User-agent: ClaudeBot
+User-agent: Google-Extended
 User-agent: Applebot-Extended
 User-agent: meta-externalagent
+User-agent: Bytespider
 User-agent: CCBot
 User-agent: Amazonbot
 Disallow: /
@@ -20,6 +22,10 @@ User-agent: Perplexity-User
 User-agent: DuckAssistBot
 User-agent: MistralAI-User
 User-agent: DeepSeekBot
+User-agent: xAI-Bot
+User-agent: Yeti
+User-agent: Baiduspider
+User-agent: YisouSpider
 User-agent: Amzn-SearchBot
 User-agent: Amzn-User
 User-agent: meta-externalfetcher
@@ -29,6 +35,5 @@ Disallow: /*.bak-*
 User-agent: *
 Allow: /
 Disallow: /*.bak-*
-
 
 Sitemap: https://anangeo.com/sitemap.xml

@@ -1,21 +1,28 @@
 # 阿男 GEO 實戰工坊
 > 獨立、純靜態、以實測原答證據與 6 維體檢為核心的生成式引擎最佳化（GEO）實戰工坊，基於開源 GeoLook (MIT) 延伸工作流。本工坊專注品牌 GEO 健檢與官網地基改造，與創辦人原創客製紀念歌曲品牌「阿男音樂（www.cccnan.art）」品牌服務分開。
 
+- 完整純文字知識檔：[llms-full.txt](https://anangeo.com/llms-full.txt): 包含全站 4 篇實戰教學摘要、12 題完整問答、企業四大產業盲點與兩層方案完整規格
+- AI 結構化摘要：[ai/summary.json](https://anangeo.com/ai/summary.json): 品牌實體、核心頁面、透明定價與聯絡入口 JSON 索引
+- RSS 訂閱源：[rss.xml](https://anangeo.com/rss.xml): 收錄最新實戰教學、破案實錄、常見問答與企業專頁
+
 ## 爬蟲與內容使用政策
-- 開放 AI 搜尋與即時問答爬蟲（OAI-SearchBot、ChatGPT-User、Claude-SearchBot、PerplexityBot、DeepSeekBot、Googlebot、Bingbot 等）檢索與引用公開頁面。
-- 禁止基礎模型訓練爬蟲（GPTBot、ClaudeBot、Applebot-Extended、meta-externalagent、CCBot、Amazonbot 等）抓取本站內容用於模型訓練。
+- 開放 AI 搜尋與即時問答爬蟲（OAI-SearchBot、ChatGPT-User、Claude-SearchBot、PerplexityBot、DeepSeekBot、xAI-Bot、Googlebot、Bingbot、Yeti 等）檢索與引用公開頁面。
+- 禁止基礎模型訓練爬蟲（GPTBot、ClaudeBot、Google-Extended、Applebot-Extended、meta-externalagent、Bytespider、CCBot、Amazonbot 等）抓取本站內容用於模型訓練。
 - 不承諾任何 AI 排名、必被推薦或保證成交；交付可驗證的原始問答證據、診斷報告與結構化檔案。
+
+## 核心公開頁面（7 頁 HTML）
+- [首頁｜10 秒免費基礎 GEO 初檢與 1,298 筆實測儀表板](https://anangeo.com/): 即時檢測 robots.txt／llms.txt／首頁 Schema，支援 5 大行業對手勾選 PK 與 12 題準備度自檢
+- [教學 01｜為什麼有官網，AI 還是找不到你？](https://anangeo.com/guides/why-ai-misses-your-site/): 拆解 AI 推薦三段漏斗、4 大技術地雷與 GeoLook 四層依賴修復順序
+- [教學 02｜一魚多吃：2026 跨平台信源佈局矩陣](https://anangeo.com/guides/multi-platform-citation-matrix/): 官網事實總倉搭配公眾號、小紅書、知乎、Reddit／GitHub 的跨引擎引用策略
+- [教學 03｜llms.txt、Schema 與問答結構化實戰指南](https://anangeo.com/guides/llms-txt-and-schema-guide/): robots.txt 爬蟲分流、精簡 llms.txt 範本、單一 @graph JSON-LD 與高引用段落寫法
+- [教學 04｜AI 報錯舊價破案實錄](https://anangeo.com/guides/ai-wrong-price-detective/): 從 1,298 筆實測抓出搜尋舊快照、舊測試網址與舊筆記三大影子分身並追回第 27 行原始碼
+- [完整常見問答（12 題 FAQ 專頁）](https://anangeo.com/faq/): 涵蓋入門折抵、小型官網改造範圍、企業 NDA 資安承諾、月費陪跑、GA4 AI 流量追蹤與 WAF 誤擋排錯
+- [B2B 企業 GEO 專頁｜四大產業盲點對照與 NDA 保密交付樣本](https://anangeo.com/enterprise/): 公開製造業 PDF、SaaS SPA、醫療美學舊價、電商 WAF 技術盲點、企業 5 件套交付樣本預覽與 NDA 四承諾
 
 ## 第 1 號去敏實戰案例（cccnan.art）
 - 案例對象：個人原創客製紀念歌曲品牌「阿男音樂｜張簡俊男（www.cccnan.art）」
-- 最新數據基準：截至 2026-11-24/25，累積 1,298 筆跨引擎問答紀錄（橫跨 35 個實測日，含 10/28 70 筆與 11/18～11/24 最新 175 筆）、37 頁初診體檢（官網已持續擴充至 44 公開頁）、63 項內容主題、313 筆跨平台觸點紀錄。
-- 互動案例資料：./data/case-cccnan.json
-
-## 公開白話教學與破案實錄（4 篇）
-1. 《為什麼有官網，AI 還是找不到你？》
-2. 《一魚多吃：2026 跨平台信源佈局（官網總倉＋公眾號＋小紅書＋知乎＋Reddit）》
-3. 《llms.txt、Schema 與問答結構化怎麼寫？》
-4. 《AI 報錯舊價破案實錄：為什麼 AI 會把舊規則背出來、怎麼追查來源與追蹤》
+- 最新數據基準：截至 2026-11-24/25，累積 1,298 筆跨引擎問答紀錄（橫跨 35 個實測日，含 10/28 70 筆與 11/18～11/24 最新 175 筆）、37 頁初診體檢（官網已持續擴充至 44+ 公開頁）、63 項內容主題、313 筆跨平台觸點紀錄。
+- 互動案例資料：https://anangeo.com/data/case-cccnan.json
 
 ## 互動自檢工具與避坑守則
 - 《輸入網址・10 秒免費基礎 GEO 初檢（支援行業對手勾選與自行輸入 PK）》：透過 Cloudflare Workers / Pages Function（`/api/check` 與 `/api/lead`）即時實測我方公開站點之 `robots.txt` AI 搜尋與訓練爬蟲分流、`/llms.txt` 純文字有效索引、以及首頁 HTML 標籤（`title`、`description`、`canonical`）與 JSON-LD Schema `@type`。內建 5 大行業參考對手勾選清單（完整顯示名稱與公開網址，預設全部不勾選，沒勾絕不分析）並保留自行輸入對手網址欄位；訪客填寫 Email 並勾選同意後立即免費解鎖完整紅黃綠燈明細，同時可於啟用寄信服務時依第 0／3／7 天節奏寄送初檢報告、1,298 筆實測破案實錄與健檢折抵提醒（僅為基礎公開頁初檢，不含 20 題跨平台 AI 實測與 WAF 深度掃描）。
@@ -33,6 +40,7 @@
 
 ## 官方聯絡入口
 - 預約 GEO 健檢：官方 LINE @250ruauk（https://line.me/R/ti/p/@250ruauk）
+- 公開倉庫：https://github.com/as720518/anan-geo-public-site
 
 ## 開源授權聲明
 - 本工坊體檢維度與工作流理念基於 GeoLook（https://github.com/aigclink/geolook，MIT License）獨立延伸改作，無原作者背書。

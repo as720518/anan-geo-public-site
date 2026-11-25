@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>阿男 GEO 實戰工坊｜實戰教學、破案實錄與企業健檢指南</title>
+    <link>https://anangeo.com/</link>
+    <description>以 1,298 筆跨引擎實測原答、GeoLook (MIT) 延伸體檢與透明工程證據為核心的繁體中文生成式引擎最佳化（GEO）公開知識庫。</description>
+    <language>zh-Hant</language>
+    <lastBuildDate>Wed, 25 Nov 2026 06:30:00 +0000</lastBuildDate>
+    <atom:link href="https://anangeo.com/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>為什麼有官網，AI 還是找不到你？四層依賴與四大技術地雷完整拆解</title>
+      <link>https://anangeo.com/guides/why-ai-misses-your-site/</link>
+      <guid isPermaLink="true">https://anangeo.com/guides/why-ai-misses-your-site/</guid>
+      <pubDate>Wed, 25 Nov 2026 06:00:00 +0000</pubDate>
+      <description>拆解 ChatGPT、Gemini、Perplexity 推薦品牌的三段漏斗，整理 SPA 空殼、圖片價目表、舊測試站殘留與空泛形容詞四大致命地雷，以及 GeoLook 四層依賴修復順序。</description>
+    </item>
+
+    <item>
+      <title>一魚多吃：2026 跨平台信源佈局矩陣（官網總倉＋公眾號＋小紅書＋知乎＋Reddit）</title>
+      <link>https://anangeo.com/guides/multi-platform-citation-matrix/</link>
+      <guid isPermaLink="true">https://anangeo.com/guides/multi-platform-citation-matrix/</guid>
+      <pubDate>Wed, 25 Nov 2026 05:50:00 +0000</pubDate>
+      <description>整理 ChatGPT、Gemini、Perplexity、豆包、騰訊元寶五大 AI 引擎的信源偏好對照表，示範如何以官網當單一真相總倉、按平台習慣改寫並以 8～12 週紀律追蹤。</description>
+    </item>
+
+    <item>
+      <title>llms.txt、Schema 與問答結構化實戰指南（含可抄寫最小可用範本）</title>
+      <link>https://anangeo.com/guides/llms-txt-and-schema-guide/</link>
+      <guid isPermaLink="true">https://anangeo.com/guides/llms-txt-and-schema-guide/</guid>
+      <pubDate>Wed, 25 Nov 2026 05:40:00 +0000</pubDate>
+      <description>一步一步帶你設定 robots.txt 搜尋與訓練爬蟲分流、撰寫 5～8 頁精簡 /llms.txt、建立單一 @graph JSON-LD Schema 與高引用倒金字塔問答結構。</description>
+    </item>
+
+    <item>
+      <title>AI 報錯舊價破案實錄：追回第 27 行原始碼、揪出三大影子分身與追蹤紀律</title>
+      <link>https://anangeo.com/guides/ai-wrong-price-detective/</link>
+      <guid isPermaLink="true">https://anangeo.com/guides/ai-wrong-price-detective/</guid>
+      <pubDate>Wed, 25 Nov 2026 05:30:00 +0000</pubDate>
+      <description>真實記錄 1,298 筆實測中 ChatGPT 反覆背出過期流程的除錯過程：四步追兇對照表、308 永久轉址封堵舊測試站與無痕新對話長期追蹤方法。</description>
+    </item>
+
+    <item>
+      <title>阿男 GEO 實戰工坊常見問答（完整 12 題 FAQ：計費折抵、企業 NDA、GA4 與 WAF 排錯）</title>
+      <link>https://anangeo.com/faq/</link>
+      <guid isPermaLink="true">https://anangeo.com/faq/</guid>
+      <pubDate>Wed, 25 Nov 2026 05:20:00 +0000</pubDate>
+      <description>完整回答 12 個品牌與企業最常問的 GEO 問題，涵蓋 NT$3,800 健檢折抵、小型官網改造邊界、企業 NDA 資安承諾、月費陪跑與 Cloudflare WAF 誤擋診斷。</description>
+    </item>
+
+    <item>
+      <title>B2B 企業 GEO 專頁：四大產業公開盲點對照、5 件套交付樣本預覽與 NDA 四大資安承諾</title>
+      <link>https://anangeo.com/enterprise/</link>
+      <guid isPermaLink="true">https://anangeo.com/enterprise/</guid>
+      <pubDate>Wed, 25 Nov 2026 05:10:00 +0000</pubDate>
+      <description>專為 B2B 製造業、SaaS 顧問、醫療美學與電商零售企業整理的公開技術盲點對照表、去敏版 9 維度對手 PK 交付樣本結構與 NDA 四大資安承諾。</description>
+    </item>
+  </channel>
+</rss>

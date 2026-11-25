@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 報錯舊價破案實錄：追回第 27 行與三大影子分身｜阿男 GEO 實戰工坊</title>
+  <meta name="description" content="明明官網已經改價，為什麼 ChatGPT 還是把舊價與舊流程背出來？完整還原 1,298 筆實測中追回第 27 行原始碼、揪出舊快照與 308 封堵舊測試站的四步除錯紀錄。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://anangeo.com/guides/ai-wrong-price-detective/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="阿男 GEO 實戰工坊 RSS" href="https://anangeo.com/rss.xml">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:site_name" content="阿男 GEO 實戰工坊">
+  <meta property="og:title" content="AI 報錯舊價破案實錄：為什麼官網改價了，AI 還是背出舊規則？">
+  <meta property="og:description" content="實測追查第 27 行歷史原始碼，揪出搜尋舊快照、舊測試網址與舊筆記三大影子分身的完整除錯流程。">
+  <meta property="og:url" content="https://anangeo.com/guides/ai-wrong-price-detective/">
+  <meta property="og:image" content="https://anangeo.com/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI 報錯舊價破案實錄｜阿男 GEO 實戰工坊">
+  <meta name="twitter:description" content="四步追兇法與破案對照表：如何切斷舊測試站並用無痕新對話追蹤 AI 換版。">
+  <meta name="twitter:image" content="https://anangeo.com/og-cover.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://anangeo.com/#website",
+        "url": "https://anangeo.com/",
+        "name": "阿男 GEO 實戰工坊",
+        "inLanguage": "zh-Hant",
+        "publisher": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://anangeo.com/#organization",
+        "name": "阿男 GEO 實戰工坊",
+        "url": "https://anangeo.com/",
+        "logo": "https://anangeo.com/og-cover.png",
+        "founder": { "@id": "https://anangeo.com/#founder" },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "url": "https://line.me/R/ti/p/@250ruauk",
+          "availableLanguage": ["zh-Hant"]
+        },
+        "sameAs": [
+          "https://github.com/as720518/anan-geo-public-site",
+          "https://www.linkedin.com/in/%E9%98%BF%E7%94%B7-cc-6bb966205/",
+          "https://youtube.com/@as720518",
+          "https://www.threads.com/@cccn0518",
+          "https://x.com/0518nan",
+          "https://www.cccnan.art/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://anangeo.com/#founder",
+        "name": "阿男音樂｜張簡俊男",
+        "url": "https://www.cccnan.art/",
+        "worksFor": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://anangeo.com/guides/ai-wrong-price-detective/#webpage",
+        "url": "https://anangeo.com/guides/ai-wrong-price-detective/",
+        "name": "AI 報錯舊價破案實錄：追回第 27 行與三大影子分身｜阿男 GEO 實戰工坊",
+        "description": "完整還原 1,298 筆實測中追查 AI 報錯舊價格與舊流程的四步除錯流程、破案對照表與無痕長期追蹤紀律。",
+        "inLanguage": "zh-Hant",
+        "isPartOf": { "@id": "https://anangeo.com/#website" },
+        "breadcrumb": { "@id": "https://anangeo.com/guides/ai-wrong-price-detective/#breadcrumb" },
+        "datePublished": "2026-11-25T00:00:00+08:00",
+        "dateModified": "2026-11-25T14:30:00+08:00"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://anangeo.com/guides/ai-wrong-price-detective/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://anangeo.com/" },
+          { "@type": "ListItem", "position": 2, "name": "AI 報錯舊價破案實錄", "item": "https://anangeo.com/guides/ai-wrong-price-detective/" }
+        ]
+      },
+      {
+        "@type": "Article",
+        "@id": "https://anangeo.com/guides/ai-wrong-price-detective/#article",
+        "headline": "AI 報錯舊價破案實錄：為什麼官網改價了，AI 還是把舊規則背出來？",
+        "description": "從 1,298 筆跨引擎原答追回第 27 行歷史原始碼，定位搜尋舊快照、未關閉測試站與站外舊筆記。",
+        "image": "https://anangeo.com/og-cover.png",
+        "inLanguage": "zh-Hant",
+        "author": { "@id": "https://anangeo.com/#founder" },
+        "publisher": { "@id": "https://anangeo.com/#organization" },
+        "mainEntityOfPage": { "@id": "https://anangeo.com/guides/ai-wrong-price-detective/#webpage" },
+        "datePublished": "2026-11-25T00:00:00+08:00",
+        "dateModified": "2026-11-25T14:30:00+08:00"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-lockup" href="/" aria-label="返回阿男 GEO 實戰工坊首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect x="1.5" y="1.5" width="31" height="31" rx="8" stroke="#D9A74A" stroke-width="1.6"/>
+            <path d="M9 22.5L14.2 11.5L18.5 19.5L22 14.2L25.5 22.5" stroke="#ECF1F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="25.5" cy="10.5" r="2.5" fill="#34B399"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>阿男 GEO 實戰工坊</strong>
+          <small>1,298 筆實測證據・GeoLook (MIT) 延伸</small>
+        </span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">選單</button>
+      <nav class="site-nav" id="site-nav" aria-label="主要導覽">
+        <a href="/#live-check">10 秒免費初檢</a>
+        <a href="/#dashboard">1,298 筆實測</a>
+        <a href="/#guides">實戰教學</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/">常見問答</a>
+        <a class="nav-cta" href="/#contact">預約 GEO 健檢</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="subpage-hero">
+      <div class="container">
+        <ol class="breadcrumb" aria-label="麵包屑導覽">
+          <li><a href="/">首頁</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li><a href="/#guides">實戰教學</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li aria-current="page">AI 報錯舊價破案實錄</li>
+        </ol>
+        <p class="eyebrow">CASE STUDY 04・真實追兇紀錄</p>
+        <h1>AI 報錯舊價破案實錄：為什麼官網改價了，AI 還是背出舊規則？</h1>
+        <p class="subpage-lead">
+          AI 舊價回流現象是指品牌正式官網早已更新價格與流程，但 ChatGPT 等生成式引擎依然一字不差背出過期規定。實證追查證明，AI 幾乎不是憑空捏造，而是同時抓到了「搜尋引擎舊快照、忘記關閉的舊測試網址、站外未更新筆記」這三個影子分身。
+        </p>
+        <div class="subpage-meta">
+          <span>作者：阿男 GEO 實戰工坊</span>
+          <span>案例實測：cccnan.art 1,298 筆追蹤紀錄</span>
+          <span>最後更新：2026-11-25</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="subpage-body">
+      <div class="container subpage-stack">
+        <article class="subpage-card">
+          <h2>一、第一現場：正式站已改四方案，AI 仍背出舊訪談與舊交期</h2>
+          <p>
+            在 <code>cccnan.art</code> 10 月下旬到 11 月中的追蹤實測中，正式官網早已公布四個固定公開方案（主推 B NT$6,800、A NT$4,800、C NT$3,500、D NT$9,000），並清楚標明「先用文字傳故事，寫故事這步不收費」。然而在無痕新對話實測品牌直問題（Q03～Q05）時，ChatGPT 卻反覆說出「先聊 30～45 分鐘訪談、交期 1～10 天、依需求報價、附手寫故事卡」。
+          </p>
+
+          <h2>二、四步追兇操作流程：從正式站一路追回第 27 行原始碼</h2>
+          <ol class="check-list">
+            <li><strong>第一步｜全站抓取驗證現行正式頁</strong>：用自動化腳本抓回全站 44 個公開頁的 HTML 正文、Meta 描述與 JSON-LD，確認正式網站 100% 沒有任何過期詞彙，排除自己漏改內頁的可能。</li>
+            <li><strong>第二步｜回翻版本歷史做逐字比對</strong>：把 AI 答出的「30–45 分鐘訪談」「1～10 天」「依需求報價」「故事卡」拿去比對 2026-10-09 改版前的歷史接案頁原始碼，在第 27 行、第 32 行與第 78 行的舊表格裡找到一字不差的原句，證實 AI 是讀到歷史版本留影。</li>
+            <li><strong>第三步｜沿引文抓出三大影子分身</strong>：核對索引紀錄與外部頁面後，定位出三個真正元兇：① 搜尋引擎尚未換版的 <code>/work/</code> 舊快照；② 早年部署測試後忘記關閉、仍回傳 HTTP 200 的兩個舊預覽網址；③ 站外早期公開筆記與舊社群簡介。</li>
+            <li><strong>第四步｜封堵舊源並避開「否定句強化舊詞」陷阱</strong>：將兩個舊測試域全面改為 <strong>HTTP 308 永久轉址</strong>＋<code>noindex</code>；官網文案不再反覆用否定句重複舊詞，改為正面直寫現行規則，避免摘要器斷章取義。</li>
+          </ol>
+        </article>
+
+        <article class="subpage-card">
+          <h2>三、破案對照表：錯誤現象、追查元兇與修正解法比較</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>AI 答錯的舊規則</th>
+                  <th>追查出的真正來源</th>
+                  <th>執行的修正動作</th>
+                  <th>修正後追蹤方式</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>「依需求報價／未固定價格」</td>
+                  <td>舊版接案頁摘要只寫「NT$3,500 起」，爬蟲只讀開頭即概括為浮動報價</td>
+                  <td>首段、Meta 描述與 JSON-LD <code>Service</code> 三處同步寫滿四方案金額</td>
+                  <td>逐週核對四欄事實（價格／交期／流程／LINE）是否全對齊</td>
+                </tr>
+                <tr>
+                  <td>「30–45 分鐘訪談／1～10 天」</td>
+                  <td>搜尋引擎舊快照與未關閉的兩個舊預覽測試站</td>
+                  <td>舊測試域全面改為 308 永久轉址＋<code>noindex</code> 切斷索引</td>
+                  <td>每週以無痕新對話複測 Q03–Q05，記錄舊說法消退週次</td>
+                </tr>
+                <tr>
+                  <td>「手寫故事卡／過期流程」</td>
+                  <td>站外未同步更新的舊公開筆記與早期粉專簡介</td>
+                  <td>依單一真相表逐一更新跨平台簡介與公開頁面</td>
+                  <td>留存改前後完整原答證據，以 8～12 週窗口驗證</td>
+                </tr>
+                <tr>
+                  <td>「被誤認成別縣市樂器行」</td>
+                  <td>早年實體欄位缺別名與 <code>sameAs</code>，模型資料不足時自行推測</td>
+                  <td>單一 <code>@graph</code> 補齊別名、<code>sameAs</code> 與服務邊界說明</td>
+                  <td>獨立測試消歧問題，確認解除同名店家誤認</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>為什麼不能在同一個登入帳號裡「自己問自己」驗收？</h3>
+          <p>
+            許多團隊改完網站當天就在同一個登入對話框裡糾正 AI，看到它改口便以為已經修正——那只是單一視窗的短期記憶。正確紀律是每次開啟全新無痕視窗、不餵任何提示詞、定期記錄原始回覆。11/18–24 最新實測顯示，ChatGPT 與 Perplexity 的官方 LINE 命中率皆已穩定維持 7/7（100%），未提品牌自然露出也站上 50%。
+          </p>
+        </article>
+
+        <section class="subpage-cta-banner" aria-label="免費初檢行動呼籲">
+          <div class="subpage-cta-copy">
+            <span class="eyebrow">STOP OLD PRICES・別讓過期資訊繼續替你報價</span>
+            <h2>懷疑 AI 也正在報錯你的公司價格或舊流程？</h2>
+            <p>先用 10 秒免費初檢看網站基本盤，或直接加 LINE 預約 20 題／50 題跨引擎實測追兇。</p>
+          </div>
+          <div class="subpage-cta-actions">
+            <a class="btn btn-primary" href="/#live-check">回首頁・10 秒免費初檢</a>
+            <a class="btn btn-secondary" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">LINE @250ruauk 預約健檢</a>
+          </div>
+        </section>
+
+        <nav aria-label="延伸閱讀">
+          <h2 style="font-size:1.12rem;margin:0 0 12px;">延伸閱讀與專頁導覽</h2>
+          <div class="related-guides-grid">
+            <a class="related-guide-link" href="/guides/llms-txt-and-schema-guide/">
+              <span class="mono">PLAYBOOK 03</span>
+              <strong>llms.txt、Schema 與問答結構化怎麼寫？</strong>
+            </a>
+            <a class="related-guide-link" href="/faq/">
+              <span class="mono">FAQ・12 題完整問答</span>
+              <strong>入門折抵、企業 NDA 與 WAF 誤擋排錯</strong>
+            </a>
+            <a class="related-guide-link" href="/enterprise/">
+              <span class="mono">B2B ENTERPRISE</span>
+              <strong>四大產業盲點對照與企業 5 件套交付樣本</strong>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
+        <p class="footer-note">
+          純靜態前端＋Cloudflare Workers 即時基礎初檢・基於開源專案
+          <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook (MIT)</a> 延伸改作，與創辦人客製歌曲品牌
+          <a href="https://www.cccnan.art/work/" target="_blank" rel="noopener noreferrer">阿男音樂（cccnan.art）</a> 分開營運。
+        </p>
+        <p class="footer-updated">最後更新：2026-11-25｜官方 LINE：@250ruauk</p>
+      </div>
+      <div class="footer-links">
+        <a href="/">首頁</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/">常見問答</a>
+        <a href="/llms.txt" rel="nofollow">llms.txt</a>
+        <a href="/robots.txt" rel="nofollow">robots.txt</a>
+        <a href="/data/case-cccnan.json" rel="nofollow">case-cccnan.json</a>
+        <a href="/LICENSE" rel="nofollow">MIT LICENSE</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var btn = document.getElementById("nav-toggle");
+      var nav = document.getElementById("site-nav");
+      if (btn && nav) {
+        btn.addEventListener("click", function () {
+          var open = nav.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", String(open));
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

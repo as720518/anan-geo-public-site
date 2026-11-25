@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>為什麼有官網，AI 還是找不到你？四層依賴與四大技術地雷｜阿男 GEO 實戰工坊</title>
+  <meta name="description" content="解析 ChatGPT、Gemini、Perplexity 推薦品牌的三段漏斗，整理 SPA 空殼、圖片價目表、舊測試站殘留與空泛形容詞四大致命地雷，以及 GeoLook 四層依賴修復順序。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://anangeo.com/guides/why-ai-misses-your-site/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="阿男 GEO 實戰工坊 RSS" href="https://anangeo.com/rss.xml">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:site_name" content="阿男 GEO 實戰工坊">
+  <meta property="og:title" content="為什麼有官網，AI 還是找不到你？四層依賴與四大技術地雷">
+  <meta property="og:description" content="解析 AI 推薦三段漏斗、四大技術地雷與 GeoLook 四層依賴修復順序，用實測證據找回 AI 能見度。">
+  <meta property="og:url" content="https://anangeo.com/guides/why-ai-misses-your-site/">
+  <meta property="og:image" content="https://anangeo.com/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="為什麼有官網，AI 還是找不到你？｜阿男 GEO 實戰工坊">
+  <meta name="twitter:description" content="拆解 AI 推薦三段漏斗、SPA 空殼與舊測試站地雷，照四層依賴順序修通官網地基。">
+  <meta name="twitter:image" content="https://anangeo.com/og-cover.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://anangeo.com/#website",
+        "url": "https://anangeo.com/",
+        "name": "阿男 GEO 實戰工坊",
+        "inLanguage": "zh-Hant",
+        "publisher": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://anangeo.com/#organization",
+        "name": "阿男 GEO 實戰工坊",
+        "url": "https://anangeo.com/",
+        "logo": "https://anangeo.com/og-cover.png",
+        "founder": { "@id": "https://anangeo.com/#founder" },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "url": "https://line.me/R/ti/p/@250ruauk",
+          "availableLanguage": ["zh-Hant"]
+        },
+        "sameAs": [
+          "https://github.com/as720518/anan-geo-public-site",
+          "https://www.linkedin.com/in/%E9%98%BF%E7%94%B7-cc-6bb966205/",
+          "https://youtube.com/@as720518",
+          "https://www.threads.com/@cccn0518",
+          "https://x.com/0518nan",
+          "https://www.cccnan.art/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://anangeo.com/#founder",
+        "name": "阿男音樂｜張簡俊男",
+        "url": "https://www.cccnan.art/",
+        "worksFor": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://anangeo.com/guides/why-ai-misses-your-site/#webpage",
+        "url": "https://anangeo.com/guides/why-ai-misses-your-site/",
+        "name": "為什麼有官網，AI 還是找不到你？四層依賴與四大技術地雷｜阿男 GEO 實戰工坊",
+        "description": "解析 ChatGPT、Gemini、Perplexity 推薦品牌的三段漏斗、四大致命地雷與 GeoLook 四層依賴修復順序。",
+        "inLanguage": "zh-Hant",
+        "isPartOf": { "@id": "https://anangeo.com/#website" },
+        "breadcrumb": { "@id": "https://anangeo.com/guides/why-ai-misses-your-site/#breadcrumb" },
+        "datePublished": "2026-11-25T00:00:00+08:00",
+        "dateModified": "2026-11-25T14:30:00+08:00"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://anangeo.com/guides/why-ai-misses-your-site/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://anangeo.com/" },
+          { "@type": "ListItem", "position": 2, "name": "為什麼有官網，AI 還是找不到你？", "item": "https://anangeo.com/guides/why-ai-misses-your-site/" }
+        ]
+      },
+      {
+        "@type": "Article",
+        "@id": "https://anangeo.com/guides/why-ai-misses-your-site/#article",
+        "headline": "為什麼有官網，AI 還是找不到你？四層依賴與四大技術地雷",
+        "description": "拆解 AI 推薦三段漏斗、四大技術地雷與 GeoLook 四層依賴修復順序。",
+        "image": "https://anangeo.com/og-cover.png",
+        "inLanguage": "zh-Hant",
+        "author": { "@id": "https://anangeo.com/#founder" },
+        "publisher": { "@id": "https://anangeo.com/#organization" },
+        "mainEntityOfPage": { "@id": "https://anangeo.com/guides/why-ai-misses-your-site/#webpage" },
+        "datePublished": "2026-11-25T00:00:00+08:00",
+        "dateModified": "2026-11-25T14:30:00+08:00"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-lockup" href="/" aria-label="返回阿男 GEO 實戰工坊首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect x="1.5" y="1.5" width="31" height="31" rx="8" stroke="#D9A74A" stroke-width="1.6"/>
+            <path d="M9 22.5L14.2 11.5L18.5 19.5L22 14.2L25.5 22.5" stroke="#ECF1F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="25.5" cy="10.5" r="2.5" fill="#34B399"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>阿男 GEO 實戰工坊</strong>
+          <small>1,298 筆實測證據・GeoLook (MIT) 延伸</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">選單</button>
+
+      <nav class="site-nav" id="site-nav" aria-label="主要導覽">
+        <a href="/#live-check">10 秒免費初檢</a>
+        <a href="/#dashboard">1,298 筆實測</a>
+        <a href="/#guides">實戰教學</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/">常見問答</a>
+        <a class="nav-cta" href="/#contact">預約 GEO 健檢</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="subpage-hero">
+      <div class="container">
+        <ol class="breadcrumb" aria-label="麵包屑導覽">
+          <li><a href="/">首頁</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li><a href="/#guides">實戰教學</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li aria-current="page">為什麼有官網，AI 還是找不到你？</li>
+        </ol>
+        <p class="eyebrow">PLAYBOOK 01・觀念與技術診斷</p>
+        <h1>為什麼有官網，AI 還是找不到你？</h1>
+        <p class="subpage-lead">
+          生成式引擎最佳化（GEO）是指透過靜態可抓取網頁、搜尋爬蟲放行、精準實體與可抽取事實段落，讓 ChatGPT、Gemini、Perplexity 在回答提問時主動點名並正確引述你的品牌。多數品牌官網在 AI 眼裡隱形，並非網站不夠美觀，而是「訪問 → 定向 → 理解 → 可引用」四層依賴鏈斷在其中一層。
+        </p>
+        <div class="subpage-meta">
+          <span>作者：阿男 GEO 實戰工坊</span>
+          <span>實測基準：1,298 筆跨引擎原答</span>
+          <span>最後更新：2026-11-25</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="subpage-body">
+      <div class="container subpage-stack">
+        <article class="subpage-card">
+          <h2>一、先搞懂 AI 推薦品牌的「三段漏斗」</h2>
+          <p>
+            傳統 SEO 與 GEO 的目標存在本質差異：傳統 SEO 追求在搜尋結果頁拿到點擊，而 GEO 追求在 AI 生成的最終答案裡被點名，並且把你的價格、流程與聯絡方式說對。
+          </p>
+          <p>
+            當使用者向 AI 提問時，引擎會經過三道關卡：第一關判斷問題是否需要即時連網查詢；第二關透過搜尋索引與檢索爬蟲決定哪些網頁進入候選清單；第三關則將抓回來的網頁切分成獨立段落，挑選最對題、證據最明確的文字寫入回答。因此，<strong>GEO 的最小單位不是整個網站，而是一段可以單獨拿來當證據的事實段落</strong>。
+          </p>
+
+          <h3>傳統 SEO 與 GEO 評估重點比較</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>比較維度</th>
+                  <th>傳統 SEO 做法</th>
+                  <th>2026 GEO 實戰重點</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>最終指標</strong></td>
+                  <td>關鍵字排名與十條藍色連結點擊率</td>
+                  <td>無痕新對話自然點名率、引文網址與四欄事實準確度</td>
+                </tr>
+                <tr>
+                  <td><strong>讀取方式</strong></td>
+                  <td>Googlebot 具備完整無頭瀏覽器渲染能力</td>
+                  <td>多數 AI 檢索爬蟲僅抓靜態 HTML，遇純前端 SPA 易見空白</td>
+                </tr>
+                <tr>
+                  <td><strong>最小引用單位</strong></td>
+                  <td>整頁主題權重與外部連結</td>
+                  <td>前 150 字倒金字塔結論、純文字 HTML 表格與明確數字</td>
+                </tr>
+                <tr>
+                  <td><strong>舊版殘留影響</strong></td>
+                  <td>分散部分權重，通常緩慢退場</td>
+                  <td>AI 同時混用新舊快照，直接把過期價格與舊流程拼進回答</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="subpage-card">
+          <h2>二、實測中最常見的 4 個致命地雷</h2>
+          <ul class="check-list">
+            <li><strong>地雷 1：爬蟲根本抓不到（SPA 空殼或防火牆誤殺）</strong>——大量官網仰賴前端 JavaScript 動態繪製文字，瀏覽器肉眼可見，但 <code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code> 抓回來的原始碼幾乎空白；或 <code>robots.txt</code> 寫了開放，CDN 防火牆卻對無頭爬蟲回傳 HTTP 403。</li>
+            <li><strong>地雷 2：把核心價格與方案做在圖片裡</strong>——將價目表、規格表做成 PNG 海報或鎖在 PDF 裡，缺乏對應的純文字 HTML 表格，導致爬蟲無法抽取確切金額與交付天數，回答時不是跳過你，就是憑舊記憶猜測。</li>
+            <li><strong>地雷 3：舊測試站與站外舊文案持續打架</strong>——在 <code>cccnan.art</code> 1,298 筆實測中，即使正式站早已更新，早年未關閉的測試網域與外部舊筆記仍讓 AI 反覆背出過期規則，甚至將同名品牌誤認成其他縣市店家。</li>
+            <li><strong>地雷 4：全篇抒情形容詞，缺少「可抽取事實」</strong>——「用心傾聽、質感滿分」這類空話無法作為推薦依據。實證數據顯示，段落包含具體數字（引用影響力 +61.6%）、一句話定義（+57.3%）、比較表格（+55.3%）與步驟（+41.2%），被引用機率遠高於感性口號。</li>
+          </ul>
+        </article>
+
+        <article class="subpage-card">
+          <h2>三、照 GeoLook「四層依賴順序」動手修復（操作步驟）</h2>
+          <p>
+            切忌在基礎尚未打通前就盲目大量寫部落格文章。在 <code>cccnan.art</code> 實戰中，我們依照以下 4 個步驟將站點體檢分數從 41 分拉升至 89 分、未提品牌自然露出由 0% 提升至 50%：
+          </p>
+          <ol class="check-list">
+            <li><strong>第一步｜打通訪問層（Access）</strong>：確認公開頁回傳 HTTP 200 且原始碼直接可見正文；<code>robots.txt</code> 明確放行 AI 搜尋爬蟲、封鎖未授權訓練爬蟲；將舊測試網域改為 308 永久轉址並關閉索引；實測 CDN 防火牆未對搜尋爬蟲回傳 403。</li>
+            <li><strong>第二步｜校準定向層（Orientation）</strong>：整理乾淨的 <code>sitemap.xml</code>（只收錄公開 HTML 頁面），每頁加上唯一 <code>canonical</code> 標準網址，並在根目錄部署 5～8 個核心頁的精簡 <code>/llms.txt</code> 與 <code>/llms-full.txt</code>。</li>
+            <li><strong>第三步｜補齊理解層（Understanding）</strong>：使用單一 <code>@graph</code> JSON-LD 串連 <code>Organization</code>、<code>Person</code>、<code>WebSite</code>、<code>Service</code>、<code>Offer</code> 與 <code>FAQPage</code>，透過 <code>sameAs</code> 連結所有官方外部帳號，確保結構化資料與頁面可見文字 100% 一致。</li>
+            <li><strong>第四步｜強化可引用層（Quotability）</strong>：在核心頁首段前 2 句直答「幫誰做、多少錢、不接什麼」，將方案差異寫成純文字 HTML 比較表，並長期累積獨立第三方真實回饋與跨平台討論。</li>
+          </ol>
+        </article>
+
+        <section class="subpage-cta-banner" aria-label="免費初檢行動呼籲">
+          <div class="subpage-cta-copy">
+            <span class="eyebrow">NEXT STEP・先用實測看你的網站卡在哪一層</span>
+            <h2>輸入網址，10 秒免費檢查你的官網地基</h2>
+            <p>免登入、免安裝，即時檢測 robots.txt、llms.txt 與首頁 JSON-LD 結構，並可勾選同行對手同時 PK。</p>
+          </div>
+          <div class="subpage-cta-actions">
+            <a class="btn btn-primary" href="/#live-check">回首頁・10 秒免費初檢</a>
+            <a class="btn btn-secondary" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">LINE @250ruauk 預約健檢</a>
+          </div>
+        </section>
+
+        <nav aria-label="延伸閱讀">
+          <h2 style="font-size:1.12rem;margin:0 0 12px;">延伸閱讀與專頁導覽</h2>
+          <div class="related-guides-grid">
+            <a class="related-guide-link" href="/guides/multi-platform-citation-matrix/">
+              <span class="mono">PLAYBOOK 02</span>
+              <strong>一魚多吃：2026 跨平台信源佈局矩陣</strong>
+            </a>
+            <a class="related-guide-link" href="/guides/llms-txt-and-schema-guide/">
+              <span class="mono">PLAYBOOK 03</span>
+              <strong>llms.txt、Schema 與問答結構化怎麼寫？</strong>
+            </a>
+            <a class="related-guide-link" href="/guides/ai-wrong-price-detective/">
+              <span class="mono">CASE STUDY 04</span>
+              <strong>AI 報錯舊價破案實錄：追回第 27 行原始碼</strong>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
+        <p class="footer-note">
+          純靜態前端＋Cloudflare Workers 即時基礎初檢・基於開源專案
+          <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook (MIT)</a> 延伸改作，與創辦人客製歌曲品牌
+          <a href="https://www.cccnan.art/work/" target="_blank" rel="noopener noreferrer">阿男音樂（cccnan.art）</a> 分開營運。
+        </p>
+        <p class="footer-updated">最後更新：2026-11-25｜官方 LINE：@250ruauk</p>
+      </div>
+      <div class="footer-links">
+        <a href="/">首頁</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/">常見問答</a>
+        <a href="/llms.txt" rel="nofollow">llms.txt</a>
+        <a href="/robots.txt" rel="nofollow">robots.txt</a>
+        <a href="/data/case-cccnan.json" rel="nofollow">case-cccnan.json</a>
+        <a href="/LICENSE" rel="nofollow">MIT LICENSE</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var btn = document.getElementById("nav-toggle");
+      var nav = document.getElementById("site-nav");
+      if (btn && nav) {
+        btn.addEventListener("click", function () {
+          var open = nav.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", String(open));
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

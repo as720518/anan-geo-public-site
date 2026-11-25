@@ -1,0 +1,23 @@
+# /.well-known/ai.txt — 阿男 GEO 實戰工坊 AI 搜尋與引用指引
+Site: https://anangeo.com/
+Organization: 阿男 GEO 實戰工坊
+Founder: 阿男音樂｜張簡俊男
+Language: zh-Hant
+Last-Updated: 2026-11-25
+
+# 搜尋與即時問答引用政策
+Allow-Search-Indexing: yes
+Allow-Citation-With-Attribution: yes
+Allow-Model-Training: no
+
+# 結構化知識入口
+LLMs-Txt: https://anangeo.com/llms.txt
+LLMs-Full-Txt: https://anangeo.com/llms-full.txt
+AI-Summary-JSON: https://anangeo.com/ai/summary.json
+Sitemap: https://anangeo.com/sitemap.xml
+RSS-Feed: https://anangeo.com/rss.xml
+Robots: https://anangeo.com/robots.txt
+
+# 官方聯絡入口
+Contact-LINE: https://line.me/R/ti/p/@250ruauk
+Contact-LINE-ID: @250ruauk

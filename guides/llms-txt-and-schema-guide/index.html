@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>llms.txt、Schema 與問答結構化怎麼寫？實戰範本指南｜阿男 GEO 實戰工坊</title>
+  <meta name="description" content="完整示範 robots.txt 搜尋與訓練爬蟲分流、5～8 頁精簡 /llms.txt、單一 @graph JSON-LD（含 UnitPriceSpecification）與高引用問答段落寫法。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://anangeo.com/guides/llms-txt-and-schema-guide/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="阿男 GEO 實戰工坊 RSS" href="https://anangeo.com/rss.xml">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:site_name" content="阿男 GEO 實戰工坊">
+  <meta property="og:title" content="llms.txt、Schema 與問答結構化怎麼寫？最小可用實戰範本">
+  <meta property="og:description" content="附可直接改寫的 robots.txt、llms.txt 與單一 @graph JSON-LD 範本，讓網站變成 AI 讀得最順的證據頁。">
+  <meta property="og:url" content="https://anangeo.com/guides/llms-txt-and-schema-guide/">
+  <meta property="og:image" content="https://anangeo.com/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="llms.txt、Schema 與問答結構化實戰指南｜阿男 GEO 實戰工坊">
+  <meta name="twitter:description" content="一步一步完成 robots.txt、llms.txt、JSON-LD 與高引用段落結構。">
+  <meta name="twitter:image" content="https://anangeo.com/og-cover.png">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://anangeo.com/#website",
+        "url": "https://anangeo.com/",
+        "name": "阿男 GEO 實戰工坊",
+        "inLanguage": "zh-Hant",
+        "publisher": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://anangeo.com/#organization",
+        "name": "阿男 GEO 實戰工坊",
+        "url": "https://anangeo.com/",
+        "logo": "https://anangeo.com/og-cover.png",
+        "founder": { "@id": "https://anangeo.com/#founder" },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "url": "https://line.me/R/ti/p/@250ruauk",
+          "availableLanguage": ["zh-Hant"]
+        },
+        "sameAs": [
+          "https://github.com/as720518/anan-geo-public-site",
+          "https://www.linkedin.com/in/%E9%98%BF%E7%94%B7-cc-6bb966205/",
+          "https://youtube.com/@as720518",
+          "https://www.threads.com/@cccn0518",
+          "https://x.com/0518nan",
+          "https://www.cccnan.art/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://anangeo.com/#founder",
+        "name": "阿男音樂｜張簡俊男",
+        "url": "https://www.cccnan.art/",
+        "worksFor": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://anangeo.com/guides/llms-txt-and-schema-guide/#webpage",
+        "url": "https://anangeo.com/guides/llms-txt-and-schema-guide/",
+        "name": "llms.txt、Schema 與問答結構化怎麼寫？實戰範本指南｜阿男 GEO 實戰工坊",
+        "description": "robots.txt 爬蟲分流、精簡 /llms.txt、單一 @graph JSON-LD 與高引用倒金字塔段落實戰指南。",
+        "inLanguage": "zh-Hant",
+        "isPartOf": { "@id": "https://anangeo.com/#website" },
+        "breadcrumb": { "@id": "https://anangeo.com/guides/llms-txt-and-schema-guide/#breadcrumb" },
+        "datePublished": "2026-11-25T00:00:00+08:00",
+        "dateModified": "2026-11-25T14:30:00+08:00"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://anangeo.com/guides/llms-txt-and-schema-guide/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://anangeo.com/" },
+          { "@type": "ListItem", "position": 2, "name": "llms.txt、Schema 與問答結構化實戰", "item": "https://anangeo.com/guides/llms-txt-and-schema-guide/" }
+        ]
+      },
+      {
+        "@type": "Article",
+        "@id": "https://anangeo.com/guides/llms-txt-and-schema-guide/#article",
+        "headline": "llms.txt、Schema 與問答結構化怎麼寫？",
+        "description": "把官網改造成 AI 讀得最順的證據頁三件套與最小可用範本。",
+        "image": "https://anangeo.com/og-cover.png",
+        "inLanguage": "zh-Hant",
+        "author": { "@id": "https://anangeo.com/#founder" },
+        "publisher": { "@id": "https://anangeo.com/#organization" },
+        "mainEntityOfPage": { "@id": "https://anangeo.com/guides/llms-txt-and-schema-guide/#webpage" },
+        "datePublished": "2026-11-25T00:00:00+08:00",
+        "dateModified": "2026-11-25T14:30:00+08:00"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-lockup" href="/" aria-label="返回阿男 GEO 實戰工坊首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect x="1.5" y="1.5" width="31" height="31" rx="8" stroke="#D9A74A" stroke-width="1.6"/>
+            <path d="M9 22.5L14.2 11.5L18.5 19.5L22 14.2L25.5 22.5" stroke="#ECF1F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="25.5" cy="10.5" r="2.5" fill="#34B399"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>阿男 GEO 實戰工坊</strong>
+          <small>1,298 筆實測證據・GeoLook (MIT) 延伸</small>
+        </span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">選單</button>
+      <nav class="site-nav" id="site-nav" aria-label="主要導覽">
+        <a href="/#live-check">10 秒免費初檢</a>
+        <a href="/#dashboard">1,298 筆實測</a>
+        <a href="/#guides">實戰教學</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/">常見問答</a>
+        <a class="nav-cta" href="/#contact">預約 GEO 健檢</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="subpage-hero">
+      <div class="container">
+        <ol class="breadcrumb" aria-label="麵包屑導覽">
+          <li><a href="/">首頁</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li><a href="/#guides">實戰教學</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li aria-current="page">llms.txt、Schema 與問答結構化實戰</li>
+        </ol>
+        <p class="eyebrow">PLAYBOOK 03・技術落地與最小可用範本</p>
+        <h1><code>llms.txt</code>、Schema 與問答結構化怎麼寫？</h1>
+        <p class="subpage-lead">
+          <code>/llms.txt</code> 是指放在網站根目錄、專供大型語言模型與 AI 代理快速讀懂品牌核心頁面與服務邊界的純文字 Markdown 導覽檔。把官網改造成 AI 讀得最順的「證據頁」，實戰核心就是三件套：爬蟲分流（<code>robots.txt</code>）、精簡目錄（<code>llms.txt</code>＋<code>llms-full.txt</code>），以及可見文字 100% 對應的單一 <code>@graph</code> JSON-LD。
+        </p>
+        <div class="subpage-meta">
+          <span>作者：阿男 GEO 實戰工坊</span>
+          <span>適用對象：品牌網站主、行銷與前後端工程師</span>
+          <span>最後更新：2026-11-25</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="subpage-body">
+      <div class="container subpage-stack">
+        <article class="subpage-card">
+          <h2>一、第一步：<code>robots.txt</code> 分清「搜尋引用爬蟲」與「模型訓練爬蟲」</h2>
+          <p>
+            不要再只寫一條籠統的萬用規則。現代網站應在 <code>/robots.txt</code> 把爬蟲分成兩群，並特別檢查 HTTP 回應標頭帶有 <code>text/plain; charset=utf-8</code>，避免標準爬蟲把中文解成亂碼：
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>爬蟲分類</th>
+                  <th>代表 User-Agent</th>
+                  <th>建議規則與原因比較</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>AI 搜尋與即時引用爬蟲</strong></td>
+                  <td><code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code>、<code>xAI-Bot</code>、<code>Googlebot</code>、<code>Bingbot</code>、<code>Yeti</code></td>
+                  <td><strong>明確 <code>Allow: /</code></strong>：負責在用戶提問時即時查證你的品牌價格、規格與官網網址</td>
+                </tr>
+                <tr>
+                  <td><strong>基礎模型訓練爬蟲</strong></td>
+                  <td><code>GPTBot</code>、<code>ClaudeBot</code>、<code>Google-Extended</code>、<code>Applebot-Extended</code>、<code>Bytespider</code>、<code>meta-externalagent</code>、<code>CCBot</code></td>
+                  <td><strong>可依版權政策 <code>Disallow: /</code></strong>：防止原創內容進入未授權訓練語料，且不影響即時搜尋引用</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="subpage-card">
+          <h2>二、第二步：撰寫 5～8 頁精簡 <code>/llms.txt</code>（並與 <code>/llms-full.txt</code> 分流）</h2>
+          <p>
+            <code>/llms.txt</code> 像是一頁式名片與目錄，切忌把幾百篇過期文章或 404 壞連結塞進去。標準結構只需四個區塊：一句話定位、公開方案價格、不承接邊界、以及 5～8 個回傳 HTTP 200 的核心正式頁連結；更詳盡的全文摘要則獨立放到 <code>/llms-full.txt</code>。
+          </p>
+          <pre class="code-block"><code># 你的品牌名稱｜創辦人或核心定位
+&gt; 一句話說明你是誰、服務哪類對象、服務地區與核心交付方式。
+
+## 核心服務與公開價格
+- 方案 A（入門名稱）：NT$3,800｜5 個工作天｜20 題診斷與優先清單
+- 方案 B（改造名稱）：NT$18,000｜單次專案｜小型官網技術地基與核心頁改寫
+
+## 服務流程與不承接範圍
+- 流程：文字確認需求 → 報價確認 → 執行改造 → 驗收交付
+- 不承接：清楚列出不做的項目（寫清邊界反而提升 AI 信任度）
+
+## 核心頁面（每頁須回傳 HTTP 200）
+- [服務方案與價目](https://example.com/work/): 完整方案對比表與常見問答
+- [常見問答](https://example.com/faq/): 12 題客戶最常問的流程與報價細節
+
+## 官方聯絡入口
+- 官方 LINE：@your_id</code></pre>
+        </article>
+
+        <article class="subpage-card">
+          <h2>三、第三步：單一 <code>@graph</code> JSON-LD 與 <code>UnitPriceSpecification</code></h2>
+          <p>
+            不要在同一個 HTML 裡零散塞進四、五段互不關聯的 JSON-LD。建議合併為單一 <code>@graph</code>，用 <code>@id</code> 串起 <code>Organization</code>（含權威 <code>sameAs</code> 與 <code>contactPoint</code>）、<code>Person</code>、<code>WebSite</code>、<code>WebPage</code>（含 <code>dateModified</code>）、<code>Service</code>、<code>Offer</code>（月費或起跳價必加 <code>UnitPriceSpecification</code>）與 <code>FAQPage</code>。
+          </p>
+          <pre class="code-block"><code>{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://example.com/#organization",
+      "name": "品牌全稱",
+      "url": "https://example.com/",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "https://line.me/R/ti/p/@your_id"
+      },
+      "sameAs": [
+        "https://github.com/your-org",
+        "https://www.linkedin.com/company/your-brand/"
+      ]
+    },
+    {
+      "@type": "Service",
+      "name": "企業月費陪跑監測",
+      "provider": { "@id": "https://example.com/#organization" },
+      "offers": {
+        "@type": "Offer",
+        "price": "25000",
+        "priceCurrency": "TWD",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "minPrice": 25000,
+          "priceCurrency": "TWD",
+          "unitCode": "MON",
+          "unitText": "月"
+        }
+      }
+    }
+  ]
+}</code></pre>
+          <h3>第四步：寫出真正容易被引用的「倒金字塔問答段落」</h3>
+          <p>
+            實證研究顯示，單純把文章硬切成零碎 Q&amp;A 並不會自動加分（甚至略降 5.7%）；真正高引用的寫法是用<strong>買家真實會問的完整問句當 H2／H3 小標</strong>，在段落前 150 字內直接給出明確結論與數字，再補上 HTML 比較表與操作步驟，且 JSON-LD 內容與頁面可見文字保持 100% 一致。
+          </p>
+        </article>
+
+        <section class="subpage-cta-banner" aria-label="免費初檢行動呼籲">
+          <div class="subpage-cta-copy">
+            <span class="eyebrow">VERIFY NOW・寫完立刻實測驗證</span>
+            <h2>用 10 秒免費工具檢查你的 <code>robots.txt</code>、<code>llms.txt</code> 與 Schema</h2>
+            <p>系統會即時抓取你的公開首頁並逐項列出紅黃綠燈與缺少的結構化標記。</p>
+          </div>
+          <div class="subpage-cta-actions">
+            <a class="btn btn-primary" href="/#live-check">回首頁・10 秒免費初檢</a>
+            <a class="btn btn-secondary" href="/guides/ai-wrong-price-detective/">看 AI 報錯舊價破案實錄</a>
+          </div>
+        </section>
+
+        <nav aria-label="延伸閱讀">
+          <h2 style="font-size:1.12rem;margin:0 0 12px;">延伸閱讀與專頁導覽</h2>
+          <div class="related-guides-grid">
+            <a class="related-guide-link" href="/guides/why-ai-misses-your-site/">
+              <span class="mono">PLAYBOOK 01</span>
+              <strong>為什麼有官網，AI 還是找不到你？</strong>
+            </a>
+            <a class="related-guide-link" href="/guides/ai-wrong-price-detective/">
+              <span class="mono">CASE STUDY 04</span>
+              <strong>AI 報錯舊價破案實錄：追回第 27 行原始碼</strong>
+            </a>
+            <a class="related-guide-link" href="/enterprise/">
+              <span class="mono">B2B ENTERPRISE</span>
+              <strong>企業四大產業盲點對照與 NDA 交付樣本</strong>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
+        <p class="footer-note">
+          純靜態前端＋Cloudflare Workers 即時基礎初檢・基於開源專案
+          <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook (MIT)</a> 延伸改作，與創辦人客製歌曲品牌
+          <a href="https://www.cccnan.art/work/" target="_blank" rel="noopener noreferrer">阿男音樂（cccnan.art）</a> 分開營運。
+        </p>
+        <p class="footer-updated">最後更新：2026-11-25｜官方 LINE：@250ruauk</p>
+      </div>
+      <div class="footer-links">
+        <a href="/">首頁</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/">常見問答</a>
+        <a href="/llms.txt" rel="nofollow">llms.txt</a>
+        <a href="/robots.txt" rel="nofollow">robots.txt</a>
+        <a href="/data/case-cccnan.json" rel="nofollow">case-cccnan.json</a>
+        <a href="/LICENSE" rel="nofollow">MIT LICENSE</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var btn = document.getElementById("nav-toggle");
+      var nav = document.getElementById("site-nav");
+      if (btn && nav) {
+        btn.addEventListener("click", function () {
+          var open = nav.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", String(open));
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
