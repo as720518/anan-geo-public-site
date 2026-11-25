@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>阿男 GEO 實戰工坊｜1,298 筆跨引擎實測・破案實錄與免費 12 題自檢</title>
+  <meta name="description" content="阿男 GEO 實戰工坊：公開基於開源 GeoLook (MIT) 延伸的生成式引擎最佳化（GEO）實戰方法、cccnan.art 1,298 筆去敏實測儀表板、AI 報錯舊價破案實錄、3 分鐘 12 題自檢互動表與透明診斷改造方案。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://anangeo.com/">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://anangeo.com/#website",
+        "url": "https://anangeo.com/",
+        "name": "阿男 GEO 實戰工坊",
+        "inLanguage": "zh-Hant",
+        "description": "以 1,298 筆實測原答、6 維體檢、AI 舊價破案實錄與 12 題準備度自檢為核心的公開 GEO 實戰方法與案例站。"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://anangeo.com/#founder",
+        "name": "阿男音樂｜張簡俊男",
+        "alternateName": ["阿男", "張簡俊男", "阿男音樂", "阿男 GEO 實戰工坊"],
+        "url": "https://www.cccnan.art/"
+      },
+      {
+        "@type": "Service",
+        "@id": "https://anangeo.com/#geo-service",
+        "name": "阿男 GEO 實戰工坊｜品牌 AI 能見度健檢與官網地基改造",
+        "provider": { "@id": "https://anangeo.com/#founder" },
+        "areaServed": "TW",
+        "description": "提供不承諾 AI 排名、以可驗證原答證據與結構化檔案為交付核心的三階品牌 GEO 診斷與改造服務（與客製紀念歌曲服務品牌分開）。",
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "GEO 健檢與 20 題 AI 診斷報告",
+            "price": "3800",
+            "priceCurrency": "TWD"
+          },
+          {
+            "@type": "Offer",
+            "name": "官網 GEO 地基一次改造專案",
+            "price": "18000",
+            "priceCurrency": "TWD"
+          },
+          {
+            "@type": "Offer",
+            "name": "每月持續監測與內容投餵代操",
+            "description": "依題庫題數與平台數洽詢報價"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://anangeo.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "什麼是 GEO（Generative Engine Optimization）？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GEO 是生成式引擎最佳化，目標是讓 ChatGPT、Gemini、Perplexity、豆包、騰訊元寶等 AI 引擎在回答使用者提問時，主動點名、正確引用並說對你的品牌事實。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "為什麼官網已經改價格了，AI 卻還是回答舊價格或舊流程？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常是因為網路上還留著舊版搜尋快照、忘記關閉的測試網址或站外舊筆記頁面。實戰上必須先核對正式頁原始碼、追查舊版本原文來源、將舊測試網址設為 308 轉址並鎖死，再連續數週以無痕新對話追蹤換版進度。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "做 GEO 可以保證 AI 排名第一或一定推薦嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不可以。AI 回答具有隨機性且各引擎演算法持續變動，本工坊不保證 AI 排名或成交，只交付可驗證的原始問答證據、6 維體檢診斷報告與結構化檔案。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "預約 GEO 健檢需要透過哪個聯絡入口？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "請加入官方 LINE @250ruauk，傳送您的品牌網址、主要產品或服務價格區間，以及 3 個最希望 AI 推薦您的真實提問（或附上網站 12 題自檢結果）。"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-lockup" href="#top" aria-label="阿男 GEO 實戰工坊首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect x="1.5" y="1.5" width="31" height="31" rx="8" stroke="#D9A74A" stroke-width="1.6"/>
+            <path d="M9 22.5L14.2 11.5L18.5 19.5L22 14.2L25.5 22.5" stroke="#ECF1F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="25.5" cy="10.5" r="2.5" fill="#34B399"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>阿男 GEO 實戰工坊</strong>
+          <small>1,298 筆實測證據・GeoLook (MIT) 延伸</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        選單
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="主要導覽">
+        <a href="#philosophy">GEO 理念</a>
+        <a href="#dashboard">1,298 筆實測</a>
+        <a href="#guides">教學與破案實錄（4 篇）</a>
+        <a href="#self-check">12 題自檢</a>
+        <a href="#services">服務方案</a>
+        <a class="nav-cta" href="#contact">預約 GEO 健檢</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ==================== 1. 首頁理念 ==================== -->
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">GENERATIVE ENGINE OPTIMIZATION・實測不畫大餅</p>
+          <h1>讓 AI 回答問題時，<br><span class="accent-brass">主動點名並說對</span>你的品牌。</h1>
+          <p class="hero-lede">
+            現在越來越多人直接問 <strong>ChatGPT、Gemini、Perplexity、豆包、騰訊元寶</strong>：「想做這件事應該找誰？哪家比較適合我？」
+            <strong>GEO（生成式引擎最佳化）</strong>不是換個名字的 SEO，而是透過可驗證的事實結構、搜尋爬蟲放行與跨平台信源，讓 AI 找得到你、認得清你、而且把你的價格與流程說對。
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#dashboard">看 1,298 筆真實案例儀表板</a>
+            <a class="btn btn-secondary" href="#self-check">3 分鐘 12 題免費自檢</a>
+          </div>
+
+          <div class="oss-strip" id="philosophy">
+            <span class="oss-tag">OPEN SOURCE</span>
+            <p>
+              本工坊方法與 6 維體檢架構基於開源專案 <strong>GeoLook（MIT License）</strong>延伸改作，結合創辦人自營品牌 <code>cccnan.art</code> 截至 2026-11-24/25 的 <strong>1,298 筆跨引擎實測紀律</strong>整理而成；屬獨立實務分享，非原作者官方服務或背書。本工坊專注品牌 GEO 服務，與 <code>cccnan.art</code> 客製紀念歌曲業務分開營運。
+            </p>
+          </div>
+        </div>
+
+        <aside class="telemetry-card" aria-label="1 號案例實測摘要">
+          <div class="telemetry-head">
+            <span class="pill pill-live">實測現場｜CASE-01</span>
+            <span class="mono muted">www.cccnan.art</span>
+          </div>
+          <h2 class="telemetry-title">先留下原答，再看 AI 有沒有說對</h2>
+          <p class="telemetry-sub">個人原創音樂品牌「阿男音樂」去敏實測對照（2026-09-23 ～ 11-24｜35 個實測日）</p>
+
+          <div class="telemetry-compare">
+            <div class="compare-box is-before">
+              <span class="box-label">改前基線（09/23–29）</span>
+              <strong>0 / 22</strong>
+              <p>未提品牌基準題 0% 點名；官方 LINE 0/10，曾被認成樂器行與背出舊價。</p>
+            </div>
+            <div class="compare-box is-after">
+              <span class="box-label">11/18–24 最新實測</span>
+              <strong>50.0% 露出｜LINE 100%</strong>
+              <p>ChatGPT 7/14、Perplexity 7/14 自然露出；ChatGPT／Perplexity LINE 皆 7/7 命中。</p>
+            </div>
+          </div>
+
+          <div class="chart-card" aria-label="6 維體檢分數變化示意圖">
+            <div class="chart-head">
+              <span>GeoLook 6 維體檢總分</span>
+              <span class="mono"><span class="text-coral">41</span> → <strong class="text-teal">89 / 100</strong></span>
+            </div>
+            <svg class="score-svg" viewBox="0 0 360 112" role="img" aria-label="6 維體檢改前 41 分提升至改後 89 分對照長條圖">
+              <g font-family="ui-monospace, SFMono-Regular, monospace" font-size="10" fill="#9BAAB8">
+                <text x="0" y="14">可抓取</text>
+                <text x="0" y="32">內容度</text>
+                <text x="0" y="50">結構規</text>
+                <text x="0" y="68">抽取塊</text>
+                <text x="0" y="86">權威度</text>
+                <text x="0" y="104">對題性</text>
+              </g>
+              <g transform="translate(52, 0)">
+                <!-- tracks -->
+                <rect x="0" y="5" width="250" height="10" rx="5" fill="#1C2935"/>
+                <rect x="0" y="23" width="250" height="10" rx="5" fill="#1C2935"/>
+                <rect x="0" y="41" width="250" height="10" rx="5" fill="#1C2935"/>
+                <rect x="0" y="59" width="250" height="10" rx="5" fill="#1C2935"/>
+                <rect x="0" y="77" width="250" height="10" rx="5" fill="#1C2935"/>
+                <rect x="0" y="95" width="250" height="10" rx="5" fill="#1C2935"/>
+                <!-- after bars (emerald/brass) -->
+                <rect x="0" y="5" width="250" height="10" rx="5" fill="#34B399"/>
+                <rect x="0" y="23" width="233" height="10" rx="5" fill="#34B399"/>
+                <rect x="0" y="41" width="225" height="10" rx="5" fill="#34B399"/>
+                <rect x="0" y="59" width="220" height="10" rx="5" fill="#D9A74A"/>
+                <rect x="0" y="77" width="183" height="10" rx="5" fill="#D9A74A"/>
+                <rect x="0" y="95" width="225" height="10" rx="5" fill="#34B399"/>
+                <!-- before markers (coral) -->
+                <rect x="0" y="5" width="150" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
+                <rect x="0" y="23" width="100" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
+                <rect x="0" y="41" width="112" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
+                <rect x="0" y="59" width="70" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
+                <rect x="0" y="77" width="83" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
+                <rect x="0" y="95" width="125" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
+              </g>
+              <g font-family="ui-monospace, SFMono-Regular, monospace" font-size="10" fill="#ECF1F6" text-anchor="end">
+                <text x="358" y="14">15/15</text>
+                <text x="358" y="32">14/15</text>
+                <text x="358" y="50">18/20</text>
+                <text x="358" y="68">22/25</text>
+                <text x="358" y="86">11/15</text>
+                <text x="358" y="104">9/10</text>
+              </g>
+            </svg>
+            <div class="chart-legend">
+              <span><i class="dot dot-coral"></i>改前基線</span>
+              <span><i class="dot dot-teal"></i>改後達標</span>
+              <span><i class="dot dot-brass"></i>核心槓桿／持續累積</span>
+            </div>
+          </div>
+
+          <dl class="telemetry-stats">
+            <div>
+              <dt>實測累積原答</dt>
+              <dd class="mono">1,298 筆</dd>
+            </div>
+            <div>
+              <dt>初診→現行公開頁</dt>
+              <dd class="mono">37 → 44 頁</dd>
+            </div>
+            <div>
+              <dt>跨平台觸點</dt>
+              <dd class="mono">313 筆</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+
+      <div class="container engine-strip" aria-label="五大 AI 引擎信源偏好總覽">
+        <div class="engine-pill">
+          <strong>ChatGPT</strong>
+          <span>重 Bing／Web 檢索、純文字結構化官網、<code>llms.txt</code> 與跨站提及</span>
+        </div>
+        <div class="engine-pill">
+          <strong>Gemini</strong>
+          <span>重 Google 索引、JSON-LD 實體消歧、YouTube 與獨立第三方背書</span>
+        </div>
+        <div class="engine-pill">
+          <strong>Perplexity</strong>
+          <span>重 SSR 靜態頁、情境長尾專頁、明確數字與 HTML 對比表引用</span>
+        </div>
+        <div class="engine-pill">
+          <strong>豆包</strong>
+          <span>優先抓取今日頭條、短影音圖文摘要與高密度步驟教學</span>
+        </div>
+        <div class="engine-pill">
+          <strong>騰訊元寶</strong>
+          <span>優先抓取微信公眾號、視頻號、微信問一問與統一品牌實體</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 2. 唯讀實戰案例儀表板 ==================== -->
+    <section class="section section-alt" id="dashboard">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">READ-ONLY FIELD DASHBOARD・對齊 2026-11-25 去敏案例包（1,298 筆）</p>
+            <h2>實戰案例儀表板：第 1 號案例 <code>cccnan.art</code>（阿男音樂）</h2>
+            <p class="section-lede">
+              已同步至 <code>2026-11-24/25</code> 最新去敏資料（橫跨 35 個實測日、共 1,298 筆）。切換不同 AI 引擎與 6 維體檢項目，直接預覽「改前問題 → 具體改造 → 改後原答證據」，未完成樣本保留於未完成欄，不美化也不混算條件。
+            </p>
+          </div>
+          <div class="honesty-pill">
+            <strong>紀律聲明</strong>
+            <span>不同登入與視窗條件分列呈現；未完成不當 0、不美化未達標項目。</span>
+          </div>
+        </div>
+
+        <!-- 1,298 筆跨平台殘酷真相總覽 -->
+        <div class="reality-strip" id="reality-strip" aria-label="1,298 筆跨引擎實測關鍵對照">
+          <article class="reality-card">
+            <span class="reality-kicker mono">官方入口糾偏（Q05 LINE @250ruauk）</span>
+            <h4>0/10 → 18/18（10/18–28）→ 17/21（11/18–24）</h4>
+            <p>9 月首週品牌直問完全給錯或漏掉官方 LINE（0/10）；10/18–28 未登入達 18/18（100%）。11/18–24 最新複測中，ChatGPT 7/7、Perplexity 7/7、Gemini 3/7（誠實呈現 4 筆回答漏提 LINE）；Grok／Meta AI 未登入被擋各 7 筆列未完成。</p>
+          </article>
+          <article class="reality-card">
+            <span class="reality-kicker mono">同條件未登入巨大分化（情境 E ＋ 最新基準）</span>
+            <h4>Perplexity 51.9%・ChatGPT 33.3% vs Gemini 0%</h4>
+            <p>10/18–27 未登入情境題中 Perplexity 14/27（51.9%＋4 僅引用）、ChatGPT 18/54（33.3%）、Gemini 0/44；11/18–24 最新 Q01/Q02 中 ChatGPT 達 7/14（50.0%）、Perplexity 7/14 露出（2 正文＋5 引用）、Gemini 仍 0/14。不同 AI 吃的信源完全不同。</p>
+          </article>
+          <article class="reality-card">
+            <span class="reality-kicker mono">科學誠信與除錯紀律</span>
+            <h4>未完成不當 0・不混比登入條件・追查舊快照</h4>
+            <p>所有 1,298 筆採樣皆為「每題開新對話、不餵答案」；被登入牆擋下的平台（如 11/18–24 Meta AI 35/35、Grok 34/35 未完成）不進有效分母。發現舊價回流時直接追查舊程式碼與舊快照，不用假分數掩蓋。</p>
+          </article>
+        </div>
+
+        <!-- 互動區塊 A：AI 引擎切換 -->
+        <div class="workbench-panel">
+          <div class="panel-header">
+            <div>
+              <span class="panel-kicker">互動預覽 A｜跨引擎原答與引用變化</span>
+              <h3 id="engine-panel-heading">選擇 AI 引擎檢視改前改後對照</h3>
+            </div>
+            <div class="tab-bar" id="engine-tablist" role="tablist" aria-label="AI 引擎切換">
+              <button type="button" role="tab" aria-selected="true" data-engine="overview" class="tab-btn is-active">跨引擎總覽</button>
+              <button type="button" role="tab" aria-selected="false" data-engine="chatgpt" class="tab-btn">ChatGPT</button>
+              <button type="button" role="tab" aria-selected="false" data-engine="gemini" class="tab-btn">Gemini</button>
+              <button type="button" role="tab" aria-selected="false" data-engine="perplexity" class="tab-btn">Perplexity</button>
+              <button type="button" role="tab" aria-selected="false" data-engine="cn_engines" class="tab-btn">豆包・騰訊元寶</button>
+            </div>
+          </div>
+
+          <div class="engine-stage" id="engine-stage" aria-live="polite">
+            <div class="stage-top">
+              <div>
+                <span class="pill pill-brass" id="engine-badge">1,298 筆累積實測（截至 11/24）</span>
+                <h4 id="engine-headline">從「不點名＋認錯品牌」到「多引擎穩定引用官網並給對聯絡入口」</h4>
+                <p class="muted" id="engine-caption">9 月基準（09/23–29 未提品牌 Q01/Q02）vs 最新 11/18–24 未提品牌 Q01/Q02（有效 43 筆：9 正文＋5 僅引用；另 10/07–17 為 33/101）</p>
+              </div>
+              <div class="metric-pair">
+                <div class="mini-metric is-before">
+                  <span>改前基準</span>
+                  <strong class="mono" id="engine-before-metric">0 / 22（0.0%）</strong>
+                </div>
+                <div class="mini-metric is-after">
+                  <span>改後實測</span>
+                  <strong class="mono" id="engine-after-metric">ChatGPT 50%・Perplexity 50% 露出</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-grid">
+              <div class="summary-card is-before">
+                <h5>改前診斷（痛點與錯漏）</h5>
+                <p id="engine-before-summary">改造初期（09/23–09/29）在未提及品牌的基準題中完全缺席（0/22）；品牌直問題（Q05）官方 LINE 命中率為 0/10，且曾出現誤認成苗栗竹南樂器行、混入棄用舊測試站價格等資訊錯亂。</p>
+              </div>
+              <div class="summary-card is-after">
+                <h5>改後實測（驗證結果）</h5>
+                <p id="engine-after-summary">截至 11/24 累積 1,298 筆（35 個實測日）：10/18–28 情境題 Perplexity 達 51.9%（14/27）、ChatGPT 33.3%（18/54）；11/18–24 最新基準複測中，ChatGPT 未登入無痕自然點名達 50.0%（7/14），Perplexity 達 50.0% 露出（2/14 正文＋5/14 引用），Q05 官方 LINE 於 ChatGPT 與 Perplexity 皆維持 7/7（100%）。</p>
+              </div>
+            </div>
+
+            <div class="domains-row">
+              <span class="domains-label">實測高頻引用／關鍵信源：</span>
+              <ul class="domain-chips" id="engine-domains">
+                <li>www.cccnan.art/work/（官網事實總倉）</li>
+                <li>YouTube / 公開影音頻道</li>
+                <li>Reddit / 公開討論串</li>
+                <li>Facebook / Threads 公開貼文</li>
+              </ul>
+            </div>
+
+            <div class="samples-grid" id="engine-samples">
+              <div class="sample-card">
+                <div class="sample-head">
+                  <span class="mono sample-qid">Q01（11/22・11/24 未提品牌基準題）</span>
+                  <span class="sample-verdict">從缺席轉為穩定進入推薦名單</span>
+                </div>
+                <p class="sample-q">「想送家人一首客製紀念歌曲，可以找哪類創作者？挑選時應該看哪些作品和服務條件？」</p>
+                <div class="sample-diff">
+                  <div><strong>改前：</strong>9 月前期僅列舉通用挑選原則與大型外包平台，完全未提及阿男音樂或 cccnan.art。</div>
+                  <div><strong>改後：</strong>11/19–11/24 實測於推薦清單正文點名「阿男音樂（cccnan.art）」，並正確區分阿男親唱、自己錄唱後修音混音與示範演唱等公開方案。</div>
+                </div>
+              </div>
+              <div class="sample-card">
+                <div class="sample-head">
+                  <span class="mono sample-qid">Q05（品牌直問・官方入口核對）</span>
+                  <span class="sample-verdict">官方入口收斂穩固，同步標示 Gemini 波動</span>
+                </div>
+                <p class="sample-q">「想委託阿男音樂製作客製紀念歌曲，應透過哪個官方入口聯絡？第一次詢問要提供什麼？」</p>
+                <div class="sample-diff">
+                  <div><strong>改前：</strong>9 月首週 0/10 給對官方 LINE，且混用舊版接案頁之「30–45 分鐘訪談」與過期報價說明。</div>
+                  <div><strong>改後：</strong>10/18–28 達成 18/18（100%），11/18–24 於 ChatGPT（7/7）與 Perplexity（7/7）維持 100% 準確指出官方 LINE @250ruauk，Gemini 為 3/7。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 互動區塊 B：GeoLook 6 維體檢＋四層依賴模型 -->
+        <div class="workbench-panel">
+          <div class="panel-header">
+            <div>
+              <span class="panel-kicker">互動預覽 B｜GeoLook 四層依賴鏈 × 6 維站點體檢</span>
+              <h3>點選 6 維體檢項目，查看實地修法與驗收標準</h3>
+            </div>
+            <div class="total-score-badge">
+              <span>全站體檢總分</span>
+              <strong class="mono">41 → 89 / 100</strong>
+            </div>
+          </div>
+
+          <div class="layers-grid" id="dependency-layers" aria-label="四層依賴修復順序">
+            <div class="layer-card is-passed">
+              <div class="layer-meta"><span class="mono">第 1 層</span><span class="status-tag">已打通</span></div>
+              <h4>訪問層（Access）</h4>
+              <p>公開頁 HTTP 200、SSR 靜態正文、robots.txt 分流放行搜尋爬蟲並鎖死訓練爬蟲、舊測試域 308 隔離。</p>
+            </div>
+            <div class="layer-card is-passed">
+              <div class="layer-meta"><span class="mono">第 2 層</span><span class="status-tag">已打通</span></div>
+              <h4>定向層（Orientation）</h4>
+              <p>sitemap-index.xml 收錄全部公開頁，canonical 唯一，/llms.txt 精簡導引並與 /llms-full.txt 分流。</p>
+            </div>
+            <div class="layer-card is-passed">
+              <div class="layer-meta"><span class="mono">第 3 層</span><span class="status-tag">已打通</span></div>
+              <h4>理解層（Understanding）</h4>
+              <p>全站 44 個公開頁單一 @graph JSON-LD（Organization／Person／Service／Offer／FAQPage）全數可解析。</p>
+            </div>
+            <div class="layer-card is-improving">
+              <div class="layer-meta"><span class="mono">第 4 層</span><span class="status-tag">持續強化</span></div>
+              <h4>可引用層（Quotability）</h4>
+              <p>純文字價格對比表與 56 題文章 FAQ 已補齊；下一階段擴大獨立第三方評測與客戶回饋原話。</p>
+            </div>
+          </div>
+
+          <div class="audit-layout">
+            <div class="audit-dim-list" id="audit-dim-list" role="tablist" aria-label="6 維體檢項目">
+              <button type="button" role="tab" aria-selected="true" class="dim-btn is-active" data-dim="crawlability">
+                <span class="dim-name">1. 可抓取性</span>
+                <span class="mono dim-score">9 → 15 / 15</span>
+              </button>
+              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="content_length">
+                <span class="dim-name">2. 內容長度與深度</span>
+                <span class="mono dim-score">6 → 14 / 15</span>
+              </button>
+              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="structure">
+                <span class="dim-name">3. 結構規範</span>
+                <span class="mono dim-score">9 → 18 / 20</span>
+              </button>
+              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="extractable_blocks">
+                <span class="dim-name">4. 可抽取塊（最大槓桿）</span>
+                <span class="mono dim-score">7 → 22 / 25</span>
+              </button>
+              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="authority">
+                <span class="dim-name">5. 權威與實體信號</span>
+                <span class="mono dim-score">5 → 11 / 15</span>
+              </button>
+              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="relevance">
+                <span class="dim-name">6. 對題性（用戶原話）</span>
+                <span class="mono dim-score">5 → 9 / 10</span>
+              </button>
+            </div>
+
+            <div class="audit-detail" id="audit-detail" aria-live="polite">
+              <div class="audit-detail-head">
+                <div>
+                  <span class="pill pill-teal" id="dim-layer">訪問層＋定向層</span>
+                  <h4 id="dim-title">可抓取性</h4>
+                </div>
+                <div class="score-pill mono" id="dim-score-pill">改前 9 → 改後 15 / 15 分</div>
+              </div>
+              <p class="dim-summary" id="dim-summary">AI 爬蟲能不能在無須執行複雜前端腳本下，直接讀到 HTTP 200 正文與正確網域。</p>
+
+              <div class="progress-pair">
+                <div>
+                  <div class="progress-label"><span>改前基線</span><span class="mono" id="dim-before-pct">60%</span></div>
+                  <div class="progress-track"><div class="progress-fill is-before" id="dim-before-bar" style="width: 60%"></div></div>
+                </div>
+                <div>
+                  <div class="progress-label"><span>改後實測</span><span class="mono" id="dim-after-pct">100%</span></div>
+                  <div class="progress-track"><div class="progress-fill is-after" id="dim-after-bar" style="width: 100%"></div></div>
+                </div>
+              </div>
+
+              <dl class="detail-rows">
+                <div>
+                  <dt>實地診斷發現</dt>
+                  <dd id="dim-findings">改造前存在棄用測試網域殘留舊文案且允許索引，導致 AI 抓到衝突版本；正式站雖為靜態頁但缺少 /llms.txt 導航清單，robots.txt 亦未區分訓練與搜尋爬蟲。</dd>
+                </div>
+                <div>
+                  <dt>執行改造動作</dt>
+                  <dd id="dim-actions">將兩個棄用測試域全面改為 308 轉址並加上 noindex；robots.txt 顯式放行搜尋與即時問答爬蟲並鎖死訓練爬蟲；部署精簡版 /llms.txt 指向核心頁並與 /llms-full.txt 分流。</dd>
+                </div>
+                <div>
+                  <dt>可驗證驗收證據</dt>
+                  <dd id="dim-verification">公開頁全數 HTTP 200、robots.txt 指向 sitemap-index.xml、舊測試域 5 組路徑實測皆 308 轉至正式網域。</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 步驟改造時間軸 -->
+        <div class="steps-strip" aria-label="5 步驟 GEO 改造工作流">
+          <div class="steps-head">
+            <span class="panel-kicker">可複製工作流</span>
+            <h3>從 0 開始做完一輪 GEO 的 5 個步驟</h3>
+          </div>
+          <ol class="steps-grid" id="five-steps-grid">
+            <li class="step-card">
+              <span class="step-num mono">01</span>
+              <h4>摸底採樣與建立題庫</h4>
+              <p>固定基準 5 問＋27 題情境題，每題新對話不餵答案，35 個實測日累積 1,298 筆原答對照底稿。</p>
+            </li>
+            <li class="step-card">
+              <span class="step-num mono">02</span>
+              <h4>清理舊站與實體統一</h4>
+              <p>棄用舊網域設 308 轉址，補齊別名與自有帳號連結，消除認錯品牌與舊價殘留。</p>
+            </li>
+            <li class="step-card">
+              <span class="step-num mono">03</span>
+              <h4>官網結構化地基改造</h4>
+              <p>從 37 頁擴至 44 公開頁，寫齊純文字規格表、llms.txt 與單一 @graph JSON-LD。</p>
+            </li>
+            <li class="step-card">
+              <span class="step-num mono">04</span>
+              <h4>跨平台信源一魚多吃</h4>
+              <p>官網當事實總倉，將 63 項主題分發至 313 筆社群、問答與影音觸點，擴大外部提及。</p>
+            </li>
+            <li class="step-card">
+              <span class="step-num mono">05</span>
+              <h4>複測除錯與 8～12 週追蹤</h4>
+              <p>四欄事實逐項核對原答證據，遇舊價回流立即追查舊快照，以 90 天窗口看長期趨勢。</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. 公開做法與破案實錄（4 篇完整文章） ==================== -->
+    <section class="section" id="guides">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">OPEN PLAYBOOK &amp; CASE STUDY・白話實戰教學與破案實錄</p>
+            <h2>公開做法與破案實錄：把門道與除錯一次講透</h2>
+            <p class="section-lede">
+              不藏招、不賣焦慮。以下 4 篇完整文章整理自 2026 最新中文與全球 GEO 實戰經驗，以及 1,298 筆追蹤過程中實際遇到的「AI 報錯舊價追兇紀錄」。
+            </p>
+          </div>
+          <div class="guide-filter" id="guide-filter" role="tablist" aria-label="文章閱讀篩選">
+            <button type="button" role="tab" aria-selected="true" class="filter-btn is-active" data-guide="all">檢視全部 4 篇</button>
+            <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g1">① 找不到你</button>
+            <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g2">② 一魚多吃</button>
+            <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g3">③ llms.txt 與 Schema</button>
+            <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g4">④ AI 報錯舊價破案實錄</button>
+          </div>
+        </div>
+
+        <div class="guides-stack" id="guides-stack">
+          <!-- 文章 1 -->
+          <article class="guide-article" data-guide-article="g1" id="article-1">
+            <header class="article-header">
+              <span class="article-index mono">PLAYBOOK 01・觀念與診斷</span>
+              <h3>為什麼有官網，AI 還是找不到你？</h3>
+              <p class="article-lead">
+                一句話結論：<strong>因為 AI 不是把整頁網站看完再推薦你，而是「先決定要不要連網檢索 → 挑選抓得到且可信的網址 → 只切出最像標準答案的那一段文字」。</strong>只要四層依賴（訪問 → 定向 → 理解 → 可引用）斷在任何一層，官網做得再漂亮，在 AI 眼裡都等於不存在。
+              </p>
+            </header>
+
+            <div class="article-body">
+              <h4>一、先搞懂 AI 推薦你的「三段漏斗」</h4>
+              <p>
+                傳統 SEO 的終點是「十條藍色連結」裡的點擊；GEO 的終點則是「AI 答案裡有沒有提到你的名字，而且把價格、流程、聯絡方式說對」。使用者提出問題後，引擎會經過三道關卡：第一關看這個問題需不需要連網查資料；第二關由搜尋索引與爬蟲決定哪些網站能進候選清單；第三關才把抓回來的網頁切塊，挑出最對題、證據最紮實的段落寫進最終答案。因此，<strong>GEO 的最小單位不是「一個網站」，而是「一段可以單獨拿來當證據的文字」</strong>。
+              </p>
+
+              <h4>二、實戰中最常見的 4 個致命地雷</h4>
+              <ul class="check-list">
+                <li><strong>地雷 1：爬蟲根本抓不到（SPA 空殼或防火牆誤殺）</strong>——許多新潮官網全部靠前端 JavaScript 動態載入文字，瀏覽器打開看得到，但多數 AI 檢索爬蟲（如 <code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code>）只抓靜態 HTML，結果抓到一片空白；或者 <code>robots.txt</code> 寫了開放，CDN 防火牆卻偷偷對 AI 爬蟲回傳 403。</li>
+                <li><strong>地雷 2：把最重要的價格與方案做在圖片裡</strong>——不少品牌把價目表、流程圖做成精美 PNG 或海報，卻沒有對應的純文字 HTML 表格。爬蟲看不到清楚數字，回答時不是跳過你，就是胡亂猜一個過期價格。</li>
+                <li><strong>地雷 3：舊測試站與外部舊文案還在線上打架</strong>——這是 <code>cccnan.art</code> 實測中踩過最痛的坑。即使正式官網已經更新，只要早年的 Vercel 測試網址、舊 Notion 頁或舊粉專簡介還沒清理，AI 仍會把舊價、舊流程拼進回答裡，甚至把同名品牌認成別縣市的店家。</li>
+                <li><strong>地雷 4：全篇都是抒情形容詞，沒有「可抽取事實」</strong>——像「業界領先、用心傾聽、質感滿分」這類空話，AI 無法拿來回答使用者的決策問題。實證研究指出，頁面包含具體數字（引用影響力 +61.6%）、一句話定義（+57.3%）、對比表（+55.3%）與步驟（+41.2%），遠比感性口號更容易被吸收。</li>
+              </ul>
+
+              <h4>三、動手修之前，照「四層依賴順序」排先後</h4>
+              <p>
+                不要一上來就狂寫部落格或堆關鍵字。GeoLook 的四層依賴原則很直白：<strong>先檢查「訪問層」（HTTP 200、靜態 HTML 正文、robots 與防火牆不擋爬蟲）→ 再檢查「定向層」（sitemap、canonical、有效 <code>llms.txt</code>）→ 接著補「理解層」（JSON-LD 結構化資料與品牌別名一致）→ 最後才打磨「可引用層」（首段倒金字塔結論、真實價格規格表、服務邊界與外部提及）</strong>。上面一層沒打通，下面做再多都是白工。
+              </p>
+            </div>
+          </article>
+
+          <!-- 文章 2 -->
+          <article class="guide-article" data-guide-article="g2" id="article-2">
+            <header class="article-header">
+              <span class="article-index mono">PLAYBOOK 02・跨平台信源矩陣</span>
+              <h3>一魚多吃：2026 跨平台信源佈局（官網總倉＋公眾號＋小紅書＋知乎＋Reddit）</h3>
+              <p class="article-lead">
+                一句話結論：<strong>只靠官網單打獨鬥幾乎拿不到自然推薦。</strong>公開中文語料實測顯示，品牌自有官網在中文 AI 引用裡只佔約 1.37%；真正能讓 ChatGPT、Perplexity、豆包與騰訊元寶都點名你的做法，是以「官網作為唯一事實總倉」，再用同一套核對過的事實，拆成各平台 AI 最愛抓的信源格式。
+              </p>
+            </header>
+
+            <div class="article-body">
+              <h4>一、2026 各大 AI 引擎的信源偏好對照表</h4>
+              <p>
+                不同引擎背後的生態系與檢索池完全不同。與其把同一篇貼文原封不動複製貼上五個地方，不如搞懂每個平台在 AI 眼裡扮演的角色：
+              </p>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>平台角色</th>
+                      <th>主要影響引擎</th>
+                      <th>最適合放的內容形態（一魚多吃拆法）</th>
+                      <th>關鍵注意事項</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>官網（事實總倉）</strong></td>
+                      <td>ChatGPT、Gemini、Perplexity</td>
+                      <td>完整方案價目表、交付天數、FAQ、<code>llms.txt</code>、JSON-LD 結構化資料</td>
+                      <td>所有數字與流程以此為準，定期清理舊測試網址</td>
+                    </tr>
+                    <tr>
+                      <td><strong>微信公眾號／問一問</strong></td>
+                      <td>騰訊元寶</td>
+                      <td>深度實戰長文（公眾號）＋100～200 字無硬廣短答（問一問）</td>
+                      <td>品牌全稱、簡介與聯絡入口須與官網完全一致</td>
+                    </tr>
+                    <tr>
+                      <td><strong>小紅書／短影音摘要</strong></td>
+                      <td>豆包、綜合搜尋</td>
+                      <td>真實規格圖卡、交付細節拆解、步驟前後對照</td>
+                      <td>重點呈現「有人真實用過」的細節，避免純廣告口氣</td>
+                    </tr>
+                    <tr>
+                      <td><strong>知乎</strong></td>
+                      <td>DeepSeek、豆包、Perplexity</td>
+                      <td>「怎麼選／值不值得／方案怎麼比」決策問答＋中立對比表</td>
+                      <td>開頭 150 字先講結論，誠實寫出不適用對象</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Reddit／GitHub</strong></td>
+                      <td>ChatGPT、Claude、Perplexity</td>
+                      <td>真實經驗分享、公開範例檔、開源工具紀錄與社群討論</td>
+                      <td>自然累積不帶連結的品牌提及（Unlinked Brand Mentions）</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4>二、什麼是「一魚多吃」而不變成垃圾分發？</h4>
+              <p>
+                很多團隊以為「同一個品牌在六個自家帳號發一樣的文」就等於六個背書——其實 AI 看得出這只是同一份自我宣傳。真正有效的做法是先建立一份<strong>品牌事實單一真相表</strong>（把名稱、別名、主力方案價格、交期、不接的範圍定死），然後針對一個核心主題，按平台習慣改寫成不同切角：官網放最完整的規格與問答；公眾號與知乎寫清楚「選購邏輯與避坑對比」；小紅書放具體流程與規格細節；Reddit 與公開論壇討論實際遇到的問題與解法。
+              </p>
+
+              <h4>三、記住三條紀律：實體統一、第三方背書、看 8～12 週</h4>
+              <p>
+                第一，<strong>實體統一</strong>：不必強迫每個社群帳號 ID 完全同名，但簡介第一句與結構化資料 <code>sameAs</code> 必須把關係講清楚，讓 AI 知道它們都屬於同一個品牌。第二，<strong>爭取獨立第三方提及</strong>：AI 決定「值不值得把你排在前面」時，非常看重客戶真實回饋原話、合作夥伴專訪或論壇自然推薦。第三，<strong>用 8～12 週（約 90 天）看長期趨勢</strong>，不要做完一週沒看到暴漲就放棄，更不要相信任何「72 小時保證收錄」的話術。
+              </p>
+            </div>
+          </article>
+
+          <!-- 文章 3 -->
+          <article class="guide-article" data-guide-article="g3" id="article-3">
+            <header class="article-header">
+              <span class="article-index mono">PLAYBOOK 03・技術落地與範本</span>
+              <h3><code>llms.txt</code>、Schema 與問答結構化怎麼寫？</h3>
+              <p class="article-lead">
+                一句話結論：<strong>把官網改造成 AI 讀得最順的「證據頁」，核心就是三件套：讓爬蟲暢通（<code>robots.txt</code>）、給一份 5～8 頁精簡目錄（<code>llms.txt</code>），以及讓可見文字與 JSON-LD Schema 一一對應。</strong>下面直接附上可照抄改寫的最小可用範本。
+              </p>
+            </header>
+
+            <div class="article-body">
+              <h4>一、先確認 <code>robots.txt</code> 區分「AI 搜尋爬蟲」與「模型訓練爬蟲」</h4>
+              <p>
+                在寫任何進階檔案前，先打開你網站根目錄的 <code>/robots.txt</code>，把爬蟲分成兩群：<strong>搜尋與即時問答爬蟲</strong>（如 <code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>Claude-User</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code>、<code>Googlebot</code>、<code>Bingbot</code>）必須明確 <code>Allow: /</code>；而<strong>基礎模型訓練爬蟲</strong>（如 <code>GPTBot</code>、<code>ClaudeBot</code>、<code>Applebot-Extended</code>、<code>CCBot</code>、<code>Amazonbot</code>）則依你的內容版權策略決定是否 <code>Disallow: /</code>（本公開站即採「鎖死訓練、開放搜尋」原則）。記住：放行後還要確認 CDN 或防火牆沒有對搜尋爬蟲回傳 403。
+              </p>
+
+              <h4>二、<code>/llms.txt</code> 怎麼寫？精簡 5～8 個核心頁就夠</h4>
+              <p>
+                <code>llms.txt</code> 就像遞給大型語言模型的「一頁式品牌名片＋導覽目錄」。千萬不要把整站幾百篇文章全部塞進去，也不要放會回傳 404 的失效連結。標準寫法只要四段：<strong>一句話品牌身分、固定價格與流程事實、明確服務邊界（不做的事）、5～8 個最核心的正式網址與官方聯絡入口</strong>：
+              </p>
+              <pre class="code-block"><code># 你的品牌名稱｜創辦人或核心定位
+&gt; 一句話說明你是誰、服務哪類對象、全程線上或服務地區。
+
+## 核心服務與公開價格
+- 方案 A（入門名稱）：NT$X,XXX｜交付天數｜包含項目
+- 方案 B（主推名稱）：NT$X,XXX｜交付天數｜包含項目
+
+## 服務流程與不承接範圍
+- 流程：先以文字確認需求 → 報價確認 → 開始製作 → 驗收交付
+- 不承接：清楚列出不做的項目（寫清邊界反而提升 AI 信任度）
+
+## 核心頁面（只列 5～8 頁，每頁須回傳 HTTP 200）
+- [服務方案與價目](https://example.com/work/): 完整方案對比表與常見問答
+- [代表案例與實績](https://example.com/cases/): 去敏實測紀錄與交付範例
+
+## 官方聯絡入口
+- 官方 LINE：@your_id</code></pre>
+
+              <h4>三、JSON-LD Schema（<code>@graph</code>）與問答結構化（Citation Bait）</h4>
+              <p>
+                Schema 的重點不是塞越多標籤越好，而是用 <code>@id</code> 與 <code>@graph</code> 把「品牌／創辦人（<code>Organization</code> 或 <code>Person</code>）→ 服務與報價（<code>Service</code>＋<code>Offer</code>）→ 常見問答（<code>FAQPage</code>）」串成一張機器讀得懂的關係圖，而且<strong>JSON-LD 裡的每一個價格、名稱與問答，都必須與網頁上訪客肉眼看得到的純文字完全一致</strong>。
+              </p>
+              <pre class="code-block"><code>{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://example.com/#brand",
+      "name": "品牌全稱｜負責人",
+      "alternateName": ["簡稱", "粉專別名"],
+      "sameAs": ["https://www.youtube.com/@yourchannel"]
+    },
+    {
+      "@type": "Service",
+      "name": "主力服務名稱",
+      "provider": { "@id": "https://example.com/#brand" },
+      "offers": { "@type": "Offer", "price": "3800", "priceCurrency": "TWD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "做一次 GEO 健檢大概需要多久、會拿到什麼？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "約 5 個工作天完成，交付 20 題跨引擎原始問答證據表與 6 維站點改善優先清單。"
+        }
+      }]
+    }
+  ]
+}</code></pre>
+              <p>
+                最後提醒一個實測反常識的細節：<strong>只把文章排成「Q&amp;A 格式」本身不會加分（實證甚至略降 5.7%）</strong>；真正讓段落成為「Citation Bait（高引用誘餌）」的寫法，是用<strong>用戶真實會問的問句當小標</strong>，在段落前 2～3 句（約 150 字內）用倒金字塔直接給答案，接著補上具體數字、HTML 對比表格與操作步驟。這樣不論是搜尋引擎還是 AI 檢索器，都能一秒把你的段落整塊引走。
+              </p>
+            </div>
+          </article>
+
+          <!-- 文章 4：AI 報錯舊價破案實錄 -->
+          <article class="guide-article" data-guide-article="g4" id="article-4">
+            <header class="article-header">
+              <span class="article-index mono">CASE STUDY 04・AI 報錯舊價破案實錄</span>
+              <h3>AI 報錯舊價破案實錄：為什麼官網改價了，AI 還是把舊規則背出來？</h3>
+              <p class="article-lead">
+                一句話結論：<strong>AI 會背出舊價格與舊流程，幾乎不是它憑空捏造，而是因為網路上還留著「搜尋引擎舊快照、忘記關的舊測試網址、站外未同步的公開筆記」這三個影子分身。</strong>只改正式官網卻不追查舊分身，就像換了新菜單卻把舊菜單繼續貼在後門一樣。
+              </p>
+            </header>
+
+            <div class="article-body">
+              <h4>一、第一現場：明明改版了，AI 卻一字不差背出舊流程</h4>
+              <p>
+                在 <code>cccnan.art</code> 的 1,298 筆實測過程中，最讓人頭痛的一次狀況發生在 10 月下旬到 11 月中：當時正式官網早已公布四個固定公開方案（主推 B NT$6,800、A NT$4,800、C NT$3,500、D NT$9,000），流程也明確改成「先用文字傳故事，寫故事這步不收費」。但我們用全新無痕對話測試 ChatGPT 的品牌直問題（Q03～Q05）時，它卻一再回答：「先聊 30～45 分鐘訪談、交期 1～10 天、費用依需求報價、會附手寫故事卡」。
+              </p>
+
+              <h4>二、我們怎麼四步抓出錯誤來源？</h4>
+              <ul class="check-list">
+                <li><strong>第一步：先驗證「現在的正式官網」到底有沒有寫錯</strong>——用腳本一次抓回全站所有公開頁面的 HTML、Meta 描述與 JSON-LD，確認正式站正文與結構化資料 100% 是新版，完全沒有那些舊詞彙。這一步排除了「自己漏改某個內頁」的可能。</li>
+                <li><strong>第二步：回翻程式改版歷史，做逐字比對</strong>——把 AI 答出來的「約 30–45 分鐘訪談」「交期 1～10 天」「依需求報價」「故事卡」，拿去對照更早以前（<code>2026-10-09</code> 改版前）的接案頁舊程式碼。結果在第 27 行、第 32 行與第 78 行的舊表格裡，找到一模一樣的原句。這證明 AI 不是亂編，而是<strong>讀到了某一版歷史留影</strong>。</li>
+                <li><strong>第三步：沿著引文網址，抓出三個「影子分身」</strong>——繼續比對搜尋引擎收錄紀錄與站外公開頁，共找出三個元兇：① 搜尋引擎尚未重新抓取的 <code>/work/</code> 舊索引快照（顯示數週前的舊標題）；② 早年上線測試後忘記關閉的兩個舊預覽網址，依然回傳 HTTP 200 且允許收錄舊價；③ 早年公開的外部筆記頁與舊社群簡介，整頁還停在舊流程。</li>
+                <li><strong>第四步：避開「否定句過度重複舊詞」的陷阱</strong>——起初為了澄清，我們在官網 FAQ 裡反覆寫「沒有 30～45 分鐘訪談」，結果發現過度重複舊關鍵字反而容易在摘要擷取時被斷章取義；後來改為「正面直寫現行做法（用 LINE 文字傳故事，不收費）」，只在必要處保留一條明確的邊界說明。</li>
+              </ul>
+
+              <h4>三、破案對照表：錯誤現象、元兇與解法一覽</h4>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>AI 答錯的舊規則</th>
+                      <th>追查出的真正來源</th>
+                      <th>執行的修正動作</th>
+                      <th>修正後怎麼追蹤</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>「依需求報價／未固定價格」</td>
+                      <td>舊版接案頁摘要只寫「NT$3,500 起」，爬蟲只讀開頭就概括成依需求報價</td>
+                      <td>在首段、Meta 描述與 JSON-LD <code>Service</code> 三處同步寫滿四方案金額</td>
+                      <td>逐週檢查原答四欄事實（價格／交期／流程／LINE）是否同時對齊</td>
+                    </tr>
+                    <tr>
+                      <td>「先聊 30–45 分鐘訪談／1～10 天」</td>
+                      <td>舊版程式碼留下的搜尋引擎快照，以及未關閉的舊預覽測試站</td>
+                      <td>兩個舊測試網域全面設為 <strong>308 永久轉址</strong>＋<code>noindex</code>，切斷獨立索引</td>
+                      <td>每週固定以無痕新對話重測 Q03–Q05，記錄舊說法在哪一週淡出</td>
+                    </tr>
+                    <tr>
+                      <td>「手寫故事卡／過期工作流程」</td>
+                      <td>站外未同步更新的舊筆記公開頁與早期社群簡介</td>
+                      <td>盤點全平台帳號簡介與公開筆記，統一對齊單一真相表</td>
+                      <td>保留改前與改後完整原文截圖，依 8～12 週窗口觀察，不靠單日運氣判斷</td>
+                    </tr>
+                    <tr>
+                      <td>「同名品牌被認成別縣市樂器行」</td>
+                      <td>早年品牌實體欄位缺少別名與關聯帳號，模型在資料不足時自行推測</td>
+                      <td>在單一 <code>@graph</code> 補齊別名、<code>sameAs</code> 帳號矩陣與正面消歧問答</td>
+                      <td>獨立測試「是樂器行還是客製歌曲創作者」消歧題，驗證是否解除誤認</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h4>四、修正後怎麼追蹤，才不會落入「自己問自己」的假象？</h4>
+              <p>
+                很多團隊改完網站當天，在同一個登入帳號裡連續追問 AI 幾句，看到 AI 改口就以為修好了——其實那只是對話視窗裡的短期記憶。我們追蹤舊價消退的標準紀律是：<strong>每次都開全新無痕視窗、不登入個人歷史、不提示任何答案</strong>，用同一組固定題目每週記錄一次原始回覆；並且嚴格區分「有完成」與「被驗證擋住的未完成」，再用 8～12 週看真實趨勢。在 11/18–24 最新實測裡，ChatGPT 與 Perplexity 的 Q05 官方 LINE 皆已維持 7/7（100%），Q01 未提品牌自然露出也站上 50%。
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3.5 3 分鐘 12 題 GEO 準備度自檢＋迷思闢謠 ==================== -->
+    <section class="section section-alt" id="self-check">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">SELF-CHECK TOOLKIT・3 分鐘免費互動自檢</p>
+            <h2>3 分鐘 GEO 準備度 12 題自檢互動表</h2>
+            <p class="section-lede">
+              不用裝任何外掛、也不用先提供帳號密碼。照著網站現況勾選下面 12 題，系統會即時算出你的 4 層準備度分數，告訴你現在卡在哪一關、先改哪裡最有效。
+            </p>
+            <div class="brand-split-note">
+              <strong>工坊定位說明：</strong>本自檢工具與 GEO 健檢服務由「阿男 GEO 實戰工坊」提供，專為各行各業品牌官網與中小店家設計；與創辦人原創客製紀念歌曲服務（<code>www.cccnan.art</code>）分開營運，互不混淆。
+            </div>
+          </div>
+        </div>
+
+        <div class="quiz-shell">
+          <form class="quiz-form" id="geo-quiz-form" aria-label="GEO 準備度 12 題互動自檢表">
+            <!-- 第 1 關：訪問層 -->
+            <fieldset class="quiz-group">
+              <div class="quiz-group-head">
+                <h3>第 1 關｜訪問層（AI 進不進得來）</h3>
+                <span class="quiz-group-hint">建議優先打通，否則後面寫再多都抓不到</span>
+              </div>
+              <div class="quiz-items">
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="靜態 HTML 可直接讀出文字" value="Q1">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">1. 打開網站原始碼就看得到產品介紹與價格文字</span>
+                    <span class="quiz-item-sub">不是全靠前端腳本才畫出來的空白殼，也不是只放一張海報圖檔。</span>
+                  </span>
+                </label>
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="robots.txt 與防火牆放行搜尋爬蟲" value="Q2">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">2. <code>robots.txt</code> 放行 AI 搜尋爬蟲，且主機沒擋 403</span>
+                    <span class="quiz-item-sub">允許 <code>OAI-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code>、<code>Googlebot</code> 等抓取公開頁。</span>
+                  </span>
+                </label>
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="清理舊測試站並設 308 轉址" value="Q3">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">3. 過去的舊測試網址、改版前預覽站已關閉或轉址</span>
+                    <span class="quiz-item-sub">避免 AI 同時抓到新舊兩套價目表，回頭背出過期規定。</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <!-- 第 2 關：定向層 -->
+            <fieldset class="quiz-group">
+              <div class="quiz-group-head">
+                <h3>第 2 關｜定向層（AI 找不找得到重點）</h3>
+                <span class="quiz-group-hint">指引爬蟲看最核心的服務與聯絡頁</span>
+              </div>
+              <div class="quiz-items">
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="sitemap 乾淨無作廢頁" value="Q4">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">4. 網站有最新的 <code>sitemap.xml</code>，且只收錄公開頁</span>
+                    <span class="quiz-item-sub">後台、私密訂單或 404 壞頁沒有被放進索引清單裡。</span>
+                  </span>
+                </label>
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="每頁 canonical 網址唯一" value="Q5">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">5. 每個核心頁都有唯一的標準網址（<code>canonical</code>）</span>
+                    <span class="quiz-item-sub">不會同一頁同時存在帶斜線、不帶斜線或多個鏡像網域互相分散權重。</span>
+                  </span>
+                </label>
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="精簡有效 /llms.txt" value="Q6">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">6. 網站根目錄有精簡的 <code>/llms.txt</code>（5～10 個核心頁）</span>
+                    <span class="quiz-item-sub">像名片目錄一樣列出主力方案、服務邊界與聯絡入口，且連結皆為 HTTP 200。</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <!-- 第 3 關：理解層 -->
+            <fieldset class="quiz-group">
+              <div class="quiz-group-head">
+                <h3>第 3 關｜理解層（AI 認不認得清你是誰）</h3>
+                <span class="quiz-group-hint">消除同名誤認與多平台說法打架</span>
+              </div>
+              <div class="quiz-items">
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="跨平台名稱與第一句簡介一致" value="Q7">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">7. 官網、FB、IG、YouTube 與 LINE 簡介寫的是同一件事</span>
+                    <span class="quiz-item-sub">品牌全稱、別名、主打服務與聯絡帳號一致，不會被認成別縣市同名店家。</span>
+                  </span>
+                </label>
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="單一 @graph JSON-LD 結構化" value="Q8">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">8. 頁面有結構化資料（JSON-LD）串起品牌、報價與問答</span>
+                    <span class="quiz-item-sub">透過 <code>@graph</code> 把組織／創辦人、<code>Service</code>／<code>Offer</code> 與 <code>FAQPage</code> 連起來。</span>
+                  </span>
+                </label>
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="JSON-LD 與可見文字 100% 一致" value="Q9">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">9. 隱藏標記裡的價格與問答，和訪客看到的正文 100% 一致</span>
+                    <span class="quiz-item-sub">不寫訪客看不到的隱藏字，也不讓 Schema 留著改版前的舊金額。</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+
+            <!-- 第 4 關：可引用層 -->
+            <fieldset class="quiz-group">
+              <div class="quiz-group-head">
+                <h3>第 4 關｜可引用層（AI 敢不敢直接推薦你）</h3>
+                <span class="quiz-group-hint">決定「問買家情境題時會不會點名你」</span>
+              </div>
+              <div class="quiz-items">
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="純文字規格與 HTML 對比表" value="Q10">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">10. 方案價格、交期與差異有用純文字 HTML 對比表寫清楚</span>
+                    <span class="quiz-item-sub">讓 AI 一秒就能整表抽走比較，而不是「請私訊洽詢」一句帶過。</span>
+                  </span>
+                </label>
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="首段倒金字塔與明確服務邊界" value="Q11">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">11. 服務頁前兩句就直答「幫誰做、多少錢」，並寫明不接的範圍</span>
+                    <span class="quiz-item-sub">用客人的口語問句當小標，坦白寫出急件門檻或不適用的對象。</span>
+                  </span>
+                </label>
+                <label class="quiz-item">
+                  <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="具備獨立第三方回饋與討論" value="Q12">
+                  <span class="quiz-item-body">
+                    <span class="quiz-item-title">12. 除了自家官網社群外，找得到獨立第三方的真實回饋或討論</span>
+                    <span class="quiz-item-sub">例如客戶同意公開的原話評價、合作專訪、或第三方論壇／社群自然討論。</span>
+                  </span>
+                </label>
+              </div>
+            </fieldset>
+          </form>
+
+          <!-- 即時算分儀表卡 -->
+          <aside class="quiz-hud" id="quiz-hud" aria-live="polite" aria-label="12 題自檢即時分數與弱點診斷">
+            <div class="quiz-hud-top">
+              <span class="panel-kicker">即時準備度診斷</span>
+              <span class="pill pill-coral" id="quiz-tier-badge">地基待補強｜AI 目前幾乎看不見你</span>
+            </div>
+
+            <div class="quiz-score-row">
+              <strong class="mono" id="quiz-score-value">0 / 12 題</strong>
+              <span class="mono" id="quiz-score-pct">0%</span>
+            </div>
+
+            <div class="progress-track">
+              <div class="progress-fill is-after" id="quiz-score-bar" style="width: 0%"></div>
+            </div>
+
+            <div class="quiz-layer-pills">
+              <div class="quiz-layer-pill" id="quiz-layer-access">訪問層 0/3</div>
+              <div class="quiz-layer-pill" id="quiz-layer-orientation">定向層 0/3</div>
+              <div class="quiz-layer-pill" id="quiz-layer-understanding">理解層 0/3</div>
+              <div class="quiz-layer-pill" id="quiz-layer-quotability">可引用層 0/3</div>
+            </div>
+
+            <div class="quiz-advice-box">
+              <h4>優先修復與下一步建議</h4>
+              <p id="quiz-advice-text">
+                目前卡關項目：第 1 關｜訪問層（0/3）、第 2 關｜定向層（0/3）、第 3 關｜理解層（0/3）、第 4 關｜可引用層（0/3）。依四層依賴順序，建議優先處理：先修第 1 關（靜態 HTML、robots.txt 放行搜尋爬蟲與舊測試域 308 轉址），否則 AI 連門都進不來。
+              </p>
+            </div>
+
+            <div class="quiz-actions">
+              <div class="quiz-actions-row">
+                <button type="button" class="btn btn-secondary" id="quiz-reset-btn">全部重設</button>
+                <button type="button" class="btn btn-secondary" id="copy-quiz-btn">複製自檢摘要</button>
+              </div>
+              <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">加 LINE @250ruauk 做 20 題深度健檢（NT$3,800）</a>
+            </div>
+            <p class="copy-feedback" id="quiz-copy-feedback" aria-live="polite"></p>
+          </aside>
+        </div>
+
+        <!-- 常見迷思闢謠卡 -->
+        <div class="myth-section" aria-label="2026 GEO 常見迷思闢謠卡">
+          <div class="myth-head">
+            <span class="panel-kicker">ANTI-HYPE MANIFESTO・常見迷思闢謠卡</span>
+            <h3>我們絕不做的 4 件事（別花錢買無效焦慮）</h3>
+            <p>所有原則皆來自本工坊 1,298 筆實測紀錄與公開技術邊界，用白話幫你避開常見黑帽與話術坑。</p>
+          </div>
+          <div class="myth-grid">
+            <article class="myth-card">
+              <span class="myth-tag">迷思 01｜短期奇蹟話術</span>
+              <h4>「只要 72 小時就能讓 AI 必收錄、穩排第一名？」</h4>
+              <p><strong>實戰真相：</strong>AI 回答帶有隨機性，加上各搜尋索引換版週期不同，沒有人能鎖定特定排名。正規做法是先清理舊源與補齊結構，再以 8～12 週同條件實測看趨勢，不買口頭承諾。</p>
+            </article>
+            <article class="myth-card">
+              <span class="myth-tag">迷思 02｜單一檔案迷信</span>
+              <h4>「網站放了 <code>llms.txt</code> 就一定被推薦，沒放就完全抓不到？」</h4>
+              <p><strong>實戰真相：</strong><code>llms.txt</code> 是給大型模型看的精簡目錄，屬於加分導覽而非萬靈丹。真正決定 AI 找不找得到你、會不會報對價格的，仍是靜態 HTML 可讀取性、乾淨索引與純文字對比表。</p>
+            </article>
+            <article class="myth-card">
+              <span class="myth-tag">迷思 03｜自嗨假分數與灌水洗版</span>
+              <h4>「工具跑出 90 分，或把同一篇文章發六個自家帳號就等於背書？」</h4>
+              <p><strong>實戰真相：</strong>模擬器測爬蟲回傳 200 不等於真實 AI 搜尋已引用；同一篇自我介紹貼六個自家帳號也不會變成六個獨立背書。只有「無痕新對話、不餵答案」的實測原答與第三方真實提及才算數。</p>
+            </article>
+            <article class="myth-card">
+              <span class="myth-tag">迷思 04｜黑帽紅線</span>
+              <h4>「在網頁角落塞白底白字或提示詞注入，叫 AI 一定要誇我？」</h4>
+              <p><strong>實戰真相：</strong>隱藏文字與提示詞注入不只違反搜尋規範，還會觸發 AI 安全過濾甚至整站被降權。我們絕不塞隱藏提示詞、絕不買垃圾外鏈農場，只做訪客與機器讀到完全一致的透明事實。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. 幫你做 GEO 服務方案與聯絡方式 ==================== -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">TRANSPARENT PLANS・透明三階方案（獨立品牌 GEO 服務）</p>
+            <h2>幫你做 GEO：先驗現況，再決定要不要動大工程</h2>
+            <p class="section-lede">
+              每個品牌目前的網站體質與舊資料殘留不同。你可以從 NT$3,800 的 20 題 AI 診斷報告起步，看清自己現在在 AI 眼裡長什麼樣子，再決定要自己照報告修，還是交給我們一次把官網地基做好（本服務與客製紀念歌曲業務 <code>cccnan.art</code> 分開運作）。
+            </p>
+          </div>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- 方案 1 -->
+          <article class="plan-card">
+            <div class="plan-top">
+              <span class="plan-tier mono">TIER 01・摸底體檢</span>
+              <h3>GEO 健檢與 20 題 AI 診斷報告</h3>
+              <p class="plan-price"><strong class="mono">NT$3,800</strong><span>／單次診斷</span></p>
+              <p class="plan-desc">適合已經有官網或粉專，想知道 AI 現在有沒有提到你、有沒有說錯價格與聯絡方式的品牌。</p>
+            </div>
+            <ul class="plan-list">
+              <li>設計 20 題貼近真實客人的測試題（未提品牌題＋品牌直問題）</li>
+              <li>跨主流 AI 引擎新對話實測，完整保留原始問答截圖／文字證據</li>
+              <li>GeoLook 6 維體檢＋四層依賴檢查（爬蟲、舊站殘留、結構缺口）</li>
+              <li>交付可執行的《GEO 診斷報告與優先修復清單》（PDF／HTML）</li>
+            </ul>
+            <a class="btn btn-secondary btn-full" href="#contact">預約 GEO 健檢</a>
+          </article>
+
+          <!-- 方案 2 -->
+          <article class="plan-card is-featured">
+            <div class="plan-top">
+              <span class="plan-tier mono">TIER 02・一次到位地基</span>
+              <h3>官網 GEO 地基一次改造專案</h3>
+              <p class="plan-price"><strong class="mono">NT$18,000</strong><span>／單次專案</span></p>
+              <p class="plan-desc">適合確認要讓網站「能被 AI 讀懂並正確引用」，想一次補齊技術地基與核心頁結構的品牌。</p>
+            </div>
+            <ul class="plan-list">
+              <li>包含 Tier 01 完整 20 題摸底診斷與品牌事實單一真相表整理</li>
+              <li>撰寫與部署 <code>/llms.txt</code>、<code>robots.txt</code> 爬蟲檢查與 <code>sitemap</code> 核對</li>
+              <li>建置全站可解析 JSON-LD Schema（實體別名、服務報價、FAQPage）</li>
+              <li>改寫 3～5 個核心服務頁為高引用結構（倒金字塔首段＋純文字規格表＋FAQ）</li>
+              <li>交付前提供自動化驗證紀錄與改後複測對照報告</li>
+            </ul>
+            <a class="btn btn-primary btn-full" href="#contact">預約 GEO 健檢與改造評估</a>
+          </article>
+
+          <!-- 方案 3 -->
+          <article class="plan-card">
+            <div class="plan-top">
+              <span class="plan-tier mono">TIER 03・長期追蹤代操</span>
+              <h3>每月持續監測與內容投餵代操</h3>
+              <p class="plan-price"><strong class="mono">洽詢報價</strong><span>／依題庫與平台數客製</span></p>
+              <p class="plan-desc">適合希望以 8～12 週以上節奏長期經營跨平台信源、持續追蹤 AI 回答變化的成長型品牌。</p>
+            </div>
+            <ul class="plan-list">
+              <li>每月固定題庫跨引擎複測，建立可對照的長期趨勢紀錄</li>
+              <li>一魚多吃跨平台內容規劃（官網專文＋社群／問答／海外與中文信源）</li>
+              <li>定期檢查新上線頁面之 Schema、舊口徑殘留與新增競品信源</li>
+              <li>每月交付月度原答證據包與下月執行工單</li>
+            </ul>
+            <a class="btn btn-secondary btn-full" href="#contact">透過 LINE 洽詢客製報價</a>
+          </article>
+        </div>
+
+        <!-- 誠實邊界聲明 + 聯絡卡片 -->
+        <div class="contact-panel" id="contact">
+          <div class="boundary-box">
+            <span class="pill pill-coral">先講清楚我們不承諾的事</span>
+            <h3>不保證 AI 排名、不保證必點名、不保證成交</h3>
+            <p>
+              AI 回答具有隨機性，各引擎檢索規則也持續演進，任何宣稱「保證排第一」「72 小時必被 AI 推薦」的說法都無法驗證。
+            </p>
+            <p>
+              我們承諾交付的是<strong>可逐項核對的工程證據</strong>：固定條件下的原始 AI 問答紀錄、6 維站點診斷報告，以及可直接驗收上線的結構化檔案（<code>llms.txt</code>、JSON-LD Schema、純文字規格與問答結構）。
+            </p>
+          </div>
+
+          <div class="cta-box">
+            <span class="eyebrow">BOOKING・預約 GEO 健檢</span>
+            <h3>加入官方 LINE，傳送你的網址就能開始</h3>
+            <div class="line-card">
+              <div>
+                <span class="line-label">阿男 GEO 實戰工坊・官方 LINE ID</span>
+                <strong class="mono line-id" id="line-id-text">@250ruauk</strong>
+              </div>
+              <div class="line-actions">
+                <button type="button" class="btn btn-secondary" id="copy-line-btn">複製 LINE ID</button>
+                <a class="btn btn-primary" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">開啟 LINE 預約 GEO 健檢</a>
+              </div>
+            </div>
+            <p class="copy-feedback" id="copy-feedback" aria-live="polite"></p>
+            <div class="prep-box">
+              <strong>第一次詢問，只要用文字傳這 3 件事（不用先通電話）：</strong>
+              <ol>
+                <li>你的官網網址（或目前最主要的粉專／公開頁面連結）</li>
+                <li>主力產品或服務的公開價格區間與服務方式</li>
+                <li>你最希望客戶問 AI 時會提到你的 3 個真實問題</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
+        <p class="footer-note">
+          純靜態架構・免後端資料庫・可直接託管於 GitHub Pages。本網站之 GEO 體檢維度與實戰工作流理念基於開源專案
+          <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook</a>（Copyright &copy; 2026 GeoLook contributors，MIT License）延伸改作，非原作者官方服務，不代表原作者背書。
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="./llms.txt">llms.txt</a>
+        <a href="./robots.txt">robots.txt</a>
+        <a href="./data/case-cccnan.json">case-cccnan.json</a>
+        <a href="./LICENSE">MIT LICENSE</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>

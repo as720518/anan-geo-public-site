@@ -1,0 +1,351 @@
+{
+  "case_id": "CASE-01",
+  "version": "2026.11.25-public-v2",
+  "source_package_version": "72a716ca5b03",
+  "deidentification_note": "本檔案僅保留品牌公開服務資訊與去敏統計結構，對齊 2026-11-25 去敏案例包（1,298 筆紀錄），不含任何委託人姓名、私人故事、帳號憑證或本機檔案路徑。",
+  "brand": {
+    "name": "阿男音樂｜張簡俊男",
+    "domain": "www.cccnan.art",
+    "category": "個人原創客製紀念歌曲品牌（華語・台語・全程線上）",
+    "window": "2026-09-23 ～ 2026-11-24（2026-11-25 案例包）",
+    "source_basis": "基於開源 GeoLook (MIT) 延伸工作流，對齊 1,298 筆實測累積問答（35 個實測日）與 37 頁初診全站結構檢查（官網已擴充至 44 公開頁）。"
+  },
+  "metrics": {
+    "total_samples": 1298,
+    "test_days": 35,
+    "content_assets": 63,
+    "publish_records": 313,
+    "site_pages_audited": 37,
+    "site_pages_current": 44,
+    "audit_score_before": 41,
+    "audit_score_after": 89,
+    "before_natural_mention": "0 / 22（0.0%）",
+    "after_natural_mention": "11/18–24：ChatGPT 50%｜Perplexity 50% 露出",
+    "before_line_accuracy": "0 / 10（0.0%）",
+    "after_line_accuracy": "ChatGPT 7/7・Perplexity 7/7（100%）",
+    "methodology_disclaimer": "實測數據依不同登入與視窗條件分期記錄；未完成（需登入／驗證擋住）保留於未完成欄而不當作 0，不同條件僅作結構性觀察，不宣稱絕對因果，亦不保證固定 AI 排名。"
+  },
+  "cross_engine_reality": [
+    {
+      "id": "line_correction",
+      "kicker": "官方入口糾偏（Q05 LINE @250ruauk）",
+      "headline": "0/10 → 18/18（10/18–28）→ 17/21（11/18–24）",
+      "detail": "9 月首週品牌直問完全給錯或漏掉官方 LINE（0/10）；10 月中後期收斂至 30/34 與 10/18–28 未登入 18/18（100%）。11/18–24 最新複測中，ChatGPT 7/7（100%）、Perplexity 7/7（100%）、Gemini 3/7（42.9%，誠實呈現 4 筆回答未帶出 LINE 的波動）；Grok 與 Meta AI 未登入被擋各 7 筆列入未完成，不計入分母。"
+    },
+    {
+      "id": "engine_divergence",
+      "kicker": "同條件未登入巨大分化（情境 E ＋ 最新基準）",
+      "headline": "Perplexity 51.9%・ChatGPT 33.3% vs Gemini 0%",
+      "detail": "同樣不提品牌問客製紀念歌，10/18–27 未登入情境題中 Perplexity 正文點名 14/27（51.9%＋4 僅引用）、ChatGPT 18/54（33.3%）、Gemini 卻只有 0/44（0%）；11/18–24 最新未提品牌基準題（Q01/Q02）中，ChatGPT 達 7/14（50.0% 正文點名）、Perplexity 2/14 正文＋5/14 僅引用（50.0% 露出）、Gemini 仍為 0/14。這證明單靠傳統搜尋索引遠遠不夠，不同引擎吃的信源完全不同。"
+    },
+    {
+      "id": "honesty_protocol",
+      "kicker": "科學誠信與除錯紀律",
+      "headline": "未完成不當 0・不混比登入條件・追查舊快照",
+      "detail": "所有 1,298 筆採樣均為「每題開新對話、不餵答案」；需要登入才放行的平台（如 11/18–24 的 Meta AI 35/35、Grok 34/35 未完成）明確排除於有效分母外。當發現 ChatGPT 仍講舊價格或舊訪談流程時，直接回查舊版程式碼與搜尋快照，而非用美化分數掩蓋。"
+    }
+  ],
+  "five_steps": [
+    {
+      "step": "01",
+      "title": "摸底採樣與建立題庫",
+      "period": "第 1～2 週",
+      "summary": "固定 5 題基準問答（Q01–Q05）加 27 題情境題（E01–E27），每題開新對話、不餵答案，橫跨 35 個實測日累積 1,298 筆原始回覆作為對照底稿。",
+      "deliverable": "固定題庫表、分條件採樣紀錄、錯誤口徑清單"
+    },
+    {
+      "step": "02",
+      "title": "清理舊站與統一品牌實體",
+      "period": "第 3～4 週",
+      "summary": "將早年棄用測試網址全面設為 308 轉址與 noindex，補齊 Person.alternateName（4 個常用別名）與 sameAs 自有帳號連結，修正 AI 誤認成樂器行與殘留舊價。",
+      "deliverable": "舊域 308 清理紀錄、品牌事實單一真相表"
+    },
+    {
+      "step": "03",
+      "title": "官網結構化地基與表單強化",
+      "period": "第 4～6 週",
+      "summary": "從 37 頁初診逐步擴增至 44 公開頁，將四方案價格與流程改寫為 SSR 純文字對比表格與首段結論，部署 robots.txt 分流、llms.txt 與單一 @graph JSON-LD。",
+      "deliverable": "llms.txt、JSON-LD 驗證報告、44 頁結構清單"
+    },
+    {
+      "step": "04",
+      "title": "跨平台信源一魚多吃",
+      "period": "第 5～8 週",
+      "summary": "以官網作為唯一事實總倉，圍繞真實需求情境整理 63 項內容主題，同步分發 313 筆社群、問答與長短影音觸點，擴大跨站品牌提及與第三方佐證。",
+      "deliverable": "跨平台口徑對照表、發布台帳"
+    },
+    {
+      "step": "05",
+      "title": "複測除錯與 8～12 週追蹤",
+      "period": "持續循環",
+      "summary": "針對價格、交期、流程、官方 LINE 四欄逐項核對原答證據；出現舊價回流時比對歷史快照追兇，未完成不計 0，以 8～12 週長窗追蹤趨勢。",
+      "deliverable": "前後對照證據報表、破案除錯工單"
+    }
+  ],
+  "dependency_layers": [
+    {
+      "id": "access",
+      "order": "第 1 層",
+      "name": "訪問層（Access）",
+      "status": "passed",
+      "status_label": "已打通",
+      "detail": "官網公開頁全數 HTTP 200、SSR 靜態 HTML 含完整正文、robots.txt 分流放行 AI 搜尋爬蟲並鎖死訓練爬蟲、舊測試網域已 308 轉址隔離。"
+    },
+    {
+      "id": "orientation",
+      "order": "第 2 層",
+      "name": "定向層（Orientation）",
+      "status": "passed",
+      "status_label": "已打通",
+      "detail": "sitemap-index.xml 完整收錄公開頁且含 lastmod，每頁 canonical 唯一，/llms.txt 精簡導引核心頁並對齊 /llms-full.txt。"
+    },
+    {
+      "id": "understanding",
+      "order": "第 3 層",
+      "name": "理解層（Understanding）",
+      "status": "passed",
+      "status_label": "已打通",
+      "detail": "全站單一 @graph JSON-LD（Person／Organization／Service／Offer／FAQPage／Article）全數可解析且與可見正文一致。"
+    },
+    {
+      "id": "quotability",
+      "order": "第 4 層",
+      "name": "可引用層（Quotability）",
+      "status": "improving",
+      "status_label": "持續強化",
+      "detail": "純文字價格對比表與 FAQ 已完備；下一階段重點為累積獨立第三方評測、論壇分享與委託人真實回饋原話。"
+    }
+  ],
+  "engines": [
+    {
+      "id": "overview",
+      "label": "跨引擎總覽",
+      "badge": "1,298 筆累積實測（截至 11/24）",
+      "headline": "從「不點名＋認錯品牌」到「多引擎穩定引用官網並給對聯絡入口」",
+      "before_metric": "0 / 22（0.0%）",
+      "after_metric": "ChatGPT 50%・Perplexity 50% 露出",
+      "metric_caption": "9 月基準（09/23–29 未提品牌 Q01/Q02）vs 最新 11/18–24 未提品牌 Q01/Q02（有效 43 筆：9 正文＋5 僅引用；另 10/07–17 為 33/101）",
+      "before_summary": "改造初期（09/23–09/29）在未提及品牌的基準題中完全缺席（0/22）；品牌直問題（Q05）官方 LINE 命中率為 0/10，且曾出現誤認成苗栗竹南樂器行、混入棄用舊測試站價格等資訊錯亂。",
+      "after_summary": "截至 11/24 累積 1,298 筆（35 個實測日）：10/18–28 情境題 Perplexity 達 51.9%（14/27）、ChatGPT 33.3%（18/54）；11/18–24 最新基準複測中，ChatGPT 未登入無痕自然點名達 50.0%（7/14），Perplexity 達 50.0% 露出（2/14 正文＋5/14 引用），Q05 官方 LINE 於 ChatGPT 與 Perplexity 皆維持 7/7（100%）。",
+      "cited_domains": [
+        "www.cccnan.art/work/（官網事實總倉）",
+        "YouTube / 公開影音頻道",
+        "Reddit / 公開討論串",
+        "Facebook / Threads 公開貼文"
+      ],
+      "samples": [
+        {
+          "qid": "Q01（11/22・11/24 未提品牌基準題）",
+          "question": "想送家人一首客製紀念歌曲，可以找哪類創作者？挑選時應該看哪些作品和服務條件？",
+          "before": "9 月前期僅列舉通用挑選原則與大型外包平台，完全未提及阿男音樂或 cccnan.art。",
+          "after": "11/19–11/24 實測於推薦清單正文點名「阿男音樂（cccnan.art）」，並正確區分阿男親唱、自己錄唱後修音混音與示範演唱等公開方案。",
+          "verdict": "從缺席轉為穩定進入推薦名單"
+        },
+        {
+          "qid": "Q05（品牌直問・官方入口核對）",
+          "question": "想委託阿男音樂製作客製紀念歌曲，應透過哪個官方入口聯絡？第一次詢問要提供什麼？",
+          "before": "9 月首週 0/10 給對官方 LINE，且混用舊版接案頁之「30–45 分鐘訪談」與過期報價說明。",
+          "after": "10/18–28 達成 18/18（100%），11/18–24 於 ChatGPT（7/7）與 Perplexity（7/7）維持 100% 準確指出官方 LINE @250ruauk，Gemini 為 3/7。",
+          "verdict": "官方入口收斂穩固，同步標示 Gemini 波動"
+        }
+      ]
+    },
+    {
+      "id": "chatgpt",
+      "label": "ChatGPT",
+      "badge": "11/18–24 基準 7/14（50.0%）",
+      "headline": "清理舊測試站與 /work/ 舊快照後，無痕自然點名穩定站上 50%",
+      "before_metric": "0 / 8（0.0%）",
+      "after_metric": "7 / 14（50.0%）｜LINE 7/7",
+      "metric_caption": "前期基準 Q01/Q02（09/23–29）vs 最新 11/18–24 未登入無痕 Q01/Q02（另 10/18–27 情境 E 為 18/54，33.3%）",
+      "before_summary": "改造前未提品牌完全不點名（0/8），且直問品牌時反覆抓到棄用測試域與舊版 /work/ 快照，背出「30–45 分鐘訪談、1～10 天、依需求報價、故事卡」等已廢除舊規則。",
+      "after_summary": "將兩個舊測試域設為 308 轉址並於 /work/ 首段、Meta 與 JSON-LD 同步定錨四價後，10/18–27 未登入情境題達 33.3%（18/54），11/18–24 最新未登入無痕 Q01/Q02 更升至 50.0%（7/14），Q05 官方 LINE 連續兩期 100%（7/7）命中 @250ruauk。",
+      "cited_domains": [
+        "www.cccnan.art/work/",
+        "www.cccnan.art/songs-for-every-moment/",
+        "www.cccnan.art/llms.txt"
+      ],
+      "samples": [
+        {
+          "qid": "Q01（11/19・11/21 未登入無痕實測）",
+          "question": "想送家人一首客製紀念歌曲，可以找哪類創作者？挑選時應該看哪些作品和服務條件？",
+          "before": "僅回覆外包平台與通用建議，未出現阿男音樂。",
+          "after": "未登入無痕新對話直接引用 www.cccnan.art，將阿男音樂列為可「自己錄唱、協助修音混音」的客製歌曲創作者並附上服務連結。",
+          "verdict": "11/18–24 週次半數實測進入正文推薦"
+        },
+        {
+          "qid": "Q04（舊價破案・快照污染追查）",
+          "question": "阿男音樂主要提供什麼服務？適合哪些需求？請區分已確認資訊與不確定資訊。",
+          "before": "曾誤報「依需求報價、30～45 分鐘訪談、1～10 天」（追查後確認與舊版程式碼及棄用測試站逐字吻合）。",
+          "after": "透過 308 隔離舊測試域、更新首段四價摘要與單一 @graph 結構化標記，並持續以未登入複測追蹤外部索引換版進度。",
+          "verdict": "定位根因並建立週次追蹤機制"
+        }
+      ]
+    },
+    {
+      "id": "gemini",
+      "label": "Gemini",
+      "badge": "11/18–24 基準 0/14｜LINE 3/7",
+      "headline": "已解除「認錯成樂器行」與說對四價，但缺外部背書使自然點名仍為 0",
+      "before_metric": "認錯品牌實體",
+      "after_metric": "四價對齊｜LINE 3/7（11/18–24）",
+      "metric_caption": "品牌消歧與四方案核對表現良好；但 11/18–24 未登入無痕 Q01/Q02 為 0/14（10/18–27 情境 E 0/44），誠實揭露不美化",
+      "before_summary": "9 月底與 10 月中兩度把同名品牌誤認為「苗栗竹南樂器行」或推測成樂器教學維修；未提品牌的情境題（0/44）未能進入自然推薦清單。",
+      "after_summary": "補齊全站 JSON-LD Organization／Person 別名與 sameAs、並在 FAQ 正面消歧後，Gemini 在品牌題已能精準辨識並說出四價與 B 主推。但 11/18–24 最新實測仍如實顯示：未登入 Q01/Q02 自然提及 0/14、Q05 LINE 給出率從 10 月末 7/7 波動為 3/7——證實沒有足夠獨立第三方媒體與論壇背書，單靠站內改版仍無法突破 Gemini 的自然推薦門檻。",
+      "cited_domains": [
+        "www.cccnan.art/",
+        "www.cccnan.art/work/",
+        "YouTube 頻道公開簡介"
+      ],
+      "samples": [
+        {
+          "qid": "實體消歧測試（品牌辨識）",
+          "question": "阿男音樂是樂器行還是客製歌曲創作者？如何確認官方服務？",
+          "before": "曾混雜地方樂器行資料，或因無法即時連線而推測「教學、租借、維修」。",
+          "after": "明確識別為「阿男音樂｜張簡俊男」個人原創客製紀念歌曲品牌，非實體樂器行，且能正確列出官網與公開方案。",
+          "verdict": "同名實體混淆已大幅緩解"
+        },
+        {
+          "qid": "Q01/Q02 & E01–E27（誠實揭露未達標）",
+          "question": "未點名品牌之送禮／紀念歌曲推薦提問（10/18–27 44 筆 ＋ 11/18–24 14 筆）",
+          "before": "0 / 44（0.0%），多半回覆通用建議或大型外站平台。",
+          "after": "11/18–24 基準題仍為 0 / 14（0.0%），且 Q05 LINE 命中 3/7；我們選擇把未達標與波動數字完整公開，作為優先補齊第三方評測與客戶回饋的實證依據。",
+          "verdict": "如實呈現未達標項目，絕不灌水"
+        }
+      ]
+    },
+    {
+      "id": "perplexity",
+      "label": "Perplexity",
+      "badge": "情境 14/27（51.9%）｜11/18–24 50% 露出",
+      "headline": "對 SSR 純文字結構與長尾情境頁最敏感，持續維持半數露出與 100% LINE 命中",
+      "before_metric": "0 / 4（0.0%）",
+      "after_metric": "情境 51.9%｜LINE 7/7",
+      "metric_caption": "前期基準（09/28–29）vs 10/18–27 未登入情境 E（14/27 正文＋4 僅引用）＋ 11/18–24 Q01/Q02（2/14 正文＋5/14 引用）",
+      "before_summary": "網站改版前情境頁分散且缺少純文字對比表格，Perplexity 抓取時難以將「送媽媽／追思／自己錄唱」對應到可引用的單一頁面。",
+      "after_summary": "建立專屬情境頁與 HTML 規格對比表後，10/18–27 未登入情境題 27 筆中有 14 筆正文點名（51.9%）、另有 4 筆引用官網；11/18–24 最新基準週 14 筆 Q01/Q02 中有 2 筆正文點名＋5 筆來源引用（合計 50.0% 露出率），且 Q05 官方 LINE 連續保持 7/7（100%）。",
+      "cited_domains": [
+        "www.cccnan.art/work/for-mom/",
+        "www.cccnan.art/work/memorial/",
+        "www.cccnan.art/work/pet-memorial/",
+        "www.cccnan.art/work/sing-it-yourself/"
+      ],
+      "samples": [
+        {
+          "qid": "Q01（11/22・11/24 最新實測原答）",
+          "question": "想送家人一首客製紀念歌曲，可以找哪類創作者？挑選時應該看哪些作品和服務條件？",
+          "before": "9 月前期未點名也未列出官網來源。",
+          "after": "11/22 與 11/24 原答皆於正文舉出「阿男音樂」，正確說明先由委託人提供故事再寫詞製作，並清楚區分創作者親唱、自唱後修音混音、示範演唱及是否附照片 MV 等方案。",
+          "verdict": "11 月底最新回覆規格零誤差"
+        },
+        {
+          "qid": "E24（追思與寵物告別情境）",
+          "question": "想幫離開的家人或毛孩寫一首紀念歌，挑選時需要注意交期與哪些細節？",
+          "before": "未引用品牌頁面。",
+          "after": "引用官網追思與寵物告別頁，並能讀出不接臨時告別式急件等服務邊界。",
+          "verdict": "服務邊界寫清楚反而提高引用可信度"
+        }
+      ]
+    },
+    {
+      "id": "cn_engines",
+      "label": "豆包・騰訊元寶觀察",
+      "badge": "中文生態信源策略（含 Grok/Meta 條件註記）",
+      "headline": "中文引擎不靠官網單打獨鬥：微信公眾號、頭條與小紅書才是主信源",
+      "before_metric": "官網佔比約 1.37%",
+      "after_metric": "跨平台總倉架構",
+      "metric_caption": "依公開實證語料（187,818 條中文引用）與 2026-11 最新微信生態實戰整理；1,298 筆資料庫另含豆包 1 筆專案研究樣本",
+      "before_summary": "多數品牌誤以為做好官網就能被豆包或騰訊元寶推薦，但中文實證語料顯示品牌官網僅佔中文 AI 引用來源約 1.37%；此外在海外平台自動採樣中，Meta AI（11/18–24 35/35）與 Grok（34/35）因未登入被登入牆擋住，依紀律標為「未完成」而不與其他平台混算。",
+      "after_summary": "依 2026 最新中文平台分化策略規劃「官網事實總倉＋跨平台差異化投餵」：騰訊元寶優先抓取微信公眾號、視頻號與問一問；豆包偏好今日頭條與短影音圖文摘要；小紅書與知乎則承擔「真實體驗與決策對比」證據角色，確保跨平台實體名稱與價格口徑完全一致。",
+      "cited_domains": [
+        "微信公眾號／微信問一問（騰訊元寶高權重）",
+        "今日頭條／短影音圖文摘要（豆包高權重）",
+        "小紅書／知乎（真實體驗與決策對比）",
+        "官網事實總倉（全平台統一價格與規格基準）"
+      ],
+      "samples": [
+        {
+          "qid": "中文引擎信源結構（實證規則）",
+          "question": "為什麼騰訊元寶與豆包很少直接引用個人官網首頁？",
+          "before": "只發官網文章、沒有公眾號或問答平台分發，中文引擎檢索池幾乎看不到品牌痕跡。",
+          "after": "以官網定錨唯一價格與規格，再用「一魚多吃」改寫成公眾號長文、知乎決策對比與小紅書規格圖卡，全平台保持實體名稱一致。",
+          "verdict": "先對齊信源池，再看 8～12 週引用變化"
+        }
+      ]
+    }
+  ],
+  "audit_dimensions": [
+    {
+      "id": "crawlability",
+      "name": "可抓取性",
+      "max_score": 15,
+      "before_score": 9,
+      "after_score": 15,
+      "layer": "訪問層＋定向層",
+      "summary": "AI 爬蟲能不能在無須執行複雜前端腳本下，直接讀到 HTTP 200 正文與正確網域。",
+      "findings": "改造前存在棄用測試網域殘留舊文案且允許索引，導致 AI 抓到衝突版本；正式站雖為靜態頁但缺少 /llms.txt 導航清單，robots.txt 亦未區分訓練與搜尋爬蟲。",
+      "actions": "將兩個棄用測試域全面改為 308 轉址並加上 noindex；robots.txt 顯式放行搜尋與即時問答爬蟲並鎖死訓練爬蟲；部署精簡版 /llms.txt 指向核心頁並與 /llms-full.txt 分流。",
+      "verification": "公開頁全數 HTTP 200、robots.txt 指向 sitemap-index.xml、舊測試域 5 組路徑實測皆 308 轉至正式網域。"
+    },
+    {
+      "id": "content_length",
+      "name": "內容長度與深度",
+      "max_score": 15,
+      "before_score": 6,
+      "after_score": 14,
+      "layer": "可引用層",
+      "summary": "實證顯示高影響力被引用頁平均約 1,943 詞，低分頁僅約 170 詞——不是湊字數，而是提供足夠可切分的具體事實。",
+      "findings": "早年接案頁與部分情境頁篇幅偏短、偏感性敘述，缺少完整分工、交付規格、急件邊界與不承接範圍說明。",
+      "actions": "將核心 /work/ 頁面補齊完整純文字規格說明（表格＋分工＋交付＋退款條款），並建立 7 個獨立情境頁與持續擴增主題文章（全站公開內容達 44 頁）。",
+      "verification": "核心服務頁與 7 個情境頁皆具備完整背景、方案規格、交付天數與邊界說明，無空殼頁。"
+    },
+    {
+      "id": "structure",
+      "name": "結構規範",
+      "max_score": 20,
+      "before_score": 9,
+      "after_score": 18,
+      "layer": "定向層＋可引用層",
+      "summary": "唯一 H1、清晰 H2 問句層級、適度條列密度，以及每個段落都能脫離上下文被獨立摘錄。",
+      "findings": "部分文章標題與 H1 未直接對齊提問語句，多數情境頁彼此缺少站內互連，圖片替代文字（alt）有缺漏。",
+      "actions": "全站統一唯一 H1 與不重複 title／description；補齊 /work/ 與 /music/ 圖片 alt；串聯情境總入口頁與姊妹情境頁導航。",
+      "verification": "全站體檢確認公開頁 H1 皆為 1、title／description 0 重複、HTML 表格與條列結構完整。"
+    },
+    {
+      "id": "extractable_blocks",
+      "name": "可抽取塊（最大槓桿）",
+      "max_score": 25,
+      "before_score": 7,
+      "after_score": 22,
+      "layer": "可引用層",
+      "summary": "含明確數字（+61.6%）、一句話定義（+57.3%）、對比表格（+55.3%）與操作步驟（+41.2%）是提升引用機率的最大槓桿。",
+      "findings": "改造前多數方案差異散落在長段落中，缺少一眼可抽取的 HTML 價格對比表，主推 B 專頁最初亦缺對比表。",
+      "actions": "將 A／B／C／D 四方案與居家錄唱 vs 外租錄音室改為純文字 HTML 價格對比表，補上首段倒金字塔結論，並將 15 篇教學文章共 56 題文末問答自動接入 FAQPage。",
+      "verification": "核心服務頁與文章皆具備定義句、數字規格表、步驟清單、適用邊界與同步對應的 FAQPage 標記。"
+    },
+    {
+      "id": "authority",
+      "name": "權威與實體信號",
+      "max_score": 15,
+      "before_score": 5,
+      "after_score": 11,
+      "layer": "理解層＋可引用層",
+      "summary": "清楚的作者實體、可見發布與更新日期、單一 @graph JSON-LD，以及跨站一致的帳號與獨立第三方提及。",
+      "findings": "初期缺少 Organization 與 Person 別名及 sameAs 連結，部分頁面 JSON-LD 分裂成多塊，且獨立第三方外站提及與公開客戶回饋原話仍不足（誠實扣分項）。",
+      "actions": "全站收斂為單一 @graph JSON-LD（含 Organization／Person／Service／Offer／MusicRecording／FAQPage），補齊別名與 11 個自有帳號連結；獨立第三方背書列為持續追蹤工單。",
+      "verification": "全站 44 個內容頁單一 @graph JSON-LD 檢查 0 錯誤；第三方提及率如實標記待持續累積，不以自家貼文充數。"
+    },
+    {
+      "id": "relevance",
+      "name": "對題性（用戶原話對齊）",
+      "max_score": 10,
+      "before_score": 5,
+      "after_score": 9,
+      "layer": "可引用層",
+      "summary": "實證中對題性（r = 0.432）是單一最強預測因子：標題與 H2 必須直接回應真實使用者的口語問法。",
+      "findings": "原先文案偏抒情口號，使用者實際會問「做一首歌要多久」「不會唱怎麼辦」「追思歌選哪個方案」卻沒有對應標題。",
+      "actions": "根據 30+ 題真實提問與搜尋建議，將重點 FAQ 與文章小標改為用戶原話問句，並於開頭 2～3 句直接給出可摘錄答案。",
+      "verification": "對照實測題庫 Q01–Q05 與 E01–E27，關鍵決策問題皆能在站內找到直答段落。"
+    }
+  ]
+}
