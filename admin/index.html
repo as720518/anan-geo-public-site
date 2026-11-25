@@ -191,7 +191,7 @@
             🔍 關鍵字找對手 ＋ 10 秒健檢 ＋ 下載超炫動態簡報（自動帶入您的推薦署名，無需登入總名單）。
           </p>
           <label class="field partner-sig-field">
-            <span class="field-label">簡報推薦署名／服務窗口（下載 HTML 時自動印入）</span>
+            <span class="field-label">簡報推薦署名／服務窗口（預覽或下載 HTML 時自動印入）</span>
             <input
               id="partner-signature-input"
               type="text"
@@ -201,125 +201,239 @@
           </label>
         </div>
 
-        <!-- 關鍵字找對手與多站即時比對 -->
-        <div id="competitor-finder-card" class="card stack">
-          <div class="card-head">
-            <h2>🔍 關鍵字找對手</h2>
-            <span id="finder-engine-badge" class="tag-mono">自動濾社群／黃頁</span>
-          </div>
-          <p class="muted-text">
-            輸入地區與行業快速找出同業獨立官網，勾選最多 4 家一鍵帶入並逐一跑即時健檢比對。
-          </p>
+        <!-- 工作區子分頁切換（站長與合夥人皆可用：健檢 PK / 方案分潤試算） -->
+        <div id="workspace-subtabs" class="workspace-subtabs" role="tablist" aria-label="工作區功能切換">
+          <button
+            type="button"
+            class="subtab-btn is-active"
+            data-work-tab="audit-tools"
+            role="tab"
+            aria-selected="true"
+            aria-controls="audit-tools-panel"
+          >
+            🔍 健檢與對手 PK
+          </button>
+          <button
+            type="button"
+            class="subtab-btn"
+            data-work-tab="pricing-calc"
+            role="tab"
+            aria-selected="false"
+            aria-controls="pricing-calc-panel"
+          >
+            💰 方案分潤試算
+          </button>
+        </div>
 
-          <form id="finder-form" class="finder-form" autocomplete="off">
-            <label class="sr-only" for="finder-query">🔍 關鍵字找對手（例：高雄 牙醫）</label>
-            <div class="finder-row">
-              <input
-                id="finder-query"
-                type="search"
-                maxlength="120"
-                placeholder="🔍 關鍵字找對手（例：高雄 牙醫）"
-                aria-label="關鍵字找對手（例：高雄 牙醫）"
-              >
-              <button type="submit" id="finder-submit" class="btn-primary finder-submit-btn">
-                搜尋對手
-              </button>
+        <!-- 子面板 A：關鍵字找對手 ＋ 手機即時健檢與對手 PK -->
+        <div id="audit-tools-panel" class="stack" data-work-panel="audit-tools">
+          <!-- 關鍵字找對手與多站即時比對 -->
+          <div id="competitor-finder-card" class="card stack">
+            <div class="card-head">
+              <h2>🔍 關鍵字找對手</h2>
+              <span id="finder-engine-badge" class="tag-mono">自動濾社群／黃頁</span>
             </div>
-          </form>
+            <p class="muted-text">
+              輸入地區與行業快速找出同業獨立官網，勾選最多 4 家一鍵帶入並逐一跑即時健檢比對。
+            </p>
 
-          <div id="finder-notice" class="notice-banner notice-warn" hidden></div>
-          <div id="finder-error" class="form-error" role="alert" hidden></div>
-
-          <div id="finder-results-wrap" class="stack-sm" hidden>
-            <div class="finder-toolbar">
-              <span id="finder-count-text" class="field-label">找到 0 家同業官網（已勾選 0 / 4）</span>
-              <div class="finder-toolbar-actions">
-                <button type="button" id="finder-select-clear" class="ghost-mini">清除勾選</button>
-                <button type="button" id="finder-compare-btn" class="btn-primary finder-compare-btn">
-                  帶入健檢／比對
+            <form id="finder-form" class="finder-form" autocomplete="off">
+              <label class="sr-only" for="finder-query">🔍 關鍵字找對手（例：高雄 牙醫）</label>
+              <div class="finder-row">
+                <input
+                  id="finder-query"
+                  type="search"
+                  maxlength="120"
+                  placeholder="🔍 關鍵字找對手（例：高雄 牙醫）"
+                  aria-label="關鍵字找對手（例：高雄 牙醫）"
+                >
+                <button type="submit" id="finder-submit" class="btn-primary finder-submit-btn">
+                  搜尋對手
                 </button>
               </div>
+            </form>
+
+            <div id="finder-notice" class="notice-banner notice-warn" hidden></div>
+            <div id="finder-error" class="form-error" role="alert" hidden></div>
+
+            <div id="finder-results-wrap" class="stack-sm" hidden>
+              <div class="finder-toolbar">
+                <span id="finder-count-text" class="field-label">找到 0 家同業官網（已勾選 0 / 4）</span>
+                <div class="finder-toolbar-actions">
+                  <button type="button" id="finder-select-clear" class="ghost-mini">清除勾選</button>
+                  <button type="button" id="finder-compare-btn" class="btn-primary finder-compare-btn">
+                    帶入健檢／比對
+                  </button>
+                </div>
+              </div>
+              <div id="finder-candidates-list" class="candidate-list"></div>
             </div>
-            <div id="finder-candidates-list" class="candidate-list"></div>
+
+            <div id="finder-compare-wrap" class="stack-sm" hidden>
+              <div class="card-head">
+                <h3>同業即時比對結果（最多 4 家）</h3>
+                <span id="finder-compare-status" class="tag-brass">待命</span>
+              </div>
+              <div id="finder-compare-results" class="compare-grid"></div>
+              <div id="finder-compare-actions" class="finder-compare-actions" hidden>
+                <div class="report-dual-actions">
+                  <button type="button" id="preview-finder-pk-report" class="btn-primary">
+                    👁️ App 內直接看報告
+                  </button>
+                  <button type="button" id="download-finder-pk-report" class="btn-secondary">
+                    ⬇️ 下載 HTML 傳給客戶
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div id="finder-compare-wrap" class="stack-sm" hidden>
+          <form id="audit-form" class="card stack">
             <div class="card-head">
-              <h3>同業即時比對結果（最多 4 家）</h3>
-              <span id="finder-compare-status" class="tag-brass">待命</span>
+              <h2 id="audit-form-title">手機即時健檢與對手 PK</h2>
+              <span id="audit-form-badge" class="tag-brass">雲端直跑</span>
             </div>
-            <div id="finder-compare-results" class="compare-grid"></div>
-            <div id="finder-compare-actions" class="finder-compare-actions" hidden>
-              <button type="button" id="download-finder-pk-report" class="btn-primary btn-block">
-                下載同業 PK 超炫老闆簡報（HTML）
-              </button>
+            <p class="muted-text">
+              輸入客戶網站網址與最多 4 個同行對手，直接在 Cloudflare 雲端跑公開頁檢查，免下載即可在 App 內預覽或一鍵存檔傳給老闆。
+            </p>
+
+            <div class="form-grid">
+              <label class="field">
+                <span class="field-label">客戶品牌名稱（選填）</span>
+                <input id="audit-client-name" type="text" maxlength="80" placeholder="例如：晴光牙醫診所">
+              </label>
+              <label class="field">
+                <span class="field-label">客戶網站網址（必填）</span>
+                <input id="audit-target-url" type="url" inputmode="url" placeholder="https://example.com" required>
+              </label>
+            </div>
+
+            <div class="field">
+              <span class="field-label">快速勾選參考對照站（可複選）</span>
+              <div class="chip-row" id="preset-competitors">
+                <label class="chip-check">
+                  <input type="checkbox" value="https://anangeo.com/">
+                  <span>anangeo.com（標準示範）</span>
+                </label>
+                <label class="chip-check">
+                  <input type="checkbox" value="https://www.cccnan.art/">
+                  <span>www.cccnan.art（實戰案例）</span>
+                </label>
+              </div>
+            </div>
+
+            <label class="field">
+              <span class="field-label">自訂對手網址（選填，每行一個，與上方合計最多 4 個）</span>
+              <textarea id="audit-competitors-text" rows="2" placeholder="https://competitor-a.example&#10;https://competitor-b.example"></textarea>
+            </label>
+
+            <label class="field">
+              <span class="field-label">現場備註（選填，會印在簡報頂端）</span>
+              <input id="audit-notes" type="text" maxlength="300" placeholder="例如：現場討論重點或主要服務項目">
+            </label>
+
+            <div id="audit-error" class="form-error" role="alert" hidden></div>
+
+            <button type="submit" id="audit-submit" class="btn-primary btn-block">
+              開始雲端健檢並產出簡報
+            </button>
+          </form>
+
+          <!-- 健檢結果區 -->
+          <div id="audit-result-box" class="card stack" hidden>
+            <div class="card-head">
+              <h3 id="audit-result-title">健檢完成</h3>
+              <span id="audit-result-badge" class="score-pill">--</span>
+            </div>
+            <p id="audit-storage-msg" class="muted-text"></p>
+            <div id="audit-checks-detail" class="stack-sm"></div>
+            <div id="audit-pk-table" class="stack-sm"></div>
+            <div class="report-dual-actions">
+              <button type="button" id="preview-latest-report" class="btn-primary">👁️ App 內直接看報告</button>
+              <button type="button" id="download-latest-report" class="btn-secondary">⬇️ 下載 HTML 傳給客戶</button>
+            </div>
+            <div class="action-row">
+              <button type="button" id="copy-latest-summary" class="btn-secondary btn-block">複製 LINE 重點摘要</button>
             </div>
           </div>
         </div>
 
-        <form id="audit-form" class="card stack">
-          <div class="card-head">
-            <h2 id="audit-form-title">手機即時健檢與對手 PK</h2>
-            <span id="audit-form-badge" class="tag-brass">雲端直跑</span>
-          </div>
-          <p class="muted-text">
-            輸入客戶網站網址與最多 4 個同行對手，直接在 Cloudflare 雲端跑公開頁檢查並一鍵下載老闆超炫動態 HTML 簡報。
-          </p>
-
-          <div class="form-grid">
-            <label class="field">
-              <span class="field-label">客戶品牌名稱（選填）</span>
-              <input id="audit-client-name" type="text" maxlength="80" placeholder="例如：晴光牙醫診所">
-            </label>
-            <label class="field">
-              <span class="field-label">客戶網站網址（必填）</span>
-              <input id="audit-target-url" type="url" inputmode="url" placeholder="https://example.com" required>
-            </label>
-          </div>
-
-          <div class="field">
-            <span class="field-label">快速勾選參考對照站（可複選）</span>
-            <div class="chip-row" id="preset-competitors">
-              <label class="chip-check">
-                <input type="checkbox" value="https://anangeo.com/">
-                <span>anangeo.com（標準示範）</span>
-              </label>
-              <label class="chip-check">
-                <input type="checkbox" value="https://www.cccnan.art/">
-                <span>www.cccnan.art（實戰案例）</span>
-              </label>
+        <!-- 子面板 B：合夥人／站長方案折抵與分潤試算（不含任何客戶隱私資料） -->
+        <div id="pricing-calc-panel" class="stack" data-work-panel="pricing-calc" hidden>
+          <div class="card stack">
+            <div class="card-head">
+              <h2>💰 方案分潤試算</h2>
+              <span class="tag-brass">即時精算</span>
             </div>
+            <p class="muted-text" style="margin-bottom:0;">
+              現場談案直接點選方案、專案折抵與合作模式，即時算出客戶實付金額、合夥人分潤與阿男實拿淨利，並一鍵複製純白話報價傳進 LINE。
+            </p>
+
+            <div class="field">
+              <span class="field-label">1. 選擇服務方案</span>
+              <div id="calc-plan-list" class="calc-option-grid" role="radiogroup" aria-label="選擇服務方案"></div>
+            </div>
+
+            <div class="field">
+              <span class="field-label">2. 客戶專案折抵／減免</span>
+              <div id="calc-adjustment-list" class="calc-option-grid calc-compact-grid" role="radiogroup" aria-label="選擇專案折抵或減免"></div>
+              <div id="calc-adjustment-note" class="notice-banner notice-info" style="margin:4px 0 0;" hidden></div>
+            </div>
+
+            <div class="field">
+              <span class="field-label">3. 合夥人合作模式（扣必要實支後淨額分潤）</span>
+              <div id="calc-tier-list" class="calc-option-grid calc-compact-grid" role="radiogroup" aria-label="選擇合夥人合作模式"></div>
+            </div>
+
+            <div class="calc-cost-row">
+              <label class="field" style="flex:1 1 180px;">
+                <span class="field-label">必要實支金額（NT$，例：獨立網域年費）</span>
+                <input id="calc-direct-cost" type="number" min="0" max="50000" step="50" inputmode="numeric" value="400">
+              </label>
+              <button type="button" id="calc-cost-reset" class="ghost-mini calc-cost-reset">恢復方案預設</button>
+            </div>
+            <p id="calc-cost-hint" class="calc-hint-text"></p>
           </div>
 
-          <label class="field">
-            <span class="field-label">自訂對手網址（選填，每行一個，與上方合計最多 4 個）</span>
-            <textarea id="audit-competitors-text" rows="2" placeholder="https://competitor-a.example&#10;https://competitor-b.example"></textarea>
-          </label>
+          <div class="card stack">
+            <div class="card-head">
+              <h3>試算金額總覽</h3>
+              <span id="calc-formula-badge" class="tag-mono">實付 = 實支 + 分潤 + 淨利</span>
+            </div>
 
-          <label class="field">
-            <span class="field-label">現場備註（選填，會印在簡報頂端）</span>
-            <input id="audit-notes" type="text" maxlength="300" placeholder="例如：現場討論重點或主要服務項目">
-          </label>
+            <div class="calc-summary-grid">
+              <article class="calc-stat-card calc-stat-client">
+                <span class="calc-stat-label">客戶實付金額</span>
+                <strong id="calc-out-client" class="calc-stat-value mono">NT$25,000</strong>
+                <span id="calc-out-client-sub" class="calc-stat-sub">原價 NT$25,000</span>
+              </article>
+              <article class="calc-stat-card calc-stat-partner">
+                <span class="calc-stat-label">合夥人分潤金額</span>
+                <strong id="calc-out-partner" class="calc-stat-value mono">NT$6,150</strong>
+                <span id="calc-out-partner-sub" class="calc-stat-sub">分潤比例 25%</span>
+              </article>
+              <article class="calc-stat-card calc-stat-anan">
+                <span class="calc-stat-label">阿男實拿淨利</span>
+                <strong id="calc-out-anan" class="calc-stat-value mono">NT$18,450</strong>
+                <span id="calc-out-anan-sub" class="calc-stat-sub">已扣實支 NT$400</span>
+              </article>
+            </div>
 
-          <div id="audit-error" class="form-error" role="alert" hidden></div>
+            <div id="calc-breakdown-bar" class="calc-breakdown-bar"></div>
 
-          <button type="submit" id="audit-submit" class="btn-primary btn-block">
-            開始雲端健檢並產出簡報
-          </button>
-        </form>
+            <label class="field">
+              <span class="field-label">客戶稱呼／店名（選填，套入下方 LINE 報價開頭）</span>
+              <input id="calc-client-name" type="text" maxlength="40" placeholder="例如：夏朵 SPA、晴光牙醫">
+            </label>
 
-        <!-- 健檢結果區 -->
-        <div id="audit-result-box" class="card stack" hidden>
-          <div class="card-head">
-            <h3 id="audit-result-title">健檢完成</h3>
-            <span id="audit-result-badge" class="score-pill">--</span>
-          </div>
-          <p id="audit-storage-msg" class="muted-text"></p>
-          <div id="audit-checks-detail" class="stack-sm"></div>
-          <div id="audit-pk-table" class="stack-sm"></div>
-          <div class="action-row">
-            <button type="button" id="download-latest-report" class="btn-primary">下載超炫老闆簡報（HTML）</button>
-            <button type="button" id="copy-latest-summary" class="btn-secondary">複製 LINE 重點摘要</button>
+            <div class="field">
+              <span class="field-label">給客戶看的白話 LINE 報價預覽（絕不帶出分潤與內部實支）</span>
+              <pre id="calc-quote-preview" class="calc-quote-preview"></pre>
+            </div>
+
+            <button type="button" id="calc-copy-quote" class="btn-primary btn-block">
+              📋 一鍵複製 LINE 報價文字傳給客戶
+            </button>
           </div>
         </div>
       </section>
@@ -400,10 +514,45 @@
     </nav>
   </div>
 
+  <!-- App 內全螢幕安全預覽視窗（iframe sandbox="allow-scripts" 隔離載入動態簡報） -->
+  <div
+    id="report-preview-modal"
+    class="report-preview-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="report-preview-title"
+    hidden
+  >
+    <header class="report-preview-bar">
+      <div class="report-preview-heading">
+        <h2 id="report-preview-title" class="report-preview-title">老闆互動簡報預覽</h2>
+        <span class="report-preview-sub">App 內沙箱安全預覽・免下載佔空間</span>
+      </div>
+      <div class="report-preview-actions">
+        <button type="button" id="report-preview-download" class="ghost-mini report-preview-dl-btn">
+          ⬇️ 下載 HTML
+        </button>
+        <button type="button" id="report-preview-close" class="report-preview-close-btn">
+          ✕ 關閉返回
+        </button>
+      </div>
+    </header>
+    <div class="report-preview-body">
+      <iframe
+        id="report-preview-iframe"
+        class="report-preview-iframe"
+        title="老闆互動簡報安全預覽"
+        sandbox="allow-scripts"
+        referrerpolicy="no-referrer"
+      ></iframe>
+    </div>
+  </div>
+
   <!-- 輕量回饋氣泡 -->
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
   <script type="module" src="/admin/boss-report.js"></script>
+  <script type="module" src="/admin/pricing-calc.js"></script>
   <script src="/admin/admin.js" defer></script>
 </body>
 </html>

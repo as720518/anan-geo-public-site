@@ -11,12 +11,20 @@
     partnerRateLimit: null,
     overview: null,
     activeTab: "overview",
+    activeWorkTab: "audit-tools",
     latestAudit: null,
     finderResults: [],
     finderSelectedUrls: new Set(),
     finderCompareEntries: [],
     finderSearching: false,
     finderComparing: false,
+    calc: {
+      planId: "turnkey_25000",
+      adjustmentId: "none",
+      tierId: "intro_25",
+      customDirectCost: null,
+      clientName: "",
+    },
   };
 
   const els = {
@@ -75,6 +83,7 @@
     finderCompareStatus: document.getElementById("finder-compare-status"),
     finderCompareResults: document.getElementById("finder-compare-results"),
     finderCompareActions: document.getElementById("finder-compare-actions"),
+    previewFinderPkReport: document.getElementById("preview-finder-pk-report"),
     downloadFinderPkReport: document.getElementById("download-finder-pk-report"),
     auditForm: document.getElementById("audit-form"),
     auditClientName: document.getElementById("audit-client-name"),
@@ -90,8 +99,34 @@
     auditStorageMsg: document.getElementById("audit-storage-msg"),
     auditChecksDetail: document.getElementById("audit-checks-detail"),
     auditPkTable: document.getElementById("audit-pk-table"),
+    previewLatestReport: document.getElementById("preview-latest-report"),
     downloadLatestReport: document.getElementById("download-latest-report"),
     copyLatestSummary: document.getElementById("copy-latest-summary"),
+    workspaceSubtabs: document.getElementById("workspace-subtabs"),
+    auditToolsPanel: document.getElementById("audit-tools-panel"),
+    pricingCalcPanel: document.getElementById("pricing-calc-panel"),
+    calcPlanList: document.getElementById("calc-plan-list"),
+    calcAdjustmentList: document.getElementById("calc-adjustment-list"),
+    calcAdjustmentNote: document.getElementById("calc-adjustment-note"),
+    calcTierList: document.getElementById("calc-tier-list"),
+    calcDirectCost: document.getElementById("calc-direct-cost"),
+    calcCostReset: document.getElementById("calc-cost-reset"),
+    calcCostHint: document.getElementById("calc-cost-hint"),
+    calcOutClient: document.getElementById("calc-out-client"),
+    calcOutClientSub: document.getElementById("calc-out-client-sub"),
+    calcOutPartner: document.getElementById("calc-out-partner"),
+    calcOutPartnerSub: document.getElementById("calc-out-partner-sub"),
+    calcOutAnan: document.getElementById("calc-out-anan"),
+    calcOutAnanSub: document.getElementById("calc-out-anan-sub"),
+    calcBreakdownBar: document.getElementById("calc-breakdown-bar"),
+    calcClientName: document.getElementById("calc-client-name"),
+    calcQuotePreview: document.getElementById("calc-quote-preview"),
+    calcCopyQuote: document.getElementById("calc-copy-quote"),
+    reportPreviewModal: document.getElementById("report-preview-modal"),
+    reportPreviewTitle: document.getElementById("report-preview-title"),
+    reportPreviewIframe: document.getElementById("report-preview-iframe"),
+    reportPreviewDownload: document.getElementById("report-preview-download"),
+    reportPreviewClose: document.getElementById("report-preview-close"),
     reportsCountBadge: document.getElementById("reports-count-badge"),
     reportsList: document.getElementById("reports-list"),
     configChecklist: document.getElementById("config-checklist"),
@@ -597,20 +632,129 @@
     return null;
   }
 
-  async function downloadFinderPkReport() {
+  let pricingCalcModCache = null;
+  let previewController = null;
+
+  function getLoadedPricingCalc() {
+    if (pricingCalcModCache) return pricingCalcModCache;
+    if (window.AnanPricingCalc && typeof window.AnanPricingCalc.calculateDealBreakdown === "function") {
+      pricingCalcModCache = window.AnanPricingCalc;
+      return pricingCalcModCache;
+    }
+    return null;
+  }
+
+  async function resolvePricingCalc() {
+    const loaded = getLoadedPricingCalc();
+    if (loaded) return loaded;
+    try {
+      const mod = await import("/admin/pricing-calc.js");
+      if (mod && typeof mod.calculateDealBreakdown === "function") {
+        window.AnanPricingCalc = mod;
+        pricingCalcModCache = mod;
+        return pricingCalcModCache;
+      }
+    } catch {
+      // 忽略載入失敗
+    }
+    return null;
+  }
+
+  async function ensurePreviewController() {
+    if (previewController) return previewController;
+    const calcMod = await resolvePricingCalc();
+    if (calcMod && typeof calcMod.createReportPreviewController === "function") {
+      previewController = calcMod.createReportPreviewController({
+        modalEl: els.reportPreviewModal,
+        titleEl: els.reportPreviewTitle,
+        iframeEl: els.reportPreviewIframe,
+        closeBtnEl: els.reportPreviewClose,
+        onToggleBodyClass(cls, active) {
+          document.body.classList.toggle(cls, Boolean(active));
+        },
+      });
+      return previewController;
+    }
+    return null;
+  }
+
+  async function openReportPreview({ title, html, filename, triggerEl }) {
+    if (!html) {
+      showToast("目前沒有可預覽的簡報內容");
+      return;
+    }
+    const ctrl = await ensurePreviewController();
+    if (!ctrl) {
+      showToast("預覽視窗元件尚未載入，請改點下載 HTML");
+      return;
+    }
+    const ok = ctrl.open({ title, html, filename, triggerEl });
+    if (!ok) {
+      showToast("無法開啟 App 內預覽視窗");
+    }
+  }
+
+  function closeReportPreview() {
+    if (previewController) {
+      previewController.close();
+    } else if (els.reportPreviewModal) {
+      els.reportPreviewModal.hidden = true;
+      document.body.classList.remove("preview-open");
+      if (els.reportPreviewIframe) {
+        els.reportPreviewIframe.removeAttribute("srcdoc");
+        els.reportPreviewIframe.srcdoc = "";
+      }
+    }
+  }
+
+  async function buildLatestAuditBriefPayload() {
+    const audit = state.latestAudit;
+    if (!audit?.target) return null;
+
+    const builder = await resolveBossReportBuilder();
+    if (builder) {
+      const comps = Array.isArray(audit.competitors) ? audit.competitors.slice(0, MAX_COMPARE_COUNT) : [];
+      const html = builder.buildBossReportHtml({
+        clientName: audit.client_name,
+        targetReport: audit.target,
+        competitorReports: comps,
+        notes: (els.auditNotes?.value || "").trim(),
+        partnerName: getEffectivePartnerName(),
+        generatedAt: audit.created_at || new Date().toISOString(),
+      });
+      const filename = builder.buildBossReportFilename({
+        clientName: audit.client_name,
+        targetUrl: audit.target.target_url,
+        competitorCount: comps.length,
+        generatedAt: audit.created_at || new Date().toISOString(),
+      });
+      return {
+        title: `${audit.client_name || hostOnly(audit.target.target_url)}｜老闆互動簡報`,
+        html,
+        filename,
+        competitorCount: comps.length,
+      };
+    }
+
+    if (audit.report_html) {
+      return {
+        title: `${audit.client_name || hostOnly(audit.target.target_url)}｜單頁簡報`,
+        html: audit.report_html,
+        filename: audit.report_filename || "geo-boss-brief.html",
+        competitorCount: Array.isArray(audit.competitors_summary) ? audit.competitors_summary.length : 0,
+      };
+    }
+    return null;
+  }
+
+  async function buildFinderPkBriefPayload() {
     const completed = (state.finderCompareEntries || []).filter(
       (e) => e.status === "done" && e.report && typeof e.report === "object"
     );
-    if (completed.length === 0) {
-      showToast("目前沒有已完成的同業比對資料可供下載");
-      return;
-    }
+    if (completed.length === 0) return { error: "目前沒有已完成的同業比對資料可供檢視" };
 
     const builder = await resolveBossReportBuilder();
-    if (!builder) {
-      showToast("簡報產生模組尚未載入，請重新整理後再試");
-      return;
-    }
+    if (!builder) return { error: "簡報產生模組尚未載入，請重新整理後再試" };
 
     const nowIso = new Date().toISOString();
     const decorated = completed.map((entry) => ({
@@ -656,12 +800,214 @@
       competitorCount: competitorReports.length,
       generatedAt: nowIso,
     });
-    downloadHtmlFile(filename, html);
+    return {
+      title:
+        competitorReports.length > 0
+          ? `${clientName}｜同業 PK 簡報（${competitorReports.length} 家對手）`
+          : `${clientName}｜老闆互動簡報`,
+      html,
+      filename,
+      competitorCount: competitorReports.length,
+    };
+  }
+
+  async function previewFinderPkReport(triggerEl) {
+    const payload = await buildFinderPkBriefPayload();
+    if (!payload || payload.error) {
+      showToast(payload?.error || "目前沒有可預覽的同業比對簡報");
+      return;
+    }
+    await openReportPreview({
+      title: payload.title,
+      html: payload.html,
+      filename: payload.filename,
+      triggerEl,
+    });
+  }
+
+  async function downloadFinderPkReport() {
+    const payload = await buildFinderPkBriefPayload();
+    if (!payload || payload.error) {
+      showToast(payload?.error || "目前沒有已完成的同業比對資料可供下載");
+      return;
+    }
+    downloadHtmlFile(payload.filename, payload.html);
     showToast(
-      competitorReports.length > 0
-        ? `已下載同業 PK 超炫老闆簡報（含 ${competitorReports.length} 家對手）`
+      payload.competitorCount > 0
+        ? `已下載同業 PK 超炫老闆簡報（含 ${payload.competitorCount} 家對手）`
         : "已下載單站超炫老闆簡報（HTML）"
     );
+  }
+
+  // ==================== 工作區子分頁與方案分潤試算 ====================
+  function switchWorkTab(workTab) {
+    const next = workTab === "pricing-calc" ? "pricing-calc" : "audit-tools";
+    state.activeWorkTab = next;
+    if (els.workspaceSubtabs) {
+      els.workspaceSubtabs.querySelectorAll("[data-work-tab]").forEach((btn) => {
+        const active = btn.getAttribute("data-work-tab") === next;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+      });
+    }
+    if (els.auditToolsPanel) els.auditToolsPanel.hidden = next !== "audit-tools";
+    if (els.pricingCalcPanel) els.pricingCalcPanel.hidden = next !== "pricing-calc";
+    if (next === "pricing-calc") {
+      renderPricingCalculator();
+    }
+  }
+
+  function renderPricingCalculator() {
+    const loaded = getLoadedPricingCalc();
+    if (!loaded) {
+      resolvePricingCalc().then((mod) => {
+        if (mod) renderPricingCalculatorWithMod(mod);
+      });
+      return;
+    }
+    renderPricingCalculatorWithMod(loaded);
+  }
+
+  function renderPricingCalculatorWithMod(calcMod) {
+    if (!calcMod || !els.calcPlanList) return;
+
+    const currentPlan = calcMod.findPlan(state.calc.planId);
+    const breakdown = calcMod.calculateDealBreakdown({
+      planId: state.calc.planId,
+      adjustmentId: state.calc.adjustmentId,
+      tierId: state.calc.tierId,
+      customDirectCost: state.calc.customDirectCost === null ? undefined : state.calc.customDirectCost,
+    });
+
+    // 1. 方案按鈕列
+    els.calcPlanList.innerHTML = calcMod.PLANS.map((plan) => {
+      const selected = plan.id === breakdown.plan.id;
+      return `
+        <button
+          type="button"
+          class="calc-opt-btn${selected ? " is-selected" : ""}"
+          data-calc-plan="${escapeHtml(plan.id)}"
+          role="radio"
+          aria-checked="${selected ? "true" : "false"}"
+        >
+          <div class="calc-opt-top">
+            <span class="calc-opt-title">${escapeHtml(plan.name)}</span>
+            <span class="calc-opt-price mono">${escapeHtml(calcMod.formatNtd(plan.price))}${escapeHtml(plan.unitLabel)}</span>
+          </div>
+          <span class="calc-opt-desc">${escapeHtml(plan.summary)}</span>
+        </button>`;
+    }).join("");
+
+    // 2. 專案折抵／減免按鈕列
+    els.calcAdjustmentList.innerHTML = calcMod.ADJUSTMENTS.map((adj) => {
+      const selected = adj.id === breakdown.adjustment.id;
+      return `
+        <button
+          type="button"
+          class="calc-opt-btn${selected ? " is-selected" : ""}"
+          data-calc-adjustment="${escapeHtml(adj.id)}"
+          role="radio"
+          aria-checked="${selected ? "true" : "false"}"
+        >
+          <div class="calc-opt-top">
+            <span class="calc-opt-title">${escapeHtml(adj.label)}</span>
+          </div>
+          <span class="calc-opt-desc">${escapeHtml(adj.shortDesc)}</span>
+        </button>`;
+    }).join("");
+
+    if (els.calcAdjustmentNote) {
+      if (breakdown.adjustmentNote) {
+        els.calcAdjustmentNote.textContent = breakdown.adjustmentNote;
+        els.calcAdjustmentNote.className = breakdown.adjustmentApplied
+          ? "notice-banner notice-info"
+          : "notice-banner notice-warn";
+        els.calcAdjustmentNote.hidden = false;
+      } else {
+        els.calcAdjustmentNote.hidden = true;
+      }
+    }
+
+    // 3. 合夥人合作模式按鈕列
+    els.calcTierList.innerHTML = calcMod.PARTNER_TIERS.map((tier) => {
+      const selected = tier.id === breakdown.tier.id;
+      return `
+        <button
+          type="button"
+          class="calc-opt-btn${selected ? " is-selected" : ""}"
+          data-calc-tier="${escapeHtml(tier.id)}"
+          role="radio"
+          aria-checked="${selected ? "true" : "false"}"
+        >
+          <div class="calc-opt-top">
+            <span class="calc-opt-title">${escapeHtml(tier.label)}</span>
+            <span class="calc-opt-price mono">${tier.ratePct}%</span>
+          </div>
+          <span class="calc-opt-desc">${escapeHtml(tier.shortDesc)}</span>
+        </button>`;
+    }).join("");
+
+    // 4. 必要實支輸入框與說明
+    if (els.calcDirectCost && document.activeElement !== els.calcDirectCost) {
+      els.calcDirectCost.value = String(breakdown.directCost);
+    }
+    if (els.calcCostHint) {
+      els.calcCostHint.textContent = currentPlan.directCostHint;
+    }
+
+    // 5. 即時試算輸出卡片
+    const unit = breakdown.unitLabel === "／月" ? "／月" : "";
+    if (els.calcOutClient) {
+      els.calcOutClient.textContent = `${calcMod.formatNtd(breakdown.clientPayable)}${unit}`;
+    }
+    if (els.calcOutClientSub) {
+      els.calcOutClientSub.textContent =
+        breakdown.adjustmentAmount > 0
+          ? `原價 ${calcMod.formatNtd(breakdown.basePrice)} − 減免 ${calcMod.formatNtd(breakdown.adjustmentAmount)}`
+          : `標準原價 ${calcMod.formatNtd(breakdown.basePrice)}`;
+    }
+    if (els.calcOutPartner) {
+      els.calcOutPartner.textContent = `${calcMod.formatNtd(breakdown.partnerCommission)}${unit}`;
+    }
+    if (els.calcOutPartnerSub) {
+      els.calcOutPartnerSub.textContent = `${breakdown.tier.label}・依淨額 ${calcMod.formatNtd(breakdown.distributableNet)} 計算`;
+    }
+    if (els.calcOutAnan) {
+      els.calcOutAnan.textContent = `${calcMod.formatNtd(breakdown.ananNetProfit)}${unit}`;
+    }
+    if (els.calcOutAnanSub) {
+      els.calcOutAnanSub.textContent = `已扣必要實支 ${calcMod.formatNtd(breakdown.directCost)} 與分潤`;
+    }
+    if (els.calcBreakdownBar) {
+      els.calcBreakdownBar.textContent = `明細核對：客戶實付 ${calcMod.formatNtd(breakdown.clientPayable)} − 必要實支 ${calcMod.formatNtd(breakdown.directCost)} ＝ 可分配淨額 ${calcMod.formatNtd(breakdown.distributableNet)} → 合夥人 ${calcMod.formatNtd(breakdown.partnerCommission)} ＋ 阿男實拿 ${calcMod.formatNtd(breakdown.ananNetProfit)}。`;
+    }
+
+    // 6. 給客戶看的白話 LINE 報價文字預覽（嚴格不含內部成本與分潤）
+    if (els.calcQuotePreview) {
+      els.calcQuotePreview.textContent = calcMod.buildClientQuoteText({
+        planId: breakdown.plan.id,
+        adjustmentId: breakdown.adjustment.id,
+        clientName: state.calc.clientName,
+        partnerName: getEffectivePartnerName(),
+      });
+    }
+  }
+
+  async function copyCalcQuote() {
+    const calcMod = await resolvePricingCalc();
+    if (!calcMod) return;
+    const text = calcMod.buildClientQuoteText({
+      planId: state.calc.planId,
+      adjustmentId: state.calc.adjustmentId,
+      clientName: state.calc.clientName,
+      partnerName: getEffectivePartnerName(),
+    });
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast("已複製白話報價文字，可直接貼進 LINE 傳給客戶");
+    } catch {
+      showToast("無法自動複製，請長按上方報價文字複製");
+    }
   }
 
   function buildLineSummaryText(auditData) {
@@ -707,6 +1053,9 @@
       state.partnerName = sig;
       if (state.role === "partner" && els.dbStatusPill) {
         els.dbStatusPill.textContent = sig ? `合夥人・${sig}` : "合夥人免費入口";
+      }
+      if (state.activeWorkTab === "pricing-calc") {
+        renderPricingCalculator();
       }
     });
   }
@@ -900,6 +1249,7 @@
   }
 
   els.logoutBtn.addEventListener("click", async () => {
+    closeReportPreview();
     await apiFetch("/api/admin/logout", { method: "POST", body: "{}" });
     state.role = null;
     state.partnerName = "";
@@ -908,6 +1258,7 @@
     state.latestAudit = null;
     clearAdminOnlyDom();
     resetFinderState();
+    switchWorkTab("audit-tools");
     els.auditResultBox.hidden = true;
     showLoginView(true, state.partnerEnabled);
     showToast("已安全登出");
@@ -956,6 +1307,7 @@
       els.auditTargetUrl.value = auditBtn.getAttribute("data-audit-url") || "";
       const comp = auditBtn.getAttribute("data-audit-comp") || "";
       els.auditCompetitorsText.value = comp;
+      switchWorkTab("audit-tools");
       switchTab("audit");
       showToast("已帶入網址，按下開始即可健檢");
     }
@@ -1076,45 +1428,34 @@
     }
   });
 
+  if (els.previewLatestReport) {
+    els.previewLatestReport.addEventListener("click", async () => {
+      const payload = await buildLatestAuditBriefPayload();
+      if (!payload) {
+        showToast("目前沒有可預覽的簡報");
+        return;
+      }
+      await openReportPreview({
+        title: payload.title,
+        html: payload.html,
+        filename: payload.filename,
+        triggerEl: els.previewLatestReport,
+      });
+    });
+  }
+
   els.downloadLatestReport.addEventListener("click", async () => {
-    const audit = state.latestAudit;
-    if (!audit?.target) {
+    const payload = await buildLatestAuditBriefPayload();
+    if (!payload) {
       showToast("目前沒有可下載的簡報");
       return;
     }
-
-    const builder = await resolveBossReportBuilder();
-    if (builder) {
-      const comps = Array.isArray(audit.competitors) ? audit.competitors.slice(0, MAX_COMPARE_COUNT) : [];
-      const html = builder.buildBossReportHtml({
-        clientName: audit.client_name,
-        targetReport: audit.target,
-        competitorReports: comps,
-        notes: (els.auditNotes?.value || "").trim(),
-        partnerName: getEffectivePartnerName(),
-        generatedAt: audit.created_at || new Date().toISOString(),
-      });
-      const filename = builder.buildBossReportFilename({
-        clientName: audit.client_name,
-        targetUrl: audit.target.target_url,
-        competitorCount: comps.length,
-        generatedAt: audit.created_at || new Date().toISOString(),
-      });
-      downloadHtmlFile(filename, html);
-      showToast(
-        comps.length > 0
-          ? `已下載超炫老闆 PK 簡報（含 ${comps.length} 家對手）`
-          : "已下載超炫老闆簡報（HTML）"
-      );
-      return;
-    }
-
-    if (audit.report_html) {
-      downloadHtmlFile(audit.report_filename, audit.report_html);
-      showToast("已開始下載單頁 HTML 簡報");
-    } else {
-      showToast("目前沒有可下載的簡報");
-    }
+    downloadHtmlFile(payload.filename, payload.html);
+    showToast(
+      payload.competitorCount > 0
+        ? `已下載超炫老闆 PK 簡報（含 ${payload.competitorCount} 家對手）`
+        : "已下載超炫老闆簡報（HTML）"
+    );
   });
 
   els.copyLatestSummary.addEventListener("click", async () => {
@@ -1313,9 +1654,105 @@
     });
   }
 
+  if (els.previewFinderPkReport) {
+    els.previewFinderPkReport.addEventListener("click", () => {
+      previewFinderPkReport(els.previewFinderPkReport);
+    });
+  }
+
   if (els.downloadFinderPkReport) {
     els.downloadFinderPkReport.addEventListener("click", () => {
       downloadFinderPkReport();
+    });
+  }
+
+  if (els.reportPreviewClose) {
+    els.reportPreviewClose.addEventListener("click", () => {
+      closeReportPreview();
+    });
+  }
+
+  if (els.reportPreviewDownload) {
+    els.reportPreviewDownload.addEventListener("click", () => {
+      const active = previewController?.getActiveBrief();
+      if (!active || !active.html) {
+        showToast("目前沒有可下載的預覽簡報");
+        return;
+      }
+      downloadHtmlFile(active.filename, active.html);
+      showToast("已下載超炫老闆簡報（HTML），可直接傳進 LINE");
+    });
+  }
+
+  document.addEventListener("keydown", (evt) => {
+    if (evt.key === "Escape" && previewController?.isOpen()) {
+      evt.preventDefault();
+      closeReportPreview();
+    }
+  });
+
+  if (els.workspaceSubtabs) {
+    els.workspaceSubtabs.addEventListener("click", (evt) => {
+      const btn = evt.target.closest("[data-work-tab]");
+      if (!btn) return;
+      switchWorkTab(btn.getAttribute("data-work-tab") || "audit-tools");
+    });
+  }
+
+  if (els.calcPlanList) {
+    els.calcPlanList.addEventListener("click", (evt) => {
+      const btn = evt.target.closest("[data-calc-plan]");
+      if (!btn) return;
+      state.calc.planId = btn.getAttribute("data-calc-plan") || "turnkey_25000";
+      state.calc.customDirectCost = null;
+      renderPricingCalculator();
+    });
+  }
+
+  if (els.calcAdjustmentList) {
+    els.calcAdjustmentList.addEventListener("click", (evt) => {
+      const btn = evt.target.closest("[data-calc-adjustment]");
+      if (!btn) return;
+      state.calc.adjustmentId = btn.getAttribute("data-calc-adjustment") || "none";
+      renderPricingCalculator();
+    });
+  }
+
+  if (els.calcTierList) {
+    els.calcTierList.addEventListener("click", (evt) => {
+      const btn = evt.target.closest("[data-calc-tier]");
+      if (!btn) return;
+      state.calc.tierId = btn.getAttribute("data-calc-tier") || "intro_25";
+      renderPricingCalculator();
+    });
+  }
+
+  if (els.calcDirectCost) {
+    els.calcDirectCost.addEventListener("input", () => {
+      const raw = els.calcDirectCost.value.trim();
+      state.calc.customDirectCost = raw === "" ? 0 : Number(raw);
+      renderPricingCalculator();
+    });
+  }
+
+  if (els.calcCostReset) {
+    els.calcCostReset.addEventListener("click", () => {
+      state.calc.customDirectCost = null;
+      renderPricingCalculator();
+      showToast("已恢復此方案預設必要實支");
+    });
+  }
+
+  if (els.calcClientName) {
+    els.calcClientName.addEventListener("input", () => {
+      state.calc.clientName = els.calcClientName.value || "";
+      renderPricingCalculator();
+    });
+  }
+
+  if (els.calcCopyQuote) {
+    els.calcCopyQuote.addEventListener("click", () => {
+      copyCalcQuote();
     });
   }
 
@@ -1334,6 +1771,7 @@
 
   // 啟動檢查：呼叫 /api/admin/session（固定 HTTP 200，確保未登入時 0 console error）
   async function bootstrap() {
+    renderPricingCalculator();
     const res = await apiFetch("/api/admin/session", { method: "GET" });
     state.partnerEnabled = Boolean(res.data?.partner_enabled);
     if (res.ok && res.data?.authenticated) {
