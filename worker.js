@@ -2,7 +2,7 @@ import { onRequest as handleApiCheck } from "./functions/api/check.js";
 import { onRequest as handleApiLead } from "./functions/api/lead.js";
 import { onRequest as handleApiAdmin } from "./functions/api/admin.js";
 
-const DEFAULT_RELAY_PROMOTIONS_URL = "https://relay.anangeo.com/api/promotions?tenant=anan";
+const DEFAULT_RELAY_PROMOTIONS_URL = "https://relay.anangeo.com/api/promotions?tenant=geo-26d78867";
 const RELAY_FETCH_TIMEOUT_MS = 1500;
 const RELAY_PROMOTIONS_SLOT = "<!-- RELAY_PROMOTIONS_SLOT -->";
 const MAX_RELAY_PROMOTIONS = 12;
