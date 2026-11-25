@@ -12,11 +12,12 @@
  */
 
 import { runGeoBasicCheck, validatePublicUrl } from "./check.js";
+import { buildBossReportHtml, buildBossReportFilename } from "../../admin/boss-report.js";
 
 const COOKIE_NAME = "anangeo_admin_session";
 const SESSION_TTL_SECONDS = 14 * 24 * 60 * 60; // 14 天，方便手機 PWA 隨開即用
 const MAX_BODY_BYTES = 32 * 1024;
-const MAX_COMPETITORS = 3;
+const MAX_COMPETITORS = 4;
 const SEARCH_TIMEOUT_MS = 8000;
 const DEFAULT_SEARCH_LIMIT = 8;
 const MAX_SEARCH_LIMIT = 15;
@@ -790,184 +791,13 @@ async function searchCompetitorsViaDuckDuckGo(query, { fetchFn, excludeInfo, lim
 }
 
 function buildSinglePageAuditHtml({ clientName, targetReport, competitorReports, notes, generatedAt }) {
-  const displayName = clientName || getHostLabel(targetReport.target_url);
-  const lightTone = {
-    green: { bg: "rgba(52,179,153,0.16)", fg: "#34b399", label: "綠燈良好" },
-    yellow: { bg: "rgba(217,167,74,0.18)", fg: "#d9a74a", label: "黃燈待補強" },
-    red: { bg: "rgba(226,109,90,0.18)", fg: "#e26d5a", label: "紅燈急需修復" },
-  };
-  const tTone = lightTone[targetReport.grade_light] || lightTone.red;
-
-  const checkDefs = [
-    { key: "robots", label: "01｜AI 爬蟲放行（robots.txt）" },
-    { key: "llms", label: "02｜AI 導覽索引（llms.txt）" },
-    { key: "homepage", label: "03｜官網結構與標籤（首頁 HTML / JSON-LD）" },
-  ];
-
-  const checkCardsHtml = checkDefs
-    .map((def) => {
-      const item = targetReport.checks?.[def.key];
-      if (!item) return "";
-      const tone = lightTone[item.light] || lightTone.red;
-      const pct = Math.max(0, Math.min(100, Math.round((item.score / (item.max_score || 1)) * 100)));
-      return `
-      <div class="card check-card">
-        <div class="row-between">
-          <div class="check-title">${escapeHtml(def.label)}</div>
-          <span class="pill" style="background:${tone.bg};color:${tone.fg};">${escapeHtml(LIGHT_LABELS[item.light] || item.light)}・${item.score} / ${item.max_score}</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${tone.fg};"></div></div>
-        <p class="check-summary">${escapeHtml(item.summary || "")}</p>
-        ${item.recommendation ? `<p class="check-rec"><strong>建議動作：</strong>${escapeHtml(item.recommendation)}</p>` : ""}
-      </div>`;
-    })
-    .join("");
-
-  const compRowsHtml =
-    competitorReports.length > 0
-      ? competitorReports
-          .map((comp) => {
-            const diff = targetReport.score - comp.score;
-            const diffText =
-              diff > 0 ? `我方領先 +${diff} 分` : diff < 0 ? `落後對手 ${Math.abs(diff)} 分` : "與對手平手（0 分差）";
-            const diffColor = diff > 0 ? "#34b399" : diff < 0 ? "#e26d5a" : "#d9a74a";
-            return `
-            <tr>
-              <td><strong>${escapeHtml(getHostLabel(comp.target_url))}</strong><br><span class="small-muted">${escapeHtml(comp.target_url)}</span></td>
-              <td class="mono">${comp.score} / 100</td>
-              <td class="mono">${comp.checks?.robots?.score ?? 0} / ${comp.checks?.llms?.score ?? 0} / ${comp.checks?.homepage?.score ?? 0}</td>
-              <td style="color:${diffColor};font-weight:700;">${escapeHtml(diffText)}</td>
-            </tr>`;
-          })
-          .join("")
-      : "";
-
-  const pkSectionHtml =
-    competitorReports.length > 0
-      ? `
-      <section class="section">
-        <h2>同行對手即時 PK 對照</h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>對手網站</th>
-                <th>總分</th>
-                <th>爬蟲 / llms / 結構</th>
-                <th>與我方差距</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="row-self">
-                <td><strong>${escapeHtml(displayName)}（我方）</strong><br><span class="small-muted">${escapeHtml(targetReport.target_url)}</span></td>
-                <td class="mono"><strong>${targetReport.score} / 100</strong></td>
-                <td class="mono">${targetReport.checks?.robots?.score ?? 0} / ${targetReport.checks?.llms?.score ?? 0} / ${targetReport.checks?.homepage?.score ?? 0}</td>
-                <td style="color:#d9a74a;font-weight:700;">主測基準</td>
-              </tr>
-              ${compRowsHtml}
-            </tbody>
-          </table>
-        </div>
-      </section>`
-      : "";
-
-  const recsListHtml = (targetReport.recommendations || [])
-    .map((r) => `<li>${escapeHtml(r)}</li>`)
-    .join("");
-
-  const notesHtml = notes
-    ? `<div class="note-box"><strong>現場觀察備註：</strong>${escapeHtml(notes)}</div>`
-    : "";
-
-  return `<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>GEO 公開頁健檢簡報｜${escapeHtml(displayName)}</title>
-  <style>
-    :root { --bg:#090e14; --surface:#111a24; --elev:#172330; --border:#243445; --ink:#ecf1f6; --muted:#9ab0c4; --brass:#d9a74a; --teal:#34b399; --coral:#e26d5a; }
-    * { box-sizing:border-box; }
-    body { margin:0; padding:24px 16px 48px; background:var(--bg); color:var(--ink); font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif; line-height:1.68; }
-    .wrap { max-width:860px; margin:0 auto; }
-    .hero { background:linear-gradient(145deg,#131e2a,#0d151e); border:1px solid var(--border); border-top:3px solid var(--brass); border-radius:16px; padding:24px; margin-bottom:20px; }
-    .eyebrow { font-size:12px; letter-spacing:0.08em; color:var(--brass); font-weight:700; margin-bottom:8px; }
-    h1 { margin:0 0 8px; font-size:clamp(22px,4vw,30px); line-height:1.3; }
-    h2 { margin:0 0 12px; font-size:18px; color:var(--ink); }
-    .meta { color:var(--muted); font-size:13px; word-break:break-all; }
-    .score-row { display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top:18px; padding-top:18px; border-top:1px solid var(--border); }
-    .big-score { font-size:48px; font-weight:800; line-height:1; font-variant-numeric:tabular-nums; color:var(--brass); }
-    .big-score span { font-size:18px; color:var(--muted); font-weight:500; }
-    .pill { display:inline-block; padding:4px 12px; border-radius:999px; font-size:13px; font-weight:700; }
-    .section { margin-top:20px; }
-    .card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:12px; }
-    .row-between { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
-    .check-title { font-weight:700; font-size:15px; }
-    .bar-track { height:8px; background:#1c2a38; border-radius:999px; overflow:hidden; margin:10px 0; }
-    .bar-fill { height:100%; border-radius:999px; }
-    .check-summary { margin:0; font-size:14px; color:var(--ink); }
-    .check-rec { margin:8px 0 0; font-size:13px; color:#f3d28c; }
-    .table-wrap { overflow-x:auto; background:var(--surface); border:1px solid var(--border); border-radius:14px; }
-    table { width:100%; border-collapse:collapse; font-size:14px; }
-    th, td { padding:12px 14px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
-    th { background:var(--elev); color:var(--muted); font-size:12px; letter-spacing:0.04em; }
-    .row-self { background:rgba(217,167,74,0.08); }
-    .mono { font-family:ui-monospace,"SF Mono",Menlo,monospace; font-variant-numeric:tabular-nums; }
-    .small-muted { font-size:12px; color:var(--muted); word-break:break-all; }
-    .rec-list { margin:0; padding-left:20px; font-size:14px; }
-    .rec-list li { margin-bottom:8px; }
-    .note-box { margin-top:14px; padding:12px 14px; border-radius:10px; background:rgba(52,179,153,0.1); border:1px solid rgba(52,179,153,0.3); font-size:14px; }
-    .cta { margin-top:22px; background:var(--elev); border:1px solid rgba(217,167,74,0.45); border-radius:14px; padding:18px; }
-    .cta a { display:inline-block; margin-top:10px; padding:10px 18px; border-radius:10px; background:var(--brass); color:#090e14; font-weight:800; text-decoration:none; font-size:14px; }
-    .footer { margin-top:20px; font-size:12px; color:var(--muted); }
-    @media print { body { background:#ffffff; color:#0f172a; padding:0; } .hero,.card,.table-wrap,.cta { background:#ffffff; border-color:#cbd5e1; color:#0f172a; } .meta,.small-muted,.footer { color:#475569; } }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header class="hero">
-      <div class="eyebrow">阿男 GEO 實戰工坊・單頁公開健檢簡報</div>
-      <h1>${escapeHtml(displayName)}｜GEO 基礎準備度健檢</h1>
-      <div class="meta">檢測網址：${escapeHtml(targetReport.target_url)}　｜　檢測時間：${escapeHtml(generatedAt)}</div>
-      <div class="score-row">
-        <div class="big-score">${targetReport.score}<span> / 100</span></div>
-        <div>
-          <span class="pill" style="background:${tTone.bg};color:${tTone.fg};">${escapeHtml(tTone.label)}</span>
-          <div style="margin-top:6px;font-size:14px;color:var(--ink);">${escapeHtml(targetReport.grade_label || "")}</div>
-        </div>
-      </div>
-      ${notesHtml}
-    </header>
-
-    <section class="section">
-      <h2>三項基礎設定實測明細</h2>
-      ${checkCardsHtml}
-    </section>
-
-    ${pkSectionHtml}
-
-    <section class="section">
-      <h2>白話優先修復行動清單</h2>
-      <div class="card">
-        <ol class="rec-list">${recsListHtml}</ol>
-      </div>
-    </section>
-
-    <section class="cta">
-      <h2>下一步：進階 20 題跨平台無痕實測</h2>
-      <p style="margin:0;font-size:14px;color:var(--muted);">
-        本簡報針對公開頁的爬蟲放行、導覽索引與首頁結構做即時基礎初檢；如需實測 ChatGPT、Gemini、Perplexity 無痕新對話的實際點名與報價準確度，歡迎預約入門健檢（NT$3,800，30 天內升級改造可 100% 折抵）。
-      </p>
-      <a href="${LINE_URL}" target="_blank" rel="noopener">加入官方 LINE ${LINE_ID} 預約討論</a>
-    </section>
-
-    <footer class="footer">
-      方法論說明：參照阿男 GEO 實戰工坊 1,298 筆跨引擎無痕實測基準（www.cccnan.art 結構健檢 41 → 89 分）建置。本報告僅呈現公開網頁實測結果，不保證固定搜尋排序或必被推薦；本工坊與 cccnan.art 客製紀念歌曲業務分開營運。
-    </footer>
-  </div>
-</body>
-</html>`;
+  return buildBossReportHtml({
+    clientName,
+    targetReport,
+    competitorReports,
+    notes,
+    generatedAt,
+  });
 }
 
 export async function onRequest(context) {
@@ -1315,20 +1145,25 @@ export async function onRequest(context) {
       }
     }
 
-    const safeSlug = getHostLabel(targetReport.target_url).replace(/[^a-z0-9.-]/gi, "-");
+    const reportFilename = buildBossReportFilename({
+      clientName,
+      targetUrl: targetReport.target_url,
+      competitorCount: competitorReports.length,
+      generatedAt,
+    });
     return jsonResponse({
       ok: true,
       audit_id: auditId,
       stored_in_db: storedInDb,
       storage_notice: storedInDb
-        ? "已存入雲端 D1 健檢紀錄。"
-        : "目前未綁定 D1，本次簡報僅即時產生；請立即點擊「下載單頁 HTML 簡報」保存。",
+        ? "已存入雲端 D1 健檢紀錄，可一鍵下載超炫老闆簡報傳進 LINE。"
+        : "目前未綁定 D1，本次簡報僅即時產生；請立即點擊「下載超炫老闆簡報（HTML）」保存。",
       client_name: clientName || getHostLabel(targetReport.target_url),
       created_at: generatedAt,
       target: targetReport,
       competitors: competitorReports,
       competitors_summary: compactCompetitors,
-      report_filename: `geo-audit-${safeSlug}-${generatedAt.slice(0, 10)}.html`,
+      report_filename: reportFilename,
       report_html: reportHtml,
     });
   }

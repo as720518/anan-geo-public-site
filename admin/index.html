@@ -203,6 +203,11 @@
               <span id="finder-compare-status" class="tag-brass">待命</span>
             </div>
             <div id="finder-compare-results" class="compare-grid"></div>
+            <div id="finder-compare-actions" class="finder-compare-actions" hidden>
+              <button type="button" id="download-finder-pk-report" class="btn-primary btn-block">
+                下載同業 PK 超炫老闆簡報（HTML）
+              </button>
+            </div>
           </div>
         </div>
 
@@ -212,7 +217,7 @@
             <span class="tag-brass">雲端直跑</span>
           </div>
           <p class="muted-text">
-            輸入客戶網站網址與最多 3 個同行對手，直接在 Cloudflare 雲端跑公開頁檢查並產出單頁 HTML 簡報。
+            輸入客戶網站網址與最多 4 個同行對手，直接在 Cloudflare 雲端跑公開頁檢查並一鍵下載老闆超炫動態 HTML 簡報。
           </p>
 
           <div class="form-grid">
@@ -241,7 +246,7 @@
           </div>
 
           <label class="field">
-            <span class="field-label">自訂對手網址（選填，每行一個，與上方合計最多 3 個）</span>
+            <span class="field-label">自訂對手網址（選填，每行一個，與上方合計最多 4 個）</span>
             <textarea id="audit-competitors-text" rows="2" placeholder="https://competitor-a.example&#10;https://competitor-b.example"></textarea>
           </label>
 
@@ -267,7 +272,7 @@
           <div id="audit-checks-detail" class="stack-sm"></div>
           <div id="audit-pk-table" class="stack-sm"></div>
           <div class="action-row">
-            <button type="button" id="download-latest-report" class="btn-primary">下載單頁 HTML 簡報</button>
+            <button type="button" id="download-latest-report" class="btn-primary">下載超炫老闆簡報（HTML）</button>
             <button type="button" id="copy-latest-summary" class="btn-secondary">複製 LINE 重點摘要</button>
           </div>
         </div>
@@ -352,6 +357,7 @@
   <!-- 輕量回饋氣泡 -->
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
+  <script type="module" src="/admin/boss-report.js"></script>
   <script src="/admin/admin.js" defer></script>
 </body>
 </html>

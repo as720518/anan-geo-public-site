@@ -9,6 +9,7 @@
     latestAudit: null,
     finderResults: [],
     finderSelectedUrls: new Set(),
+    finderCompareEntries: [],
     finderSearching: false,
     finderComparing: false,
   };
@@ -54,6 +55,8 @@
     finderCompareWrap: document.getElementById("finder-compare-wrap"),
     finderCompareStatus: document.getElementById("finder-compare-status"),
     finderCompareResults: document.getElementById("finder-compare-results"),
+    finderCompareActions: document.getElementById("finder-compare-actions"),
+    downloadFinderPkReport: document.getElementById("download-finder-pk-report"),
     auditForm: document.getElementById("audit-form"),
     auditClientName: document.getElementById("audit-client-name"),
     auditTargetUrl: document.getElementById("audit-target-url"),
@@ -422,11 +425,93 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = filename || "geo-audit-report.html";
+    a.download = filename || "geo-boss-brief.html";
     document.body.appendChild(a);
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function resolveBossReportBuilder() {
+    if (window.AnanBossReport && typeof window.AnanBossReport.buildBossReportHtml === "function") {
+      return window.AnanBossReport;
+    }
+    try {
+      const mod = await import("/admin/boss-report.js");
+      if (mod && typeof mod.buildBossReportHtml === "function") {
+        window.AnanBossReport = mod;
+        return mod;
+      }
+    } catch {
+      // 降級回既有伺服器簡報 HTML
+    }
+    return null;
+  }
+
+  async function downloadFinderPkReport() {
+    const completed = (state.finderCompareEntries || []).filter(
+      (e) => e.status === "done" && e.report && typeof e.report === "object"
+    );
+    if (completed.length === 0) {
+      showToast("目前沒有已完成的同業比對資料可供下載");
+      return;
+    }
+
+    const builder = await resolveBossReportBuilder();
+    if (!builder) {
+      showToast("簡報產生模組尚未載入，請重新整理後再試");
+      return;
+    }
+
+    const nowIso = new Date().toISOString();
+    const decorated = completed.map((entry) => ({
+      ...entry.report,
+      display_name: entry.title || entry.domain || hostOnly(entry.url),
+    }));
+
+    // 若下方已有完成主測站健檢，且與同業清單不重複，就以我方主測站 vs 最多 4 家同業產出 PK 簡報
+    let clientName;
+    let targetReport;
+    let competitorReports;
+    let notes = "";
+
+    const latestTarget = state.latestAudit?.target;
+    if (latestTarget && latestTarget.target_url) {
+      const myHost = hostOnly(latestTarget.target_url).toLowerCase();
+      clientName = state.latestAudit.client_name || hostOnly(latestTarget.target_url);
+      targetReport = latestTarget;
+      competitorReports = decorated
+        .filter((item) => hostOnly(item.target_url).toLowerCase() !== myHost)
+        .slice(0, MAX_COMPARE_COUNT);
+      notes = (els.auditNotes?.value || "").trim();
+    } else {
+      const primary = decorated[0];
+      clientName = primary.display_name || hostOnly(primary.target_url);
+      targetReport = primary;
+      competitorReports = decorated.slice(1, MAX_COMPARE_COUNT + 1);
+      const q = (els.finderQuery?.value || "").trim();
+      if (q) notes = `關鍵字「${q}」同業即時比對簡報`;
+    }
+
+    const html = builder.buildBossReportHtml({
+      clientName,
+      targetReport,
+      competitorReports,
+      notes,
+      generatedAt: nowIso,
+    });
+    const filename = builder.buildBossReportFilename({
+      clientName,
+      targetUrl: targetReport.target_url,
+      competitorCount: competitorReports.length,
+      generatedAt: nowIso,
+    });
+    downloadHtmlFile(filename, html);
+    showToast(
+      competitorReports.length > 0
+        ? `已下載同業 PK 超炫老闆簡報（含 ${competitorReports.length} 家對手）`
+        : "已下載單站超炫老闆簡報（HTML）"
+    );
   }
 
   function buildLineSummaryText(auditData) {
@@ -620,12 +705,14 @@
   function resetFinderState() {
     state.finderResults = [];
     state.finderSelectedUrls = new Set();
+    state.finderCompareEntries = [];
     state.finderSearching = false;
     state.finderComparing = false;
     if (els.finderNotice) els.finderNotice.hidden = true;
     if (els.finderError) els.finderError.hidden = true;
     if (els.finderResultsWrap) els.finderResultsWrap.hidden = true;
     if (els.finderCompareWrap) els.finderCompareWrap.hidden = true;
+    if (els.finderCompareActions) els.finderCompareActions.hidden = true;
     if (els.finderCandidatesList) els.finderCandidatesList.innerHTML = "";
     if (els.finderCompareResults) els.finderCompareResults.innerHTML = "";
   }
@@ -701,7 +788,7 @@
       .split(/[\r\n,]+/)
       .map((s) => s.trim())
       .filter(Boolean);
-    const competitorUrls = [...checkedPresets, ...customLines].slice(0, 3);
+    const competitorUrls = [...checkedPresets, ...customLines].slice(0, MAX_COMPARE_COUNT);
 
     els.auditSubmit.disabled = true;
     els.auditSubmit.textContent = "雲端檢測與產生簡報中…";
@@ -734,13 +821,44 @@
     }
   });
 
-  els.downloadLatestReport.addEventListener("click", () => {
-    if (!state.latestAudit?.report_html) {
+  els.downloadLatestReport.addEventListener("click", async () => {
+    const audit = state.latestAudit;
+    if (!audit?.target) {
       showToast("目前沒有可下載的簡報");
       return;
     }
-    downloadHtmlFile(state.latestAudit.report_filename, state.latestAudit.report_html);
-    showToast("已開始下載單頁 HTML 簡報");
+
+    const builder = await resolveBossReportBuilder();
+    if (builder) {
+      const comps = Array.isArray(audit.competitors) ? audit.competitors.slice(0, MAX_COMPARE_COUNT) : [];
+      const html = builder.buildBossReportHtml({
+        clientName: audit.client_name,
+        targetReport: audit.target,
+        competitorReports: comps,
+        notes: (els.auditNotes?.value || "").trim(),
+        generatedAt: audit.created_at || new Date().toISOString(),
+      });
+      const filename = builder.buildBossReportFilename({
+        clientName: audit.client_name,
+        targetUrl: audit.target.target_url,
+        competitorCount: comps.length,
+        generatedAt: audit.created_at || new Date().toISOString(),
+      });
+      downloadHtmlFile(filename, html);
+      showToast(
+        comps.length > 0
+          ? `已下載超炫老闆 PK 簡報（含 ${comps.length} 家對手）`
+          : "已下載超炫老闆簡報（HTML）"
+      );
+      return;
+    }
+
+    if (audit.report_html) {
+      downloadHtmlFile(audit.report_filename, audit.report_html);
+      showToast("已開始下載單頁 HTML 簡報");
+    } else {
+      showToast("目前沒有可下載的簡報");
+    }
   });
 
   els.copyLatestSummary.addEventListener("click", async () => {
@@ -871,10 +989,10 @@
         return;
       }
 
-      // 同步帶入下方「手機健檢/PK」對手欄位（最多 3 家供完整簡報使用）
+      // 同步帶入下方「手機健檢/PK」對手欄位（最多 4 家供完整 PK 簡報使用）
       if (els.auditCompetitorsText) {
         els.auditCompetitorsText.value = selected
-          .slice(0, 3)
+          .slice(0, MAX_COMPARE_COUNT)
           .map((item) => item.url)
           .join("\n");
       }
@@ -891,6 +1009,8 @@
         report: null,
         error: null,
       }));
+      state.finderCompareEntries = entries;
+      if (els.finderCompareActions) els.finderCompareActions.hidden = true;
       renderCompareCards(entries);
 
       try {
@@ -919,14 +1039,24 @@
           renderCompareCards(entries);
         }
 
+        const doneCount = entries.filter((e) => e.status === "done" && e.report).length;
+        if (els.finderCompareActions) {
+          els.finderCompareActions.hidden = doneCount === 0;
+        }
         if (els.finderCompareStatus) {
           els.finderCompareStatus.textContent = `已完成 ${entries.length} 家比對`;
         }
-        showToast(`已完成 ${entries.length} 家同業即時健檢比對，並同步帶入對手欄位`);
+        showToast(`已完成 ${entries.length} 家同業即時健檢比對，可直接下載超炫 PK 簡報`);
       } finally {
         state.finderComparing = false;
         updateFinderSelectionUi();
       }
+    });
+  }
+
+  if (els.downloadFinderPkReport) {
+    els.downloadFinderPkReport.addEventListener("click", () => {
+      downloadFinderPkReport();
     });
   }
 

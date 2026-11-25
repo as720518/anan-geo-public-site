@@ -1002,6 +1002,10 @@ textarea:focus {
   font-size: 12px;
 }
 
+.finder-compare-actions {
+  margin-top: 4px;
+}
+
 /* ==================== 設定清單 ==================== */
 .check-rows {
   display: flex;
