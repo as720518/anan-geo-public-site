@@ -3992,11 +3992,11 @@ tbody tr:last-child td {
   }
 }
 
-/* ==================== Relay 即時動態區塊（LINE@ 自動同步・深海金綠） ==================== */
+/* ==================== Relay 部落格雜誌感專欄與文章閱讀燈箱（geo-site-17） ==================== */
 .relay-updates-section {
   background:
-    radial-gradient(circle at 10% 15%, rgba(52, 179, 153, 0.08), transparent 42%),
-    radial-gradient(circle at 90% 85%, rgba(217, 167, 74, 0.08), transparent 42%),
+    radial-gradient(circle at 8% 12%, rgba(52, 179, 153, 0.08), transparent 40%),
+    radial-gradient(circle at 92% 88%, rgba(217, 167, 74, 0.08), transparent 40%),
     var(--bg-alt);
   border-top: 1px solid var(--border-subtle);
   border-bottom: 1px solid var(--border-subtle);
@@ -4008,22 +4008,26 @@ tbody tr:last-child td {
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 24px;
+  padding-bottom: 22px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid rgba(53, 75, 95, 0.55);
 }
 
 .relay-updates-head h2 {
   margin: 0 0 8px;
   font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2.5vw, 1.95rem);
-  line-height: 1.3;
+  font-size: clamp(1.55rem, 2.6vw, 2.08rem);
+  line-height: 1.28;
+  letter-spacing: 0.01em;
   color: var(--ink-primary);
 }
 
-.relay-updates-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: 20px;
-  align-items: start;
+.relay-featured-wrap {
+  margin-bottom: 28px;
+}
+
+.relay-featured-wrap:last-child {
+  margin-bottom: 0;
 }
 
 .relay-update-card {
@@ -4031,21 +4035,86 @@ tbody tr:last-child td {
   flex-direction: column;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   min-width: 0;
-  transition: border-color 0.2s ease, transform 0.16s ease;
+  cursor: pointer;
+  transition: border-color 0.22s ease, transform 0.2s ease, box-shadow 0.22s ease;
 }
 
 .relay-update-card:hover {
-  border-color: rgba(217, 167, 74, 0.55);
-  transform: translateY(-2px);
+  border-color: rgba(217, 167, 74, 0.58);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(4, 9, 14, 0.42);
 }
 
+.relay-update-card:focus-within {
+  border-color: rgba(217, 167, 74, 0.7);
+}
+
+/* 首篇精選主文大卡片（桌面左右雙欄雜誌感，手機上圖下文） */
+.relay-update-card.relay-featured-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+  align-items: stretch;
+  background: linear-gradient(140deg, #172431 0%, var(--bg-surface) 58%, #111b24 100%);
+  border-color: rgba(53, 75, 95, 0.85);
+}
+
+.relay-featured-card .relay-featured-media {
+  height: 100%;
+  min-height: 300px;
+  border-bottom: 0;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.relay-featured-card .relay-featured-body {
+  padding: 34px 36px;
+  justify-content: center;
+  gap: 14px;
+}
+
+.relay-featured-card .relay-featured-title {
+  font-size: clamp(1.36rem, 2.25vw, 1.82rem);
+  line-height: 1.34;
+  letter-spacing: 0.01em;
+}
+
+.relay-featured-card .relay-featured-summary {
+  font-size: 0.98rem;
+  line-height: 1.78;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  flex: 0 1 auto;
+}
+
+/* 後續文章格線（2～3 欄部落格卡片，留白充足） */
+.relay-updates-grid,
+.relay-blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.relay-blog-grid[data-grid-count="1"],
+.relay-blog-grid[data-grid-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.relay-grid-card {
+  height: 100%;
+  border-radius: var(--radius-md);
+}
+
+/* 封面媒體區（統一 16:10 比例・深海攝影棚底框防海報裁字） */
 .relay-card-media {
+  position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  background: var(--bg-canvas);
+  background: radial-gradient(circle at 50% 42%, #152230 0%, #0a1016 100%);
   border-bottom: 1px solid var(--border-subtle);
   overflow: hidden;
   display: flex;
@@ -4058,14 +4127,69 @@ tbody tr:last-child td {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: transform 0.36s ease;
+}
+
+.relay-update-card:hover .relay-card-media img {
+  transform: scale(1.028);
+}
+
+/* 無圖貼文優雅補位卡（質感漸層＋品牌字樣與日期排版） */
+.relay-card-media-fallback {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(217, 167, 74, 0.2), transparent 52%),
+    radial-gradient(circle at 86% 84%, rgba(52, 179, 153, 0.16), transparent 52%),
+    linear-gradient(135deg, #162433 0%, #0f1821 54%, #1a252a 100%);
+  padding: 20px;
+}
+
+.relay-fallback-frame {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(217, 167, 74, 0.28);
+  border-radius: var(--radius-sm);
+  background: rgba(11, 17, 23, 0.34);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 22px;
+  gap: 10px;
+}
+
+.relay-fallback-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--accent-brass);
+  text-transform: uppercase;
+}
+
+.relay-fallback-brand {
+  font-family: var(--font-display);
+  font-size: clamp(1.22rem, 2vw, 1.56rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
+}
+
+.relay-fallback-date {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-teal);
+  padding-top: 8px;
+  border-top: 1px solid rgba(52, 179, 153, 0.28);
+  width: 100%;
 }
 
 .relay-card-body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 10px;
-  padding: 20px;
+  gap: 12px;
+  padding: 22px 24px 20px;
   min-width: 0;
 }
 
@@ -4076,9 +4200,22 @@ tbody tr:last-child td {
   gap: 8px;
 }
 
+.relay-card-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #0b1117;
+  background: var(--accent-brass);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
 .relay-card-date {
   font-family: var(--font-mono);
   font-size: 0.76rem;
+  letter-spacing: 0.03em;
   color: var(--accent-teal);
   background: var(--accent-teal-soft);
   border: 1px solid rgba(52, 179, 153, 0.3);
@@ -4088,7 +4225,7 @@ tbody tr:last-child td {
 
 .relay-card-price {
   font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #f4d28b;
   background: var(--accent-brass-soft);
@@ -4102,54 +4239,330 @@ tbody tr:last-child td {
 .relay-card-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.14rem;
-  line-height: 1.4;
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1.42;
   color: var(--ink-primary);
   overflow-wrap: anywhere;
 }
 
 .relay-card-summary {
   margin: 0;
-  font-size: 0.92rem;
-  line-height: 1.65;
+  font-size: 0.93rem;
+  line-height: 1.7;
   color: var(--ink-secondary);
-  white-space: pre-line;
   overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   flex: 1;
 }
 
 .relay-card-foot {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding-top: 12px;
-  margin-top: 4px;
+  padding-top: 14px;
+  margin-top: auto;
   border-top: 1px solid rgba(37, 54, 70, 0.75);
+}
+
+.relay-read-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(217, 167, 74, 0.45);
+  background: rgba(217, 167, 74, 0.1);
+  color: #f4d28b;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.relay-read-btn:hover,
+.relay-update-card:hover .relay-read-btn {
+  background: var(--accent-brass);
+  border-color: var(--accent-brass);
+  color: #0b1117;
 }
 
 .relay-card-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.86rem;
-  font-weight: 700;
-  color: var(--accent-brass);
+  gap: 4px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
   text-decoration: none;
 }
 
 .relay-card-link:hover {
-  color: #f4d28b;
+  color: var(--accent-brass);
   text-decoration: underline;
 }
 
-@media (max-width: 720px) {
-  .relay-updates-grid {
+/* ==================== 部落格清爽閱讀燈箱（Relay Article Reader Modal） ==================== */
+body.relay-reader-open {
+  overflow: hidden;
+}
+
+.relay-reader-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  background: rgba(6, 11, 16, 0.84);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.relay-reader-backdrop.is-open {
+  opacity: 1;
+}
+
+.relay-reader-backdrop[hidden] {
+  display: none;
+}
+
+.relay-reader-dialog {
+  width: min(780px, 100%);
+  max-height: min(88vh, 920px);
+  display: flex;
+  flex-direction: column;
+  background: #101922;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.62);
+  overflow: hidden;
+  transform: translateY(8px);
+  transition: transform 0.2s ease;
+}
+
+.relay-reader-backdrop.is-open .relay-reader-dialog {
+  transform: translateY(0);
+}
+
+.relay-reader-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 24px;
+  background: rgba(16, 25, 34, 0.96);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.relay-reader-brand {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+
+.relay-reader-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--ink-primary);
+  font: inherit;
+  font-size: 1.12rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+}
+
+.relay-reader-close-btn:hover {
+  border-color: var(--accent-brass);
+  background: rgba(217, 167, 74, 0.14);
+  color: #f4d28b;
+}
+
+.relay-reader-scroll {
+  overflow-y: auto;
+  padding: 32px 40px 36px;
+  flex: 1 1 auto;
+}
+
+.relay-reader-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.relay-reader-title {
+  margin: 0 0 24px;
+  font-family: var(--font-display);
+  font-size: clamp(1.48rem, 2.8vw, 2.05rem);
+  line-height: 1.36;
+  color: var(--ink-primary);
+  overflow-wrap: anywhere;
+}
+
+.relay-reader-figure {
+  margin: 0 0 28px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: #0a1016;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.relay-reader-figure[hidden] {
+  display: none;
+}
+
+.relay-reader-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(56vh, 520px);
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.relay-reader-content {
+  max-width: 66ch;
+  color: var(--ink-primary);
+  font-size: 1.03rem;
+  line-height: 1.88;
+}
+
+.relay-reader-paragraph {
+  margin: 0 0 18px;
+  color: #d6e0ea;
+  overflow-wrap: anywhere;
+}
+
+.relay-reader-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.relay-reader-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(11, 17, 23, 0.94);
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.relay-reader-threads-link[hidden] {
+  display: none;
+}
+
+.relay-reader-close-bottom {
+  min-height: 42px;
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.relay-reader-close-bottom:hover {
+  border-color: var(--accent-brass);
+  color: var(--ink-primary);
+}
+
+@media (max-width: 1024px) {
+  .relay-updates-grid,
+  .relay-blog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .relay-featured-card .relay-featured-body {
+    padding: 26px 28px;
+  }
+}
+
+@media (max-width: 900px) {
+  .relay-update-card.relay-featured-card {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .relay-card-body {
-    padding: 16px;
+  .relay-featured-card .relay-featured-media {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .relay-featured-card .relay-featured-body {
+    padding: 22px 22px 20px;
+  }
+}
+
+@media (max-width: 720px) {
+  .relay-updates-grid,
+  .relay-blog-grid,
+  .relay-blog-grid[data-grid-count="1"],
+  .relay-blog-grid[data-grid-count="2"] {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .relay-card-body,
+  .relay-featured-card .relay-featured-body {
+    padding: 18px;
+  }
+
+  .relay-reader-backdrop {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .relay-reader-dialog {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: 16px;
+  }
+
+  .relay-reader-topbar {
+    padding: 12px 16px;
+  }
+
+  .relay-reader-scroll {
+    padding: 22px 18px 26px;
+  }
+
+  .relay-reader-footer {
+    padding: 12px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .relay-update-card,
+  .relay-card-media img,
+  .relay-reader-backdrop,
+  .relay-reader-dialog {
+    transition: none;
   }
 }
 

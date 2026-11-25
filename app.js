@@ -1781,6 +1781,239 @@
     bindLineQuestionHelper();
     bindQuizInteractions();
     bindCategoryNavigation();
+    bindRelayArticleReader();
+  }
+
+  function sanitizeReaderHttpUrl(raw) {
+    const text = String(raw || "").trim();
+    if (!text) return "";
+    try {
+      const parsed = new URL(text);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+        return "";
+      }
+      return parsed.toString();
+    } catch {
+      return "";
+    }
+  }
+
+  function bindRelayArticleReader() {
+    const section = el("relay-updates");
+    if (!section) return;
+
+    let lastTriggerEl = null;
+    let modalRefs = null;
+
+    function ensureReaderModal() {
+      if (modalRefs) return modalRefs;
+
+      const backdrop = document.createElement("div");
+      backdrop.id = "relay-reader-modal";
+      backdrop.className = "relay-reader-backdrop";
+      backdrop.setAttribute("role", "dialog");
+      backdrop.setAttribute("aria-modal", "true");
+      backdrop.setAttribute("aria-labelledby", "relay-reader-title");
+      backdrop.hidden = true;
+
+      const dialog = document.createElement("div");
+      dialog.className = "relay-reader-dialog";
+
+      const topbar = document.createElement("div");
+      topbar.className = "relay-reader-topbar";
+
+      const brandSpan = document.createElement("span");
+      brandSpan.className = "relay-reader-brand";
+      brandSpan.textContent = "ANANGEO JOURNAL・阿男實戰筆記";
+
+      const closeTopBtn = document.createElement("button");
+      closeTopBtn.type = "button";
+      closeTopBtn.className = "relay-reader-close-btn";
+      closeTopBtn.setAttribute("aria-label", "關閉文章視窗");
+      closeTopBtn.textContent = "✕";
+
+      topbar.append(brandSpan, closeTopBtn);
+
+      const scrollBody = document.createElement("div");
+      scrollBody.className = "relay-reader-scroll";
+
+      const metaRow = document.createElement("div");
+      metaRow.className = "relay-reader-meta";
+
+      const titleHeading = document.createElement("h2");
+      titleHeading.id = "relay-reader-title";
+      titleHeading.className = "relay-reader-title";
+
+      const figure = document.createElement("figure");
+      figure.className = "relay-reader-figure";
+      figure.hidden = true;
+
+      const coverImg = document.createElement("img");
+      coverImg.className = "relay-reader-img";
+      coverImg.alt = "";
+      coverImg.decoding = "async";
+      figure.appendChild(coverImg);
+
+      const contentWrap = document.createElement("div");
+      contentWrap.className = "relay-reader-content";
+
+      scrollBody.append(metaRow, titleHeading, figure, contentWrap);
+
+      const footer = document.createElement("div");
+      footer.className = "relay-reader-footer";
+
+      const threadsLink = document.createElement("a");
+      threadsLink.className = "btn btn-primary relay-reader-threads-link";
+      threadsLink.target = "_blank";
+      threadsLink.rel = "noopener noreferrer";
+      threadsLink.textContent = "在 Threads 查看 →";
+      threadsLink.hidden = true;
+
+      const closeBottomBtn = document.createElement("button");
+      closeBottomBtn.type = "button";
+      closeBottomBtn.className = "relay-reader-close-bottom";
+      closeBottomBtn.textContent = "關閉文章";
+
+      footer.append(threadsLink, closeBottomBtn);
+      dialog.append(topbar, scrollBody, footer);
+      backdrop.appendChild(dialog);
+      document.body.appendChild(backdrop);
+
+      closeTopBtn.addEventListener("click", closeReader);
+      closeBottomBtn.addEventListener("click", closeReader);
+      backdrop.addEventListener("click", (ev) => {
+        if (ev.target === backdrop) {
+          closeReader();
+        }
+      });
+
+      modalRefs = {
+        backdrop,
+        closeTopBtn,
+        scrollBody,
+        metaRow,
+        titleHeading,
+        figure,
+        coverImg,
+        contentWrap,
+        threadsLink,
+      };
+      return modalRefs;
+    }
+
+    function openReaderForCard(card, triggerEl) {
+      if (!card) return;
+      const refs = ensureReaderModal();
+      lastTriggerEl = triggerEl || card.querySelector(".relay-read-btn") || card;
+
+      const titleText =
+        card.dataset.relayTitle || card.querySelector(".relay-card-title")?.textContent?.trim() || "實戰筆記";
+      const dateText =
+        card.dataset.relayDate || card.querySelector(".relay-card-date")?.textContent?.trim() || "";
+      const categoryText = card.dataset.relayCategory || "實戰筆記";
+      const priceText =
+        card.dataset.relayPrice || card.querySelector(".relay-card-price")?.textContent?.trim() || "";
+      const bodyText =
+        card.dataset.relayBody || card.querySelector(".relay-card-summary")?.textContent?.trim() || "";
+      const safeImageUrl = sanitizeReaderHttpUrl(
+        card.dataset.relayImage || card.querySelector(".relay-card-media img")?.getAttribute("src") || ""
+      );
+      const safeThreadsUrl = sanitizeReaderHttpUrl(
+        card.dataset.relayThreads || card.querySelector(".relay-card-link")?.getAttribute("href") || ""
+      );
+
+      clearNode(refs.metaRow);
+      const badgeEl = document.createElement("span");
+      badgeEl.className = "relay-card-badge";
+      badgeEl.textContent = categoryText;
+      refs.metaRow.appendChild(badgeEl);
+
+      if (dateText) {
+        const timeEl = document.createElement("time");
+        timeEl.className = "relay-card-date";
+        timeEl.setAttribute("datetime", dateText);
+        timeEl.textContent = dateText;
+        refs.metaRow.appendChild(timeEl);
+      }
+
+      if (priceText) {
+        const priceEl = document.createElement("span");
+        priceEl.className = "relay-card-price";
+        priceEl.textContent = priceText;
+        refs.metaRow.appendChild(priceEl);
+      }
+
+      refs.titleHeading.textContent = titleText;
+
+      if (safeImageUrl) {
+        refs.coverImg.src = safeImageUrl;
+        refs.coverImg.alt = titleText;
+        refs.figure.hidden = false;
+      } else {
+        refs.coverImg.removeAttribute("src");
+        refs.coverImg.alt = "";
+        refs.figure.hidden = true;
+      }
+
+      clearNode(refs.contentWrap);
+      const paragraphs = String(bodyText || "")
+        .split(/\r?\n+/)
+        .map((line) => line.trim())
+        .filter(Boolean);
+      if (paragraphs.length === 0) {
+        const p = document.createElement("p");
+        p.className = "relay-reader-paragraph";
+        p.textContent = titleText;
+        refs.contentWrap.appendChild(p);
+      } else {
+        paragraphs.forEach((line) => {
+          const p = document.createElement("p");
+          p.className = "relay-reader-paragraph";
+          p.textContent = line;
+          refs.contentWrap.appendChild(p);
+        });
+      }
+
+      if (safeThreadsUrl) {
+        refs.threadsLink.href = safeThreadsUrl;
+        refs.threadsLink.hidden = false;
+      } else {
+        refs.threadsLink.removeAttribute("href");
+        refs.threadsLink.hidden = true;
+      }
+
+      refs.scrollBody.scrollTop = 0;
+      refs.backdrop.hidden = false;
+      refs.backdrop.classList.add("is-open");
+      document.body.classList.add("relay-reader-open");
+      refs.closeTopBtn.focus();
+    }
+
+    function closeReader() {
+      if (!modalRefs || modalRefs.backdrop.hidden) return;
+      modalRefs.backdrop.classList.remove("is-open");
+      modalRefs.backdrop.hidden = true;
+      document.body.classList.remove("relay-reader-open");
+      if (lastTriggerEl && typeof lastTriggerEl.focus === "function") {
+        lastTriggerEl.focus();
+      }
+      lastTriggerEl = null;
+    }
+
+    section.addEventListener("click", (ev) => {
+      if (ev.target.closest("a[href]")) return;
+      const card = ev.target.closest(".relay-update-card");
+      if (!card) return;
+      const btn = ev.target.closest(".relay-read-btn");
+      openReaderForCard(card, btn || card);
+    });
+
+    document.addEventListener("keydown", (ev) => {
+      if (ev.key === "Escape" && modalRefs && !modalRefs.backdrop.hidden) {
+        ev.preventDefault();
+        closeReader();
+      }
+    });
   }
 
   function resolveCategoryForTargetId(targetId) {

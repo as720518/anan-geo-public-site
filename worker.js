@@ -138,55 +138,91 @@ async function fetchRelayPromotions(env) {
   return [];
 }
 
-function renderPromotionsHtmlSection(promotions) {
-  if (!promotions.length) return "";
-  const cards = promotions
-    .map((item) => {
-      const dateStr = formatTaipeiDate(item.publishedAt);
-      const mediaHtml = item.imageUrl
-        ? `<div class="relay-card-media"><img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async"></div>`
-        : "";
-      const dateBadge = dateStr ? `<span class="relay-card-date">${escapeHtml(dateStr)}</span>` : "";
-      const priceBadge = item.priceSummary
-        ? `<span class="relay-card-price">${escapeHtml(item.priceSummary)}</span>`
-        : "";
-      const metaHtml = dateBadge || priceBadge ? `<div class="relay-card-meta">${dateBadge}${priceBadge}</div>` : "";
-      const summaryHtml = item.summary ? `<p class="relay-card-summary">${escapeHtml(item.summary)}</p>` : "";
-      const footHtml = item.threadsPermalink
-        ? `<div class="relay-card-foot"><a class="relay-card-link" href="${escapeHtml(item.threadsPermalink)}" target="_blank" rel="noopener noreferrer">查看 Threads 原文 →</a></div>`
-        : "";
+function renderRelayMediaHtml(item, dateStr, isFeatured) {
+  const featuredCls = isFeatured ? " relay-featured-media" : "";
+  if (item.imageUrl) {
+    return `<div class="relay-card-media${featuredCls}"><img src="${escapeHtml(item.imageUrl)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async"></div>`;
+  }
+  const stampText = dateStr || "最新發布";
+  return [
+    `<div class="relay-card-media${featuredCls} relay-card-media-fallback" aria-hidden="true">`,
+    `<div class="relay-fallback-frame">`,
+    `<span class="relay-fallback-kicker">ANANGEO JOURNAL</span>`,
+    `<strong class="relay-fallback-brand">阿男實戰筆記</strong>`,
+    `<span class="relay-fallback-date">${escapeHtml(stampText)}</span>`,
+    `</div>`,
+    `</div>`,
+  ].join("");
+}
 
-      return [
-        `<article class="relay-update-card" data-relay-id="${escapeHtml(item.id)}">`,
-        mediaHtml,
-        `<div class="relay-card-body">`,
-        metaHtml,
-        `<h3 class="relay-card-title">${escapeHtml(item.title)}</h3>`,
-        summaryHtml,
-        footHtml,
-        `</div>`,
-        `</article>`,
-      ].join("");
-    })
-    .join("\n          ");
+function renderRelayCardHtml(item, { isFeatured }) {
+  const dateStr = formatTaipeiDate(item.publishedAt);
+  const categoryLabel = "實戰筆記";
+  const mediaHtml = renderRelayMediaHtml(item, dateStr, isFeatured);
+  const badgeHtml = `<span class="relay-card-badge">${escapeHtml(categoryLabel)}</span>`;
+  const dateBadge = dateStr
+    ? `<time class="relay-card-date" datetime="${escapeHtml(dateStr)}">${escapeHtml(dateStr)}</time>`
+    : "";
+  const priceBadge = item.priceSummary
+    ? `<span class="relay-card-price">${escapeHtml(item.priceSummary)}</span>`
+    : "";
+  const metaHtml = `<div class="relay-card-meta">${badgeHtml}${dateBadge}${priceBadge}</div>`;
+  const summaryCls = isFeatured ? "relay-card-summary relay-featured-summary" : "relay-card-summary";
+  const summaryHtml = item.summary ? `<p class="${summaryCls}">${escapeHtml(item.summary)}</p>` : "";
+  const threadsLinkHtml = item.threadsPermalink
+    ? `<a class="relay-card-link" href="${escapeHtml(item.threadsPermalink)}" target="_blank" rel="noopener noreferrer">在 Threads 查看 →</a>`
+    : "";
+  const readBtnHtml = `<button type="button" class="relay-read-btn" data-relay-open="${escapeHtml(item.id)}">閱讀全文 →</button>`;
+  const cardCls = isFeatured ? "relay-update-card relay-featured-card" : "relay-update-card relay-grid-card";
+  const bodyCls = isFeatured ? "relay-card-body relay-featured-body" : "relay-card-body";
+  const titleCls = isFeatured ? "relay-card-title relay-featured-title" : "relay-card-title";
 
   return [
-    `<section class="section relay-updates-section" id="relay-updates" aria-label="最新實戰動態與公開更新">`,
+    `<article class="${cardCls}" data-relay-card="true" data-relay-id="${escapeHtml(item.id)}" data-relay-title="${escapeHtml(item.title)}" data-relay-date="${escapeHtml(dateStr)}" data-relay-category="${escapeHtml(categoryLabel)}" data-relay-price="${escapeHtml(item.priceSummary)}" data-relay-image="${escapeHtml(item.imageUrl)}" data-relay-threads="${escapeHtml(item.threadsPermalink)}" data-relay-body="${escapeHtml(item.summary)}">`,
+    mediaHtml,
+    `<div class="${bodyCls}">`,
+    metaHtml,
+    `<h3 class="${titleCls}">${escapeHtml(item.title)}</h3>`,
+    summaryHtml,
+    `<div class="relay-card-foot">${readBtnHtml}${threadsLinkHtml}</div>`,
+    `</div>`,
+    `</article>`,
+  ].join("");
+}
+
+function renderPromotionsHtmlSection(promotions) {
+  if (!promotions.length) return "";
+  const [leadItem, ...restItems] = promotions;
+  const featuredHtml = renderRelayCardHtml(leadItem, { isFeatured: true });
+  const gridHtml =
+    restItems.length > 0
+      ? [
+          `        <div class="relay-updates-grid relay-blog-grid" data-grid-count="${restItems.length}">`,
+          ...restItems.map((item) => `          ${renderRelayCardHtml(item, { isFeatured: false })}`),
+          `        </div>`,
+        ].join("\n")
+      : "";
+
+  const lines = [
+    `<section class="section relay-updates-section" id="relay-updates" aria-label="最新動態與精選文章">`,
     `      <div class="container">`,
     `        <div class="relay-updates-head">`,
     `          <div>`,
-    `            <p class="eyebrow">LIVE FIELD UPDATES・LINE@ 即時同步發布</p>`,
-    `            <h2>最新實戰動態與公開更新</h2>`,
-    `            <p class="section-lede">阿男透過官方 LINE 同步發布的最新實測筆記與公開更新。</p>`,
+    `            <p class="eyebrow">EDITORIAL JOURNAL・最新動態</p>`,
+    `            <h2>最新動態與精選文章</h2>`,
+    `            <p class="section-lede">阿男同步發布的實戰筆記與公開更新，點擊任一文章即可展開完整閱讀。</p>`,
     `          </div>`,
-    `          <span class="pill pill-teal">已同步 ${promotions.length} 則最新動態</span>`,
+    `          <span class="pill pill-teal">共 ${promotions.length} 篇精選文章</span>`,
     `        </div>`,
-    `        <div class="relay-updates-grid">`,
-    `          ${cards}`,
+    `        <div class="relay-featured-wrap">`,
+    `          ${featuredHtml}`,
     `        </div>`,
-    `      </div>`,
-    `    </section>`,
-  ].join("\n");
+  ];
+  if (gridHtml) {
+    lines.push(gridHtml);
+  }
+  lines.push(`      </div>`, `    </section>`);
+  return lines.join("\n");
 }
 
 function injectPromotionsIntoHtml(html, promotions) {
