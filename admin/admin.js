@@ -1,10 +1,16 @@
 (() => {
   "use strict";
 
+  const MAX_COMPARE_COUNT = 4;
+
   const state = {
     overview: null,
     activeTab: "overview",
     latestAudit: null,
+    finderResults: [],
+    finderSelectedUrls: new Set(),
+    finderSearching: false,
+    finderComparing: false,
   };
 
   const els = {
@@ -34,6 +40,20 @@
     leadsCountBadge: document.getElementById("leads-count-badge"),
     leadsSearch: document.getElementById("leads-search"),
     leadsList: document.getElementById("leads-list"),
+    finderForm: document.getElementById("finder-form"),
+    finderQuery: document.getElementById("finder-query"),
+    finderSubmit: document.getElementById("finder-submit"),
+    finderEngineBadge: document.getElementById("finder-engine-badge"),
+    finderNotice: document.getElementById("finder-notice"),
+    finderError: document.getElementById("finder-error"),
+    finderResultsWrap: document.getElementById("finder-results-wrap"),
+    finderCountText: document.getElementById("finder-count-text"),
+    finderSelectClear: document.getElementById("finder-select-clear"),
+    finderCompareBtn: document.getElementById("finder-compare-btn"),
+    finderCandidatesList: document.getElementById("finder-candidates-list"),
+    finderCompareWrap: document.getElementById("finder-compare-wrap"),
+    finderCompareStatus: document.getElementById("finder-compare-status"),
+    finderCompareResults: document.getElementById("finder-compare-results"),
     auditForm: document.getElementById("audit-form"),
     auditClientName: document.getElementById("audit-client-name"),
     auditTargetUrl: document.getElementById("audit-target-url"),
@@ -313,6 +333,7 @@
       { label: "管理密碼（GEO_ADMIN_PASSWORD）", ok: Boolean(cfg.password_configured), okText: "已設定", noText: "未設定" },
       { label: "雲端資料庫（D1 綁定 DB）", ok: Boolean(cfg.db_bound), okText: "已連線", noText: "未綁定（降級模式）" },
       { label: "自動追單信件（RESEND_API_KEY）", ok: Boolean(cfg.resend_configured), okText: "已啟用", noText: "預覽解鎖模式" },
+      { label: "關鍵字找對手（SERPER_API_KEY）", ok: Boolean(cfg.serper_configured), okText: "Google＋地圖加速", noText: "免 Key 備用搜尋" },
     ];
     els.configChecklist.innerHTML = rows
       .map(
@@ -471,10 +492,149 @@
     }
   });
 
+  function sourceLabel(source) {
+    if (source === "google_places") return "Google 地圖";
+    if (source === "google_organic") return "Google 搜尋";
+    if (source === "duckduckgo_html") return "免 Key 搜尋";
+    return "公開官網";
+  }
+
+  function updateFinderSelectionUi() {
+    if (!els.finderCountText || !els.finderCompareBtn) return;
+    const total = state.finderResults.length;
+    const selectedCount = state.finderSelectedUrls.size;
+    els.finderCountText.textContent = `找到 ${total} 家同業官網（已勾選 ${selectedCount} / ${MAX_COMPARE_COUNT}）`;
+    els.finderCompareBtn.disabled = state.finderComparing || selectedCount === 0;
+    if (!state.finderComparing) {
+      els.finderCompareBtn.textContent =
+        selectedCount > 0 ? `帶入健檢／比對（${selectedCount} 家）` : "帶入健檢／比對";
+    }
+  }
+
+  function renderFinderCandidates() {
+    if (!els.finderCandidatesList || !els.finderResultsWrap) return;
+    const list = state.finderResults;
+    if (list.length === 0) {
+      els.finderResultsWrap.hidden = false;
+      els.finderCandidatesList.innerHTML =
+        '<div class="empty-state">目前沒有找到符合條件的獨立同業官網，請嘗試不同地區＋行業關鍵字，或於下方手動輸入網址。</div>';
+      updateFinderSelectionUi();
+      return;
+    }
+
+    els.finderResultsWrap.hidden = false;
+    els.finderCandidatesList.innerHTML = list
+      .map((item, idx) => {
+        const checked = state.finderSelectedUrls.has(item.url);
+        return `
+          <label class="candidate-card${checked ? " is-selected" : ""}" data-candidate-url="${escapeHtml(item.url)}">
+            <input
+              type="checkbox"
+              class="candidate-check"
+              data-candidate-idx="${idx}"
+              value="${escapeHtml(item.url)}"
+              ${checked ? "checked" : ""}
+            >
+            <div class="candidate-body">
+              <div class="candidate-top">
+                <span class="candidate-title">${escapeHtml(item.title || item.domain)}</span>
+                <span class="candidate-source">${escapeHtml(sourceLabel(item.source))}</span>
+              </div>
+              <div class="candidate-domain mono">${escapeHtml(item.domain)}</div>
+              <div class="candidate-url">${escapeHtml(item.url)}</div>
+              ${item.snippet ? `<div class="candidate-snippet">${escapeHtml(item.snippet)}</div>` : ""}
+            </div>
+          </label>`;
+      })
+      .join("");
+    updateFinderSelectionUi();
+  }
+
+  function renderCompareCardHtml(entry) {
+    const title = entry.title || entry.domain || hostOnly(entry.url);
+    const domain = entry.domain || hostOnly(entry.url);
+
+    if (entry.status === "pending" || entry.status === "loading") {
+      const label = entry.status === "loading" ? "即時健檢中…" : "排隊等候中";
+      return `
+        <article class="compare-card is-loading">
+          <div class="compare-card-head">
+            <strong class="compare-title">${escapeHtml(title)}</strong>
+            <span class="compare-domain mono">${escapeHtml(domain)}</span>
+          </div>
+          <div class="compare-loading-text">${escapeHtml(label)}</div>
+        </article>`;
+    }
+
+    if (entry.status === "error" || !entry.report) {
+      return `
+        <article class="compare-card is-error">
+          <div class="compare-card-head">
+            <strong class="compare-title">${escapeHtml(title)}</strong>
+            <span class="compare-domain mono">${escapeHtml(domain)}</span>
+          </div>
+          <div class="compare-score-row">
+            <span class="score-pill score-red">無法讀取</span>
+          </div>
+          <p class="compare-summary">${escapeHtml(entry.error || "網站連線逾時或暫時阻擋抓取。")}</p>
+          <div class="compare-actions">
+            <button type="button" class="ghost-mini" data-set-primary-url="${escapeHtml(entry.url)}" data-set-primary-name="${escapeHtml(title)}">設為主測站</button>
+          </div>
+        </article>`;
+    }
+
+    const r = entry.report;
+    const robotsScore = r.checks?.robots?.score ?? 0;
+    const llmsScore = r.checks?.llms?.score ?? 0;
+    const homeScore = r.checks?.homepage?.score ?? 0;
+    const lightText = r.grade_light === "green" ? "綠燈" : r.grade_light === "yellow" ? "黃燈" : "紅燈";
+
+    return `
+      <article class="compare-card">
+        <div class="compare-card-head">
+          <strong class="compare-title">${escapeHtml(title)}</strong>
+          <span class="compare-domain mono">${escapeHtml(domain)}</span>
+        </div>
+        <div class="compare-score-row">
+          <strong class="compare-score mono">${r.score}<span>/100</span></strong>
+          <span class="score-pill ${scoreClass(r.grade_light, r.score)}">${escapeHtml(lightText)}</span>
+        </div>
+        <div class="compare-pillars">
+          <div class="compare-pillar"><span>爬蟲</span><strong class="mono">${robotsScore}/35</strong></div>
+          <div class="compare-pillar"><span>llms</span><strong class="mono">${llmsScore}/30</strong></div>
+          <div class="compare-pillar"><span>結構</span><strong class="mono">${homeScore}/35</strong></div>
+        </div>
+        <p class="compare-summary">${escapeHtml(r.grade_label || "")}</p>
+        <div class="compare-actions">
+          <button type="button" class="ghost-mini" data-set-primary-url="${escapeHtml(entry.url)}" data-set-primary-name="${escapeHtml(title)}">設為主測站</button>
+        </div>
+      </article>`;
+  }
+
+  function renderCompareCards(entries) {
+    if (!els.finderCompareResults || !els.finderCompareWrap) return;
+    els.finderCompareWrap.hidden = false;
+    els.finderCompareResults.innerHTML = entries.map(renderCompareCardHtml).join("");
+  }
+
+  function resetFinderState() {
+    state.finderResults = [];
+    state.finderSelectedUrls = new Set();
+    state.finderSearching = false;
+    state.finderComparing = false;
+    if (els.finderNotice) els.finderNotice.hidden = true;
+    if (els.finderError) els.finderError.hidden = true;
+    if (els.finderResultsWrap) els.finderResultsWrap.hidden = true;
+    if (els.finderCompareWrap) els.finderCompareWrap.hidden = true;
+    if (els.finderCandidatesList) els.finderCandidatesList.innerHTML = "";
+    if (els.finderCompareResults) els.finderCompareResults.innerHTML = "";
+  }
+
   els.logoutBtn.addEventListener("click", async () => {
     await apiFetch("/api/admin/logout", { method: "POST", body: "{}" });
     state.overview = null;
     state.latestAudit = null;
+    resetFinderState();
     els.auditResultBox.hidden = true;
     showLoginView(true);
     showToast("已安全登出");
@@ -593,6 +753,195 @@
       showToast("複製失敗，請改下載單頁 HTML 簡報");
     }
   });
+
+  if (els.finderForm) {
+    els.finderForm.addEventListener("submit", async (evt) => {
+      evt.preventDefault();
+      if (state.finderSearching) return;
+      els.finderError.hidden = true;
+      els.finderNotice.hidden = true;
+
+      const query = (els.finderQuery.value || "").trim();
+      if (!query) {
+        els.finderError.textContent = "請先輸入要搜尋的關鍵字（例如：高雄 牙醫）。";
+        els.finderError.hidden = false;
+        return;
+      }
+
+      const excludeDomain = (els.auditTargetUrl.value || "").trim();
+      state.finderSearching = true;
+      els.finderSubmit.disabled = true;
+      els.finderSubmit.textContent = "搜尋中…";
+
+      try {
+        const res = await apiFetch("/api/admin/search-competitors", {
+          method: "POST",
+          body: JSON.stringify({
+            query,
+            exclude_domain: excludeDomain || undefined,
+            limit: 8,
+          }),
+        });
+        if (res.status === 401) {
+          showLoginView(true);
+          showToast("登入階段已逾時，請重新登入");
+          return;
+        }
+        if (!res.ok || !res.data?.ok) {
+          els.finderError.textContent = res.data?.error || "搜尋失敗，請稍後再試。";
+          els.finderError.hidden = false;
+          return;
+        }
+
+        const data = res.data;
+        const results = Array.isArray(data.results) ? data.results : [];
+        state.finderResults = results;
+        state.finderSelectedUrls = new Set(results.slice(0, MAX_COMPARE_COUNT).map((r) => r.url));
+
+        if (els.finderEngineBadge) {
+          els.finderEngineBadge.textContent =
+            data.engine === "serper" ? "Serper Google＋地圖" : "免 Key 備用搜尋";
+          els.finderEngineBadge.className = data.engine === "serper" ? "tag-brass" : "tag-mono";
+        }
+
+        const bannerMessages = [data.notice, data.warning].filter(Boolean);
+        if (bannerMessages.length > 0) {
+          els.finderNotice.textContent = bannerMessages.join(" ");
+          els.finderNotice.hidden = false;
+        }
+
+        renderFinderCandidates();
+        showToast(
+          results.length > 0
+            ? `找到 ${results.length} 家同業官網，已預選前 ${Math.min(results.length, MAX_COMPARE_COUNT)} 家`
+            : "查無符合條件的獨立同業官網"
+        );
+      } finally {
+        state.finderSearching = false;
+        els.finderSubmit.disabled = false;
+        els.finderSubmit.textContent = "搜尋對手";
+      }
+    });
+  }
+
+  if (els.finderCandidatesList) {
+    els.finderCandidatesList.addEventListener("change", (evt) => {
+      const input = evt.target.closest('input.candidate-check[type="checkbox"]');
+      if (!input) return;
+      const url = input.value;
+      const card = input.closest(".candidate-card");
+      if (input.checked) {
+        if (state.finderSelectedUrls.size >= MAX_COMPARE_COUNT) {
+          input.checked = false;
+          showToast(`最多同時勾選 ${MAX_COMPARE_COUNT} 家進行並排比對`);
+          return;
+        }
+        state.finderSelectedUrls.add(url);
+        if (card) card.classList.add("is-selected");
+      } else {
+        state.finderSelectedUrls.delete(url);
+        if (card) card.classList.remove("is-selected");
+      }
+      updateFinderSelectionUi();
+    });
+  }
+
+  if (els.finderSelectClear) {
+    els.finderSelectClear.addEventListener("click", () => {
+      state.finderSelectedUrls.clear();
+      els.finderCandidatesList.querySelectorAll("input.candidate-check").forEach((cb) => {
+        cb.checked = false;
+      });
+      els.finderCandidatesList.querySelectorAll(".candidate-card").forEach((card) => {
+        card.classList.remove("is-selected");
+      });
+      updateFinderSelectionUi();
+    });
+  }
+
+  if (els.finderCompareBtn) {
+    els.finderCompareBtn.addEventListener("click", async () => {
+      if (state.finderComparing) return;
+      const selected = state.finderResults
+        .filter((item) => state.finderSelectedUrls.has(item.url))
+        .slice(0, MAX_COMPARE_COUNT);
+
+      if (selected.length === 0) {
+        showToast("請先勾選至少 1 家同業官網");
+        return;
+      }
+
+      // 同步帶入下方「手機健檢/PK」對手欄位（最多 3 家供完整簡報使用）
+      if (els.auditCompetitorsText) {
+        els.auditCompetitorsText.value = selected
+          .slice(0, 3)
+          .map((item) => item.url)
+          .join("\n");
+      }
+
+      state.finderComparing = true;
+      els.finderCompareBtn.disabled = true;
+      els.finderCompareBtn.textContent = "逐一健檢比對中…";
+
+      const entries = selected.map((item) => ({
+        title: item.title,
+        domain: item.domain,
+        url: item.url,
+        status: "pending",
+        report: null,
+        error: null,
+      }));
+      renderCompareCards(entries);
+
+      try {
+        for (let i = 0; i < entries.length; i += 1) {
+          entries[i].status = "loading";
+          if (els.finderCompareStatus) {
+            els.finderCompareStatus.textContent = `檢測中 ${i + 1} / ${entries.length}`;
+          }
+          renderCompareCards(entries);
+
+          try {
+            const res = await apiFetch(`/api/check?url=${encodeURIComponent(entries[i].url)}`, {
+              method: "GET",
+            });
+            if (res.ok && res.data?.ok) {
+              entries[i].status = "done";
+              entries[i].report = res.data;
+            } else {
+              entries[i].status = "error";
+              entries[i].error = res.data?.error || `HTTP ${res.status} 無法完成初檢`;
+            }
+          } catch {
+            entries[i].status = "error";
+            entries[i].error = "連線逾時或暫時無法讀取該網站。";
+          }
+          renderCompareCards(entries);
+        }
+
+        if (els.finderCompareStatus) {
+          els.finderCompareStatus.textContent = `已完成 ${entries.length} 家比對`;
+        }
+        showToast(`已完成 ${entries.length} 家同業即時健檢比對，並同步帶入對手欄位`);
+      } finally {
+        state.finderComparing = false;
+        updateFinderSelectionUi();
+      }
+    });
+  }
+
+  if (els.finderCompareResults) {
+    els.finderCompareResults.addEventListener("click", (evt) => {
+      const btn = evt.target.closest("[data-set-primary-url]");
+      if (!btn) return;
+      const targetUrl = btn.getAttribute("data-set-primary-url") || "";
+      const targetName = btn.getAttribute("data-set-primary-name") || "";
+      if (els.auditTargetUrl) els.auditTargetUrl.value = targetUrl;
+      if (els.auditClientName && targetName) els.auditClientName.value = targetName.slice(0, 80);
+      showToast("已設為客戶主測站，往下按即可產出完整簡報");
+      els.auditForm?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   // 啟動檢查：呼叫 /api/admin/session（固定 HTTP 200，確保未登入時 0 console error）
   async function bootstrap() {

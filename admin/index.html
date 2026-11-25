@@ -155,6 +155,57 @@
 
       <!-- 分頁 3：手機健檢/PK -->
       <section id="tab-audit" class="tab-panel" data-tab-panel="audit" hidden>
+        <!-- 關鍵字找對手與多站即時比對 -->
+        <div id="competitor-finder-card" class="card stack">
+          <div class="card-head">
+            <h2>🔍 關鍵字找對手</h2>
+            <span id="finder-engine-badge" class="tag-mono">自動濾社群／黃頁</span>
+          </div>
+          <p class="muted-text">
+            輸入地區與行業快速找出同業獨立官網，勾選最多 4 家一鍵帶入並逐一跑即時健檢比對。
+          </p>
+
+          <form id="finder-form" class="finder-form" autocomplete="off">
+            <label class="sr-only" for="finder-query">🔍 關鍵字找對手（例：高雄 牙醫）</label>
+            <div class="finder-row">
+              <input
+                id="finder-query"
+                type="search"
+                maxlength="120"
+                placeholder="🔍 關鍵字找對手（例：高雄 牙醫）"
+                aria-label="關鍵字找對手（例：高雄 牙醫）"
+              >
+              <button type="submit" id="finder-submit" class="btn-primary finder-submit-btn">
+                搜尋對手
+              </button>
+            </div>
+          </form>
+
+          <div id="finder-notice" class="notice-banner notice-warn" hidden></div>
+          <div id="finder-error" class="form-error" role="alert" hidden></div>
+
+          <div id="finder-results-wrap" class="stack-sm" hidden>
+            <div class="finder-toolbar">
+              <span id="finder-count-text" class="field-label">找到 0 家同業官網（已勾選 0 / 4）</span>
+              <div class="finder-toolbar-actions">
+                <button type="button" id="finder-select-clear" class="ghost-mini">清除勾選</button>
+                <button type="button" id="finder-compare-btn" class="btn-primary finder-compare-btn">
+                  帶入健檢／比對
+                </button>
+              </div>
+            </div>
+            <div id="finder-candidates-list" class="candidate-list"></div>
+          </div>
+
+          <div id="finder-compare-wrap" class="stack-sm" hidden>
+            <div class="card-head">
+              <h3>同業即時比對結果（最多 4 家）</h3>
+              <span id="finder-compare-status" class="tag-brass">待命</span>
+            </div>
+            <div id="finder-compare-results" class="compare-grid"></div>
+          </div>
+        </div>
+
         <form id="audit-form" class="card stack">
           <div class="card-head">
             <h2>手機即時健檢與對手 PK</h2>
@@ -243,7 +294,7 @@
             <ol>
               <li>開啟 Cloudflare Dashboard → Storage &amp; Databases → D1 SQL Database，建立名為 <code>anan-geo-admin</code> 的資料庫。</li>
               <li>進入 Worker <code>anan-geo-public-site</code> → Settings → Bindings，新增 D1 綁定且 Variable name 設為 <code>DB</code>。</li>
-              <li>進入 Settings → Variables and Secrets，確認已新增 Secret 變數 <code>GEO_ADMIN_PASSWORD</code>（可另設 <code>RESEND_API_KEY</code>）。</li>
+              <li>進入 Settings → Variables and Secrets，確認已新增 Secret 變數 <code>GEO_ADMIN_PASSWORD</code>（可另設 <code>RESEND_API_KEY</code> 與 <code>SERPER_API_KEY</code> 啟用 Google＋地圖找對手加速）。</li>
             </ol>
           </div>
         </div>

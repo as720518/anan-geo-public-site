@@ -6,8 +6,9 @@
  * - POST /api/admin/login        驗證 env.GEO_ADMIN_PASSWORD（固定時間比對）並簽發 HMAC-SHA256 HttpOnly Cookie
  * - POST /api/admin/logout       清除登入 Cookie
  * - GET  /api/admin/overview     讀取雲端 D1 名單列表、最新健檢紀錄、1,298 筆公開實測統計（未綁 D1 自動安全降級）
- * - POST /api/admin/audit        在雲端直接對指定客戶網址＋對手網址執行 GEO 初檢、存入 D1 audits 表並產出單頁 HTML 簡報
- * - GET  /api/admin/audit-report 依 id 讀取已儲存的單頁 HTML 簡報（供手機下載或預覽）
+ * - POST /api/admin/audit              在雲端直接對指定客戶網址＋對手網址執行 GEO 初檢、存入 D1 audits 表並產出單頁 HTML 簡報
+ * - GET  /api/admin/audit-report       依 id 讀取已儲存的單頁 HTML 簡報（供手機下載或預覽）
+ * - POST /api/admin/search-competitors 依關鍵字搜尋同業官網（優先 Serper Google+Places，無 Key 自動降級 DuckDuckGo HTML）
  */
 
 import { runGeoBasicCheck, validatePublicUrl } from "./check.js";
@@ -16,6 +17,77 @@ const COOKIE_NAME = "anangeo_admin_session";
 const SESSION_TTL_SECONDS = 14 * 24 * 60 * 60; // 14 天，方便手機 PWA 隨開即用
 const MAX_BODY_BYTES = 32 * 1024;
 const MAX_COMPETITORS = 3;
+const SEARCH_TIMEOUT_MS = 8000;
+const DEFAULT_SEARCH_LIMIT = 8;
+const MAX_SEARCH_LIMIT = 15;
+
+const EXCLUDED_COMPETITOR_DOMAINS = new Set([
+  // 社群平台
+  "facebook.com",
+  "fb.com",
+  "instagram.com",
+  "threads.net",
+  "youtube.com",
+  "youtu.be",
+  "tiktok.com",
+  "linkedin.com",
+  "x.com",
+  "twitter.com",
+  "line.me",
+  // 論壇、百科、部落格
+  "wikipedia.org",
+  "ptt.cc",
+  "dcard.tw",
+  "mobile01.com",
+  "pixnet.net",
+  "medium.com",
+  "vocus.cc",
+  "yahoo.com",
+  // 求職、搜尋引擎與黃頁目錄
+  "104.com.tw",
+  "1111.com.tw",
+  "518.com.tw",
+  "yes123.com.tw",
+  "google.com",
+  "bing.com",
+  "duckduckgo.com",
+  "yelp.com",
+  "tripadvisor.com",
+  "iyp.com.tw",
+]);
+
+const MULTI_PART_PUBLIC_SUFFIXES = new Set([
+  "com.tw",
+  "org.tw",
+  "net.tw",
+  "edu.tw",
+  "gov.tw",
+  "idv.tw",
+  "game.tw",
+  "ebiz.tw",
+  "club.tw",
+  "mil.tw",
+  "co.uk",
+  "org.uk",
+  "ac.uk",
+  "gov.uk",
+  "co.jp",
+  "ne.jp",
+  "or.jp",
+  "ac.jp",
+  "go.jp",
+  "com.hk",
+  "org.hk",
+  "edu.hk",
+  "gov.hk",
+  "com.cn",
+  "net.cn",
+  "org.cn",
+  "com.sg",
+  "com.au",
+  "co.kr",
+  "com.my",
+]);
 
 const LINE_ID = "@250ruauk";
 const LINE_URL = "https://line.me/R/ti/p/@250ruauk";
@@ -210,7 +282,12 @@ async function verifySessionRequest(request, env, nowSec = Math.floor(Date.now()
     return { ok: false, reason: "not_configured" };
   }
   const cookies = parseCookies(request.headers.get("cookie"));
-  const token = cookies[COOKIE_NAME];
+  let token = cookies[COOKIE_NAME];
+  if (!token) {
+    const authHeader = request.headers.get("authorization") || "";
+    const m = /^Bearer\s+([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/i.exec(authHeader.trim());
+    if (m) token = m[1];
+  }
   if (!token || typeof token !== "string") {
     return { ok: false, reason: "missing_cookie" };
   }
@@ -341,6 +418,374 @@ function getHostLabel(urlHref) {
     return new URL(urlHref).hostname;
   } catch {
     return String(urlHref || "");
+  }
+}
+
+export function extractRootDomain(hostname) {
+  const clean = String(hostname || "")
+    .toLowerCase()
+    .trim()
+    .replace(/\.+$/, "");
+  if (!clean) return "";
+  const parts = clean.split(".").filter(Boolean);
+  if (parts.length <= 2) return clean;
+  const lastTwo = `${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
+  if (MULTI_PART_PUBLIC_SUFFIXES.has(lastTwo) && parts.length >= 3) {
+    return `${parts[parts.length - 3]}.${lastTwo}`;
+  }
+  return lastTwo;
+}
+
+function normalizeExcludeDomain(rawExclude) {
+  if (typeof rawExclude !== "string") return null;
+  const trimmed = rawExclude.trim();
+  if (!trimmed) return null;
+  let candidate = trimmed;
+  if (!/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(candidate)) {
+    candidate = `https://${candidate}`;
+  }
+  try {
+    const parsed = new URL(candidate);
+    const host = parsed.hostname.toLowerCase().replace(/\.+$/, "");
+    if (!host) return null;
+    return { host, rootDomain: extractRootDomain(host) };
+  } catch {
+    const host = trimmed
+      .toLowerCase()
+      .replace(/^https?:\/\//, "")
+      .split(/[/?#]/)[0]
+      .replace(/:\d+$/, "")
+      .replace(/\.+$/, "");
+    if (!host) return null;
+    return { host, rootDomain: extractRootDomain(host) };
+  }
+}
+
+function isExcludedCompetitorHost(hostname, excludeInfo) {
+  const host = String(hostname || "")
+    .toLowerCase()
+    .replace(/\.+$/, "");
+  if (!host) return true;
+  for (const blocked of EXCLUDED_COMPETITOR_DOMAINS) {
+    if (host === blocked || host.endsWith(`.${blocked}`)) {
+      return true;
+    }
+  }
+  if (excludeInfo) {
+    const rootDomain = extractRootDomain(host);
+    if (
+      (excludeInfo.rootDomain && rootDomain === excludeInfo.rootDomain) ||
+      host === excludeInfo.host ||
+      host.endsWith(`.${excludeInfo.host}`)
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function decodeHtmlEntities(str) {
+  return String(str || "")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => {
+      const code = parseInt(hex, 16);
+      return Number.isFinite(code) ? String.fromCodePoint(code) : "";
+    })
+    .replace(/&#(\d+);/g, (_, dec) => {
+      const code = parseInt(dec, 10);
+      return Number.isFinite(code) ? String.fromCodePoint(code) : "";
+    });
+}
+
+function stripHtmlTags(str) {
+  return decodeHtmlEntities(
+    String(str || "")
+      .replace(/<\s*(?:br|\/p|\/div|\/li|\/h[1-6])\b[^>]*>/gi, " ")
+      .replace(/<[^>]+>/g, "")
+  )
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function unwrapDuckDuckGoUrl(rawHref) {
+  const decodedHref = decodeHtmlEntities(String(rawHref || "").trim());
+  if (!decodedHref) return "";
+  let fullHref = decodedHref;
+  if (fullHref.startsWith("//")) {
+    fullHref = `https:${fullHref}`;
+  } else if (fullHref.startsWith("/")) {
+    fullHref = `https://duckduckgo.com${fullHref}`;
+  }
+  try {
+    const parsed = new URL(fullHref);
+    if (
+      (parsed.hostname === "duckduckgo.com" || parsed.hostname.endsWith(".duckduckgo.com")) &&
+      parsed.pathname.startsWith("/l/")
+    ) {
+      const target = parsed.searchParams.get("uddg");
+      return target ? target.trim() : "";
+    }
+    return parsed.href;
+  } catch {
+    return "";
+  }
+}
+
+export function parseDuckDuckGoHtml(htmlText) {
+  const items = [];
+  const html = String(htmlText || "");
+  const anchorRe = /<a\b[^>]*class="[^"]*\bresult__a\b[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+  const anchorReAlt = /<a\b[^>]*href="([^"]+)"[^>]*class="[^"]*\bresult__a\b[^"]*"[^>]*>([\s\S]*?)<\/a>/gi;
+
+  const matches = [];
+  let m;
+  while ((m = anchorRe.exec(html)) !== null) {
+    matches.push({ index: m.index, end: anchorRe.lastIndex, href: m[1], titleHtml: m[2] });
+  }
+  if (matches.length === 0) {
+    while ((m = anchorReAlt.exec(html)) !== null) {
+      matches.push({ index: m.index, end: anchorReAlt.lastIndex, href: m[1], titleHtml: m[2] });
+    }
+  }
+
+  for (let i = 0; i < matches.length; i += 1) {
+    const cur = matches[i];
+    const nextIdx = i + 1 < matches.length ? matches[i + 1].index : Math.min(html.length, cur.end + 1800);
+    const windowSlice = html.slice(cur.end, nextIdx);
+    const snippetMatch = /class="[^"]*\bresult__snippet\b[^"]*"[^>]*>([\s\S]*?)<\/(?:a|div|span)>/i.exec(
+      windowSlice
+    );
+    const url = unwrapDuckDuckGoUrl(cur.href);
+    const title = stripHtmlTags(cur.titleHtml);
+    const snippet = snippetMatch ? stripHtmlTags(snippetMatch[1]) : "";
+    if (url) {
+      items.push({ title, url, snippet, source: "duckduckgo_html" });
+    }
+  }
+  return items;
+}
+
+function collectFilteredCompetitors(rawItems, { excludeInfo, limit, seenRootDomains, results }) {
+  let filteredOutCount = 0;
+  for (const item of rawItems) {
+    if (results.length >= limit) break;
+    const rawUrl = typeof item?.url === "string" ? item.url.trim() : "";
+    if (!rawUrl) {
+      filteredOutCount += 1;
+      continue;
+    }
+    const check = validatePublicUrl(rawUrl);
+    if (!check.ok) {
+      filteredOutCount += 1;
+      continue;
+    }
+    const host = check.url.hostname.toLowerCase().replace(/\.+$/, "");
+    if (isExcludedCompetitorHost(host, excludeInfo)) {
+      filteredOutCount += 1;
+      continue;
+    }
+    const rootDomain = extractRootDomain(host);
+    if (!rootDomain || seenRootDomains.has(rootDomain)) {
+      filteredOutCount += 1;
+      continue;
+    }
+    seenRootDomains.add(rootDomain);
+    results.push({
+      title: clampText(item.title || rootDomain, 100) || rootDomain,
+      url: check.url.href,
+      domain: rootDomain,
+      snippet: clampText(item.snippet || "", 200),
+      source: String(item.source || "web"),
+    });
+  }
+  return filteredOutCount;
+}
+
+async function fetchJsonWithTimeout(fetchFn, url, init, timeoutMs = SEARCH_TIMEOUT_MS) {
+  const signal =
+    typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
+      ? AbortSignal.timeout(timeoutMs)
+      : undefined;
+  const resp = await fetchFn(url, { ...init, ...(signal ? { signal } : {}) });
+  if (!resp.ok) {
+    return { ok: false, status: resp.status, data: null };
+  }
+  const data = await resp.json();
+  return { ok: true, status: resp.status, data };
+}
+
+async function searchCompetitorsViaSerper(query, serperKey, { fetchFn, excludeInfo, limit }) {
+  const results = [];
+  const seenRootDomains = new Set();
+  let filteredOutCount = 0;
+  let anySucceeded = false;
+
+  // 1. 主要 Google 搜尋（台灣繁中）
+  try {
+    const searchRes = await fetchJsonWithTimeout(
+      fetchFn,
+      "https://google.serper.dev/search",
+      {
+        method: "POST",
+        headers: {
+          "X-API-KEY": serperKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          q: query,
+          gl: "tw",
+          hl: "zh-tw",
+          num: 15,
+        }),
+      },
+      SEARCH_TIMEOUT_MS
+    );
+    if (searchRes.ok && searchRes.data) {
+      anySucceeded = true;
+      const organic = Array.isArray(searchRes.data.organic) ? searchRes.data.organic : [];
+      const mapped = organic.map((o) => ({
+        title: o?.title || "",
+        url: o?.link || "",
+        snippet: o?.snippet || "",
+        source: "google_organic",
+      }));
+      filteredOutCount += collectFilteredCompetitors(mapped, {
+        excludeInfo,
+        limit,
+        seenRootDomains,
+        results,
+      });
+    }
+  } catch {
+    // 交由下方 places 或降級流程處理
+  }
+
+  // 2. 視需要補查 Google Maps 商家官網（當有機結果未達 limit 時）
+  if (results.length < limit) {
+    try {
+      const placesRes = await fetchJsonWithTimeout(
+        fetchFn,
+        "https://google.serper.dev/places",
+        {
+          method: "POST",
+          headers: {
+            "X-API-KEY": serperKey,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            q: query,
+            gl: "tw",
+            hl: "zh-tw",
+            num: 15,
+          }),
+        },
+        SEARCH_TIMEOUT_MS
+      );
+      if (placesRes.ok && placesRes.data) {
+        anySucceeded = true;
+        const places = Array.isArray(placesRes.data.places) ? placesRes.data.places : [];
+        const mappedPlaces = places
+          .filter((p) => typeof p?.website === "string" && p.website.trim())
+          .map((p) => {
+            const parts = [];
+            if (p.category) parts.push(String(p.category));
+            if (p.address) parts.push(String(p.address));
+            if (p.rating != null) parts.push(`評分 ${p.rating}`);
+            return {
+              title: p.title || p.name || "",
+              url: p.website,
+              snippet: parts.join("｜"),
+              source: "google_places",
+            };
+          });
+        filteredOutCount += collectFilteredCompetitors(mappedPlaces, {
+          excludeInfo,
+          limit,
+          seenRootDomains,
+          results,
+        });
+      }
+    } catch {
+      // places 失敗不影響已取得的有機結果
+    }
+  }
+
+  return {
+    ok: anySucceeded,
+    results,
+    filteredOutCount,
+  };
+}
+
+async function searchCompetitorsViaDuckDuckGo(query, { fetchFn, excludeInfo, limit }) {
+  const results = [];
+  const seenRootDomains = new Set();
+  const ddgUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}&kl=tw-tzh`;
+
+  try {
+    const signal =
+      typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
+        ? AbortSignal.timeout(SEARCH_TIMEOUT_MS)
+        : undefined;
+    const resp = await fetchFn(ddgUrl, {
+      method: "GET",
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+        Accept: "text/html,application/xhtml+xml",
+        "Accept-Language": "zh-TW,zh;q=0.9,en;q=0.5",
+      },
+      ...(signal ? { signal } : {}),
+    });
+
+    if (!resp.ok) {
+      return {
+        ok: false,
+        degraded: true,
+        results: [],
+        filteredOutCount: 0,
+        warning: `免 Key 備用搜尋暫時無法取得結果（HTTP ${resp.status}），建議於 Cloudflare 設定 SERPER_API_KEY 或直接手動貼上對手網址。`,
+      };
+    }
+
+    const html = await resp.text();
+    const rawItems = parseDuckDuckGoHtml(html);
+    const filteredOutCount = collectFilteredCompetitors(rawItems, {
+      excludeInfo,
+      limit,
+      seenRootDomains,
+      results,
+    });
+
+    const looksChallenge = rawItems.length === 0 && /anomaly|captcha|bot/i.test(html);
+    return {
+      ok: true,
+      degraded: looksChallenge,
+      results,
+      filteredOutCount,
+      warning: looksChallenge
+        ? "免 Key 備用搜尋目前受到流量驗證限制，建議於 Cloudflare 設定 SERPER_API_KEY 取得穩定結果，或直接手動輸入對手網址。"
+        : null,
+    };
+  } catch (err) {
+    const isTimeout =
+      err?.name === "TimeoutError" ||
+      err?.name === "AbortError" ||
+      /timeout|aborted/i.test(String(err?.message || ""));
+    return {
+      ok: false,
+      degraded: true,
+      results: [],
+      filteredOutCount: 0,
+      warning: isTimeout
+        ? "免 Key 備用搜尋逾時（超過 8 秒），建議於 Cloudflare 設定 SERPER_API_KEY 以獲得穩定高速搜尋，或直接手動輸入對手網址。"
+        : "免 Key 備用搜尋暫時連線失敗，請稍後再試或改於下方手動輸入對手網址。",
+    };
   }
 }
 
@@ -653,6 +1098,7 @@ export async function onRequest(context) {
           password_configured: true,
           db_bound: false,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
+          serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
         },
         kpi: {
           leads_count: 0,
@@ -712,6 +1158,7 @@ export async function onRequest(context) {
           password_configured: true,
           db_bound: true,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
+          serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
         },
         kpi: {
           leads_count: Number(leadCountRow?.cnt || 0),
@@ -736,6 +1183,7 @@ export async function onRequest(context) {
           password_configured: true,
           db_bound: false,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
+          serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
         },
         kpi: {
           leads_count: 0,
@@ -926,6 +1374,104 @@ export async function onRequest(context) {
     } catch {
       return jsonResponse({ ok: false, code: "DB_ERROR", error: "讀取歷史簡報時發生暫時性錯誤。" }, 500);
     }
+  }
+
+  // 6. POST /api/admin/search-competitors
+  if (pathname === "/api/admin/search-competitors") {
+    if (request.method !== "POST") {
+      return jsonResponse({ ok: false, code: "METHOD_NOT_ALLOWED", error: "對手搜尋端點僅支援 POST。" }, 405);
+    }
+
+    const parsed = await readJsonBody(request);
+    if (!parsed.ok) {
+      return jsonResponse({ ok: false, code: parsed.code, error: parsed.error }, parsed.status);
+    }
+
+    const body = parsed.data;
+    const query = clampText(typeof body.query === "string" ? body.query : "", 120);
+    if (!query) {
+      return jsonResponse(
+        { ok: false, code: "MISSING_QUERY", error: "請輸入要搜尋的關鍵字（例如：高雄 牙醫）。" },
+        400
+      );
+    }
+
+    const excludeInfo = normalizeExcludeDomain(body.exclude_domain);
+    const rawLimit = Number(body.limit);
+    const limit =
+      Number.isFinite(rawLimit) && rawLimit >= 1
+        ? Math.min(MAX_SEARCH_LIMIT, Math.floor(rawLimit))
+        : DEFAULT_SEARCH_LIMIT;
+
+    const serperKey = typeof env?.SERPER_API_KEY === "string" ? env.SERPER_API_KEY.trim() : "";
+
+    if (serperKey) {
+      const serperRes = await searchCompetitorsViaSerper(query, serperKey, {
+        fetchFn,
+        excludeInfo,
+        limit,
+      });
+      if (serperRes.ok) {
+        return jsonResponse({
+          ok: true,
+          query,
+          engine: "serper",
+          needs_serper_key: false,
+          degraded: false,
+          notice: null,
+          warning:
+            serperRes.results.length === 0
+              ? "未找到符合條件的獨立同業官網（已自動排除社群與黃頁目錄），建議換組更精準的地區＋服務關鍵字。"
+              : null,
+          filtered_out_count: serperRes.filteredOutCount,
+          total: serperRes.results.length,
+          results: serperRes.results,
+        });
+      }
+
+      // Serper 暫時異常時安全降級至 DuckDuckGo，不回傳 500
+      const fallbackRes = await searchCompetitorsViaDuckDuckGo(query, {
+        fetchFn,
+        excludeInfo,
+        limit,
+      });
+      return jsonResponse({
+        ok: true,
+        query,
+        engine: "duckduckgo_fallback",
+        needs_serper_key: false,
+        degraded: true,
+        notice: "Serper 搜尋暫時無法回應，已自動切換為免 Key 備用搜尋。",
+        warning: fallbackRes.warning,
+        filtered_out_count: fallbackRes.filteredOutCount,
+        total: fallbackRes.results.length,
+        results: fallbackRes.results,
+      });
+    }
+
+    // 未設定 SERPER_API_KEY：安全降級呼叫 DuckDuckGo HTML 公開搜尋
+    const ddgRes = await searchCompetitorsViaDuckDuckGo(query, {
+      fetchFn,
+      excludeInfo,
+      limit,
+    });
+    return jsonResponse({
+      ok: true,
+      query,
+      engine: "duckduckgo_fallback",
+      needs_serper_key: true,
+      degraded: Boolean(ddgRes.degraded),
+      notice:
+        "目前尚未設定 SERPER_API_KEY，已自動切換免 Key 備用搜尋；於 Cloudflare 設定 SERPER_API_KEY Secret 可啟用 Google 搜尋＋地圖商家官網加速。",
+      warning:
+        ddgRes.warning ||
+        (ddgRes.results.length === 0
+          ? "目前免 Key 備用搜尋未抓到符合條件的獨立同業官網，建議調整關鍵字或改於下方手動貼上對手網址。"
+          : null),
+      filtered_out_count: ddgRes.filteredOutCount,
+      total: ddgRes.results.length,
+      results: ddgRes.results,
+    });
   }
 
   return jsonResponse({ ok: false, code: "NOT_FOUND", error: "找不到對應的雲端後台 API 路徑。" }, 404);

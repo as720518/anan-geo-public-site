@@ -66,14 +66,18 @@ export default {
       });
     }
 
-    // 2. API 端點：即時基礎初檢、名單解鎖與雲端手機後台
+    // 2. API 端點：即時基礎初檢、名單解鎖與雲端手機後台（含 /api/admin/search-competitors）
     if (url.pathname === "/api/check") {
       return handleApiCheck({ request, env, fetch: createSmartFetch(url, env) });
     }
     if (url.pathname === "/api/lead") {
       return handleApiLead({ request, env });
     }
-    if (url.pathname === "/api/admin" || url.pathname.startsWith("/api/admin/")) {
+    if (
+      url.pathname === "/api/admin/search-competitors" ||
+      url.pathname === "/api/admin" ||
+      url.pathname.startsWith("/api/admin/")
+    ) {
       return handleApiAdmin({ request, env, fetch: createSmartFetch(url, env) });
     }
 
