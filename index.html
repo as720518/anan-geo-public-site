@@ -120,9 +120,10 @@
       </button>
 
       <nav class="site-nav" id="site-nav" aria-label="主要導覽">
+        <a href="#live-check">10 秒免費初檢</a>
         <a href="#philosophy">GEO 理念</a>
         <a href="#dashboard">1,298 筆實測</a>
-        <a href="#guides">教學與破案實錄（4 篇）</a>
+        <a href="#guides">教學與破案（4 篇）</a>
         <a href="#self-check">12 題自檢</a>
         <a href="#services">服務方案</a>
         <a class="nav-cta" href="#contact">預約 GEO 健檢</a>
@@ -143,8 +144,9 @@
           </p>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#dashboard">看 1,298 筆真實案例儀表板</a>
-            <a class="btn btn-secondary" href="#self-check">3 分鐘 12 題免費自檢</a>
+            <a class="btn btn-primary" href="#live-check">輸入網址・10 秒免費基礎初檢</a>
+            <a class="btn btn-secondary" href="#dashboard">看 1,298 筆真實案例儀表板</a>
+            <a class="btn btn-secondary" href="#self-check">12 題免費自檢</a>
           </div>
 
           <div class="oss-strip" id="philosophy">
@@ -266,6 +268,149 @@
         <div class="engine-pill">
           <strong>騰訊元寶</strong>
           <span>優先抓取微信公眾號、視頻號、微信問一問與統一品牌實體</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 1.5 輸入網址・10 秒免費基礎 GEO 初檢 ==================== -->
+    <section class="section live-check-section" id="live-check">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">LIVE BASIC CHECK・即時公開頁實測（免登入・免安裝）</p>
+            <h2>輸入網址・10 秒免費基礎 GEO 初檢</h2>
+            <p class="section-lede">
+              直接輸入你的品牌官網網址，系統即時透過 Cloudflare 邊緣端實測三項基礎地基：<strong>AI 搜尋與訓練爬蟲放行（<code>robots.txt</code>）</strong>、<strong>AI 導覽索引（<code>llms.txt</code>）</strong>與<strong>首頁 HTML 標籤／JSON-LD 結構</strong>。全部為當下實測結果，抓不到一律誠實顯示「無法讀取／未設置」，絕不捏造分數。
+            </p>
+          </div>
+          <div class="honesty-pill">
+            <strong>實測邊界說明</strong>
+            <span>本服務由阿男 GEO 實戰工坊獨立提供（與 <code>cccnan.art</code> 客製歌曲品牌分開）；僅測公開頁基礎設定，不含 20 題跨平台 AI 實測與 WAF 深度掃描。</span>
+          </div>
+        </div>
+
+        <div class="live-check-panel">
+          <form class="live-check-form" id="live-check-form" novalidate aria-label="輸入網址進行 10 秒免費基礎 GEO 初檢">
+            <div class="live-input-row">
+              <label class="sr-only" for="live-check-url">輸入欲檢測的公開網站網址</label>
+              <input
+                type="url"
+                id="live-check-url"
+                name="url"
+                class="live-url-input"
+                placeholder="輸入公開網址，例如 https://anangeo.com 或 https://www.yourbrand.com"
+                autocomplete="url"
+                inputmode="url"
+                required
+              >
+              <button type="submit" class="btn btn-primary live-submit-btn" id="live-check-submit">開始初檢</button>
+            </div>
+
+            <div class="live-samples-row">
+              <span class="live-samples-label">一鍵試測範例：</span>
+              <button type="button" class="sample-url-btn" data-sample-url="https://anangeo.com">試測 https://anangeo.com</button>
+              <button type="button" class="sample-url-btn" data-sample-url="https://www.cccnan.art">試測 https://www.cccnan.art</button>
+            </div>
+          </form>
+
+          <p class="live-check-status" id="live-check-status" role="status" aria-live="polite">
+            輸入任意公開官網網址，或直接點擊上方範例鈕，約 3～10 秒即產出三項實測燈號與白話修復清單。
+          </p>
+
+          <div class="live-check-result" id="live-check-result" aria-live="polite">
+            <div class="live-score-overview">
+              <div class="score-ring-wrap">
+                <svg class="score-ring" id="live-score-ring-svg" viewBox="0 0 120 120" role="img" aria-label="GEO 基礎準備度分數環形圖">
+                  <circle class="score-ring-track" cx="60" cy="60" r="50"></circle>
+                  <circle
+                    class="score-ring-fill is-idle"
+                    id="live-score-ring-fill"
+                    cx="60"
+                    cy="60"
+                    r="50"
+                    stroke-dasharray="314.16"
+                    stroke-dashoffset="314.16"
+                  ></circle>
+                </svg>
+                <div class="score-ring-center">
+                  <strong class="mono" id="live-score-value">--</strong>
+                  <span>/ 100 分</span>
+                </div>
+              </div>
+
+              <div class="live-score-meta">
+                <div class="live-meta-top">
+                  <span class="pill pill-brass" id="live-grade-badge">尚未開始實測</span>
+                  <span class="mono live-target-host" id="live-target-display">等待輸入網址</span>
+                </div>
+                <h3 id="live-grade-headline">立即實測你的網站，看看 AI 爬蟲讀得到多少基礎資訊</h3>
+                <p class="live-meta-note" id="live-meta-note">
+                  按下「開始初檢」後，系統會平行抓取目標站的 <code>/robots.txt</code>、<code>/llms.txt</code> 與首頁 HTML，即時計算 0–100 基礎準備度分數並給出白話修復優先順序。
+                </p>
+              </div>
+            </div>
+
+            <div class="live-cards-grid" id="live-check-cards">
+              <article class="check-light-card is-idle" data-check-card="robots">
+                <div class="check-card-head">
+                  <span class="check-card-kicker mono">01 / 35 分</span>
+                  <span class="light-badge is-idle">待檢測</span>
+                </div>
+                <h4>AI 爬蟲放行（<code>robots.txt</code>）</h4>
+                <p class="check-card-summary">實測 <code>Googlebot</code>、<code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code> 放行狀況，並檢查是否區分 <code>GPTBot</code>／<code>ClaudeBot</code>。</p>
+                <div class="check-card-details"></div>
+              </article>
+
+              <article class="check-light-card is-idle" data-check-card="llms">
+                <div class="check-card-head">
+                  <span class="check-card-kicker mono">02 / 30 分</span>
+                  <span class="light-badge is-idle">待檢測</span>
+                </div>
+                <h4>AI 導覽索引（<code>llms.txt</code>）</h4>
+                <p class="check-card-summary">實測根目錄 <code>/llms.txt</code> 是否回傳 HTTP 200、字元長度與 Markdown 結構，並辨識常見的「HTML 軟 404 誤導頁」。</p>
+                <div class="check-card-details"></div>
+              </article>
+
+              <article class="check-light-card is-idle" data-check-card="homepage">
+                <div class="check-card-head">
+                  <span class="check-card-kicker mono">03 / 35 分</span>
+                  <span class="light-badge is-idle">待檢測</span>
+                </div>
+                <h4>官網結構與標籤（首頁 HTML）</h4>
+                <p class="check-card-summary">實測首頁 HTTP 狀態、<code>&lt;title&gt;</code>、<code>meta description</code>、<code>canonical</code> 與 <code>application/ld+json</code> 數量及 Schema <code>@type</code>。</p>
+                <div class="check-card-details"></div>
+              </article>
+            </div>
+
+            <div class="live-bottom-grid">
+              <div class="live-recs-box">
+                <h4>白話修復建議</h4>
+                <ul class="live-recs-list" id="live-check-recs">
+                  <li>點選上方「試測 https://anangeo.com」或輸入自己的網站網址，系統會依實測結果條列優先修復項目。</li>
+                </ul>
+                <p class="live-disclaimer" id="live-check-disclaimer">
+                  免責聲明：僅為基礎公開頁初檢，不含 20 題跨平台 AI 實測與 WAF 深度掃描；本工坊不保證 AI 排名或必被推薦。
+                </p>
+              </div>
+
+              <div class="live-cta-box">
+                <span class="panel-kicker">NEXT STEP・完整 20 題跨引擎實測</span>
+                <h4>想知道 AI 實際回答有沒有點名你、有沒有報錯舊價？</h4>
+                <p>
+                  基礎初檢看的是「網站設定檔有沒有寫好」；真正決定客戶問 AI 會不會找到你，還要用無痕新對話實測 20 題與 9 維度健檢。
+                </p>
+                <div class="live-cta-actions">
+                  <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">
+                    加 LINE @250ruauk 做完整 20 題與 9 維度健檢
+                  </a>
+                  <button type="button" class="btn btn-secondary btn-full" id="copy-live-report-btn">
+                    複製初檢摘要貼給 LINE
+                  </button>
+                </div>
+                <p class="copy-feedback" id="live-copy-feedback" aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1134,7 +1279,7 @@
       <div>
         <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
         <p class="footer-note">
-          純靜態架構・免後端資料庫・可直接託管於 GitHub Pages。本網站之 GEO 體檢維度與實戰工作流理念基於開源專案
+          純靜態前端＋Cloudflare Pages Functions 即時基礎初檢・免後端資料庫。本網站之 GEO 體檢維度與實戰工作流理念基於開源專案
           <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook</a>（Copyright &copy; 2026 GeoLook contributors，MIT License）延伸改作，非原作者官方服務，不代表原作者背書。
         </p>
       </div>
