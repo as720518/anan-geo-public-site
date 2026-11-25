@@ -162,8 +162,36 @@
     }
   }
 
+  const CATEGORY_IDS = ["tools", "data", "services", "guides"];
+  const HASH_TO_CATEGORY = {
+    "live-check": "tools",
+    "starter-kit-box": "tools",
+    "self-check": "tools",
+    "industry-competitor-picker": "tools",
+    "relay-updates": "data",
+    dashboard: "data",
+    "reality-strip": "data",
+    "engine-tablist": "data",
+    "audit-dim-list": "data",
+    "five-steps-grid": "data",
+    services: "services",
+    "plan-picker-widget": "services",
+    "plan-comparison-table": "services",
+    "agency-partner-box": "services",
+    contact: "services",
+    "line-q-helper": "services",
+    guides: "guides",
+    "article-1": "guides",
+    "article-2": "guides",
+    "article-3": "guides",
+    "article-4": "guides",
+    "faq-preview": "guides",
+  };
+
   const state = {
     caseData: null,
+    activeCategory: "tools",
+    expandAllCategories: false,
     activeEngine: "overview",
     activeDim: "crawlability",
     activeGuide: "all",
@@ -1752,6 +1780,247 @@
     bindPlanPicker();
     bindLineQuestionHelper();
     bindQuizInteractions();
+    bindCategoryNavigation();
+  }
+
+  function resolveCategoryForTargetId(targetId) {
+    if (!targetId) return null;
+    const cleanId = String(targetId).replace(/^#/, "").trim();
+    if (!cleanId) return null;
+    const targetEl = document.getElementById(cleanId);
+    if (targetEl) {
+      const panel = targetEl.closest("[data-category-panel]");
+      if (panel) {
+        return panel.getAttribute("data-category-panel");
+      }
+    }
+    return HASH_TO_CATEGORY[cleanId] || null;
+  }
+
+  function syncRelayBadge() {
+    const badge = el("cat-relay-badge");
+    if (!badge) return;
+    const cards = document.querySelectorAll("#relay-updates .relay-update-card");
+    if (cards.length > 0) {
+      badge.textContent = `NEW・${cards.length} 則動態`;
+      badge.hidden = false;
+    } else {
+      badge.hidden = true;
+    }
+  }
+
+  function applyCategoryView(options = {}) {
+    const panels = [...document.querySelectorAll("[data-category-panel]")];
+    if (panels.length === 0) return;
+
+    const expandAll = Boolean(state.expandAllCategories);
+    const activeCat = CATEGORY_IDS.includes(state.activeCategory) ? state.activeCategory : "tools";
+
+    const panelsWrap = el("category-panels");
+    if (panelsWrap) {
+      panelsWrap.classList.toggle("is-expand-all", expandAll);
+    }
+
+    panels.forEach((panel) => {
+      const cat = panel.getAttribute("data-category-panel");
+      const visible = expandAll || cat === activeCat;
+      panel.classList.toggle("is-cat-active", visible);
+      panel.classList.toggle("is-cat-collapsed", !visible);
+      if (visible) {
+        panel.removeAttribute("hidden");
+      } else {
+        panel.setAttribute("hidden", "until-found");
+      }
+    });
+
+    document.querySelectorAll("[data-category-tab]").forEach((btn) => {
+      const cat = btn.getAttribute("data-category-tab");
+      const isCurrent = !expandAll && cat === activeCat;
+      btn.classList.toggle("is-active", isCurrent);
+      btn.setAttribute("aria-selected", String(isCurrent));
+      btn.setAttribute("tabindex", isCurrent || (expandAll && cat === activeCat) ? "0" : "-1");
+      if (isCurrent && options.scrollTabIntoView !== false) {
+        const scroller = btn.parentElement;
+        if (scroller && scroller.scrollWidth > scroller.clientWidth) {
+          const left = btn.offsetLeft - (scroller.clientWidth - btn.offsetWidth) / 2;
+          try {
+            scroller.scrollTo({
+              left: Math.max(0, Math.round(left)),
+              behavior: options.instant ? "instant" : "smooth",
+            });
+          } catch {
+            scroller.scrollLeft = Math.max(0, Math.round(left));
+          }
+        }
+      }
+      if (isCurrent && options.focusTab) {
+        btn.focus();
+      }
+    });
+
+    document.querySelectorAll("[data-category-card]").forEach((card) => {
+      const cat = card.getAttribute("data-category-card");
+      const isCurrent = !expandAll && cat === activeCat;
+      card.classList.toggle("is-active", isCurrent || expandAll);
+      card.setAttribute("aria-pressed", String(isCurrent || expandAll));
+      const statusNode = card.querySelector("[data-cat-status]");
+      if (statusNode) {
+        statusNode.textContent = expandAll ? "已展開" : isCurrent ? "目前瀏覽" : "點擊切換";
+      }
+    });
+
+    document.querySelectorAll("[data-category-toggle-all]").forEach((btn) => {
+      btn.classList.toggle("is-active", expandAll);
+      btn.setAttribute("aria-pressed", String(expandAll));
+      if (btn.id === "sticky-expand-all-btn") {
+        btn.textContent = expandAll ? "切回精簡分頁" : "展開全部瀏覽";
+      } else {
+        btn.textContent = expandAll ? "切回分類聚焦模式" : "展開全部瀏覽";
+      }
+    });
+
+    if (options.scrollToPanel) {
+      const stickyBar = el("category-tabs-bar");
+      if (stickyBar) {
+        const header = document.querySelector(".site-header");
+        const headerH = header ? header.getBoundingClientRect().height : 72;
+        const barTop = stickyBar.getBoundingClientRect().top + window.scrollY - headerH;
+        window.scrollTo({
+          top: Math.max(0, Math.round(barTop)),
+          behavior: options.instant ? "instant" : "smooth",
+        });
+      }
+    }
+  }
+
+  function setActiveCategory(categoryId, options = {}) {
+    if (!CATEGORY_IDS.includes(categoryId)) return;
+    state.activeCategory = categoryId;
+    state.expandAllCategories = false;
+    applyCategoryView(options);
+  }
+
+  function toggleExpandAllCategories() {
+    state.expandAllCategories = !state.expandAllCategories;
+    applyCategoryView({ scrollToPanel: false, scrollTabIntoView: false });
+  }
+
+  function activateCategoryForHash(rawHash, options = {}) {
+    const cleanId = String(rawHash || "").replace(/^#/, "").trim();
+    if (!cleanId) return false;
+
+    const targetCategory = resolveCategoryForTargetId(cleanId);
+    if (targetCategory) {
+      state.activeCategory = targetCategory;
+      state.expandAllCategories = false;
+      applyCategoryView({ scrollToPanel: false, instant: Boolean(options.instant) });
+    }
+
+    if (options.scroll !== false) {
+      const targetEl = document.getElementById(cleanId);
+      const fallbackEl =
+        targetEl || (targetCategory ? document.getElementById(`cat-panel-${targetCategory}`) : null);
+      if (fallbackEl) {
+        window.requestAnimationFrame(() => {
+          fallbackEl.scrollIntoView({
+            behavior: options.instant ? "instant" : "smooth",
+            block: "start",
+          });
+        });
+      }
+    }
+    return Boolean(targetCategory);
+  }
+
+  function bindCategoryNavigation() {
+    const panels = [...document.querySelectorAll("[data-category-panel]")];
+    if (panels.length === 0) return;
+
+    // Progressive enhancement: only collapse inactive panels when JS is active
+    document.documentElement.classList.add("has-cat-tabs");
+
+    const cardsGrid = el("category-cards-grid");
+    if (cardsGrid) {
+      cardsGrid.addEventListener("click", (ev) => {
+        const card = ev.target.closest("[data-category-card]");
+        if (!card) return;
+        const cat = card.getAttribute("data-category-card");
+        if (cat) {
+          setActiveCategory(cat, { scrollToPanel: true });
+        }
+      });
+    }
+
+    const tablist = el("category-tablist");
+    if (tablist) {
+      tablist.addEventListener("click", (ev) => {
+        const tab = ev.target.closest("[data-category-tab]");
+        if (!tab) return;
+        const cat = tab.getAttribute("data-category-tab");
+        if (cat) {
+          setActiveCategory(cat, { scrollToPanel: true });
+        }
+      });
+
+      tablist.addEventListener("keydown", (ev) => {
+        const tab = ev.target.closest("[data-category-tab]");
+        if (!tab) return;
+        const idx = CATEGORY_IDS.indexOf(tab.getAttribute("data-category-tab"));
+        if (idx === -1) return;
+        let nextIdx = idx;
+        if (ev.key === "ArrowRight") nextIdx = (idx + 1) % CATEGORY_IDS.length;
+        else if (ev.key === "ArrowLeft") nextIdx = (idx - 1 + CATEGORY_IDS.length) % CATEGORY_IDS.length;
+        else if (ev.key === "Home") nextIdx = 0;
+        else if (ev.key === "End") nextIdx = CATEGORY_IDS.length - 1;
+        else return;
+        ev.preventDefault();
+        setActiveCategory(CATEGORY_IDS[nextIdx], { focusTab: true, scrollToPanel: true });
+      });
+    }
+
+    document.querySelectorAll("[data-category-toggle-all]").forEach((btn) => {
+      btn.addEventListener("click", () => toggleExpandAllCategories());
+    });
+
+    // Chrome Ctrl+F / find-in-page auto-reveals collapsed category panel via beforematch
+    panels.forEach((panel) => {
+      panel.addEventListener("beforematch", () => {
+        const cat = panel.getAttribute("data-category-panel");
+        if (cat) {
+          setActiveCategory(cat, { scrollToPanel: false });
+        }
+      });
+    });
+
+    // Intercept in-page anchor links so clicking #services / #dashboard / #live-check / #guides auto-switches category
+    document.addEventListener("click", (ev) => {
+      const link = ev.target.closest("a[href]");
+      if (!link) return;
+      const href = link.getAttribute("href") || "";
+      if (!href.startsWith("#") || href.length <= 1) return;
+      const targetId = href.slice(1);
+      const targetCat = resolveCategoryForTargetId(targetId);
+      if (!targetCat) return;
+      ev.preventDefault();
+      if (window.history && window.history.pushState) {
+        try {
+          window.history.pushState(null, "", `#${targetId}`);
+        } catch {}
+      }
+      activateCategoryForHash(targetId, { scroll: true });
+    });
+
+    window.addEventListener("hashchange", () => {
+      activateCategoryForHash(window.location.hash, { scroll: true });
+    });
+
+    syncRelayBadge();
+
+    if (window.location.hash && resolveCategoryForTargetId(window.location.hash)) {
+      activateCategoryForHash(window.location.hash, { scroll: true, instant: true });
+    } else {
+      applyCategoryView({ scrollToPanel: false, scrollTabIntoView: false });
+    }
   }
 
   function sanitizeStarterText(raw, fallback) {
