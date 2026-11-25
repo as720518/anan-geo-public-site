@@ -94,7 +94,7 @@
         "about": { "@id": "https://anangeo.com/#organization" },
         "primaryImageOfPage": "https://anangeo.com/og-cover.png",
         "datePublished": "2026-11-25T00:00:00+08:00",
-        "dateModified": "2026-11-26T06:00:00+08:00"
+        "dateModified": "2026-11-26T06:45:00+08:00"
       },
       {
         "@type": "Service",
@@ -236,7 +236,7 @@
         </span>
         <span class="brand-text">
           <strong>阿男 GEO 實戰工坊</strong>
-          <small>1,298 筆實測證據・GeoLook (MIT) 延伸</small>
+          <small>讓 ChatGPT 與 Google 推薦你的店</small>
         </span>
       </a>
 
@@ -245,134 +245,74 @@
       </button>
 
       <nav class="site-nav" id="site-nav" aria-label="主要導覽">
-        <a href="#live-check">10 秒免費初檢</a>
-        <a href="#dashboard">1,298 筆實測</a>
-        <a href="#guides">教學（4 篇）</a>
+        <a href="#live-check">10 秒免費檢測</a>
+        <a href="#dashboard">實戰案例</a>
+        <a href="#services">服務方案</a>
+        <a href="#guides">做法指南</a>
         <a href="/enterprise/">企業專頁</a>
         <a href="/faq/">常見問答</a>
-        <a href="#services">服務方案</a>
-        <a class="nav-cta" href="#contact">預約 GEO 健檢</a>
+        <a class="nav-cta" href="#contact">預約健檢</a>
       </nav>
     </div>
   </header>
 
   <main id="main">
-    <!-- ==================== 1. 首頁理念 ==================== -->
-    <section class="hero" id="top">
+    <!-- ==================== 1. 首屏 Hero（老闆白話精簡版） ==================== -->
+    <section class="hero hero-compact" id="top">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">GENERATIVE ENGINE OPTIMIZATION・實測不畫大餅</p>
-          <h1>讓 AI 回答問題時，<br><span class="accent-brass">主動點名並說對</span>你的品牌。</h1>
+          <p class="eyebrow">10 秒免費網站健檢・不畫大餅</p>
+          <h1>免費測看看你的店有沒有被 AI 推薦<br><span class="accent-brass">10 秒看懂官網哪裡該改。</span></h1>
           <p class="hero-lede">
-            現在越來越多人直接問 <strong>ChatGPT、Gemini、Perplexity、豆包、騰訊元寶</strong>：「想做這件事應該找誰？哪家比較適合我？」
-            <strong>GEO（生成式引擎最佳化）</strong>是指透過可驗證的事實結構、搜尋爬蟲放行與跨平台信源，讓 AI 找得到你、認得清你，而且把你的價格與流程說對（不只是換個名字的 SEO）。
+            客人現在直接問 <strong>ChatGPT 與 Google</strong> 要找哪家店。我們幫你把官網改成 AI 讀得懂的結構，讓它正確說出你的店名、價目與預約方式。
           </p>
 
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#live-check">輸入網址・10 秒免費基礎初檢</a>
-            <a class="btn btn-secondary" href="#dashboard">看 1,298 筆真實案例儀表板</a>
-            <a class="btn btn-secondary" href="#self-check">12 題免費自檢</a>
+          <div class="hero-actions hero-actions-single">
+            <a class="btn btn-primary" href="#live-check">立即免費測我的網站 →</a>
+            <a class="hero-text-link" href="#dashboard">看真實改站前後成效 ↓</a>
           </div>
 
-          <div class="oss-strip" id="philosophy">
-            <span class="oss-tag">OPEN SOURCE</span>
-            <p>
-              本工坊方法與 6 維體檢架構基於開源專案 <strong>GeoLook（MIT License）</strong>延伸改作，結合創辦人自營品牌 <code>cccnan.art</code> 截至 2026-11-24/25 的 <strong>1,298 筆跨引擎實測紀律</strong>整理而成；屬獨立實務分享，非原作者官方服務或背書。本工坊專注品牌 GEO 服務，與 <code>cccnan.art</code> 客製紀念歌曲業務分開營運。
-            </p>
-          </div>
+          <p class="hero-trust-note" id="philosophy">
+            1,298 筆跨平台實測整理・透明報價・與客製歌曲品牌 cccnan.art 分開營運。
+          </p>
         </div>
 
-        <aside class="telemetry-card" aria-label="1 號案例實測摘要">
+        <aside class="telemetry-card telemetry-compact" aria-label="1 號案例實測摘要">
           <div class="telemetry-head">
-            <span class="pill pill-live">實測現場｜CASE-01</span>
-            <span class="mono muted">www.cccnan.art</span>
+            <span class="pill pill-live">真實案例｜阿男音樂</span>
+            <span class="mono muted">35 天實測</span>
           </div>
-          <h2 class="telemetry-title">先留下原答，再看 AI 有沒有說對</h2>
-          <p class="telemetry-sub">個人原創音樂品牌「阿男音樂」去敏實測對照（2026-09-23 ～ 11-24｜35 個實測日）</p>
+          <h2 class="telemetry-title">改站前找不到 → 改站後主動推薦</h2>
 
           <div class="telemetry-compare">
             <div class="compare-box is-before">
-              <span class="box-label">改前基線（09/23–29）</span>
+              <span class="box-label">改站前</span>
               <strong>0 / 22</strong>
-              <p>未提品牌基準題 0% 點名；官方 LINE 0/10，曾被認成樂器行與背出舊價。</p>
+              <p>問 AI 完全找不到，還報錯舊價。</p>
             </div>
             <div class="compare-box is-after">
-              <span class="box-label">11/18–24 最新實測</span>
-              <strong>50.0% 露出｜LINE 100%</strong>
-              <p>ChatGPT 7/14、Perplexity 7/14 自然露出；ChatGPT／Perplexity LINE 皆 7/7 命中。</p>
-            </div>
-          </div>
-
-          <div class="chart-card" aria-label="6 維體檢分數變化示意圖">
-            <div class="chart-head">
-              <span>GeoLook 6 維體檢總分</span>
-              <span class="mono"><span class="text-coral">41</span> → <strong class="text-teal">89 / 100</strong></span>
-            </div>
-            <svg class="score-svg" viewBox="0 0 360 112" role="img" aria-label="6 維體檢改前 41 分提升至改後 89 分對照長條圖">
-              <g font-family="ui-monospace, SFMono-Regular, monospace" font-size="10" fill="#9BAAB8">
-                <text x="0" y="14">可抓取</text>
-                <text x="0" y="32">內容度</text>
-                <text x="0" y="50">結構規</text>
-                <text x="0" y="68">抽取塊</text>
-                <text x="0" y="86">權威度</text>
-                <text x="0" y="104">對題性</text>
-              </g>
-              <g transform="translate(52, 0)">
-                <!-- tracks -->
-                <rect x="0" y="5" width="250" height="10" rx="5" fill="#1C2935"/>
-                <rect x="0" y="23" width="250" height="10" rx="5" fill="#1C2935"/>
-                <rect x="0" y="41" width="250" height="10" rx="5" fill="#1C2935"/>
-                <rect x="0" y="59" width="250" height="10" rx="5" fill="#1C2935"/>
-                <rect x="0" y="77" width="250" height="10" rx="5" fill="#1C2935"/>
-                <rect x="0" y="95" width="250" height="10" rx="5" fill="#1C2935"/>
-                <!-- after bars (emerald/brass) -->
-                <rect x="0" y="5" width="250" height="10" rx="5" fill="#34B399"/>
-                <rect x="0" y="23" width="233" height="10" rx="5" fill="#34B399"/>
-                <rect x="0" y="41" width="225" height="10" rx="5" fill="#34B399"/>
-                <rect x="0" y="59" width="220" height="10" rx="5" fill="#D9A74A"/>
-                <rect x="0" y="77" width="183" height="10" rx="5" fill="#D9A74A"/>
-                <rect x="0" y="95" width="225" height="10" rx="5" fill="#34B399"/>
-                <!-- before markers (coral) -->
-                <rect x="0" y="5" width="150" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
-                <rect x="0" y="23" width="100" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
-                <rect x="0" y="41" width="112" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
-                <rect x="0" y="59" width="70" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
-                <rect x="0" y="77" width="83" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
-                <rect x="0" y="95" width="125" height="10" rx="5" fill="#E26D5A" opacity="0.55"/>
-              </g>
-              <g font-family="ui-monospace, SFMono-Regular, monospace" font-size="10" fill="#ECF1F6" text-anchor="end">
-                <text x="358" y="14">15/15</text>
-                <text x="358" y="32">14/15</text>
-                <text x="358" y="50">18/20</text>
-                <text x="358" y="68">22/25</text>
-                <text x="358" y="86">11/15</text>
-                <text x="358" y="104">9/10</text>
-              </g>
-            </svg>
-            <div class="chart-legend">
-              <span><i class="dot dot-coral"></i>改前基線</span>
-              <span><i class="dot dot-teal"></i>改後達標</span>
-              <span><i class="dot dot-brass"></i>核心槓桿／持續累積</span>
+              <span class="box-label">改站後</span>
+              <strong>50% 露出</strong>
+              <p>主動點名推薦，LINE 100% 說對。</p>
             </div>
           </div>
 
           <dl class="telemetry-stats">
             <div>
-              <dt>實測累積原答</dt>
+              <dt>實測原答</dt>
               <dd class="mono">1,298 筆</dd>
             </div>
             <div>
-              <dt>初診→現行公開頁</dt>
-              <dd class="mono">37 → 44 頁</dd>
+              <dt>網站體檢分</dt>
+              <dd class="mono text-teal">41 → 89</dd>
             </div>
             <div>
-              <dt>跨平台觸點</dt>
-              <dd class="mono">313 筆</dd>
+              <dt>聯絡說對率</dt>
+              <dd class="mono">100%</dd>
             </div>
           </dl>
         </aside>
       </div>
-
     </section>
 
     <!-- ==================== 首頁 4 大分類入口卡與黏性頁籤切換器 ==================== -->
@@ -380,8 +320,7 @@
       <div class="container">
         <div class="category-hub-head">
           <div>
-            <p class="eyebrow">TOPIC HUB・4 大分類快速切換（首頁減重版）</p>
-            <h2>不用一路滑到底，點選分類聚焦看你要的重點</h2>
+            <h2>先點一個你最想看的主題</h2>
           </div>
           <button
             type="button"
@@ -400,13 +339,8 @@
             aria-pressed="true"
             aria-controls="cat-panel-tools"
           >
-            <div class="category-card-top">
-              <span class="cat-num mono">01</span>
-              <span class="cat-card-status" data-cat-status>目前瀏覽</span>
-            </div>
             <strong class="category-card-title">🔍 免費檢測工具</strong>
-            <span class="category-card-desc">10 秒免費初檢、同行對手 PK、起手範本產生器與 12 題準備度自檢</span>
-            <span class="category-card-tags"><span>免登入初檢</span><span>12 題自檢</span></span>
+            <span class="category-card-desc">10 秒測網站與對手 PK</span>
           </button>
 
           <button
@@ -416,14 +350,11 @@
             aria-pressed="false"
             aria-controls="cat-panel-data"
           >
-            <div class="category-card-top">
-              <span class="cat-num mono">02</span>
-              <span class="cat-card-status" data-cat-status>點擊切換</span>
+            <div class="category-card-title-row">
+              <strong class="category-card-title">📊 實戰數據與動態</strong>
               <span class="cat-live-badge" id="cat-relay-badge" hidden></span>
             </div>
-            <strong class="category-card-title">📊 實戰數據與動態</strong>
-            <span class="category-card-desc">最新實戰同步動態、1,298 筆跨引擎實測儀表板、6 維體檢與 5 步驟工作流</span>
-            <span class="category-card-tags"><span>1,298 筆原答</span><span>最新動態</span></span>
+            <span class="category-card-desc">看改站前後真實成效與動態</span>
           </button>
 
           <button
@@ -433,13 +364,8 @@
             aria-pressed="false"
             aria-controls="cat-panel-services"
           >
-            <div class="category-card-top">
-              <span class="cat-num mono">03</span>
-              <span class="cat-card-status" data-cat-status>點擊切換</span>
-            </div>
             <strong class="category-card-title">💼 服務方案與合作</strong>
-            <span class="category-card-desc">15 秒點 3 下挑方案、四方案並排對照表、LINE 3 題幫手與同業協力入口</span>
-            <span class="category-card-tags"><span>NT$3,800 起</span><span>同業協力</span></span>
+            <span class="category-card-desc">透明報價、挑方案與合夥分潤</span>
           </button>
 
           <button
@@ -449,13 +375,8 @@
             aria-pressed="false"
             aria-controls="cat-panel-guides"
           >
-            <div class="category-card-top">
-              <span class="cat-num mono">04</span>
-              <span class="cat-card-status" data-cat-status>點擊切換</span>
-            </div>
             <strong class="category-card-title">📖 做法指南與 FAQ</strong>
-            <span class="category-card-desc">4 篇公開實戰做法、AI 報錯舊價破案實錄、FAQ 精選與完整專頁直達</span>
-            <span class="category-card-tags"><span>4 篇教學</span><span>FAQ 精選</span></span>
+            <span class="category-card-desc">白話教學、破案實錄與問答</span>
           </button>
         </div>
       </div>
@@ -524,650 +445,644 @@
           <div class="container cat-panel-banner-inner">
             <span class="cat-panel-badge mono">01｜🔍 免費檢測工具</span>
             <div class="cat-quick-links" aria-label="免費檢測工具區內快速跳轉">
-              <a href="#live-check">10 秒免費初檢／對手 PK</a>
-              <a href="#starter-kit-box">起手範本產生器</a>
+              <a href="#live-check">10 秒免費健檢／對手 PK</a>
               <a href="#self-check">12 題免費自檢</a>
+              <a href="#starter-kit-box">工程師工具</a>
             </div>
           </div>
         </div>
 
-    <!-- ==================== 1.5 輸入網址・10 秒免費基礎 GEO 初檢（含同行對手 PK） ==================== -->
-    <section class="section live-check-section" id="live-check">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">LIVE BASIC CHECK &amp; COMPETITOR PK・即時公開頁實測（免登入・免安裝）</p>
-            <h2>輸入網址・10 秒免費基礎 GEO 初檢（支援同行對手 PK）</h2>
-            <p class="section-lede">
-              輸入你的品牌官網，並可選填一位<strong>同行對手官網</strong>同時 PK！系統即時透過 Cloudflare 邊緣端實測三項基礎地基：<strong>AI 搜尋與訓練爬蟲放行（<code>robots.txt</code>）</strong>、<strong>AI 導覽索引（<code>llms.txt</code>）</strong>與<strong>首頁 HTML 標籤／JSON-LD 結構</strong>。立即看雙方總分與勝負差距，輸入 Email 即可免費解鎖完整紅綠燈明細與白話修復清單。
-            </p>
-          </div>
-          <div class="honesty-pill">
-            <strong>實測邊界說明</strong>
-            <span>本服務由阿男 GEO 實戰工坊獨立提供（與 <code>cccnan.art</code> 客製歌曲品牌分開）；僅測公開頁基礎設定，不含 20 題跨平台 AI 實測與 WAF 深度掃描。</span>
-          </div>
-        </div>
-
-        <div class="live-check-panel">
-          <form class="live-check-form" id="live-check-form" novalidate aria-label="輸入網址與同行對手網址進行 10 秒免費基礎 GEO 初檢">
-            <div class="live-pk-inputs">
-              <div class="live-field">
-                <label class="live-field-label" for="live-check-url">我的官網網址（必填）</label>
-                <input
-                  type="url"
-                  id="live-check-url"
-                  name="url"
-                  class="live-url-input"
-                  placeholder="輸入你的公開網址，例如 https://anangeo.com"
-                  autocomplete="url"
-                  inputmode="url"
-                  required
-                >
-              </div>
-              <div class="live-field">
-                <label class="live-field-label" for="live-competitor-url">對手官網網址（選填，可同時 PK）</label>
-                <input
-                  type="url"
-                  id="live-competitor-url"
-                  name="competitor_url"
-                  class="live-url-input"
-                  placeholder="可自行輸入任意對手網址，或從下方行業名單勾選（不勾不測）"
-                  autocomplete="url"
-                  inputmode="url"
-                >
-              </div>
-              <div class="live-submit-wrap">
-                <button type="submit" class="btn btn-primary live-submit-btn" id="live-check-submit">開始免費初檢</button>
-              </div>
-            </div>
-
-            <!-- 行業參考對手勾選清單（預設全部不勾選，沒勾絕不分析） -->
-            <div class="industry-picker" id="industry-competitor-picker">
-              <div class="industry-picker-head">
-                <div>
-                  <span class="industry-picker-kicker">OPTIONAL COMPETITOR PICKER・行業參考對手快選</span>
-                  <p class="industry-picker-desc">
-                    下方參考名單<strong>預設全部不勾選</strong>；只有您主動點擊勾選 1 位對手（或於上方自行輸入對手網址）才會啟動雙邊 PK，沒勾選的絕不分析。
-                  </p>
-                </div>
-                <div class="industry-selection-bar">
-                  <span class="selected-comp-pill" id="selected-competitor-summary">未選對手（僅測自己網站）</span>
-                  <button type="button" class="clear-comp-btn" id="clear-competitor-btn" hidden>取消勾選</button>
-                </div>
-              </div>
-
-              <div class="industry-tabs" id="industry-tabs" role="tablist" aria-label="6 大行業分類對手清單">
-                <button type="button" role="tab" aria-selected="true" class="industry-tab is-active" data-industry="marketing">行銷／SEO顧問</button>
-                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="ecommerce">電商零售</button>
-                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="medical">醫美健康</button>
-                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="manufacturing">B2B製造與供應鏈</button>
-                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="b2b">B2B企業服務</button>
-                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="local">客製與在地品牌</button>
-              </div>
-
-              <div class="industry-competitor-grid" id="industry-competitor-grid" aria-live="polite">
-                <label class="competitor-card">
-                  <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://www.awoo.ai">
-                  <span class="competitor-card-body">
-                    <span class="competitor-card-top">
-                      <strong class="competitor-card-name">awoo 阿物科技</strong>
-                      <span class="competitor-card-state">未勾選</span>
-                    </span>
-                    <code class="competitor-card-url">https://www.awoo.ai</code>
-                    <span class="competitor-card-note">台灣 SEO 與行銷科技品牌官網參考</span>
-                  </span>
-                </label>
-                <label class="competitor-card">
-                  <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://moz.com">
-                  <span class="competitor-card-body">
-                    <span class="competitor-card-top">
-                      <strong class="competitor-card-name">Moz</strong>
-                      <span class="competitor-card-state">未勾選</span>
-                    </span>
-                    <code class="competitor-card-url">https://moz.com</code>
-                    <span class="competitor-card-note">國際搜尋最佳化與知識內容標竿站</span>
-                  </span>
-                </label>
-                <label class="competitor-card">
-                  <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://ahrefs.com">
-                  <span class="competitor-card-body">
-                    <span class="competitor-card-top">
-                      <strong class="competitor-card-name">Ahrefs</strong>
-                      <span class="competitor-card-state">未勾選</span>
-                    </span>
-                    <code class="competitor-card-url">https://ahrefs.com</code>
-                    <span class="competitor-card-note">國際搜尋分析與內容佈局標竿站</span>
-                  </span>
-                </label>
-              </div>
-            </div>
-
-            <div class="live-samples-row">
-              <span class="live-samples-label">一鍵試測範例：</span>
-              <button
-                type="button"
-                class="sample-url-btn sample-pk-btn"
-                id="sample-pk-btn"
-                data-pk-target="https://anangeo.com"
-                data-pk-competitor="https://www.cccnan.art"
-              >一鍵試測 PK（anangeo.com vs cccnan.art）</button>
-              <button type="button" class="sample-url-btn" data-sample-url="https://anangeo.com">試測 https://anangeo.com</button>
-              <button type="button" class="sample-url-btn" data-sample-url="https://www.cccnan.art">試測 https://www.cccnan.art</button>
-            </div>
-          </form>
-
-          <p class="live-check-status" id="live-check-status" role="status" aria-live="polite">
-            輸入任意公開官網網址（可加填同行對手同時 PK），或點擊上方「一鍵試測 PK」範例鈕，約 3～10 秒立即查看總分環形圖與勝負差距。
-          </p>
-
-          <div class="live-check-result" id="live-check-result" aria-live="polite">
-            <div class="live-score-overview" id="live-score-overview">
-              <!-- 我方總分環形圖 -->
-              <div class="score-side is-primary">
-                <span class="score-side-tag" id="live-primary-tag">我方官網</span>
-                <div class="score-ring-wrap">
-                  <svg class="score-ring" id="live-score-ring-svg" viewBox="0 0 120 120" role="img" aria-label="我方 GEO 基礎準備度分數環形圖">
-                    <circle class="score-ring-track" cx="60" cy="60" r="50"></circle>
-                    <circle
-                      class="score-ring-fill is-idle"
-                      id="live-score-ring-fill"
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      stroke-dasharray="314.16"
-                      stroke-dashoffset="314.16"
-                    ></circle>
-                  </svg>
-                  <div class="score-ring-center">
-                    <strong class="mono" id="live-score-value">--</strong>
-                    <span>/ 100 分</span>
-                  </div>
-                </div>
-                <span class="score-side-host mono" id="live-primary-host">等待輸入網址</span>
-              </div>
-
-              <!-- 中央摘要 / PK 勝負差距 -->
-              <div class="live-score-meta">
-                <div class="live-meta-top">
-                  <span class="pill pill-brass" id="live-grade-badge">尚未開始實測</span>
-                  <span class="mono live-target-host" id="live-target-display">等待輸入網址</span>
-                </div>
-
-                <div class="pk-versus-box" id="live-pk-versus" hidden>
-                  <span class="pk-vs-pill mono" id="live-pk-diff-badge">VS</span>
-                  <strong class="pk-vs-headline" id="live-pk-verdict">等待對手 PK 結果</strong>
-                  <p class="pk-vs-sub" id="live-pk-sub"></p>
-                </div>
-
-                <h3 id="live-grade-headline">立即實測你的網站，看看 AI 爬蟲讀得到多少基礎資訊</h3>
-                <p class="live-meta-note" id="live-meta-note">
-                  按下「開始免費初檢」後，系統會即時抓取目標站（及選填對手站）的 <code>/robots.txt</code>、<code>/llms.txt</code> 與首頁 HTML，計算 0–100 基礎準備度總分與勝負差距。
+        <!-- ==================== 1.5 輸入網址・10 秒免費網站健檢（含同行對手 PK） ==================== -->
+        <section class="section live-check-section" id="live-check">
+          <div class="container">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">免登入・免安裝</p>
+                <h2>輸入網址，10 秒測網站有沒有對 AI 敞開大門</h2>
+                <p class="section-lede">
+                  填上你的官網（可選填同行對手一起 PK），立即檢查搜尋引擎讀不讀得到你的店名、價目與預約入口。
                 </p>
               </div>
-
-              <!-- 對手總分環形圖（僅 PK 模式顯示） -->
-              <div class="score-side is-competitor" id="live-comp-side" hidden>
-                <span class="score-side-tag is-comp">同行對手</span>
-                <div class="score-ring-wrap">
-                  <svg class="score-ring" id="live-comp-score-ring-svg" viewBox="0 0 120 120" role="img" aria-label="同行對手 GEO 基礎準備度分數環形圖">
-                    <circle class="score-ring-track" cx="60" cy="60" r="50"></circle>
-                    <circle
-                      class="score-ring-fill is-idle"
-                      id="live-comp-score-ring-fill"
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      stroke-dasharray="314.16"
-                      stroke-dashoffset="314.16"
-                    ></circle>
-                  </svg>
-                  <div class="score-ring-center">
-                    <strong class="mono" id="live-comp-score-value">--</strong>
-                    <span>/ 100 分</span>
-                  </div>
-                </div>
-                <span class="score-side-host mono" id="live-comp-host">—</span>
-                <span class="pill pill-brass score-side-pill" id="live-comp-grade-badge">待檢測</span>
-              </div>
             </div>
 
-            <!-- Email 解鎖完整報告門檻（完成初檢且尚未解鎖時顯示） -->
-            <div class="live-unlock-gate" id="live-unlock-gate" hidden>
-              <div class="unlock-gate-head">
-                <span class="pill pill-brass">完整明細待解鎖</span>
-                <h3>輸入 Email，立即免費解鎖三項紅綠燈明細與白話修復建議</h3>
-                <p>
-                  系統已完成基礎實測！留下您的信箱，畫面將<strong>立即展開</strong>完整三項爬蟲與結構明細（含對手逐項對比與白話修復清單），並可同步留存報告摘要。
-                </p>
-                <div class="unlock-preview-chips" aria-label="解鎖後可檢視的報告內容">
-                  <span class="unlock-chip">待解鎖｜01 AI 爬蟲放行清單（6 搜尋＋2 訓練）</span>
-                  <span class="unlock-chip">待解鎖｜02 llms.txt 有效索引與軟 404／robots 矛盾診斷</span>
-                  <span class="unlock-chip">待解鎖｜03 首頁 4 大常犯錯（唯一 H1／比較表／壞描述／FAQPage）</span>
-                  <span class="unlock-chip">解鎖加碼送｜一鍵產生專屬基礎 robots.txt＋llms.txt 起手範本</span>
+            <div class="live-check-panel">
+              <form class="live-check-form" id="live-check-form" novalidate aria-label="輸入網址與同行對手網址進行 10 秒免費網站健檢">
+                <div class="live-pk-inputs">
+                  <div class="live-field">
+                    <label class="live-field-label" for="live-check-url">我的官網網址（必填）</label>
+                    <input
+                      type="url"
+                      id="live-check-url"
+                      name="url"
+                      class="live-url-input"
+                      placeholder="例如 https://anangeo.com"
+                      autocomplete="url"
+                      inputmode="url"
+                      required
+                    >
+                  </div>
+                  <div class="live-field">
+                    <label class="live-field-label" for="live-competitor-url">對手官網網址（選填，可同時 PK）</label>
+                    <input
+                      type="url"
+                      id="live-competitor-url"
+                      name="competitor_url"
+                      class="live-url-input"
+                      placeholder="可自行輸入對手網址，或從下方勾選"
+                      autocomplete="url"
+                      inputmode="url"
+                    >
+                  </div>
+                  <div class="live-submit-wrap">
+                    <button type="submit" class="btn btn-primary live-submit-btn" id="live-check-submit">開始免費初檢</button>
+                  </div>
                 </div>
-              </div>
 
-              <form class="live-lead-form" id="live-lead-form" novalidate aria-label="填寫 Email 解鎖完整初檢報告">
-                <div class="lead-input-row">
-                  <label class="sr-only" for="live-lead-email">接收完整報告的 Email 信箱</label>
-                  <input
-                    type="email"
-                    id="live-lead-email"
-                    name="email"
-                    class="live-url-input lead-email-input"
-                    placeholder="請輸入你的常用信箱（用於接收完整報告）"
-                    autocomplete="email"
-                    inputmode="email"
-                    required
-                  >
-                  <button type="submit" class="btn btn-primary lead-submit-btn" id="live-lead-submit">
-                    立即免費解鎖完整報告
-                  </button>
+                <!-- 行業參考對手勾選清單（預設全部不勾選，沒勾絕不分析） -->
+                <div class="industry-picker" id="industry-competitor-picker">
+                  <div class="industry-picker-head">
+                    <div>
+                      <span class="industry-picker-kicker">想順便比對手？（預設全不勾選）</span>
+                      <p class="industry-picker-desc">
+                        點選 1 位同行參考站就會啟動雙邊 PK；沒勾選的絕不分析。
+                      </p>
+                    </div>
+                    <div class="industry-selection-bar">
+                      <span class="selected-comp-pill" id="selected-competitor-summary">未選對手（僅測自己網站）</span>
+                      <button type="button" class="clear-comp-btn" id="clear-competitor-btn" hidden>取消勾選</button>
+                    </div>
+                  </div>
+
+                  <div class="industry-tabs" id="industry-tabs" role="tablist" aria-label="6 大行業分類對手清單">
+                    <button type="button" role="tab" aria-selected="true" class="industry-tab is-active" data-industry="marketing">行銷／SEO顧問</button>
+                    <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="ecommerce">電商零售</button>
+                    <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="medical">醫美健康</button>
+                    <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="manufacturing">B2B製造與供應鏈</button>
+                    <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="b2b">B2B企業服務</button>
+                    <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="local">客製與在地品牌</button>
+                  </div>
+
+                  <div class="industry-competitor-grid" id="industry-competitor-grid" aria-live="polite">
+                    <label class="competitor-card">
+                      <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://www.awoo.ai">
+                      <span class="competitor-card-body">
+                        <span class="competitor-card-top">
+                          <strong class="competitor-card-name">awoo 阿物科技</strong>
+                          <span class="competitor-card-state">未勾選</span>
+                        </span>
+                        <code class="competitor-card-url">https://www.awoo.ai</code>
+                        <span class="competitor-card-note">台灣行銷科技品牌官網參考</span>
+                      </span>
+                    </label>
+                    <label class="competitor-card">
+                      <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://moz.com">
+                      <span class="competitor-card-body">
+                        <span class="competitor-card-top">
+                          <strong class="competitor-card-name">Moz</strong>
+                          <span class="competitor-card-state">未勾選</span>
+                        </span>
+                        <code class="competitor-card-url">https://moz.com</code>
+                        <span class="competitor-card-note">國際搜尋最佳化標竿站</span>
+                      </span>
+                    </label>
+                    <label class="competitor-card">
+                      <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://ahrefs.com">
+                      <span class="competitor-card-body">
+                        <span class="competitor-card-top">
+                          <strong class="competitor-card-name">Ahrefs</strong>
+                          <span class="competitor-card-state">未勾選</span>
+                        </span>
+                        <code class="competitor-card-url">https://ahrefs.com</code>
+                        <span class="competitor-card-note">國際搜尋分析標竿站</span>
+                      </span>
+                    </label>
+                  </div>
                 </div>
 
-                <label class="lead-consent-label" for="live-lead-consent">
-                  <input type="checkbox" id="live-lead-consent" name="consent" class="lead-consent-checkbox" required>
-                  <span>同意由阿男 GEO 實戰工坊寄送檢測報告與後續 GEO 實戰資訊（可隨時取消訂閱）</span>
-                </label>
-
-                <p class="lead-form-status" id="live-lead-status" role="status" aria-live="polite"></p>
+                <div class="live-samples-row">
+                  <span class="live-samples-label">一鍵試測範例：</span>
+                  <button
+                    type="button"
+                    class="sample-url-btn sample-pk-btn"
+                    id="sample-pk-btn"
+                    data-pk-target="https://anangeo.com"
+                    data-pk-competitor="https://www.cccnan.art"
+                  >試測 PK（anangeo.com vs cccnan.art）</button>
+                  <button type="button" class="sample-url-btn" data-sample-url="https://anangeo.com">試測 anangeo.com</button>
+                  <button type="button" class="sample-url-btn" data-sample-url="https://www.cccnan.art">試測 cccnan.art</button>
+                </div>
               </form>
-            </div>
 
-            <!-- 完整紅綠燈明細與白話建議（實測後預設鎖定，解鎖後展開） -->
-            <div class="live-detail-wrap" id="live-detail-wrap">
-              <div class="live-unlocked-banner" id="live-unlocked-banner" hidden>
-                <strong id="live-unlocked-title">完整報告已免費解鎖</strong>
-                <span id="live-unlocked-msg"></span>
-                <a class="btn btn-secondary btn-sm" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">
-                  加 LINE @250ruauk 預約 20 題實測
-                </a>
-              </div>
-
-              <!-- 對手 PK 逐項分數對比表（PK 模式解鎖後顯示） -->
-              <div class="live-pk-breakdown" id="live-pk-breakdown" hidden>
-                <div class="pk-breakdown-head">
-                  <h4>我方 vs 同行對手｜三項基礎地基逐項 PK</h4>
-                  <span class="mono muted" id="live-pk-breakdown-meta"></span>
-                </div>
-                <div class="pk-breakdown-table-wrap">
-                  <table class="pk-breakdown-table" aria-label="我方與同行對手三項基礎指標對比表">
-                    <thead>
-                      <tr>
-                        <th scope="col">檢測維度</th>
-                        <th scope="col" id="pk-th-mine">我方官網</th>
-                        <th scope="col" id="pk-th-comp">同行對手</th>
-                        <th scope="col">差距</th>
-                      </tr>
-                    </thead>
-                    <tbody id="live-pk-breakdown-body"></tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div class="live-cards-grid" id="live-check-cards">
-                <article class="check-light-card is-idle" data-check-card="robots">
-                  <div class="check-card-head">
-                    <span class="check-card-kicker mono">01 / 35 分</span>
-                    <span class="light-badge is-idle">待檢測</span>
-                  </div>
-                  <h4>AI 爬蟲放行（<code>robots.txt</code>）</h4>
-                  <p class="check-card-summary">實測 <code>Googlebot</code>、<code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code> 放行狀況，並檢查是否區分 <code>GPTBot</code>／<code>ClaudeBot</code>。</p>
-                  <div class="check-card-details"></div>
-                </article>
-
-                <article class="check-light-card is-idle" data-check-card="llms">
-                  <div class="check-card-head">
-                    <span class="check-card-kicker mono">02 / 30 分</span>
-                    <span class="light-badge is-idle">待檢測</span>
-                  </div>
-                  <h4>AI 導覽索引（<code>llms.txt</code>）</h4>
-                  <p class="check-card-summary">實測根目錄 <code>/llms.txt</code> 是否回傳 HTTP 200、字元長度與 Markdown 結構，並辨識常見的「HTML 軟 404 誤導頁」。</p>
-                  <div class="check-card-details"></div>
-                </article>
-
-                <article class="check-light-card is-idle" data-check-card="homepage">
-                  <div class="check-card-head">
-                    <span class="check-card-kicker mono">03 / 35 分</span>
-                    <span class="light-badge is-idle">待檢測</span>
-                  </div>
-                  <h4>官網結構與標籤（首頁 HTML）</h4>
-                  <p class="check-card-summary">實測首頁 HTTP 狀態、<code>&lt;title&gt;</code>、<code>meta description</code>、<code>canonical</code> 與 JSON-LD，並加抓台灣網站 4 大常犯錯（唯一 <code>&lt;h1&gt;</code>、可見比較 <code>&lt;table&gt;</code>、<code>[object Object]</code> 壞掉描述與 <code>FAQPage</code>）。</p>
-                  <div class="check-card-details"></div>
-                </article>
-              </div>
-
-              <div class="live-bottom-grid">
-                <div class="live-recs-box">
-                  <h4>白話修復建議</h4>
-                  <ul class="live-recs-list" id="live-check-recs">
-                    <li>點選上方「一鍵試測 PK」或輸入自己的網站網址，系統會依實測結果條列優先修復項目。</li>
-                  </ul>
-                  <p class="live-disclaimer" id="live-check-disclaimer">
-                    免責聲明：僅為基礎公開頁初檢，不含 20 題跨平台 AI 實測與 WAF 深度掃描；本工坊不保證 AI 排名或必被推薦。
-                  </p>
-                </div>
-
-                <div class="live-cta-box">
-                  <span class="panel-kicker">NEXT STEP・完整 20 題跨引擎實測</span>
-                  <h4>想知道 AI 實際回答有沒有點名你、有沒有報錯舊價？</h4>
-                  <p>
-                    基礎初檢看的是「網站設定檔有沒有寫好」；真正決定客戶問 AI 會不會找到你，還要用無痕新對話實測 20 題與 9 維度健檢。
-                  </p>
-                  <div class="live-cta-actions">
-                    <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">
-                      加 LINE @250ruauk 做完整 20 題與 9 維度健檢
-                    </a>
-                    <button type="button" class="btn btn-secondary btn-full" id="copy-live-report-btn">
-                      複製初檢摘要貼給 LINE
-                    </button>
-                  </div>
-                  <p class="copy-feedback" id="live-copy-feedback" aria-live="polite"></p>
-                </div>
-              </div>
-
-              <!-- 免費半套檔案產生器：送半套基礎起手檔換名單 -->
-              <div class="starter-kit-box" id="starter-kit-box" aria-label="免費產生專屬基礎 robots.txt 與 llms.txt 起手範本">
-                <div class="starter-kit-head">
-                  <div>
-                    <span class="panel-kicker">FREE STARTER KIT・免費半套檔案產生器（免登入複製／下載）</span>
-                    <h4>一鍵產生您網站專屬的基礎 <code>robots.txt</code> ＋ <code>llms.txt</code> 起手範本</h4>
-                    <p class="starter-kit-desc">
-                      依您剛剛實測的網址與所屬行業，直接組裝乾淨可交給工程師上線的基礎起手檔（含 2026 <code>Content-Signal</code> 爬蟲分流與 5 頁精簡目錄結構）。
-                    </p>
-                  </div>
-                </div>
-
-                <div class="starter-controls">
-                  <div class="starter-field">
-                    <label for="starter-brand-name">品牌／公司名稱（自動帶入初檢標題，可改寫）</label>
-                    <input type="text" id="starter-brand-name" class="live-url-input starter-input" placeholder="例如：您的品牌名稱" autocomplete="organization">
-                  </div>
-                  <div class="starter-field">
-                    <label for="starter-industry">所屬行業（對齊 6 大行業範本）</label>
-                    <select id="starter-industry" class="live-url-input starter-input">
-                      <option value="marketing">行銷／SEO顧問</option>
-                      <option value="ecommerce">電商零售</option>
-                      <option value="medical">醫美健康</option>
-                      <option value="manufacturing">B2B製造與供應鏈</option>
-                      <option value="b2b">B2B企業服務</option>
-                      <option value="local">客製與在地品牌</option>
-                    </select>
-                  </div>
-                  <div class="starter-field">
-                    <label for="starter-service-note">主力服務與公開價格一句話（選填）</label>
-                    <input type="text" id="starter-service-note" class="live-url-input starter-input" placeholder="例如：客製專案 NT$12,000 起・5 個工作天交付">
-                  </div>
-                  <div class="starter-gen-wrap">
-                    <button type="button" class="btn btn-primary btn-full" id="starter-generate-btn">一鍵產生專屬起手範本</button>
-                  </div>
-                </div>
-
-                <div class="starter-output-grid">
-                  <div class="starter-file-card">
-                    <div class="starter-file-head">
-                      <div>
-                        <strong class="mono">robots.txt</strong>
-                        <span>AI 搜尋放行＋訓練封鎖＋Content-Signal</span>
-                      </div>
-                      <div class="starter-file-actions">
-                        <button type="button" class="btn btn-secondary btn-xs" id="copy-starter-robots-btn">複製</button>
-                        <button type="button" class="btn btn-secondary btn-xs" id="download-starter-robots-btn">下載 .txt</button>
-                      </div>
-                    </div>
-                    <pre class="code-block starter-code" id="starter-robots-preview"><code># 輸入網址實測或點擊上方「一鍵產生專屬起手範本」即可取得您的 robots.txt 草稿</code></pre>
-                  </div>
-
-                  <div class="starter-file-card">
-                    <div class="starter-file-head">
-                      <div>
-                        <strong class="mono">llms.txt</strong>
-                        <span>品牌名片＋行業核心頁精簡目錄</span>
-                      </div>
-                      <div class="starter-file-actions">
-                        <button type="button" class="btn btn-secondary btn-xs" id="copy-starter-llms-btn">複製</button>
-                        <button type="button" class="btn btn-secondary btn-xs" id="download-starter-llms-btn">下載 .txt</button>
-                      </div>
-                    </div>
-                    <pre class="code-block starter-code" id="starter-llms-preview"><code># 輸入網址實測或點擊上方「一鍵產生專屬起手範本」即可取得您的 llms.txt 草稿</code></pre>
-                  </div>
-                </div>
-                <p class="copy-feedback" id="starter-kit-feedback" aria-live="polite"></p>
-
-                <div class="starter-boundary-box">
-                  <div class="starter-boundary-copy">
-                    <strong>為什麼這只是「半套起手檔」？深度 Schema 與 20 題跨平台真測仍需交給專人：</strong>
-                    <p>
-                      把這兩份基礎檔放上網站根目錄約 5 分鐘，能先幫您打通第 1、2 關（不擋爬蟲＋給 AI 導覽目錄）；但真正決定 AI 回答會不會點名您、會不會報錯舊價的<strong>「全站單一 <code>@graph</code> 深度 Schema（<code>Organization</code>／<code>Service</code>／<code>UnitPriceSpecification</code>／<code>FAQPage</code>）、純文字價格對比表改寫、CDN／WAF 403 排錯、舊快照清理與 20 題跨平台無痕真測」</strong>，無法靠靜態範本自動完成，歡迎交由阿男工坊專人實測與施工。
-                    </p>
-                  </div>
-                  <div class="starter-boundary-cta">
-                    <a class="btn btn-primary" href="#services">看四方案與 NT$14,200 折抵試算 →</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== 3.5 3 分鐘 12 題 GEO 準備度自檢＋迷思闢謠 ==================== -->
-    <section class="section section-alt" id="self-check">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">SELF-CHECK TOOLKIT・3 分鐘免費互動自檢</p>
-            <h2>3 分鐘 GEO 準備度 12 題自檢互動表</h2>
-            <p class="section-lede">
-              不用裝任何外掛、也不用先提供帳號密碼。照著網站現況勾選下面 12 題，系統會即時算出你的 4 層準備度分數，告訴你現在卡在哪一關、先改哪裡最有效。
-            </p>
-            <div class="brand-split-note">
-              <strong>工坊定位說明：</strong>本自檢工具與 GEO 健檢服務由「阿男 GEO 實戰工坊」提供，專為各行各業品牌官網與中小店家設計；與創辦人原創客製紀念歌曲服務（<code>www.cccnan.art</code>）分開營運，互不混淆。
-            </div>
-          </div>
-        </div>
-
-        <div class="quiz-shell">
-          <form class="quiz-form" id="geo-quiz-form" aria-label="GEO 準備度 12 題互動自檢表">
-            <!-- 第 1 關：訪問層 -->
-            <fieldset class="quiz-group">
-              <div class="quiz-group-head">
-                <h3>第 1 關｜訪問層（AI 進不進得來）</h3>
-                <span class="quiz-group-hint">建議優先打通，否則後面寫再多都抓不到</span>
-              </div>
-              <div class="quiz-items">
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="靜態 HTML 可直接讀出文字" value="Q1">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">1. 打開網站原始碼就看得到產品介紹與價格文字</span>
-                    <span class="quiz-item-sub">不是全靠前端腳本才畫出來的空白殼，也不是只放一張海報圖檔。</span>
-                  </span>
-                </label>
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="robots.txt 與防火牆放行搜尋爬蟲" value="Q2">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">2. <code>robots.txt</code> 放行 AI 搜尋爬蟲，且主機沒擋 403</span>
-                    <span class="quiz-item-sub">允許 <code>OAI-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code>、<code>Googlebot</code> 等抓取公開頁。</span>
-                  </span>
-                </label>
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="清理舊測試站並設 308 轉址" value="Q3">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">3. 過去的舊測試網址、改版前預覽站已關閉或轉址</span>
-                    <span class="quiz-item-sub">避免 AI 同時抓到新舊兩套價目表，回頭背出過期規定。</span>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
-
-            <!-- 第 2 關：定向層 -->
-            <fieldset class="quiz-group">
-              <div class="quiz-group-head">
-                <h3>第 2 關｜定向層（AI 找不找得到重點）</h3>
-                <span class="quiz-group-hint">指引爬蟲看最核心的服務與聯絡頁</span>
-              </div>
-              <div class="quiz-items">
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="sitemap 乾淨無作廢頁" value="Q4">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">4. 網站有最新的 <code>sitemap.xml</code>，且只收錄公開頁</span>
-                    <span class="quiz-item-sub">後台、私密訂單或 404 壞頁沒有被放進索引清單裡。</span>
-                  </span>
-                </label>
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="每頁 canonical 網址唯一" value="Q5">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">5. 每個核心頁都有唯一的標準網址（<code>canonical</code>）</span>
-                    <span class="quiz-item-sub">不會同一頁同時存在帶斜線、不帶斜線或多個鏡像網域互相分散權重。</span>
-                  </span>
-                </label>
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="精簡有效 /llms.txt" value="Q6">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">6. 網站根目錄有精簡的 <code>/llms.txt</code>（5～10 個核心頁）</span>
-                    <span class="quiz-item-sub">像名片目錄一樣列出主力方案、服務邊界與聯絡入口，且連結皆為 HTTP 200。</span>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
-
-            <!-- 第 3 關：理解層 -->
-            <fieldset class="quiz-group">
-              <div class="quiz-group-head">
-                <h3>第 3 關｜理解層（AI 認不認得清你是誰）</h3>
-                <span class="quiz-group-hint">消除同名誤認與多平台說法打架</span>
-              </div>
-              <div class="quiz-items">
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="跨平台名稱與第一句簡介一致" value="Q7">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">7. 官網、FB、IG、YouTube 與 LINE 簡介寫的是同一件事</span>
-                    <span class="quiz-item-sub">品牌全稱、別名、主打服務與聯絡帳號一致，不會被認成別縣市同名店家。</span>
-                  </span>
-                </label>
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="單一 @graph JSON-LD 結構化" value="Q8">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">8. 頁面有結構化資料（JSON-LD）串起品牌、報價與問答</span>
-                    <span class="quiz-item-sub">透過 <code>@graph</code> 把組織／創辦人、<code>Service</code>／<code>Offer</code> 與 <code>FAQPage</code> 連起來。</span>
-                  </span>
-                </label>
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="JSON-LD 與可見文字 100% 一致" value="Q9">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">9. 隱藏標記裡的價格與問答，和訪客看到的正文 100% 一致</span>
-                    <span class="quiz-item-sub">不寫訪客看不到的隱藏字，也不讓 Schema 留著改版前的舊金額。</span>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
-
-            <!-- 第 4 關：可引用層 -->
-            <fieldset class="quiz-group">
-              <div class="quiz-group-head">
-                <h3>第 4 關｜可引用層（AI 敢不敢直接推薦你）</h3>
-                <span class="quiz-group-hint">決定「問買家情境題時會不會點名你」</span>
-              </div>
-              <div class="quiz-items">
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="純文字規格與 HTML 對比表" value="Q10">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">10. 方案價格、交期與差異有用純文字 HTML 對比表寫清楚</span>
-                    <span class="quiz-item-sub">讓 AI 一秒就能整表抽走比較，而不是「請私訊洽詢」一句帶過。</span>
-                  </span>
-                </label>
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="首段倒金字塔與明確服務邊界" value="Q11">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">11. 服務頁前兩句就直答「幫誰做、多少錢」，並寫明不接的範圍</span>
-                    <span class="quiz-item-sub">用客人的口語問句當小標，坦白寫出急件門檻或不適用的對象。</span>
-                  </span>
-                </label>
-                <label class="quiz-item">
-                  <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="具備獨立第三方回饋與討論" value="Q12">
-                  <span class="quiz-item-body">
-                    <span class="quiz-item-title">12. 除了自家官網社群外，找得到獨立第三方的真實回饋或討論</span>
-                    <span class="quiz-item-sub">例如客戶同意公開的原話評價、合作專訪、或第三方論壇／社群自然討論。</span>
-                  </span>
-                </label>
-              </div>
-            </fieldset>
-          </form>
-
-          <!-- 即時算分儀表卡 -->
-          <aside class="quiz-hud" id="quiz-hud" aria-live="polite" aria-label="12 題自檢即時分數與弱點診斷">
-            <div class="quiz-hud-top">
-              <span class="panel-kicker">即時準備度診斷</span>
-              <span class="pill pill-coral" id="quiz-tier-badge">地基待補強｜AI 目前幾乎看不見你</span>
-            </div>
-
-            <div class="quiz-score-row">
-              <strong class="mono" id="quiz-score-value">0 / 12 題</strong>
-              <span class="mono" id="quiz-score-pct">0%</span>
-            </div>
-
-            <div class="progress-track">
-              <div class="progress-fill is-after" id="quiz-score-bar" style="width: 0%"></div>
-            </div>
-
-            <div class="quiz-layer-pills">
-              <div class="quiz-layer-pill" id="quiz-layer-access">訪問層 0/3</div>
-              <div class="quiz-layer-pill" id="quiz-layer-orientation">定向層 0/3</div>
-              <div class="quiz-layer-pill" id="quiz-layer-understanding">理解層 0/3</div>
-              <div class="quiz-layer-pill" id="quiz-layer-quotability">可引用層 0/3</div>
-            </div>
-
-            <div class="quiz-advice-box">
-              <h4>優先修復與下一步建議</h4>
-              <p id="quiz-advice-text">
-                目前卡關項目：第 1 關｜訪問層（0/3）、第 2 關｜定向層（0/3）、第 3 關｜理解層（0/3）、第 4 關｜可引用層（0/3）。依四層依賴順序，建議優先處理：先修第 1 關（靜態 HTML、robots.txt 放行搜尋爬蟲與舊測試域 308 轉址），否則 AI 連門都進不來。
+              <p class="live-check-status" id="live-check-status" role="status" aria-live="polite">
+                輸入網址按下「開始免費初檢」，約 3～10 秒就能看到總分與改善重點。
               </p>
-            </div>
 
-            <div class="quiz-actions">
-              <div class="quiz-actions-row">
-                <button type="button" class="btn btn-secondary" id="quiz-reset-btn">全部重設</button>
-                <button type="button" class="btn btn-secondary" id="copy-quiz-btn">複製自檢摘要</button>
+              <div class="live-check-result" id="live-check-result" aria-live="polite">
+                <div class="live-score-overview" id="live-score-overview">
+                  <!-- 我方總分環形圖 -->
+                  <div class="score-side is-primary">
+                    <span class="score-side-tag" id="live-primary-tag">我方官網</span>
+                    <div class="score-ring-wrap">
+                      <svg class="score-ring" id="live-score-ring-svg" viewBox="0 0 120 120" role="img" aria-label="我方網站 AI 讀取準備度總分">
+                        <circle class="score-ring-track" cx="60" cy="60" r="50"></circle>
+                        <circle
+                          class="score-ring-fill is-idle"
+                          id="live-score-ring-fill"
+                          cx="60"
+                          cy="60"
+                          r="50"
+                          stroke-dasharray="314.16"
+                          stroke-dashoffset="314.16"
+                        ></circle>
+                      </svg>
+                      <div class="score-ring-center">
+                        <strong class="mono" id="live-score-value">--</strong>
+                        <span>/ 100 分</span>
+                      </div>
+                    </div>
+                    <span class="score-side-host mono" id="live-primary-host">等待輸入網址</span>
+                  </div>
+
+                  <!-- 中央摘要 / PK 勝負差距 -->
+                  <div class="live-score-meta">
+                    <div class="live-meta-top">
+                      <span class="pill pill-brass" id="live-grade-badge">尚未開始檢測</span>
+                      <span class="mono live-target-host" id="live-target-display">等待輸入網址</span>
+                    </div>
+
+                    <div class="pk-versus-box" id="live-pk-versus" hidden>
+                      <span class="pk-vs-pill mono" id="live-pk-diff-badge">VS</span>
+                      <strong class="pk-vs-headline" id="live-pk-verdict">等待對手 PK 結果</strong>
+                      <p class="pk-vs-sub" id="live-pk-sub"></p>
+                    </div>
+
+                    <h3 id="live-grade-headline">測看看 ChatGPT 與 Google 讀不讀懂你的官網</h3>
+                    <p class="live-meta-note" id="live-meta-note">
+                      系統會檢查 3 件事：網站有沒有開門、重點導覽清不清楚、店名價目有沒有寫明白。
+                    </p>
+                  </div>
+
+                  <!-- 對手總分環形圖（僅 PK 模式顯示） -->
+                  <div class="score-side is-competitor" id="live-comp-side" hidden>
+                    <span class="score-side-tag is-comp">同行對手</span>
+                    <div class="score-ring-wrap">
+                      <svg class="score-ring" id="live-comp-score-ring-svg" viewBox="0 0 120 120" role="img" aria-label="同行對手網站分數">
+                        <circle class="score-ring-track" cx="60" cy="60" r="50"></circle>
+                        <circle
+                          class="score-ring-fill is-idle"
+                          id="live-comp-score-ring-fill"
+                          cx="60"
+                          cy="60"
+                          r="50"
+                          stroke-dasharray="314.16"
+                          stroke-dashoffset="314.16"
+                        ></circle>
+                      </svg>
+                      <div class="score-ring-center">
+                        <strong class="mono" id="live-comp-score-value">--</strong>
+                        <span>/ 100 分</span>
+                      </div>
+                    </div>
+                    <span class="score-side-host mono" id="live-comp-host">—</span>
+                    <span class="pill pill-brass score-side-pill" id="live-comp-grade-badge">待檢測</span>
+                  </div>
+                </div>
+
+                <!-- Email 解鎖完整報告門檻 -->
+                <div class="live-unlock-gate" id="live-unlock-gate" hidden>
+                  <div class="unlock-gate-head">
+                    <span class="pill pill-brass">完整明細待解鎖</span>
+                    <h3>輸入 Email，立即免費看紅綠燈明細與白話修復清單</h3>
+                    <p>留信箱後畫面立刻展開完整 3 大項檢查結果，並同步寄一份重點報告給你保存。</p>
+                    <div class="unlock-preview-chips" aria-label="解鎖後可檢視的報告內容">
+                      <span class="unlock-chip">01 搜尋引擎有沒有被擋門外</span>
+                      <span class="unlock-chip">02 店名與價目導覽完整度</span>
+                      <span class="unlock-chip">03 台灣官網 4 大常犯錯檢查</span>
+                    </div>
+                  </div>
+
+                  <form class="live-lead-form" id="live-lead-form" novalidate aria-label="填寫 Email 解鎖完整初檢報告">
+                    <div class="lead-input-row">
+                      <label class="sr-only" for="live-lead-email">接收完整報告的 Email 信箱</label>
+                      <input
+                        type="email"
+                        id="live-lead-email"
+                        name="email"
+                        class="live-url-input lead-email-input"
+                        placeholder="請輸入你的常用信箱（用於接收完整報告）"
+                        autocomplete="email"
+                        inputmode="email"
+                        required
+                      >
+                      <button type="submit" class="btn btn-primary lead-submit-btn" id="live-lead-submit">
+                        立即免費解鎖完整報告
+                      </button>
+                    </div>
+
+                    <label class="lead-consent-label" for="live-lead-consent">
+                      <input type="checkbox" id="live-lead-consent" name="consent" class="lead-consent-checkbox" required>
+                      <span>同意由阿男 GEO 實戰工坊寄送檢測報告與後續實戰資訊（可隨時取消）</span>
+                    </label>
+
+                    <p class="lead-form-status" id="live-lead-status" role="status" aria-live="polite"></p>
+                  </form>
+                </div>
+
+                <!-- 完整紅綠燈明細與白話建議 -->
+                <div class="live-detail-wrap" id="live-detail-wrap">
+                  <div class="live-unlocked-banner" id="live-unlocked-banner" hidden>
+                    <strong id="live-unlocked-title">完整報告已免費解鎖</strong>
+                    <span id="live-unlocked-msg"></span>
+                    <a class="btn btn-secondary btn-sm" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">
+                      加 LINE @250ruauk 預約 20 題實測
+                    </a>
+                  </div>
+
+                  <!-- 對手 PK 逐項分數對比表（PK 模式解鎖後顯示） -->
+                  <div class="live-pk-breakdown" id="live-pk-breakdown" hidden>
+                    <div class="pk-breakdown-head">
+                      <h4>我方 vs 同行對手｜逐項分數對比</h4>
+                      <span class="mono muted" id="live-pk-breakdown-meta"></span>
+                    </div>
+                    <div class="pk-breakdown-table-wrap">
+                      <table class="pk-breakdown-table" aria-label="我方與同行對手三項基礎指標對比表">
+                        <thead>
+                          <tr>
+                            <th scope="col">檢測項目</th>
+                            <th scope="col" id="pk-th-mine">我方官網</th>
+                            <th scope="col" id="pk-th-comp">同行對手</th>
+                            <th scope="col">勝負差距</th>
+                          </tr>
+                        </thead>
+                        <tbody id="live-pk-breakdown-body"></tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="live-cards-grid" id="live-check-cards">
+                    <article class="check-light-card is-idle" data-check-card="robots">
+                      <div class="check-card-head">
+                        <span class="check-card-kicker mono">01 / 35 分</span>
+                        <span class="light-badge is-idle">待檢測</span>
+                      </div>
+                      <h4>網站有沒有對 AI 開門</h4>
+                      <p class="check-card-summary">檢查 ChatGPT、Google 等主流搜尋引擎能不能順利進來讀取你的公開頁面。</p>
+                      <div class="check-card-details"></div>
+                    </article>
+
+                    <article class="check-light-card is-idle" data-check-card="llms">
+                      <div class="check-card-head">
+                        <span class="check-card-kicker mono">02 / 30 分</span>
+                        <span class="light-badge is-idle">待檢測</span>
+                      </div>
+                      <h4>有沒有給 AI 看的重點導覽</h4>
+                      <p class="check-card-summary">檢查網站有沒有整理好品牌介紹、主力方案與預約入口，讓 AI 一眼讀懂。</p>
+                      <div class="check-card-details"></div>
+                    </article>
+
+                    <article class="check-light-card is-idle" data-check-card="homepage">
+                      <div class="check-card-head">
+                        <span class="check-card-kicker mono">03 / 35 分</span>
+                        <span class="light-badge is-idle">待檢測</span>
+                      </div>
+                      <h4>店名、價目與問答寫清楚了嗎</h4>
+                      <p class="check-card-summary">檢查網頁標題、價格對比表與常見問答，避開台灣官網最常犯的 4 個地雷。</p>
+                      <div class="check-card-details"></div>
+                    </article>
+                  </div>
+
+                  <div class="live-bottom-grid">
+                    <div class="live-recs-box">
+                      <h4>優先改善建議</h4>
+                      <ul class="live-recs-list" id="live-check-recs">
+                        <li>輸入你的官網網址或點上方試測範例，系統會直接列出最該先修的項目。</li>
+                      </ul>
+                      <p class="live-disclaimer" id="live-check-disclaimer">
+                        說明：此為免費公開頁初檢，不保證 AI 排名；想測 20 題真實 AI 回答請加 LINE 預約。
+                      </p>
+                    </div>
+
+                    <div class="live-cta-box">
+                      <span class="panel-kicker">下一步・20 題真實對話實測</span>
+                      <h4>想知道 AI 回答客人時有沒有推薦你？</h4>
+                      <p>免費初檢看的是網站門牌；我們也能幫你用真實客人問題，直接實測 AI 到底怎麼介紹你。</p>
+                      <div class="live-cta-actions">
+                        <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">
+                          加 LINE @250ruauk 預約 20 題實測
+                        </a>
+                        <button type="button" class="btn btn-secondary btn-full" id="copy-live-report-btn">
+                          複製檢測摘要貼給 LINE
+                        </button>
+                      </div>
+                      <p class="copy-feedback" id="live-copy-feedback" aria-live="polite"></p>
+                    </div>
+                  </div>
+
+                  <!-- 工程師可看：折疊技術明細與起手設定檔產生器（預設收合，不干擾老闆） -->
+                  <details class="tech-details-card" id="starter-kit-details">
+                    <summary class="tech-details-summary">
+                      <span>🔧 工程師可看：檢視技術明細與免費起手設定檔產生器</span>
+                      <span class="tech-summary-hint">點此展開</span>
+                    </summary>
+
+                    <div class="starter-kit-box" id="starter-kit-box" aria-label="免費產生專屬基礎設定起手範本">
+                      <div class="starter-kit-head">
+                        <div>
+                          <span class="panel-kicker">工程師專用工具・免登入複製／下載</span>
+                          <h4>一鍵產生專屬基礎設定檔（robots.txt ＋ llms.txt）</h4>
+                          <p class="starter-kit-desc">
+                            依剛剛檢測的網址與行業，組裝乾淨可交給工程師上線的基礎起手檔（含爬蟲分流與 5 頁精簡目錄）。
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="starter-controls">
+                        <div class="starter-field">
+                          <label for="starter-brand-name">品牌／公司名稱</label>
+                          <input type="text" id="starter-brand-name" class="live-url-input starter-input" placeholder="例如：您的品牌名稱" autocomplete="organization">
+                        </div>
+                        <div class="starter-field">
+                          <label for="starter-industry">所屬行業</label>
+                          <select id="starter-industry" class="live-url-input starter-input">
+                            <option value="marketing">行銷／SEO顧問</option>
+                            <option value="ecommerce">電商零售</option>
+                            <option value="medical">醫美健康</option>
+                            <option value="manufacturing">B2B製造與供應鏈</option>
+                            <option value="b2b">B2B企業服務</option>
+                            <option value="local">客製與在地品牌</option>
+                          </select>
+                        </div>
+                        <div class="starter-field">
+                          <label for="starter-service-note">主力服務與公開價格一句話（選填）</label>
+                          <input type="text" id="starter-service-note" class="live-url-input starter-input" placeholder="例如：客製專案 NT$12,000 起・5 個工作天交付">
+                        </div>
+                        <div class="starter-gen-wrap">
+                          <button type="button" class="btn btn-primary btn-full" id="starter-generate-btn">一鍵產生專屬起手範本</button>
+                        </div>
+                      </div>
+
+                      <div class="starter-output-grid">
+                        <div class="starter-file-card">
+                          <div class="starter-file-head">
+                            <div>
+                              <strong class="mono">robots.txt</strong>
+                              <span>AI 搜尋放行＋訓練封鎖＋Content-Signal</span>
+                            </div>
+                            <div class="starter-file-actions">
+                              <button type="button" class="btn btn-secondary btn-xs" id="copy-starter-robots-btn">複製</button>
+                              <button type="button" class="btn btn-secondary btn-xs" id="download-starter-robots-btn">下載 .txt</button>
+                            </div>
+                          </div>
+                          <pre class="code-block starter-code" id="starter-robots-preview"><code># 輸入網址實測或點擊上方「一鍵產生專屬起手範本」即可取得您的 robots.txt 草稿</code></pre>
+                        </div>
+
+                        <div class="starter-file-card">
+                          <div class="starter-file-head">
+                            <div>
+                              <strong class="mono">llms.txt</strong>
+                              <span>品牌名片＋行業核心頁精簡目錄</span>
+                            </div>
+                            <div class="starter-file-actions">
+                              <button type="button" class="btn btn-secondary btn-xs" id="copy-starter-llms-btn">複製</button>
+                              <button type="button" class="btn btn-secondary btn-xs" id="download-starter-llms-btn">下載 .txt</button>
+                            </div>
+                          </div>
+                          <pre class="code-block starter-code" id="starter-llms-preview"><code># 輸入網址實測或點擊上方「一鍵產生專屬起手範本」即可取得您的 llms.txt 草稿</code></pre>
+                        </div>
+                      </div>
+                      <p class="copy-feedback" id="starter-kit-feedback" aria-live="polite"></p>
+
+                      <div class="starter-boundary-box">
+                        <div class="starter-boundary-copy">
+                          <strong>這只是半套基礎起手檔；深度 Schema 與 20 題跨平台真測需專人施工：</strong>
+                          <p>
+                            放上這兩份檔案約 5 分鐘能先打通基礎導覽；但全站深度 Schema、純文字價目對比表、防火牆排錯、舊快照清理與 20 題無痕實測，歡迎交給我們專人處理。
+                          </p>
+                        </div>
+                        <div class="starter-boundary-cta">
+                          <a class="btn btn-primary" href="#services">看四方案與 NT$14,200 折抵 →</a>
+                        </div>
+                      </div>
+                    </div>
+                  </details>
+                </div>
               </div>
-              <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">加 LINE @250ruauk 預約 20 題基礎健檢（NT$3,800）</a>
             </div>
-            <p class="copy-feedback" id="quiz-copy-feedback" aria-live="polite"></p>
-          </aside>
-        </div>
+          </div>
+        </section>
 
-        <!-- 常見迷思闢謠卡 -->
-        <div class="myth-section" aria-label="2026 GEO 常見迷思闢謠卡">
-          <div class="myth-head">
-            <span class="panel-kicker">ANTI-HYPE MANIFESTO・常見迷思闢謠卡</span>
-            <h3>我們絕不做的 4 件事（別花錢買無效焦慮）</h3>
-            <p>所有原則皆來自本工坊 1,298 筆實測紀錄與公開技術邊界，用白話幫你避開常見黑帽與話術坑。</p>
+        <!-- ==================== 3.5 3 分鐘 12 題白話自檢＋4 張迷思卡 ==================== -->
+        <section class="section section-alt" id="self-check">
+          <div class="container">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">3 分鐘自我盤點</p>
+                <h2>12 題免費自檢：找出你現在卡在哪一關</h2>
+                <p class="section-lede">
+                  不用給帳號密碼，照現況勾一勾，馬上知道網站哪裡最容易讓 AI 找不到你或報錯價。
+                </p>
+              </div>
+            </div>
+
+            <div class="quiz-shell">
+              <form class="quiz-form" id="geo-quiz-form" aria-label="GEO 準備度 12 題互動自檢表">
+                <!-- 第 1 關 -->
+                <fieldset class="quiz-group">
+                  <div class="quiz-group-head">
+                    <h3>第 1 關｜AI 進不進得來</h3>
+                    <span class="quiz-group-hint">最優先檢查</span>
+                  </div>
+                  <div class="quiz-items">
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="產品介紹與價格有文字版" value="Q1">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">1. 官網上的服務介紹與價格都是文字，不是只有海報圖片</span>
+                        <span class="quiz-item-sub">讓搜尋引擎與 AI 可以直接讀出內容。</span>
+                      </span>
+                    </label>
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="網站沒擋掉搜尋引擎" value="Q2">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">2. 網站與主機沒有把 ChatGPT、Google 搜尋擋在門外</span>
+                        <span class="quiz-item-sub">公開介紹頁都有開放正常讀取。</span>
+                      </span>
+                    </label>
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="access" data-short="舊測試網站已關閉或導回" value="Q3">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">3. 以前改版留下的舊測試網址都已關閉或導回正式站</span>
+                        <span class="quiz-item-sub">避免 AI 抓到過期價目表。</span>
+                      </span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <!-- 第 2 關 -->
+                <fieldset class="quiz-group">
+                  <div class="quiz-group-head">
+                    <h3>第 2 關｜AI 找不找得到重點</h3>
+                    <span class="quiz-group-hint">指引重點頁面</span>
+                  </div>
+                  <div class="quiz-items">
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="網站目錄清單乾淨" value="Q4">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">4. 網站公開目錄清單乾淨，沒有壞掉的舊頁面</span>
+                        <span class="quiz-item-sub">後台或過期活動頁沒有混在公開清單裡。</span>
+                      </span>
+                    </label>
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="每頁只有唯一正式網址" value="Q5">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">5. 每個主要服務頁都只有一個固定正式網址</span>
+                        <span class="quiz-item-sub">不會同頁出現多個重複網址分散分數。</span>
+                      </span>
+                    </label>
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="orientation" data-short="有整理 5～10 個核心頁重點導覽" value="Q6">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">6. 網站有整理好 5～10 個主力頁面的重點導覽名片</span>
+                        <span class="quiz-item-sub">讓 AI 一秒找到主打方案與預約入口。</span>
+                      </span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <!-- 第 3 關 -->
+                <fieldset class="quiz-group">
+                  <div class="quiz-group-head">
+                    <h3>第 3 關｜AI 認不認得清你是誰</h3>
+                    <span class="quiz-group-hint">避免認錯店家</span>
+                  </div>
+                  <div class="quiz-items">
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="跨平台店名與簡介一致" value="Q7">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">7. 官網、FB、IG、YouTube 與 LINE 寫的是同一件事</span>
+                        <span class="quiz-item-sub">店名、主打服務與聯絡帳號一致，不怕被認成別家店。</span>
+                      </span>
+                    </label>
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="有填好給機器讀的數位名片" value="Q8">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">8. 網站背後有填好給搜尋引擎讀的品牌與報價名片</span>
+                        <span class="quiz-item-sub">把店名、服務項目、價格與常見問答串在一起。</span>
+                      </span>
+                    </label>
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="understanding" data-short="幕後標記與前台價格 100% 一致" value="Q9">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">9. 幕後標記的價格與問答，跟客人看到的完全一致</span>
+                        <span class="quiz-item-sub">不寫隱藏字，也不殘留改版前的舊金額。</span>
+                      </span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <!-- 第 4 關 -->
+                <fieldset class="quiz-group">
+                  <div class="quiz-group-head">
+                    <h3>第 4 關｜AI 敢不敢直接推薦你</h3>
+                    <span class="quiz-group-hint">決定會不會被點名</span>
+                  </div>
+                  <div class="quiz-items">
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="方案價格做成純文字對比表" value="Q10">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">10. 方案價格、交期與差異有用文字對比表寫清楚</span>
+                        <span class="quiz-item-sub">讓 AI 一秒抄出比較，而不是只寫「私訊洽詢」。</span>
+                      </span>
+                    </label>
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="開頭直答幫誰做與多少錢" value="Q11">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">11. 服務頁開頭兩句就直答「幫誰做、多少錢」</span>
+                        <span class="quiz-item-sub">也坦白寫明不承接範圍，更能建立信任感。</span>
+                      </span>
+                    </label>
+                    <label class="quiz-item">
+                      <input type="checkbox" class="quiz-checkbox" data-layer="quotability" data-short="有獨立第三方評價或討論" value="Q12">
+                      <span class="quiz-item-body">
+                        <span class="quiz-item-title">12. 除了自家網站外，找得到客人真實回饋或外部討論</span>
+                        <span class="quiz-item-sub">例如真實評價、專訪或論壇上的自然提及。</span>
+                      </span>
+                    </label>
+                  </div>
+                </fieldset>
+              </form>
+
+              <!-- 即時算分儀表卡 -->
+              <aside class="quiz-hud" id="quiz-hud" aria-live="polite" aria-label="12 題自檢即時分數與弱點診斷">
+                <div class="quiz-hud-top">
+                  <span class="panel-kicker">即時準備度診斷</span>
+                  <span class="pill pill-coral" id="quiz-tier-badge">地基待補強｜AI 目前幾乎看不見你</span>
+                </div>
+
+                <div class="quiz-score-row">
+                  <strong class="mono" id="quiz-score-value">0 / 12 題</strong>
+                  <span class="mono" id="quiz-score-pct">0%</span>
+                </div>
+
+                <div class="progress-track">
+                  <div class="progress-fill is-after" id="quiz-score-bar" style="width: 0%"></div>
+                </div>
+
+                <div class="quiz-layer-pills">
+                  <div class="quiz-layer-pill" id="quiz-layer-access">第 1 關 0/3</div>
+                  <div class="quiz-layer-pill" id="quiz-layer-orientation">第 2 關 0/3</div>
+                  <div class="quiz-layer-pill" id="quiz-layer-understanding">第 3 關 0/3</div>
+                  <div class="quiz-layer-pill" id="quiz-layer-quotability">第 4 關 0/3</div>
+                </div>
+
+                <div class="quiz-advice-box">
+                  <h4>先修哪裡最有效</h4>
+                  <p id="quiz-advice-text">
+                    建議先打通第 1 關：確認價格與介紹都是文字版、網站沒有擋掉搜尋引擎，並關掉殘留的舊測試站。
+                  </p>
+                </div>
+
+                <div class="quiz-actions">
+                  <div class="quiz-actions-row">
+                    <button type="button" class="btn btn-secondary" id="quiz-reset-btn">重設</button>
+                    <button type="button" class="btn btn-secondary" id="copy-quiz-btn">複製結果</button>
+                  </div>
+                  <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">加 LINE 預約 20 題健檢（NT$3,800）</a>
+                </div>
+                <p class="copy-feedback" id="quiz-copy-feedback" aria-live="polite"></p>
+              </aside>
+            </div>
+
+            <!-- 常見迷思闢謠卡（每張嚴格 2～3 行） -->
+            <div class="myth-section" aria-label="GEO 常見迷思闢謠卡">
+              <div class="myth-head">
+                <span class="panel-kicker">我們絕不做的 4 件事</span>
+                <h3>先避開這些常見話術，別花冤枉錢</h3>
+              </div>
+              <div class="myth-grid">
+                <article class="myth-card">
+                  <span class="myth-tag">迷思 01</span>
+                  <h4>72 小時就能穩排第一？</h4>
+                  <p>AI 回答本就會浮動，沒人能鎖定排名。正派做法是先修好地基，再用 8～12 週持續實測看趨勢。</p>
+                </article>
+                <article class="myth-card">
+                  <span class="myth-tag">迷思 02</span>
+                  <h4>加一個小外掛就能被推薦？</h4>
+                  <p>單一導覽檔只是加分項，真正關鍵仍是文字版價目表、清楚流程與網站正常開放讀取。</p>
+                </article>
+                <article class="myth-card">
+                  <span class="myth-tag">迷思 03</span>
+                  <h4>自家帳號連發六篇就算背書？</h4>
+                  <p>AI 看得出那都是自我宣傳。唯有開無痕新對話的實測原答，以及客人與外部論壇的真實提及才算數。</p>
+                </article>
+                <article class="myth-card">
+                  <span class="myth-tag">迷思 04</span>
+                  <h4>塞白底白字叫 AI 一定要誇我？</h4>
+                  <p>隱藏指令容易觸發安全過濾反而被降權。我們只做訪客與搜尋引擎看到完全一致的透明內容。</p>
+                </article>
+              </div>
+            </div>
           </div>
-          <div class="myth-grid">
-            <article class="myth-card">
-              <span class="myth-tag">迷思 01｜短期奇蹟話術</span>
-              <h4>「只要 72 小時就能讓 AI 必收錄、穩排第一名？」</h4>
-              <p><strong>實戰真相：</strong>AI 回答帶有隨機性，加上各搜尋索引換版週期不同，沒有人能鎖定特定排名。正規做法是先清理舊源與補齊結構，再以 8～12 週同條件實測看趨勢，不買口頭承諾。</p>
-            </article>
-            <article class="myth-card">
-              <span class="myth-tag">迷思 02｜單一檔案迷信</span>
-              <h4>「網站放了 <code>llms.txt</code> 就一定被推薦，沒放就完全抓不到？」</h4>
-              <p><strong>實戰真相：</strong><code>llms.txt</code> 是給大型模型看的精簡目錄，屬於加分導覽而非萬靈丹。真正決定 AI 找不找得到你、會不會報對價格的，仍是靜態 HTML 可讀取性、乾淨索引與純文字對比表。</p>
-            </article>
-            <article class="myth-card">
-              <span class="myth-tag">迷思 03｜自嗨假分數與灌水洗版</span>
-              <h4>「工具跑出 90 分，或把同一篇文章發六個自家帳號就等於背書？」</h4>
-              <p><strong>實戰真相：</strong>模擬器測爬蟲回傳 200 不等於真實 AI 搜尋已引用；同一篇自我介紹貼六個自家帳號也不會變成六個獨立背書。只有「無痕新對話、不餵答案」的實測原答與第三方真實提及才算數。</p>
-            </article>
-            <article class="myth-card">
-              <span class="myth-tag">迷思 04｜黑帽紅線</span>
-              <h4>「在網頁角落塞白底白字或提示詞注入，叫 AI 一定要誇我？」</h4>
-              <p><strong>實戰真相：</strong>隱藏文字與提示詞注入不只違反搜尋規範，還會觸發 AI 安全過濾甚至整站被降權。我們絕不塞隱藏提示詞、絕不買垃圾外鏈農場，只做訪客與機器讀到完全一致的透明事實。</p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
+        </section>
       </div>
 
       <!-- ==================== 分類 02：📊 實戰數據與動態 ==================== -->
@@ -1183,296 +1098,299 @@
             <span class="cat-panel-badge mono">02｜📊 實戰數據與動態</span>
             <div class="cat-quick-links" aria-label="實戰數據區內快速跳轉">
               <a href="#dashboard">1,298 筆實測儀表板</a>
-              <a href="#audit-dim-list">6 維體檢明細</a>
-              <a href="#five-steps-grid">5 步驟工作流</a>
+              <a href="#five-steps-grid">5 步驟流程</a>
+              <a href="#audit-dim-list">工程師 6 維明細</a>
             </div>
           </div>
         </div>
 
         <!-- RELAY_PROMOTIONS_SLOT -->
 
-    <!-- ==================== 2. 唯讀實戰案例儀表板 ==================== -->
-    <section class="section section-alt" id="dashboard">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">READ-ONLY FIELD DASHBOARD・對齊 2026-11-25 去敏案例包（1,298 筆）</p>
-            <h2>實戰案例儀表板：第 1 號案例 <code>cccnan.art</code>（阿男音樂）</h2>
-            <p class="section-lede">
-              已同步至 <code>2026-11-24/25</code> 最新去敏資料（橫跨 35 個實測日、共 1,298 筆）。切換不同 AI 引擎與 6 維體檢項目，直接預覽「改前問題 → 具體改造 → 改後原答證據」，未完成樣本保留於未完成欄，不美化也不混算條件。
-            </p>
-          </div>
-          <div class="honesty-pill">
-            <strong>紀律聲明</strong>
-            <span>不同登入與視窗條件分列呈現；未完成不當 0、不美化未達標項目。</span>
-          </div>
-        </div>
-
-        <!-- 五大 AI 引擎信源偏好總覽 -->
-        <div class="engine-strip engine-strip-in-dash" aria-label="五大 AI 引擎信源偏好總覽">
-        <div class="engine-pill">
-          <strong>ChatGPT</strong>
-          <span>重 Bing／Web 檢索、純文字結構化官網、<code>llms.txt</code> 與跨站提及</span>
-        </div>
-        <div class="engine-pill">
-          <strong>Gemini</strong>
-          <span>重 Google 索引、JSON-LD 實體消歧、YouTube 與獨立第三方背書</span>
-        </div>
-        <div class="engine-pill">
-          <strong>Perplexity</strong>
-          <span>重 SSR 靜態頁、情境長尾專頁、明確數字與 HTML 對比表引用</span>
-        </div>
-        <div class="engine-pill">
-          <strong>豆包</strong>
-          <span>優先抓取今日頭條、短影音圖文摘要與高密度步驟教學</span>
-        </div>
-        <div class="engine-pill">
-          <strong>騰訊元寶</strong>
-          <span>優先抓取微信公眾號、視頻號、微信問一問與統一品牌實體</span>
-        </div>
-      </div>
-
-        <!-- 1,298 筆跨平台殘酷真相總覽 -->
-        <div class="reality-strip" id="reality-strip" aria-label="1,298 筆跨引擎實測關鍵對照">
-          <article class="reality-card">
-            <span class="reality-kicker mono">官方入口糾偏（Q05 LINE @250ruauk）</span>
-            <h4>0/10 → 18/18（10/18–28）→ 17/21（11/18–24）</h4>
-            <p>9 月首週品牌直問完全給錯或漏掉官方 LINE（0/10）；10/18–28 未登入達 18/18（100%）。11/18–24 最新複測中，ChatGPT 7/7、Perplexity 7/7、Gemini 3/7（誠實呈現 4 筆回答漏提 LINE）；Grok／Meta AI 未登入被擋各 7 筆列未完成。</p>
-          </article>
-          <article class="reality-card">
-            <span class="reality-kicker mono">同條件未登入巨大分化（情境 E ＋ 最新基準）</span>
-            <h4>Perplexity 51.9%・ChatGPT 33.3% vs Gemini 0%</h4>
-            <p>10/18–27 未登入情境題中 Perplexity 14/27（51.9%＋4 僅引用）、ChatGPT 18/54（33.3%）、Gemini 0/44；11/18–24 最新 Q01/Q02 中 ChatGPT 達 7/14（50.0%）、Perplexity 7/14 露出（2 正文＋5 引用）、Gemini 仍 0/14。不同 AI 吃的信源完全不同。</p>
-          </article>
-          <article class="reality-card">
-            <span class="reality-kicker mono">科學誠信與除錯紀律</span>
-            <h4>未完成不當 0・不混比登入條件・追查舊快照</h4>
-            <p>所有 1,298 筆採樣皆為「每題開新對話、不餵答案」；被登入牆擋下的平台（如 11/18–24 Meta AI 35/35、Grok 34/35 未完成）不進有效分母。發現舊價回流時直接追查舊程式碼與舊快照，不用假分數掩蓋。</p>
-          </article>
-        </div>
-
-        <!-- 互動區塊 A：AI 引擎切換 -->
-        <div class="workbench-panel">
-          <div class="panel-header">
-            <div>
-              <span class="panel-kicker">互動預覽 A｜跨引擎原答與引用變化</span>
-              <h3 id="engine-panel-heading">選擇 AI 引擎檢視改前改後對照</h3>
-            </div>
-            <div class="tab-bar" id="engine-tablist" role="tablist" aria-label="AI 引擎切換">
-              <button type="button" role="tab" aria-selected="true" data-engine="overview" class="tab-btn is-active">跨引擎總覽</button>
-              <button type="button" role="tab" aria-selected="false" data-engine="chatgpt" class="tab-btn">ChatGPT</button>
-              <button type="button" role="tab" aria-selected="false" data-engine="gemini" class="tab-btn">Gemini</button>
-              <button type="button" role="tab" aria-selected="false" data-engine="perplexity" class="tab-btn">Perplexity</button>
-              <button type="button" role="tab" aria-selected="false" data-engine="cn_engines" class="tab-btn">豆包・騰訊元寶</button>
-            </div>
-          </div>
-
-          <div class="engine-stage" id="engine-stage" aria-live="polite">
-            <div class="stage-top">
+        <!-- ==================== 2. 唯讀實戰案例儀表板 ==================== -->
+        <section class="section section-alt" id="dashboard">
+          <div class="container">
+            <div class="section-head">
               <div>
-                <span class="pill pill-brass" id="engine-badge">1,298 筆累積實測（截至 11/24）</span>
-                <h4 id="engine-headline">從「不點名＋認錯品牌」到「多引擎穩定引用官網並給對聯絡入口」</h4>
-                <p class="muted" id="engine-caption">9 月基準（09/23–29 未提品牌 Q01/Q02）vs 最新 11/18–24 未提品牌 Q01/Q02（有效 43 筆：9 正文＋5 僅引用；另 10/07–17 為 33/101）</p>
+                <p class="eyebrow">35 天實測・1,298 筆原答證據</p>
+                <h2>真實案例：阿男音樂改站前後對照</h2>
+                <p class="section-lede">
+                  每題開無痕新對話、不餵答案、不美化未達標項目。點選不同 AI 引擎，直接看改前改後回答差多少。
+                </p>
               </div>
-              <div class="metric-pair">
-                <div class="mini-metric is-before">
-                  <span>改前基準</span>
-                  <strong class="mono" id="engine-before-metric">0 / 22（0.0%）</strong>
+            </div>
+
+            <!-- 五大 AI 引擎偏好總覽（每格 1～2 行白話） -->
+            <div class="engine-strip engine-strip-in-dash" aria-label="五大 AI 引擎偏好總覽">
+              <div class="engine-pill">
+                <strong>ChatGPT</strong>
+                <span>愛看文字清楚、價目明確的官網與跨站討論</span>
+              </div>
+              <div class="engine-pill">
+                <strong>Gemini</strong>
+                <span>愛看 Google 找得到的官網、YouTube 與第三方評價</span>
+              </div>
+              <div class="engine-pill">
+                <strong>Perplexity</strong>
+                <span>愛看載入快、有具體數字與比較表的專頁</span>
+              </div>
+              <div class="engine-pill">
+                <strong>豆包</strong>
+                <span>愛看短影音圖文摘要與清楚步驟教學</span>
+              </div>
+              <div class="engine-pill">
+                <strong>騰訊元寶</strong>
+                <span>愛看公眾號長文與一致的品牌介紹</span>
+              </div>
+            </div>
+
+            <!-- 3 張精簡真相卡（每張 2～3 行） -->
+            <div class="reality-strip" id="reality-strip" aria-label="1,298 筆實測關鍵結論">
+              <article class="reality-card">
+                <span class="reality-kicker mono">聯絡方式說對率</span>
+                <h4>官方 LINE：0/10 → 100% 命中</h4>
+                <p>改站前 AI 完全給錯或漏掉聯絡方式；改站後 ChatGPT（7/7）與 Perplexity（7/7）全數正確指出官方 LINE。</p>
+              </article>
+              <article class="reality-card">
+                <span class="reality-kicker mono">各平台差異很大</span>
+                <h4>ChatGPT 50%・Perplexity 50% vs Gemini 0%</h4>
+                <p>不同 AI 信任的資料來源不同，所以不能只看單一平台，必須分開實測、對症下藥。</p>
+              </article>
+              <article class="reality-card">
+                <span class="reality-kicker mono">實測誠信紀律</span>
+                <h4>每題新視窗・不美化未達標</h4>
+                <p>遇到被登入牆擋住的樣本直接標示未完成、不灌水；抓到報錯舊價就追查舊網頁源頭。</p>
+              </article>
+            </div>
+
+            <!-- 互動區塊 A：AI 引擎切換 -->
+            <div class="workbench-panel">
+              <div class="panel-header">
+                <div>
+                  <span class="panel-kicker">互動對照・點選引擎看差異</span>
+                  <h3 id="engine-panel-heading">選擇 AI 引擎看改前改後回答</h3>
                 </div>
-                <div class="mini-metric is-after">
-                  <span>改後實測</span>
-                  <strong class="mono" id="engine-after-metric">ChatGPT 50%・Perplexity 50% 露出</strong>
+                <div class="tab-bar" id="engine-tablist" role="tablist" aria-label="AI 引擎切換">
+                  <button type="button" role="tab" aria-selected="true" data-engine="overview" class="tab-btn is-active">跨引擎總覽</button>
+                  <button type="button" role="tab" aria-selected="false" data-engine="chatgpt" class="tab-btn">ChatGPT</button>
+                  <button type="button" role="tab" aria-selected="false" data-engine="gemini" class="tab-btn">Gemini</button>
+                  <button type="button" role="tab" aria-selected="false" data-engine="perplexity" class="tab-btn">Perplexity</button>
+                  <button type="button" role="tab" aria-selected="false" data-engine="cn_engines" class="tab-btn">豆包・騰訊元寶</button>
+                </div>
+              </div>
+
+              <div class="engine-stage" id="engine-stage" aria-live="polite">
+                <div class="stage-top">
+                  <div>
+                    <span class="pill pill-brass" id="engine-badge">1,298 筆累積實測</span>
+                    <h4 id="engine-headline">從「完全找不到＋認錯店家」到「多平台主動點名並給對聯絡方式」</h4>
+                    <p class="muted" id="engine-caption">9 月改前基準 vs 最新 11/18–24 無痕複測對照</p>
+                  </div>
+                  <div class="metric-pair">
+                    <div class="mini-metric is-before">
+                      <span>改前基準</span>
+                      <strong class="mono" id="engine-before-metric">0 / 22（0.0%）</strong>
+                    </div>
+                    <div class="mini-metric is-after">
+                      <span>改後實測</span>
+                      <strong class="mono" id="engine-after-metric">ChatGPT 50%・Perplexity 50% 露出</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="summary-grid">
+                  <div class="summary-card is-before">
+                    <h5>改前痛點</h5>
+                    <p id="engine-before-summary">改站前在未提店名的問題裡完全沒出現（0/22），官方 LINE 命中 0/10，還曾被認成樂器行與背出過期舊價。</p>
+                  </div>
+                  <div class="summary-card is-after">
+                    <h5>改後成效</h5>
+                    <p id="engine-after-summary">改站後最新複測中，ChatGPT 與 Perplexity 未提店名露出雙雙達 50%，官方 LINE 命中維持 100%（7/7）。</p>
+                  </div>
+                </div>
+
+                <div class="domains-row">
+                  <span class="domains-label">AI 最常引用的來源：</span>
+                  <ul class="domain-chips" id="engine-domains">
+                    <li>官網主力方案頁</li>
+                    <li>YouTube 頻道</li>
+                    <li>公開論壇討論</li>
+                    <li>社群公開貼文</li>
+                  </ul>
+                </div>
+
+                <div class="samples-grid" id="engine-samples">
+                  <div class="sample-card">
+                    <div class="sample-head">
+                      <span class="mono sample-qid">沒提店名時</span>
+                      <span class="sample-verdict">進入推薦名單</span>
+                    </div>
+                    <p class="sample-q">「想送家人一首客製紀念歌曲，可以找哪類創作者？」</p>
+                    <div class="sample-diff">
+                      <div><strong>改前：</strong>只列通用原則，完全沒提到阿男音樂。</div>
+                      <div><strong>改後：</strong>直接在推薦清單點名阿男音樂，並說對各項方案差異。</div>
+                    </div>
+                  </div>
+                  <div class="sample-card">
+                    <div class="sample-head">
+                      <span class="mono sample-qid">直接問聯絡方式</span>
+                      <span class="sample-verdict">給對唯一入口</span>
+                    </div>
+                    <p class="sample-q">「想委託阿男音樂客製歌曲，要從哪裡聯絡？」</p>
+                    <div class="sample-diff">
+                      <div><strong>改前：</strong>0/10 給對官方 LINE，還混用過期流程。</div>
+                      <div><strong>改後：</strong>ChatGPT 與 Perplexity 皆 100% 準確指出官方 LINE @250ruauk。</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="summary-grid">
-              <div class="summary-card is-before">
-                <h5>改前診斷（痛點與錯漏）</h5>
-                <p id="engine-before-summary">改造初期（09/23–09/29）在未提及品牌的基準題中完全缺席（0/22）；品牌直問題（Q05）官方 LINE 命中率為 0/10，且曾出現誤認成苗栗竹南樂器行、混入棄用舊測試站價格等資訊錯亂。</p>
+            <!-- 5 步驟改造時間軸（每張 2 行白話） -->
+            <div class="steps-strip" aria-label="5 步驟 GEO 改造工作流">
+              <div class="steps-head">
+                <span class="panel-kicker">標準做法</span>
+                <h3>從 0 到被 AI 推薦的 5 個步驟</h3>
               </div>
-              <div class="summary-card is-after">
-                <h5>改後實測（驗證結果）</h5>
-                <p id="engine-after-summary">截至 11/24 累積 1,298 筆（35 個實測日）：10/18–28 情境題 Perplexity 達 51.9%（14/27）、ChatGPT 33.3%（18/54）；11/18–24 最新基準複測中，ChatGPT 未登入無痕自然點名達 50.0%（7/14），Perplexity 達 50.0% 露出（2/14 正文＋5/14 引用），Q05 官方 LINE 於 ChatGPT 與 Perplexity 皆維持 7/7（100%）。</p>
-              </div>
+              <ol class="steps-grid" id="five-steps-grid">
+                <li class="step-card">
+                  <span class="step-num mono">01</span>
+                  <h4>先測現況留底</h4>
+                  <p>用真實客人問題開無痕視窗實測，先搞清楚 AI 現在怎麼看你。</p>
+                </li>
+                <li class="step-card">
+                  <span class="step-num mono">02</span>
+                  <h4>清掉過期舊站</h4>
+                  <p>關閉殘留測試頁、統一各平台店名與聯絡方式，杜絕報錯舊價。</p>
+                </li>
+                <li class="step-card">
+                  <span class="step-num mono">03</span>
+                  <h4>整理官網結構</h4>
+                  <p>補齊文字版價目對比表、重點導覽與給搜尋引擎讀的數位名片。</p>
+                </li>
+                <li class="step-card">
+                  <span class="step-num mono">04</span>
+                  <h4>跨平台同步口徑</h4>
+                  <p>以官網為標準，把同一套正確資訊同步到影音、社群與公開論壇。</p>
+                </li>
+                <li class="step-card">
+                  <span class="step-num mono">05</span>
+                  <h4>定期複測追蹤</h4>
+                  <p>每隔幾週用同樣題目檢查改後成效，確保價格與資訊持續準確。</p>
+                </li>
+              </ol>
             </div>
 
-            <div class="domains-row">
-              <span class="domains-label">實測高頻引用／關鍵信源：</span>
-              <ul class="domain-chips" id="engine-domains">
-                <li>www.cccnan.art/work/（官網事實總倉）</li>
-                <li>YouTube / 公開影音頻道</li>
-                <li>Reddit / 公開討論串</li>
-                <li>Facebook / Threads 公開貼文</li>
-              </ul>
-            </div>
+            <!-- 工程師可看：6 維站點體檢與四層架構明細（預設收合，不干擾老闆） -->
+            <details class="tech-details-card tech-details-spaced" id="dashboard-tech-details">
+              <summary class="tech-details-summary">
+                <span>🔧 工程師可看：檢視 6 維技術體檢明細與四層架構（41 → 89 / 100）</span>
+                <span class="tech-summary-hint">點此展開</span>
+              </summary>
 
-            <div class="samples-grid" id="engine-samples">
-              <div class="sample-card">
-                <div class="sample-head">
-                  <span class="mono sample-qid">Q01（11/22・11/24 未提品牌基準題）</span>
-                  <span class="sample-verdict">從缺席轉為穩定進入推薦名單</span>
+              <div class="workbench-panel workbench-panel-in-details">
+                <div class="panel-header">
+                  <div>
+                    <span class="panel-kicker">技術體檢明細｜GeoLook 四層依賴鏈 × 6 維體檢</span>
+                    <h3>點選 6 維項目查看改前改後技術細節</h3>
+                  </div>
+                  <div class="total-score-badge">
+                    <span>全站體檢總分</span>
+                    <strong class="mono">41 → 89 / 100</strong>
+                  </div>
                 </div>
-                <p class="sample-q">「想送家人一首客製紀念歌曲，可以找哪類創作者？挑選時應該看哪些作品和服務條件？」</p>
-                <div class="sample-diff">
-                  <div><strong>改前：</strong>9 月前期僅列舉通用挑選原則與大型外包平台，完全未提及阿男音樂或 cccnan.art。</div>
-                  <div><strong>改後：</strong>11/19–11/24 實測於推薦清單正文點名「阿男音樂（cccnan.art）」，並正確區分阿男親唱、自己錄唱後修音混音與示範演唱等公開方案。</div>
+
+                <div class="layers-grid" id="dependency-layers" aria-label="四層依賴修復順序">
+                  <div class="layer-card is-passed">
+                    <div class="layer-meta"><span class="mono">第 1 層</span><span class="status-tag">已打通</span></div>
+                    <h4>訪問層（Access）</h4>
+                    <p>公開頁 HTTP 200、靜態正文、爬蟲分流放行與舊測試域 308 隔離。</p>
+                  </div>
+                  <div class="layer-card is-passed">
+                    <div class="layer-meta"><span class="mono">第 2 層</span><span class="status-tag">已打通</span></div>
+                    <h4>定向層（Orientation）</h4>
+                    <p>乾淨 sitemap 索引、唯一標準網址與精簡核心導覽分流。</p>
+                  </div>
+                  <div class="layer-card is-passed">
+                    <div class="layer-meta"><span class="mono">第 3 層</span><span class="status-tag">已打通</span></div>
+                    <h4>理解層（Understanding）</h4>
+                    <p>全站 44 個公開頁完整結構化資料皆可解析，品牌與報價一致。</p>
+                  </div>
+                  <div class="layer-card is-improving">
+                    <div class="layer-meta"><span class="mono">第 4 層</span><span class="status-tag">持續強化</span></div>
+                    <h4>可引用層（Quotability）</h4>
+                    <p>純文字價格對比表與問答已補齊；持續擴大獨立第三方真實回饋。</p>
+                  </div>
+                </div>
+
+                <div class="audit-layout">
+                  <div class="audit-dim-list" id="audit-dim-list" role="tablist" aria-label="6 維體檢項目">
+                    <button type="button" role="tab" aria-selected="true" class="dim-btn is-active" data-dim="crawlability">
+                      <span class="dim-name">1. 可抓取性</span>
+                      <span class="mono dim-score">9 → 15 / 15</span>
+                    </button>
+                    <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="content_length">
+                      <span class="dim-name">2. 內容長度與深度</span>
+                      <span class="mono dim-score">6 → 14 / 15</span>
+                    </button>
+                    <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="structure">
+                      <span class="dim-name">3. 結構規範</span>
+                      <span class="mono dim-score">9 → 18 / 20</span>
+                    </button>
+                    <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="extractable_blocks">
+                      <span class="dim-name">4. 可抽取塊（最大槓桿）</span>
+                      <span class="mono dim-score">7 → 22 / 25</span>
+                    </button>
+                    <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="authority">
+                      <span class="dim-name">5. 權威與實體信號</span>
+                      <span class="mono dim-score">5 → 11 / 15</span>
+                    </button>
+                    <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="relevance">
+                      <span class="dim-name">6. 對題性（用戶原話）</span>
+                      <span class="mono dim-score">5 → 9 / 10</span>
+                    </button>
+                  </div>
+
+                  <div class="audit-detail" id="audit-detail" aria-live="polite">
+                    <div class="audit-detail-head">
+                      <div>
+                        <span class="pill pill-teal" id="dim-layer">訪問層＋定向層</span>
+                        <h4 id="dim-title">可抓取性</h4>
+                      </div>
+                      <div class="score-pill mono" id="dim-score-pill">改前 9 → 改後 15 / 15 分</div>
+                    </div>
+                    <p class="dim-summary" id="dim-summary">搜尋與 AI 爬蟲能不能直接讀到完整公開頁正文與正確網域。</p>
+
+                    <div class="progress-pair">
+                      <div>
+                        <div class="progress-label"><span>改前基線</span><span class="mono" id="dim-before-pct">60%</span></div>
+                        <div class="progress-track"><div class="progress-fill is-before" id="dim-before-bar" style="width: 60%"></div></div>
+                      </div>
+                      <div>
+                        <div class="progress-label"><span>改後實測</span><span class="mono" id="dim-after-pct">100%</span></div>
+                        <div class="progress-track"><div class="progress-fill is-after" id="dim-after-bar" style="width: 100%"></div></div>
+                      </div>
+                    </div>
+
+                    <dl class="detail-rows">
+                      <div>
+                        <dt>實地診斷發現</dt>
+                        <dd id="dim-findings">改造前存在棄用測試網域殘留舊文案且允許索引，導致 AI 抓到衝突版本。</dd>
+                      </div>
+                      <div>
+                        <dt>執行改造動作</dt>
+                        <dd id="dim-actions">舊測試域全面改為 308 轉址並鎖死索引；放行搜尋與即時問答爬蟲並補齊核心導覽。</dd>
+                      </div>
+                      <div>
+                        <dt>可驗證驗收證據</dt>
+                        <dd id="dim-verification">公開頁全數 HTTP 200、索引清單乾淨、舊測試域實測全數轉至正式網域。</dd>
+                      </div>
+                    </dl>
+                  </div>
                 </div>
               </div>
-              <div class="sample-card">
-                <div class="sample-head">
-                  <span class="mono sample-qid">Q05（品牌直問・官方入口核對）</span>
-                  <span class="sample-verdict">官方入口收斂穩固，同步標示 Gemini 波動</span>
-                </div>
-                <p class="sample-q">「想委託阿男音樂製作客製紀念歌曲，應透過哪個官方入口聯絡？第一次詢問要提供什麼？」</p>
-                <div class="sample-diff">
-                  <div><strong>改前：</strong>9 月首週 0/10 給對官方 LINE，且混用舊版接案頁之「30–45 分鐘訪談」與過期報價說明。</div>
-                  <div><strong>改後：</strong>10/18–28 達成 18/18（100%），11/18–24 於 ChatGPT（7/7）與 Perplexity（7/7）維持 100% 準確指出官方 LINE @250ruauk，Gemini 為 3/7。</div>
-                </div>
-              </div>
-            </div>
+            </details>
           </div>
-        </div>
-
-        <!-- 互動區塊 B：GeoLook 6 維體檢＋四層依賴模型 -->
-        <div class="workbench-panel">
-          <div class="panel-header">
-            <div>
-              <span class="panel-kicker">互動預覽 B｜GeoLook 四層依賴鏈 × 6 維站點體檢</span>
-              <h3>點選 6 維體檢項目，查看實地修法與驗收標準</h3>
-            </div>
-            <div class="total-score-badge">
-              <span>全站體檢總分</span>
-              <strong class="mono">41 → 89 / 100</strong>
-            </div>
-          </div>
-
-          <div class="layers-grid" id="dependency-layers" aria-label="四層依賴修復順序">
-            <div class="layer-card is-passed">
-              <div class="layer-meta"><span class="mono">第 1 層</span><span class="status-tag">已打通</span></div>
-              <h4>訪問層（Access）</h4>
-              <p>公開頁 HTTP 200、SSR 靜態正文、robots.txt 分流放行搜尋爬蟲並鎖死訓練爬蟲、舊測試域 308 隔離。</p>
-            </div>
-            <div class="layer-card is-passed">
-              <div class="layer-meta"><span class="mono">第 2 層</span><span class="status-tag">已打通</span></div>
-              <h4>定向層（Orientation）</h4>
-              <p>sitemap-index.xml 收錄全部公開頁，canonical 唯一，/llms.txt 精簡導引並與 /llms-full.txt 分流。</p>
-            </div>
-            <div class="layer-card is-passed">
-              <div class="layer-meta"><span class="mono">第 3 層</span><span class="status-tag">已打通</span></div>
-              <h4>理解層（Understanding）</h4>
-              <p>全站 44 個公開頁單一 @graph JSON-LD（Organization／Person／Service／Offer／FAQPage）全數可解析。</p>
-            </div>
-            <div class="layer-card is-improving">
-              <div class="layer-meta"><span class="mono">第 4 層</span><span class="status-tag">持續強化</span></div>
-              <h4>可引用層（Quotability）</h4>
-              <p>純文字價格對比表與 56 題文章 FAQ 已補齊；下一階段擴大獨立第三方評測與客戶回饋原話。</p>
-            </div>
-          </div>
-
-          <div class="audit-layout">
-            <div class="audit-dim-list" id="audit-dim-list" role="tablist" aria-label="6 維體檢項目">
-              <button type="button" role="tab" aria-selected="true" class="dim-btn is-active" data-dim="crawlability">
-                <span class="dim-name">1. 可抓取性</span>
-                <span class="mono dim-score">9 → 15 / 15</span>
-              </button>
-              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="content_length">
-                <span class="dim-name">2. 內容長度與深度</span>
-                <span class="mono dim-score">6 → 14 / 15</span>
-              </button>
-              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="structure">
-                <span class="dim-name">3. 結構規範</span>
-                <span class="mono dim-score">9 → 18 / 20</span>
-              </button>
-              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="extractable_blocks">
-                <span class="dim-name">4. 可抽取塊（最大槓桿）</span>
-                <span class="mono dim-score">7 → 22 / 25</span>
-              </button>
-              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="authority">
-                <span class="dim-name">5. 權威與實體信號</span>
-                <span class="mono dim-score">5 → 11 / 15</span>
-              </button>
-              <button type="button" role="tab" aria-selected="false" class="dim-btn" data-dim="relevance">
-                <span class="dim-name">6. 對題性（用戶原話）</span>
-                <span class="mono dim-score">5 → 9 / 10</span>
-              </button>
-            </div>
-
-            <div class="audit-detail" id="audit-detail" aria-live="polite">
-              <div class="audit-detail-head">
-                <div>
-                  <span class="pill pill-teal" id="dim-layer">訪問層＋定向層</span>
-                  <h4 id="dim-title">可抓取性</h4>
-                </div>
-                <div class="score-pill mono" id="dim-score-pill">改前 9 → 改後 15 / 15 分</div>
-              </div>
-              <p class="dim-summary" id="dim-summary">AI 爬蟲能不能在無須執行複雜前端腳本下，直接讀到 HTTP 200 正文與正確網域。</p>
-
-              <div class="progress-pair">
-                <div>
-                  <div class="progress-label"><span>改前基線</span><span class="mono" id="dim-before-pct">60%</span></div>
-                  <div class="progress-track"><div class="progress-fill is-before" id="dim-before-bar" style="width: 60%"></div></div>
-                </div>
-                <div>
-                  <div class="progress-label"><span>改後實測</span><span class="mono" id="dim-after-pct">100%</span></div>
-                  <div class="progress-track"><div class="progress-fill is-after" id="dim-after-bar" style="width: 100%"></div></div>
-                </div>
-              </div>
-
-              <dl class="detail-rows">
-                <div>
-                  <dt>實地診斷發現</dt>
-                  <dd id="dim-findings">改造前存在棄用測試網域殘留舊文案且允許索引，導致 AI 抓到衝突版本；正式站雖為靜態頁但缺少 /llms.txt 導航清單，robots.txt 亦未區分訓練與搜尋爬蟲。</dd>
-                </div>
-                <div>
-                  <dt>執行改造動作</dt>
-                  <dd id="dim-actions">將兩個棄用測試域全面改為 308 轉址並加上 noindex；robots.txt 顯式放行搜尋與即時問答爬蟲並鎖死訓練爬蟲；部署精簡版 /llms.txt 指向核心頁並與 /llms-full.txt 分流。</dd>
-                </div>
-                <div>
-                  <dt>可驗證驗收證據</dt>
-                  <dd id="dim-verification">公開頁全數 HTTP 200、robots.txt 指向 sitemap-index.xml、舊測試域 5 組路徑實測皆 308 轉至正式網域。</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5 步驟改造時間軸 -->
-        <div class="steps-strip" aria-label="5 步驟 GEO 改造工作流">
-          <div class="steps-head">
-            <span class="panel-kicker">可複製工作流</span>
-            <h3>從 0 開始做完一輪 GEO 的 5 個步驟</h3>
-          </div>
-          <ol class="steps-grid" id="five-steps-grid">
-            <li class="step-card">
-              <span class="step-num mono">01</span>
-              <h4>摸底採樣與建立題庫</h4>
-              <p>固定基準 5 問＋27 題情境題，每題新對話不餵答案，35 個實測日累積 1,298 筆原答對照底稿。</p>
-            </li>
-            <li class="step-card">
-              <span class="step-num mono">02</span>
-              <h4>清理舊站與實體統一</h4>
-              <p>棄用舊網域設 308 轉址，補齊別名與自有帳號連結，消除認錯品牌與舊價殘留。</p>
-            </li>
-            <li class="step-card">
-              <span class="step-num mono">03</span>
-              <h4>官網結構化地基改造</h4>
-              <p>從 37 頁擴至 44 公開頁，寫齊純文字規格表、llms.txt 與單一 @graph JSON-LD。</p>
-            </li>
-            <li class="step-card">
-              <span class="step-num mono">04</span>
-              <h4>跨平台信源一魚多吃</h4>
-              <p>官網當事實總倉，將 63 項主題分發至 313 筆社群、問答與影音觸點，擴大外部提及。</p>
-            </li>
-            <li class="step-card">
-              <span class="step-num mono">05</span>
-              <h4>複測除錯與 8～12 週追蹤</h4>
-              <p>四欄事實逐項核對原答證據，遇舊價回流立即追查舊快照，以 90 天窗口看長期趨勢。</p>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </section>
+        </section>
       </div>
 
       <!-- ==================== 分類 03：💼 服務方案與合作 ==================== -->
@@ -1489,401 +1407,390 @@
             <div class="cat-quick-links" aria-label="服務方案區內快速跳轉">
               <a href="#plan-picker-widget">15 秒挑方案</a>
               <a href="#plan-comparison-table">四方案對照表</a>
-              <a href="#agency-partner-box">同業外包協力</a>
-              <a href="#contact">LINE 3 題幫手與預約</a>
+              <a href="#agency-partner-box">合夥分潤</a>
+              <a href="#contact">預約健檢</a>
             </div>
           </div>
         </div>
 
-    <!-- ==================== 4. 幫你做 GEO 服務方案與聯絡方式 ==================== -->
-    <section class="section" id="services">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">TRANSPARENT PLANS・透明兩層方案（入門／企業級）</p>
-            <h2>幫你做 GEO：依規模分兩層，先驗現況再決定怎麼改</h2>
-            <p class="section-lede">
-              個人與小型官網可從 NT$3,800 基礎 GEO 健檢起步（30 天內升級改造可全額折抵），或直接進行 NT$18,000 小型官網一次改造；B2B 與品牌企業則提供含企業 NDA 保密承諾書的 NT$28,000 深度健檢與 NT$25,000／月起月費陪跑監測（本服務與客製紀念歌曲業務 <code>cccnan.art</code> 分開運作）。
-            </p>
-          </div>
-        </div>
-
-        <!-- 15 秒點 3 下挑方案互動試算器 -->
-        <div class="plan-picker-widget" id="plan-picker-widget" aria-label="15 秒點 3 下挑方案與折抵試算器">
-          <div class="plan-picker-head">
-            <div>
-              <span class="panel-kicker">15-SECOND PLAN MATCHER・免留資料・點 3 下立即算好最省路徑</span>
-              <h3>不知道選哪一案？15 秒點 3 下挑方案＋即時折抵試算</h3>
-            </div>
-            <label class="picker-credit-toggle" for="picker-apply-credit">
-              <input type="checkbox" id="picker-apply-credit" checked>
-              <span>套用「先做 NT$3,800 健檢，30 天內升級全額折抵」試算</span>
-            </label>
-          </div>
-
-          <div class="picker-steps-grid">
-            <div class="picker-step-card" data-picker-step="scale">
-              <span class="picker-step-num mono">STEP 01｜網站規模</span>
-              <div class="picker-btn-group" role="group" aria-label="選擇網站規模">
-                <button type="button" class="picker-opt-btn is-active" data-step="scale" data-value="small" aria-pressed="true">個人／工作室／小型官網</button>
-                <button type="button" class="picker-opt-btn" data-step="scale" data-value="growth" aria-pressed="false">多服務頁成長品牌官網</button>
-                <button type="button" class="picker-opt-btn" data-step="scale" data-value="enterprise" aria-pressed="false">B2B 企業／需 NDA 法務</button>
-              </div>
-            </div>
-
-            <div class="picker-step-card" data-picker-step="budget">
-              <span class="picker-step-num mono">STEP 02｜目前預算區間</span>
-              <div class="picker-btn-group" role="group" aria-label="選擇預算區間">
-                <button type="button" class="picker-opt-btn is-active" data-step="budget" data-value="under5k" aria-pressed="true">NT$5,000 以內先摸底</button>
-                <button type="button" class="picker-opt-btn" data-step="budget" data-value="15k_25k" aria-pressed="false">NT$15,000～25,000 一次改造</button>
-                <button type="button" class="picker-opt-btn" data-step="budget" data-value="25k_plus" aria-pressed="false">NT$25,000 以上深度／陪跑</button>
-              </div>
-            </div>
-
-            <div class="picker-step-card" data-picker-step="goal">
-              <span class="picker-step-num mono">STEP 03｜最急迫目標</span>
-              <div class="picker-btn-group" role="group" aria-label="選擇最急迫目標">
-                <button type="button" class="picker-opt-btn is-active" data-step="goal" data-value="audit" aria-pressed="true">先查 AI 有無點名或報錯舊價</button>
-                <button type="button" class="picker-opt-btn" data-step="goal" data-value="rebuild" aria-pressed="false">直接補齊 Schema／llms／價格表</button>
-                <button type="button" class="picker-opt-btn" data-step="goal" data-value="monitor" aria-pressed="false">企業競品 PK 或每月 GA4 追蹤</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="picker-result-card" id="plan-picker-result" aria-live="polite">
-            <div class="picker-result-main">
-              <span class="pill pill-teal" id="picker-rec-badge">推薦起步｜入門 01</span>
-              <h4 id="picker-rec-title">基礎 GEO 健檢與 20 題 AI 診斷報告（NT$3,800）</h4>
-              <p id="picker-rec-reason">
-                先花 NT$3,800 用 20 題跨平台無痕實測抓出 AI 到底有沒有點名您、有沒有報錯舊價；看過原答證據後再決定自己改或升級改造。
-              </p>
-            </div>
-            <div class="picker-calc-box">
-              <span class="picker-calc-label mono" id="picker-calc-kicker">30 天內升級折抵試算</span>
-              <strong class="mono picker-calc-figure" id="picker-calc-figure">升級補差額 NT$14,200</strong>
-              <p class="picker-calc-formula" id="picker-calc-formula">
-                原價 NT$18,000 − 先做健檢全額折抵 NT$3,800 ＝ 30 天內升級只需補 <strong>NT$14,200</strong>（兩階段合計仍為 NT$18,000）。
-              </p>
-              <a class="btn btn-primary btn-sm" id="picker-rec-cta" href="#contact">帶此方案前往 30 秒 LINE 預約 →</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- 層級一：入門方案 -->
-        <div class="pricing-tier-group" aria-label="入門方案">
-          <div class="tier-group-head">
-            <span class="tier-badge tier-badge-entry mono">TIER 01・入門方案</span>
-            <h3>個人／工作室／小商家</h3>
-            <p>先低門檻看清 AI 眼中的自己，適合個人品牌、接案工作室與小型商家官網。</p>
-          </div>
-
-          <div class="pricing-grid pricing-grid-2">
-            <!-- 入門 1 -->
-            <article class="plan-card" data-plan-id="entry-audit">
-              <div class="plan-top">
-                <span class="plan-tier mono">ENTRY 01・20 題摸底體檢</span>
-                <h3>基礎 GEO 健檢與 20 題 AI 診斷報告</h3>
-                <p class="plan-price"><strong class="mono">NT$3,800</strong><span>／單次診斷</span></p>
-                <p class="plan-highlight-pill is-credit">30 天內升級改造可全額折抵</p>
-                <p class="plan-desc">適合已經有官網或粉專的個人／工作室／小商家，想知道 AI 現在有沒有點名你、有沒有報錯價格與聯絡方式。</p>
-                <ul class="plan-list">
-                  <li>設計 20 題貼近真實客人的測試題（未提品牌題＋品牌直問題）</li>
-                  <li>跨主流 AI 引擎新對話實測，完整保留原始問答截圖／文字證據</li>
-                  <li>GeoLook 6 維體檢＋四層依賴檢查（爬蟲、舊站殘留、結構缺口）</li>
-                  <li>交付可執行的《GEO 診斷報告與優先修復清單》（30 天內升級改造可全額折抵 NT$3,800）</li>
-                </ul>
-              </div>
-              <a class="btn btn-secondary btn-full" href="#contact">預約基礎 GEO 健檢</a>
-            </article>
-
-            <!-- 入門 2 -->
-            <article class="plan-card is-featured" data-plan-id="entry-rebuild">
-              <div class="plan-top">
-                <span class="plan-tier mono">ENTRY 02・一次到位地基</span>
-                <h3>小型官網 GEO 地基一次改造</h3>
-                <p class="plan-price"><strong class="mono">NT$18,000</strong><span>／單次專案</span></p>
-                <p class="plan-highlight-pill is-scope">限小型官網・不含代寫大量文章</p>
-                <p class="plan-desc">適合確認要讓網站「能被 AI 讀懂並正確引用」的小型官網（30 天內先做過 NT$3,800 健檢可全額折抵）。</p>
-                <ul class="plan-list">
-                  <li>包含完整 20 題摸底診斷與品牌事實單一真相表整理（限小型官網架構）</li>
-                  <li>撰寫與部署 <code>/llms.txt</code>、<code>robots.txt</code> 爬蟲檢查與 <code>sitemap</code> 核對</li>
-                  <li>建置全站可解析 JSON-LD Schema（實體別名、服務報價、FAQPage）</li>
-                  <li>改寫 3～5 個核心服務頁為高引用結構（倒金字塔首段＋純文字規格表＋FAQ，不含代寫大量文章）</li>
-                  <li>交付前提供自動化驗證紀錄與改後複測對照報告</li>
-                </ul>
-              </div>
-              <a class="btn btn-primary btn-full" href="#contact">預約小型官網改造評估</a>
-            </article>
-          </div>
-        </div>
-
-        <!-- 層級二：企業級方案 -->
-        <div class="pricing-tier-group is-enterprise" aria-label="企業級方案">
-          <div class="tier-group-head">
-            <span class="tier-badge tier-badge-ent mono">TIER 02・企業級方案</span>
-            <h3>B2B／品牌企業</h3>
-            <p>涵蓋企業 NDA 資料安全承諾、高管／團隊視訊講解與每月 GA4 AI 流量追蹤。</p>
-          </div>
-
-          <div class="pricing-grid pricing-grid-2">
-            <!-- 企業 1 -->
-            <article class="plan-card" data-plan-id="ent-audit">
-              <div class="plan-top">
-                <span class="plan-tier mono">ENTERPRISE 01・50 題深度健檢＋資安承諾</span>
-                <h3>企業深度健檢與資安承諾專案</h3>
-                <p class="plan-price"><strong class="mono">NT$28,000</strong><span>／單次專案</span></p>
-                <p class="plan-highlight-pill is-nda">含企業 NDA 保密承諾書＋視訊報告講解</p>
-                <p class="plan-desc">適合重視法務資安邊界、跨產品線與多決策角色的 B2B 或品牌企業，提供大樣本實測與團隊簡報對焦。</p>
-                <ul class="plan-list">
-                  <li><strong>50 題×多平台實測</strong>：覆蓋產品規格、採購情境與競品對比提問，完整保留原答證據</li>
-                  <li><strong>企業 NDA 保密承諾書</strong>：只碰公開資訊、單戶本機隔離、不用於公開模型訓練、結案 30 日可銷毀</li>
-                  <li><strong>視訊報告講解</strong>：線上視訊會議向決策者與行銷／工程團隊解說實測落差與優先修補順序</li>
-                  <li>交付企業版 GeoLook 診斷簡報與可直接交辦上線之結構化修復範本</li>
-                </ul>
-              </div>
-              <a class="btn btn-secondary btn-full" href="#contact">預約企業深度健檢（可附 NDA 範本）</a>
-            </article>
-
-            <!-- 企業 2 -->
-            <article class="plan-card is-featured-ent" data-plan-id="ent-retainer">
-              <div class="plan-top">
-                <span class="plan-tier mono">ENTERPRISE 02・月費陪跑監測</span>
-                <h3>企業月費陪跑監測</h3>
-                <p class="plan-price"><strong class="mono">NT$25,000</strong><span>／月起</span></p>
-                <p class="plan-highlight-pill is-scope">依題庫與平台數報價</p>
-                <p class="plan-desc">適合需要以 8～12 週以上節奏長期追蹤 AI 回答變化、優化官網結構並量化 AI 導流成效的 B2B／品牌企業。</p>
-                <ul class="plan-list">
-                  <li><strong>每月跨引擎實測</strong>：固定題庫定期無痕複測，建立可逐月對照的趨勢與引用來源紀錄</li>
-                  <li><strong>結構／內容優化</strong>：持續檢查新頁面 Schema、純文字對比表與跨平台口徑，防堵舊價回流</li>
-                  <li><strong>GA4 AI 流量追蹤</strong>：協助設定並追蹤 ChatGPT、Perplexity、Gemini 等 AI 參照流量與轉換表現</li>
-                  <li>依題庫規模與監測平台數報價，每月交付原答證據包與下月執行工單</li>
-                </ul>
-              </div>
-              <a class="btn btn-primary btn-full" href="#contact">透過 LINE 洽詢企業月費陪跑</a>
-            </article>
-          </div>
-
-          <div class="ent-summary-box" aria-label="企業四大產業盲點對照與專頁導覽">
-            <div class="ent-summary-head">
+        <!-- ==================== 4. 幫你做 GEO 服務方案與聯絡方式 ==================== -->
+        <section class="section" id="services">
+          <div class="container">
+            <div class="section-head">
               <div>
-                <span class="panel-kicker">B2B ENTERPRISE INSIGHT・絕不編造假企業客戶名單</span>
-                <h4>四大產業常見 GEO 技術盲點與 5 件套交付樣本預覽</h4>
-              </div>
-              <div style="display:flex;flex-wrap:wrap;gap:10px;">
-                <a class="btn btn-secondary" href="/enterprise/">前往 B2B 企業專頁 →</a>
-                <a class="btn btn-secondary" href="/faq/">完整 12 題常見問答 →</a>
-              </div>
-            </div>
-            <div class="ent-summary-grid">
-              <div class="ent-mini-card">
-                <span class="mono text-teal">B2B 製造業</span>
-                <h4>規格鎖在 PDF 型錄無法抽取</h4>
-                <p>補齊純文字 HTML 規格對比表、認證清單與 Product Schema，讓海外採購問 AI 時讀得到料號與 MOQ。</p>
-              </div>
-              <div class="ent-mini-card">
-                <span class="mono text-teal">SaaS／企業顧問</span>
-                <h4>純前端 SPA 渲染空殼</h4>
-                <p>改為靜態預渲染（SSR／SSG）並在首段直答計費與整合模式，避免搜尋爬蟲抓回空白殼。</p>
-              </div>
-              <div class="ent-mini-card">
-                <span class="mono text-teal">醫療美學／健康診所</span>
-                <h4>歷史活動頁舊價與法規邊界模糊</h4>
-                <p>整併過期活動頁並設唯一 canonical，清楚界定適應症與公開區間，防範 AI 引述舊活動價。</p>
-              </div>
-              <div class="ent-mini-card">
-                <span class="mono text-teal">電商零售品牌</span>
-                <h4>Cloudflare WAF 誤擋 AI 搜尋爬蟲</h4>
-                <p>實測 27 隻爬蟲與 WAF 狀態，消除 <code>OAI-SearchBot</code>／<code>PerplexityBot</code> 403 誤擋並補齊 Offer 規格。</p>
+                <p class="eyebrow">透明報價・先看結果再決定</p>
+                <h2>服務方案：依店家規模分兩層</h2>
+                <p class="section-lede">
+                  小商家可從 NT$3,800 健檢起步（30 天內升級改造全額折抵）；企業團隊提供書面保密承諾與月費陪跑。
+                </p>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- 四方案並排純文字 HTML 對照與折抵表 -->
-        <div class="plan-compare-box" id="plan-comparison-table" aria-label="四方案完整規格與 30 天折抵並排對照表">
-          <div class="plan-compare-head">
-            <div>
-              <span class="panel-kicker">SIDE-BY-SIDE COMPARISON・純文字四方案與折抵金額總表</span>
-              <h3>四方案交付項目、天數與 30 天內折抵差額一次看清</h3>
+            <!-- 15 秒點 3 下挑方案互動試算器 -->
+            <div class="plan-picker-widget" id="plan-picker-widget" aria-label="15 秒點 3 下挑方案與折抵試算器">
+              <div class="plan-picker-head">
+                <div>
+                  <span class="panel-kicker">15 秒快速挑方案</span>
+                  <h3>點 3 下，幫你算出最適合的起步方式</h3>
+                </div>
+                <label class="picker-credit-toggle" for="picker-apply-credit">
+                  <input type="checkbox" id="picker-apply-credit" checked>
+                  <span>套用「先做 NT$3,800 健檢，30 天內升級全額折抵」</span>
+                </label>
+              </div>
+
+              <div class="picker-steps-grid">
+                <div class="picker-step-card" data-picker-step="scale">
+                  <span class="picker-step-num mono">STEP 01｜網站規模</span>
+                  <div class="picker-btn-group" role="group" aria-label="選擇網站規模">
+                    <button type="button" class="picker-opt-btn is-active" data-step="scale" data-value="small" aria-pressed="true">個人／工作室／小型官網</button>
+                    <button type="button" class="picker-opt-btn" data-step="scale" data-value="growth" aria-pressed="false">多服務頁成長品牌</button>
+                    <button type="button" class="picker-opt-btn" data-step="scale" data-value="enterprise" aria-pressed="false">B2B 企業／需簽保密</button>
+                  </div>
+                </div>
+
+                <div class="picker-step-card" data-picker-step="budget">
+                  <span class="picker-step-num mono">STEP 02｜目前預算</span>
+                  <div class="picker-btn-group" role="group" aria-label="選擇預算區間">
+                    <button type="button" class="picker-opt-btn is-active" data-step="budget" data-value="under5k" aria-pressed="true">NT$5,000 以內先健檢</button>
+                    <button type="button" class="picker-opt-btn" data-step="budget" data-value="15k_25k" aria-pressed="false">NT$15,000～25,000 一次改造</button>
+                    <button type="button" class="picker-opt-btn" data-step="budget" data-value="25k_plus" aria-pressed="false">NT$25,000 以上深度／陪跑</button>
+                  </div>
+                </div>
+
+                <div class="picker-step-card" data-picker-step="goal">
+                  <span class="picker-step-num mono">STEP 03｜最想先解決</span>
+                  <div class="picker-btn-group" role="group" aria-label="選擇最急迫目標">
+                    <button type="button" class="picker-opt-btn is-active" data-step="goal" data-value="audit" aria-pressed="true">先查 AI 有無推薦或報錯價</button>
+                    <button type="button" class="picker-opt-btn" data-step="goal" data-value="rebuild" aria-pressed="false">直接把官網改成 AI 讀得懂</button>
+                    <button type="button" class="picker-opt-btn" data-step="goal" data-value="monitor" aria-pressed="false">對手 PK 或每月定期追蹤</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="picker-result-card" id="plan-picker-result" aria-live="polite">
+                <div class="picker-result-main">
+                  <span class="pill pill-teal" id="picker-rec-badge">推薦起步｜入門 01</span>
+                  <h4 id="picker-rec-title">基礎 GEO 健檢與 20 題 AI 診斷報告（NT$3,800）</h4>
+                  <p id="picker-rec-reason">
+                    先用 20 題真實客問確認 AI 有沒有推薦你、有沒有報錯價；看過證據再決定自己改或交給我們。
+                  </p>
+                </div>
+                <div class="picker-calc-box">
+                  <span class="picker-calc-label mono" id="picker-calc-kicker">30 天內升級折抵試算</span>
+                  <strong class="mono picker-calc-figure" id="picker-calc-figure">升級補差額 NT$14,200</strong>
+                  <p class="picker-calc-formula" id="picker-calc-formula">
+                    原價 NT$18,000 − 健檢全額折抵 NT$3,800 ＝ 只需補 <strong>NT$14,200</strong>。
+                  </p>
+                  <a class="btn btn-primary btn-sm" id="picker-rec-cta" href="#contact">帶此方案前往 LINE 預約 →</a>
+                </div>
+              </div>
             </div>
-            <span class="pill pill-brass">NT$3,800 30 天內升級 NT$18,000 只補 NT$14,200</span>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">比較項目</th>
-                  <th scope="col">入門 01｜基礎健檢</th>
-                  <th scope="col">入門 02｜小型官網改造</th>
-                  <th scope="col">企業 01｜深度健檢＋NDA</th>
-                  <th scope="col">企業 02｜月費陪跑監測</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>公開定價（新台幣）</strong></td>
-                  <td class="mono"><strong>NT$3,800</strong>／單次</td>
-                  <td class="mono"><strong>NT$18,000</strong>／單次專案</td>
-                  <td class="mono"><strong>NT$28,000</strong>／單次專案</td>
-                  <td class="mono"><strong>NT$25,000</strong>／月起</td>
-                </tr>
-                <tr>
-                  <td><strong>30 天內升級折抵試算</strong></td>
-                  <td>30 天內升級入門 02 可<strong>全額折抵 NT$3,800</strong></td>
-                  <td>先做入門 01 後折抵，<strong>只需再補 NT$14,200</strong></td>
-                  <td>單次獨立企業專案（不含入門折抵）</td>
-                  <td>依每月題庫與監測平台數客製報價</td>
-                </tr>
-                <tr>
-                  <td><strong>跨引擎無痕實測題數</strong></td>
-                  <td>20 題（未提品牌＋品牌直問）</td>
-                  <td>含 20 題摸底＋改後複測對照</td>
-                  <td>50 題×多平台＋最多 3 家對手 PK</td>
-                  <td>每月固定題庫週期性無痕複測</td>
-                </tr>
-                <tr>
-                  <td><strong>地基部署（robots／llms／Schema）</strong></td>
-                  <td>交付優先修復清單（不含代改程式）</td>
-                  <td>全站單一 <code>@graph</code> Schema、<code>llms.txt</code> 與 3～5 核心頁改寫</td>
-                  <td>含 27 隻爬蟲／WAF 矩陣與工程師可直接上線修復範本</td>
-                  <td>每月審查新頁結構與跨平台口徑，防堵舊價回流</td>
-                </tr>
-                <tr>
-                  <td><strong>企業 NDA 與 GA4 AI 追蹤</strong></td>
-                  <td>僅依公開頁分析</td>
-                  <td>僅依公開頁與授權規格改造</td>
-                  <td>含<strong>書面企業 NDA</strong>＋45～60 分鐘視訊講解</td>
-                  <td>含<strong>書面企業 NDA</strong>＋<strong>GA4 AI 流量追蹤</strong></td>
-                </tr>
-                <tr>
-                  <td><strong>預估交付週期</strong></td>
-                  <td>約 5 個工作天</td>
-                  <td>約 10～14 個工作天</td>
-                  <td>約 7～10 個工作天</td>
-                  <td>按月交付原答證據包（建議 8～12 週起）</td>
-                </tr>
-                <tr>
-                  <td><strong>誠實服務邊界</strong></td>
-                  <td>不保證 AI 排名或必點名</td>
-                  <td>限小型官網架構、不含代寫大量文章</td>
-                  <td>只碰公開頁、單戶隔離、結案 30 日可銷毀</td>
-                  <td>依實際題庫規模與平台數透明報價</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
 
-        <!-- 網頁設計工作室／行銷同業合作入口 -->
-        <div class="agency-partner-box" id="agency-partner-box" aria-label="網頁設計工作室與行銷同業外包代做 GEO 工程合作入口">
-          <div class="agency-partner-copy">
-            <span class="panel-kicker">AGENCY &amp; STUDIO PARTNER・網頁設計工作室／行銷同業合作入口</span>
-            <h3>您負責網站視覺與行銷提案，GEO 地基工程可以外包代做交給我們</h3>
-            <p>
-              許多網頁設計工作室、接案工程師與品牌行銷顧問擅長視覺切版與廣告投放，但不一定有時間手寫單一 <code>@graph</code> JSON-LD、排查 Cloudflare WAF 403 誤擋，或跑 20～50 題無痕跨引擎實測。阿男 GEO 實戰工坊開放<strong>單案透明工程外包代做協力</strong>，讓您直接把專業的 GEO 交付包放進給客戶的方案裡。
-            </p>
-            <ul class="agency-points">
-              <li><strong>可外包代做項目</strong>：<code>robots.txt</code> 爬蟲分流、<code>llms.txt</code>／<code>ard.json</code>、單一 <code>@graph</code> Schema、WAF 實測矩陣與 20／50 題原答證據報告。</li>
-              <li><strong>彈性合作模式</strong>：可純交付技術檔案由您對客提案，或由我們以技術工程協力身分列席線上說明。</li>
-              <li><strong>單層透明原則</strong>：採單案透明工程協力報價，嚴守保密界線不主動繞過夥伴接觸終端客戶，不設多層抽成。</li>
-            </ul>
-          </div>
-          <div class="agency-partner-cta">
-            <span class="mono agency-cta-tag">PARTNER INQUIRY</span>
-            <h4>索取同業單案工程協力說明</h4>
-            <p>傳送「客戶網站類型＋預期需求（健檢或地基改造）」，1 個工作天內回覆單案工期與透明報價。</p>
-            <a
-              class="btn btn-primary btn-full"
-              id="agency-partner-line-link"
-              href="https://line.me/R/oaMessage/@250ruauk/?%E3%80%90%E7%B6%B2%E9%A0%81%E8%A8%AD%E8%A8%88%EF%BC%8F%E8%A1%8C%E9%8A%B7%E5%90%8C%E6%A5%ADGEO%E5%B7%A5%E7%A8%8B%E5%8D%94%E5%8A%9B%E6%B4%BD%E8%A9%A2%E3%80%91%0A%E5%B7%A5%E4%BD%9C%E5%AE%A4%EF%BC%8F%E5%85%AC%E5%8F%B8%E5%90%8D%E7%A8%B1%EF%BC%9A%0A%E5%AE%A2%E6%88%B6%E7%B6%B2%E7%AB%99%E6%9E%B6%E6%A7%8B%EF%BC%88WordPress%2FNext%2F%E9%9D%9C%E6%85%8B%E7%AD%89%EF%BC%89%EF%BC%9A%0A%E6%83%B3%E5%A4%96%E5%8C%85%E4%BB%A3%E5%81%9A%E9%A0%85%E7%9B%AE%EF%BC%88%E5%81%A5%E6%AA%A2%2FSchema%2Fllms.txt%2FWAF%E6%8E%92%E9%8C%AF%EF%BC%89%EF%BC%9A"
-              target="_blank"
-              rel="noopener noreferrer"
-            >同業洽談單案 GEO 外包協力（開啟 LINE）</a>
-            <a class="btn btn-secondary btn-full" href="/enterprise/">先看企業 5 件套與 NDA 規格 →</a>
-          </div>
-        </div>
-
-        <!-- 誠實邊界聲明 + 聯絡卡片 -->
-        <div class="contact-panel" id="contact">
-          <div class="boundary-box">
-            <span class="pill pill-coral">先講清楚我們不承諾的事</span>
-            <h3>不保證 AI 排名、不保證必點名、不保證成交</h3>
-            <p>
-              AI 回答具有隨機性，各引擎檢索規則也持續演進，任何宣稱「保證排第一」「72 小時必被 AI 推薦」的說法都無法驗證。
-            </p>
-            <p>
-              我們承諾交付的是<strong>可逐項核對的工程證據</strong>：固定條件下的原始 AI 問答紀錄、6 維站點診斷報告，以及可直接驗收上線的結構化檔案（<code>llms.txt</code>、JSON-LD Schema、純文字規格與問答結構）。
-            </p>
-          </div>
-
-          <div class="cta-box">
-            <span class="eyebrow">BOOKING・預約 GEO 健檢</span>
-            <h3>加入官方 LINE，傳送你的網址就能開始</h3>
-
-            <!-- 30 秒幫老闆想好 3 題並一鍵帶進 LINE 小幫手（位於預約 LINE CTA 上方） -->
-            <div class="line-q-helper" id="line-q-helper" aria-label="點選行業 30 秒幫老闆想好 3 道 AI 測試題並一鍵帶進 LINE">
-              <div class="line-q-helper-head">
-                <span class="panel-kicker">30-SECOND PROMPT HELPER・幫老闆想好 3 題直接帶進 LINE</span>
-                <h4>不知道該問 AI 什麼？點選行業，自動配出 3 道買家必問測試題</h4>
+            <!-- 層級一：入門方案（每張嚴格 3 條白話重點） -->
+            <div class="pricing-tier-group" aria-label="入門方案">
+              <div class="tier-group-head">
+                <span class="tier-badge tier-badge-entry mono">入門方案</span>
+                <h3>個人／工作室／小商家</h3>
               </div>
 
-              <div class="line-q-tabs" id="line-q-tabs" role="tablist" aria-label="選擇 6 大行業產生 3 道買家測試題">
-                <button type="button" role="tab" aria-selected="true" class="line-q-tab is-active" data-q-industry="marketing">行銷／SEO顧問</button>
-                <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="ecommerce">電商零售</button>
-                <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="medical">醫美健康</button>
-                <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="manufacturing">B2B製造與供應鏈</button>
-                <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="b2b">B2B企業服務</button>
-                <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="local">客製與在地品牌</button>
+              <div class="pricing-grid pricing-grid-2">
+                <article class="plan-card" data-plan-id="entry-audit">
+                  <div class="plan-top">
+                    <span class="plan-tier mono">入門 01・20 題摸底體檢</span>
+                    <h3>基礎健檢與 20 題診斷報告</h3>
+                    <p class="plan-price"><strong class="mono">NT$3,800</strong><span>／單次</span></p>
+                    <p class="plan-highlight-pill is-credit">30 天內升級改造全額折抵</p>
+                    <ul class="plan-list">
+                      <li>用 20 個真實客人提問，跨平台實測並留存原始回答截圖</li>
+                      <li>檢查網站開放程度、舊頁殘留與價格表缺口</li>
+                      <li>交付白話《診斷報告與優先修復清單》（5 個工作天）</li>
+                    </ul>
+                  </div>
+                  <a class="btn btn-secondary btn-full" href="#contact">預約基礎健檢</a>
+                </article>
+
+                <article class="plan-card is-featured" data-plan-id="entry-rebuild">
+                  <div class="plan-top">
+                    <span class="plan-tier mono">入門 02・一次到位改造</span>
+                    <h3>小型官網 AI 地基一次改造</h3>
+                    <p class="plan-price"><strong class="mono">NT$18,000</strong><span>／單次專案</span></p>
+                    <p class="plan-highlight-pill is-scope">先做健檢折抵後只需補 NT$14,200</p>
+                    <ul class="plan-list">
+                      <li>幫你補齊給搜尋引擎與 AI 讀的完整品牌名片與導覽</li>
+                      <li>改寫 3～5 個主力服務頁，加入清楚價目對比表與問答</li>
+                      <li>含 20 題改前改後複測驗證（限小型官網、不含大量代寫）</li>
+                    </ul>
+                  </div>
+                  <a class="btn btn-primary btn-full" href="#contact">預約官網改造評估</a>
+                </article>
+              </div>
+            </div>
+
+            <!-- 層級二：企業級方案（每張嚴格 3 條白話重點） -->
+            <div class="pricing-tier-group is-enterprise" aria-label="企業級方案">
+              <div class="tier-group-head">
+                <span class="tier-badge tier-badge-ent mono">企業方案</span>
+                <h3>B2B／品牌企業</h3>
               </div>
 
-              <div class="line-q-inputs">
-                <input type="text" id="line-q-brand" class="live-url-input line-q-input" placeholder="你的品牌名稱（選填，將自動套入第 3 題）" aria-label="你的品牌名稱">
-                <input type="url" id="line-q-url" class="live-url-input line-q-input" placeholder="你的官網網址（選填，若剛測過會自動帶入）" aria-label="你的官網網址">
-                <input type="text" id="line-q-price" class="live-url-input line-q-input" placeholder="主力價格區間（選填，如 NT$3,800～18,000）" aria-label="主力價格區間">
+              <div class="pricing-grid pricing-grid-2">
+                <article class="plan-card" data-plan-id="ent-audit">
+                  <div class="plan-top">
+                    <span class="plan-tier mono">企業 01・50 題深度健檢</span>
+                    <h3>企業深度健檢＋書面保密承諾</h3>
+                    <p class="plan-price"><strong class="mono">NT$28,000</strong><span>／單次專案</span></p>
+                    <p class="plan-highlight-pill is-nda">含書面 NDA＋團隊視訊講解</p>
+                    <ul class="plan-list">
+                      <li>50 題跨平台實測＋最多 3 家同行對手逐項 PK</li>
+                      <li>簽署書面保密承諾，只看公開資料、結案可銷毀</li>
+                      <li>線上視訊向團隊簡報，交付工程師可直接上線的修復範本</li>
+                    </ul>
+                  </div>
+                  <a class="btn btn-secondary btn-full" href="#contact">預約企業深度健檢</a>
+                </article>
+
+                <article class="plan-card is-featured-ent" data-plan-id="ent-retainer">
+                  <div class="plan-top">
+                    <span class="plan-tier mono">企業 02・月費陪跑監測</span>
+                    <h3>企業月費陪跑與成效追蹤</h3>
+                    <p class="plan-price"><strong class="mono">NT$25,000</strong><span>／月起</span></p>
+                    <p class="plan-highlight-pill is-scope">依題庫與平台數透明報價</p>
+                    <ul class="plan-list">
+                      <li>每月固定題庫跨引擎複測，追蹤曝光與引用變化</li>
+                      <li>持續把關新頁面結構與價目口徑，防堵舊價回流</li>
+                      <li>協助設定 AI 導流追蹤，每月交付證據包與下月清單</li>
+                    </ul>
+                  </div>
+                  <a class="btn btn-primary btn-full" href="#contact">洽詢企業月費陪跑</a>
+                </article>
               </div>
 
-              <ol class="line-q-list" id="line-q-list" aria-live="polite">
-                <li><span class="q-type-tag">① 未提品牌推薦題</span><span>台灣有哪些公開報價、願意交出原始實測證據的 GEO 或 SEO 顧問團隊？該怎麼挑？</span></li>
-                <li><span class="q-type-tag">② 規格預算比較題</span><span>中小企業預算 NT$20,000 以內想做官網 AI 搜尋地基改造，應該包含哪些具體項目與驗收方式？</span></li>
-                <li><span class="q-type-tag">③ 品牌直問防誤報題</span><span>想找「我的品牌」做行銷／SEO 顧問諮詢，公開收費方式、交付項目與官方聯絡入口是什麼？</span></li>
-              </ol>
+              <div class="ent-summary-box" aria-label="四大產業常見盲點與專頁導覽">
+                <div class="ent-summary-head">
+                  <div>
+                    <span class="panel-kicker">常見產業地雷</span>
+                    <h4>四種企業官網最常掉分的原因</h4>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:10px;">
+                    <a class="btn btn-secondary btn-sm" href="/enterprise/">B2B 企業專頁 →</a>
+                    <a class="btn btn-secondary btn-sm" href="/faq/">完整 12 題 FAQ →</a>
+                  </div>
+                </div>
+                <div class="ent-summary-grid">
+                  <div class="ent-mini-card">
+                    <span class="mono text-teal">B2B 製造業</span>
+                    <h4>規格全鎖在 PDF 型錄裡</h4>
+                    <p>補上文字版規格表與認證編號，讓採購問 AI 時讀得到型號與起訂量。</p>
+                  </div>
+                  <div class="ent-mini-card">
+                    <span class="mono text-teal">軟體／企業顧問</span>
+                    <h4>畫面炫但爬蟲讀到空白</h4>
+                    <p>改為可直接讀取的靜態頁面，並在開頭寫明計費與導入方式。</p>
+                  </div>
+                  <div class="ent-mini-card">
+                    <span class="mono text-teal">醫美／健康診所</span>
+                    <h4>過期活動舊價還在線上</h4>
+                    <p>整併過期活動頁、寫明合理區間與門診流程，防止 AI 亂報舊價。</p>
+                  </div>
+                  <div class="ent-mini-card">
+                    <span class="mono text-teal">電商零售品牌</span>
+                    <h4>網站防火牆誤擋 AI 搜尋</h4>
+                    <p>檢查並解除主流 AI 搜尋誤擋，補齊商品規格與退換貨說明。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              <div class="line-q-actions">
-                <button type="button" class="btn btn-secondary" id="copy-line-q-btn">一鍵複製 3 題與預約訊息</button>
+            <!-- 四方案並排純文字 HTML 對照與折抵表（全白話無技術檔名） -->
+            <div class="plan-compare-box" id="plan-comparison-table" aria-label="四方案完整規格與 30 天折抵並排對照表">
+              <div class="plan-compare-head">
+                <div>
+                  <span class="panel-kicker">四方案一表看懂</span>
+                  <h3>定價、交付項目與 30 天折抵對照表</h3>
+                </div>
+                <span class="pill pill-brass">先健檢再升級，只需再補 NT$14,200</span>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">比較項目</th>
+                      <th scope="col">入門 01｜基礎健檢</th>
+                      <th scope="col">入門 02｜官網改造</th>
+                      <th scope="col">企業 01｜深度健檢</th>
+                      <th scope="col">企業 02｜月費陪跑</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>公開定價</strong></td>
+                      <td class="mono"><strong>NT$3,800</strong>／次</td>
+                      <td class="mono"><strong>NT$18,000</strong>／專案</td>
+                      <td class="mono"><strong>NT$28,000</strong>／專案</td>
+                      <td class="mono"><strong>NT$25,000</strong>／月起</td>
+                    </tr>
+                    <tr>
+                      <td><strong>30 天折抵規則</strong></td>
+                      <td>升級改造可<strong>全額折抵 NT$3,800</strong></td>
+                      <td>折抵後<strong>只需再補 NT$14,200</strong></td>
+                      <td>獨立企業專案</td>
+                      <td>依題庫與平台數報價</td>
+                    </tr>
+                    <tr>
+                      <td><strong>真實 AI 實測題數</strong></td>
+                      <td>20 題跨平台實測</td>
+                      <td>含 20 題改前改後複測</td>
+                      <td>50 題＋最多 3 家對手 PK</td>
+                      <td>每月固定題庫追蹤</td>
+                    </tr>
+                    <tr>
+                      <td><strong>官網結構改造</strong></td>
+                      <td>交付優先修復清單</td>
+                      <td>全站名片導覽＋3～5 主力頁改寫</td>
+                      <td>交付工程師可直接上線修復範本</td>
+                      <td>每月把關新頁並防堵舊價</td>
+                    </tr>
+                    <tr>
+                      <td><strong>保密與流量追蹤</strong></td>
+                      <td>僅檢視公開頁</td>
+                      <td>僅依公開與授權內容改造</td>
+                      <td>含<strong>書面 NDA</strong>＋視訊講解</td>
+                      <td>含<strong>書面 NDA</strong>＋AI 導流追蹤</td>
+                    </tr>
+                    <tr>
+                      <td><strong>交付時間</strong></td>
+                      <td>約 5 個工作天</td>
+                      <td>約 10～14 個工作天</td>
+                      <td>約 7～10 個工作天</td>
+                      <td>按月交付（建議 8～12 週起）</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ==================== 合夥人／同業協力精簡 3 行架構 ==================== -->
+            <div class="agency-partner-box partner-compact-card" id="agency-partner-box" aria-label="合夥人與同業協力分潤入口">
+              <div class="partner-compact-main">
+                <span class="panel-kicker">合夥人・同業協力</span>
+                <h3>網頁設計・行銷同業・業務夥伴：介紹店家成交享分潤，我們全包實作。</h3>
+                <ol class="partner-steps-row" aria-label="合夥人三步驟合作流程">
+                  <li>
+                    <span class="partner-step-num mono">①</span>
+                    <span class="partner-step-text">免費帶客戶健檢</span>
+                  </li>
+                  <li>
+                    <span class="partner-step-num mono">②</span>
+                    <span class="partner-step-text">我們負責改站實作</span>
+                  </li>
+                  <li>
+                    <span class="partner-step-num mono">③</span>
+                    <span class="partner-step-text">成交按月結算分潤</span>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="partner-compact-action">
                 <a
-                  class="btn btn-primary"
-                  id="open-line-q-link"
-                  href="https://line.me/R/oaMessage/@250ruauk/?%E3%80%90%E9%A0%90%E7%B4%84%E9%98%BF%E7%94%B7%20GEO%20%E5%AF%A6%E6%88%B0%E5%B7%A5%E5%9D%8A%E5%81%A5%E6%AA%A2%E3%80%91%0A%E8%A1%8C%E6%A5%AD%EF%BC%9A%E8%A1%8C%E9%8A%B7%EF%BC%8FSEO%E9%A1%A7%E5%95%8F%0A%E6%83%B3%E6%B8%AC%E8%A9%A6%E7%9A%84%203%20%E9%81%93%E8%B2%B7%E5%AE%B6%E5%BF%85%E5%95%8F%20AI%20%E9%A1%8C%E7%9B%AE%EF%BC%9A"
+                  class="btn btn-primary btn-full"
+                  id="agency-partner-line-link"
+                  href="https://line.me/R/oaMessage/@250ruauk/?%E3%80%90%E5%90%88%E5%A4%A5%E4%BA%BA%EF%BC%8F%E5%90%8C%E6%A5%AD%E5%8D%94%E5%8A%9B%E6%B4%BD%E8%A9%A2%E3%80%91%0A%E5%A7%93%E5%90%8D%E6%88%96%E5%85%AC%E5%8F%B8%EF%BC%9A%0A%E5%AE%A2%E6%88%B6%E8%A1%8C%E6%A5%AD%EF%BC%9A%0A%E6%83%B3%E4%BA%86%E8%A7%A3%EF%BC%88%E4%BB%8B%E7%B4%B9%E5%88%86%E6%BD%A4%EF%BC%8F%E5%90%8C%E6%A5%AD%E5%A4%96%E5%8C%85%E5%8D%94%E5%8A%9B%EF%BC%89%EF%BC%9A"
                   target="_blank"
                   rel="noopener noreferrer"
-                >一鍵帶這 3 題跳轉 LINE @250ruauk</a>
+                >洽談合作與分潤（開啟 LINE）</a>
               </div>
-              <p class="copy-feedback" id="line-q-feedback" aria-live="polite"></p>
+
+              <details class="partner-details-box" id="partner-details-box">
+                <summary class="partner-details-summary">查看合作方式與分潤細節（網頁設計工作室・外包代做）</summary>
+                <div class="partner-details-body">
+                  <ul>
+                    <li><strong>單層透明分潤</strong>：介紹店家成交按月結算，不設多層抽成；嚴守保密界線，不繞過夥伴接觸客戶。</li>
+                    <li><strong>網頁設計工作室外包代做</strong>：您負責視覺與行銷提案，GEO 地基改站與實測報告可單案外包代做或由我們列席說明。</li>
+                  </ul>
+                  <a class="partner-enterprise-link" href="/enterprise/">查看企業交付項目與保密說明 →</a>
+                </div>
+              </details>
             </div>
 
-            <div class="line-card">
-              <div>
-                <span class="line-label">阿男 GEO 實戰工坊・官方 LINE ID</span>
-                <strong class="mono line-id" id="line-id-text">@250ruauk</strong>
+            <!-- 誠實邊界聲明 + 聯絡卡片 -->
+            <div class="contact-panel" id="contact">
+              <div class="boundary-box">
+                <span class="pill pill-coral">先講清楚邊界</span>
+                <h3>不保證 AI 排名第一、不保證必成交</h3>
+                <p>
+                  AI 回答本身有隨機性，任何宣稱「保證排第一」的話術都無法驗證。我們交付的是可逐項核對的實測原答、診斷報告與乾淨好讀的官網結構。
+                </p>
               </div>
-              <div class="line-actions">
-                <button type="button" class="btn btn-secondary" id="copy-line-btn">複製 LINE ID</button>
-                <a class="btn btn-primary" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">開啟 LINE 預約 GEO 健檢</a>
+
+              <div class="cta-box">
+                <span class="eyebrow">預約健檢</span>
+                <h3>加官方 LINE，傳網址就能開始</h3>
+
+                <!-- 30 秒幫老闆想好 3 題並一鍵帶進 LINE 小幫手（位於預約 LINE CTA 上方） -->
+                <div class="line-q-helper" id="line-q-helper" aria-label="點選行業幫老闆配好 3 道測試題並帶進 LINE">
+                  <div class="line-q-helper-head">
+                    <span class="panel-kicker">30 秒幫你想好要問 AI 什麼</span>
+                    <h4>點你的行業，自動配好 3 道客人最常問的問題</h4>
+                  </div>
+
+                  <div class="line-q-tabs" id="line-q-tabs" role="tablist" aria-label="選擇 6 大行業產生 3 道買家測試題">
+                    <button type="button" role="tab" aria-selected="true" class="line-q-tab is-active" data-q-industry="marketing">行銷／SEO顧問</button>
+                    <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="ecommerce">電商零售</button>
+                    <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="medical">醫美健康</button>
+                    <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="manufacturing">B2B製造與供應鏈</button>
+                    <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="b2b">B2B企業服務</button>
+                    <button type="button" role="tab" aria-selected="false" class="line-q-tab" data-q-industry="local">客製與在地品牌</button>
+                  </div>
+
+                  <div class="line-q-inputs">
+                    <input type="text" id="line-q-brand" class="live-url-input line-q-input" placeholder="你的店名／品牌（選填）" aria-label="你的品牌名稱">
+                    <input type="url" id="line-q-url" class="live-url-input line-q-input" placeholder="你的官網網址（選填）" aria-label="你的官網網址">
+                    <input type="text" id="line-q-price" class="live-url-input line-q-input" placeholder="主力價格區間（選填）" aria-label="主力價格區間">
+                  </div>
+
+                  <ol class="line-q-list" id="line-q-list" aria-live="polite">
+                    <li><span class="q-type-tag">① 未提店名推薦題</span><span>台灣有哪些公開報價、願意交出原始實測證據的行銷顧問團隊？該怎麼挑？</span></li>
+                    <li><span class="q-type-tag">② 預算規格比較題</span><span>中小企業預算 NT$20,000 以內想做官網 AI 搜尋地基改造，應該包含哪些項目？</span></li>
+                    <li><span class="q-type-tag">③ 品牌直問防誤報</span><span>想找「我的品牌」諮詢，公開收費方式、交付項目與官方聯絡入口是什麼？</span></li>
+                  </ol>
+
+                  <div class="line-q-actions">
+                    <button type="button" class="btn btn-secondary" id="copy-line-q-btn">複製這 3 題</button>
+                    <a
+                      class="btn btn-primary"
+                      id="open-line-q-link"
+                      href="https://line.me/R/oaMessage/@250ruauk/?%E3%80%90%E9%A0%90%E7%B4%84%E9%98%BF%E7%94%B7%20GEO%20%E5%AF%A6%E6%88%B0%E5%B7%A5%E5%9D%8A%E5%81%A5%E6%AA%A2%E3%80%91%0A%E8%A1%8C%E6%A5%AD%EF%BC%9A%E8%A1%8C%E9%8A%B7%EF%BC%8FSEO%E9%A1%A7%E5%95%8F%0A%E6%83%B3%E6%B8%AC%E8%A9%A6%E7%9A%84%203%20%E9%81%93%E8%B2%B7%E5%AE%B6%E5%BF%85%E5%95%8F%20AI%20%E9%A1%8C%E7%9B%AE%EF%BC%9A"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >一鍵帶這 3 題開啟 LINE</a>
+                  </div>
+                  <p class="copy-feedback" id="line-q-feedback" aria-live="polite"></p>
+                </div>
+
+                <div class="line-card">
+                  <div>
+                    <span class="line-label">官方 LINE ID</span>
+                    <strong class="mono line-id" id="line-id-text">@250ruauk</strong>
+                  </div>
+                  <div class="line-actions">
+                    <button type="button" class="btn btn-secondary" id="copy-line-btn">複製 ID</button>
+                    <a class="btn btn-primary" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">開啟 LINE 預約</a>
+                  </div>
+                </div>
+                <p class="copy-feedback" id="copy-feedback" aria-live="polite"></p>
+                <div class="prep-box">
+                  <strong>第一次詢問，傳文字給我們這 3 件事就好：</strong>
+                  <ol>
+                    <li>你的官網網址（或主要粉專連結）</li>
+                    <li>主力服務的大概價格區間</li>
+                    <li>你最希望 AI 推薦你的 3 個客人問題</li>
+                  </ol>
+                </div>
               </div>
-            </div>
-            <p class="copy-feedback" id="copy-feedback" aria-live="polite"></p>
-            <div class="prep-box">
-              <strong>第一次詢問，只要用文字傳這 3 件事（不用先通電話）：</strong>
-              <ol>
-                <li>你的官網網址（或目前最主要的粉專／公開頁面連結）</li>
-                <li>主力產品或服務的公開價格區間與服務方式</li>
-                <li>你最希望客戶問 AI 時會提到你的 3 個真實問題</li>
-              </ol>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
       </div>
 
       <!-- ==================== 分類 04：📖 做法指南與 FAQ ==================== -->
@@ -1898,361 +1805,130 @@
           <div class="container cat-panel-banner-inner">
             <span class="cat-panel-badge mono">04｜📖 做法指南與 FAQ</span>
             <div class="cat-quick-links" aria-label="做法指南與 FAQ 區內快速跳轉">
-              <a href="#guides">4 篇公開教學</a>
-              <a href="#article-4">AI 報錯舊價破案實錄</a>
-              <a href="#faq-preview">FAQ 精選與專頁直達</a>
+              <a href="#guides">4 篇白話指南</a>
+              <a href="#faq-preview">常見問答精選</a>
             </div>
           </div>
         </div>
 
-    <!-- ==================== 3. 公開做法與破案實錄（4 篇完整文章） ==================== -->
-    <section class="section" id="guides">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">OPEN PLAYBOOK &amp; CASE STUDY・白話實戰教學與破案實錄</p>
-            <h2>公開做法與破案實錄：把門道與除錯一次講透</h2>
-            <p class="section-lede">
-              不藏招、不賣焦慮。以下 4 篇完整文章整理自 2026 最新中文與全球 GEO 實戰經驗，以及 1,298 筆追蹤過程中實際遇到的「AI 報錯舊價追兇紀錄」。
-            </p>
+        <!-- ==================== 3. 公開做法與破案實錄（4 張 3 行精簡摘要卡） ==================== -->
+        <section class="section" id="guides">
+          <div class="container">
+            <div class="section-head">
+              <div>
+                <p class="eyebrow">公開實戰指南・完整細節請點進專頁</p>
+                <h2>4 篇白話指南：看懂怎麼讓 AI 推薦你</h2>
+                <p class="section-lede">
+                  每篇精煉成 2 句重點，想看完整步驟或工程師範本，直接點開獨立專頁閱讀。
+                </p>
+              </div>
+              <div class="guide-filter" id="guide-filter" role="tablist" aria-label="指南篩選">
+                <button type="button" role="tab" aria-selected="true" class="filter-btn is-active" data-guide="all">全部 4 篇</button>
+                <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g1">① 找不到你</button>
+                <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g2">② 跨平台佈局</button>
+                <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g3">③ 讓 AI 讀懂價目</button>
+                <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g4">④ 報錯舊價破案</button>
+              </div>
+            </div>
+
+            <div class="guides-grid-compact" id="guides-stack">
+              <!-- 指南 1 -->
+              <article class="guide-article guide-card-compact" data-guide-article="g1" id="article-1">
+                <span class="article-index mono">指南 01・觀念診斷</span>
+                <h3>為什麼有官網，AI 還是找不到你？</h3>
+                <p class="guide-compact-desc">
+                  價格只放海報圖檔、網站擋住搜尋、或舊測試頁沒關，都會讓 AI 跳過你。先打通 4 個關卡才有效。
+                </p>
+                <a class="btn btn-secondary btn-sm" href="/guides/why-ai-misses-your-site/">閱讀完整專頁 →</a>
+              </article>
+
+              <!-- 指南 2 -->
+              <article class="guide-article guide-card-compact" data-guide-article="g2" id="article-2">
+                <span class="article-index mono">指南 02・跨平台策略</span>
+                <h3>一魚多吃：怎麼讓五大 AI 都認識你？</h3>
+                <p class="guide-compact-desc">
+                  只靠官網不夠，要把官網當唯一標準，再同步把真實案例與問答拆到影音、社群與公開論壇。
+                </p>
+                <a class="btn btn-secondary btn-sm" href="/guides/multi-platform-citation-matrix/">閱讀完整專頁 →</a>
+              </article>
+
+              <!-- 指南 3 -->
+              <article class="guide-article guide-card-compact" data-guide-article="g3" id="article-3">
+                <span class="article-index mono">指南 03・工程師範本</span>
+                <h3>怎麼讓 ChatGPT 與 Google 讀懂店名和價目？</h3>
+                <p class="guide-compact-desc">
+                  把品牌身分、價目表與常見問答整理成機器好讀的標準格式（附可直接交給工程師照抄的完整範本）。
+                </p>
+                <a class="btn btn-secondary btn-sm" href="/guides/llms-txt-and-schema-guide/">閱讀完整專頁 →</a>
+              </article>
+
+              <!-- 指南 4 -->
+              <article class="guide-article guide-card-compact" data-guide-article="g4" id="article-4">
+                <span class="article-index mono">指南 04・破案實錄</span>
+                <h3>官網改價了，為什麼 AI 還在背舊價格？</h3>
+                <p class="guide-compact-desc">
+                  多半是搜尋舊快照、忘記關的舊測試站或站外舊簡介在作怪。看我們如何 4 步抓出元兇並清乾淨。
+                </p>
+                <a class="btn btn-secondary btn-sm" href="/guides/ai-wrong-price-detective/">閱讀完整專頁 →</a>
+              </article>
+            </div>
           </div>
-          <div class="guide-filter" id="guide-filter" role="tablist" aria-label="文章閱讀篩選">
-            <button type="button" role="tab" aria-selected="true" class="filter-btn is-active" data-guide="all">檢視全部 4 篇</button>
-            <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g1">① 找不到你</button>
-            <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g2">② 一魚多吃</button>
-            <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g3">③ llms.txt 與 Schema</button>
-            <button type="button" role="tab" aria-selected="false" class="filter-btn" data-guide="g4">④ AI 報錯舊價破案實錄</button>
-          </div>
-        </div>
+        </section>
 
-        <div class="guides-stack" id="guides-stack">
-          <!-- 文章 1 -->
-          <article class="guide-article" data-guide-article="g1" id="article-1">
-            <header class="article-header">
-              <span class="article-index mono">PLAYBOOK 01・觀念與診斷</span>
-              <h3>為什麼有官網，AI 還是找不到你？</h3>
-              <p class="article-lead">
-                一句話結論：<strong>因為 AI 不是把整頁網站看完再推薦你，而是「先決定要不要連網檢索 → 挑選抓得到且可信的網址 → 只切出最像標準答案的那一段文字」。</strong>只要四層依賴（訪問 → 定向 → 理解 → 可引用）斷在任何一層，官網做得再漂亮，在 AI 眼裡都等於不存在。
-              </p>
-            </header>
-
-            <div class="article-body">
-              <h4>一、先搞懂 AI 推薦你的「三段漏斗」</h4>
-              <p>
-                傳統 SEO 的終點是「十條藍色連結」裡的點擊；GEO 的終點則是「AI 答案裡有沒有提到你的名字，而且把價格、流程、聯絡方式說對」。使用者提出問題後，引擎會經過三道關卡：第一關看這個問題需不需要連網查資料；第二關由搜尋索引與爬蟲決定哪些網站能進候選清單；第三關才把抓回來的網頁切塊，挑出最對題、證據最紮實的段落寫進最終答案。因此，<strong>GEO 的最小單位不是「一個網站」，而是「一段可以單獨拿來當證據的文字」</strong>。
-              </p>
-
-              <h4>二、實戰中最常見的 4 個致命地雷</h4>
-              <ul class="check-list">
-                <li><strong>地雷 1：爬蟲根本抓不到（SPA 空殼或防火牆誤殺）</strong>——許多新潮官網全部靠前端 JavaScript 動態載入文字，瀏覽器打開看得到，但多數 AI 檢索爬蟲（如 <code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code>）只抓靜態 HTML，結果抓到一片空白；或者 <code>robots.txt</code> 寫了開放，CDN 防火牆卻偷偷對 AI 爬蟲回傳 403。</li>
-                <li><strong>地雷 2：把最重要的價格與方案做在圖片裡</strong>——不少品牌把價目表、流程圖做成精美 PNG 或海報，卻沒有對應的純文字 HTML 表格。爬蟲看不到清楚數字，回答時不是跳過你，就是胡亂猜一個過期價格。</li>
-                <li><strong>地雷 3：舊測試站與外部舊文案還在線上打架</strong>——這是 <code>cccnan.art</code> 實測中踩過最痛的坑。即使正式官網已經更新，只要早年的 Vercel 測試網址、舊 Notion 頁或舊粉專簡介還沒清理，AI 仍會把舊價、舊流程拼進回答裡，甚至把同名品牌認成別縣市的店家。</li>
-                <li><strong>地雷 4：全篇都是抒情形容詞，沒有「可抽取事實」</strong>——像「業界領先、用心傾聽、質感滿分」這類空話，AI 無法拿來回答使用者的決策問題。實證研究指出，頁面包含具體數字（引用影響力 +61.6%）、一句話定義（+57.3%）、對比表（+55.3%）與步驟（+41.2%），遠比感性口號更容易被吸收。</li>
-              </ul>
-
-              <h4>三、動手修之前，照「四層依賴順序」排先後</h4>
-              <p>
-                不要一上來就狂寫部落格或堆關鍵字。GeoLook 的四層依賴原則很直白：<strong>先檢查「訪問層」（HTTP 200、靜態 HTML 正文、robots 與防火牆不擋爬蟲）→ 再檢查「定向層」（sitemap、canonical、有效 <code>llms.txt</code>）→ 接著補「理解層」（JSON-LD 結構化資料與品牌別名一致）→ 最後才打磨「可引用層」（首段倒金字塔結論、真實價格規格表、服務邊界與外部提及）</strong>。上面一層沒打通，下面做再多都是白工。
-              </p>
-              <div class="article-permalink-bar">
-                <span class="article-permalink-note">獨立專文含 SEO vs GEO 比較表與四層修復檢核步驟</span>
-                <a class="btn btn-secondary" href="/guides/why-ai-misses-your-site/">閱讀完整獨立專頁 →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- 文章 2 -->
-          <article class="guide-article" data-guide-article="g2" id="article-2">
-            <header class="article-header">
-              <span class="article-index mono">PLAYBOOK 02・跨平台信源矩陣</span>
-              <h3>一魚多吃：2026 跨平台信源佈局（官網總倉＋公眾號＋小紅書＋知乎＋Reddit）</h3>
-              <p class="article-lead">
-                一句話結論：<strong>只靠官網單打獨鬥幾乎拿不到自然推薦。</strong>公開中文語料實測顯示，品牌自有官網在中文 AI 引用裡只佔約 1.37%；真正能讓 ChatGPT、Perplexity、豆包與騰訊元寶都點名你的做法，是以「官網作為唯一事實總倉」，再用同一套核對過的事實，拆成各平台 AI 最愛抓的信源格式。
-              </p>
-            </header>
-
-            <div class="article-body">
-              <h4>一、2026 各大 AI 引擎的信源偏好對照表</h4>
-              <p>
-                不同引擎背後的生態系與檢索池完全不同。與其把同一篇貼文原封不動複製貼上五個地方，不如搞懂每個平台在 AI 眼裡扮演的角色：
-              </p>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>平台角色</th>
-                      <th>主要影響引擎</th>
-                      <th>最適合放的內容形態（一魚多吃拆法）</th>
-                      <th>關鍵注意事項</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><strong>官網（事實總倉）</strong></td>
-                      <td>ChatGPT、Gemini、Perplexity</td>
-                      <td>完整方案價目表、交付天數、FAQ、<code>llms.txt</code>、JSON-LD 結構化資料</td>
-                      <td>所有數字與流程以此為準，定期清理舊測試網址</td>
-                    </tr>
-                    <tr>
-                      <td><strong>微信公眾號／問一問</strong></td>
-                      <td>騰訊元寶</td>
-                      <td>深度實戰長文（公眾號）＋100～200 字無硬廣短答（問一問）</td>
-                      <td>品牌全稱、簡介與聯絡入口須與官網完全一致</td>
-                    </tr>
-                    <tr>
-                      <td><strong>小紅書／短影音摘要</strong></td>
-                      <td>豆包、綜合搜尋</td>
-                      <td>真實規格圖卡、交付細節拆解、步驟前後對照</td>
-                      <td>重點呈現「有人真實用過」的細節，避免純廣告口氣</td>
-                    </tr>
-                    <tr>
-                      <td><strong>知乎</strong></td>
-                      <td>DeepSeek、豆包、Perplexity</td>
-                      <td>「怎麼選／值不值得／方案怎麼比」決策問答＋中立對比表</td>
-                      <td>開頭 150 字先講結論，誠實寫出不適用對象</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Reddit／GitHub</strong></td>
-                      <td>ChatGPT、Claude、Perplexity</td>
-                      <td>真實經驗分享、公開範例檔、開源工具紀錄與社群討論</td>
-                      <td>自然累積不帶連結的品牌提及（Unlinked Brand Mentions）</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <h4>二、什麼是「一魚多吃」而不變成垃圾分發？</h4>
-              <p>
-                很多團隊以為「同一個品牌在六個自家帳號發一樣的文」就等於六個背書——其實 AI 看得出這只是同一份自我宣傳。真正有效的做法是先建立一份<strong>品牌事實單一真相表</strong>（把名稱、別名、主力方案價格、交期、不接的範圍定死），然後針對一個核心主題，按平台習慣改寫成不同切角：官網放最完整的規格與問答；公眾號與知乎寫清楚「選購邏輯與避坑對比」；小紅書放具體流程與規格細節；Reddit 與公開論壇討論實際遇到的問題與解法。
-              </p>
-
-              <h4>三、記住三條紀律：實體統一、第三方背書、看 8～12 週</h4>
-              <p>
-                第一，<strong>實體統一</strong>：不必強迫每個社群帳號 ID 完全同名，但簡介第一句與結構化資料 <code>sameAs</code> 必須把關係講清楚，讓 AI 知道它們都屬於同一個品牌。第二，<strong>爭取獨立第三方提及</strong>：AI 決定「值不值得把你排在前面」時，非常看重客戶真實回饋原話、合作夥伴專訪或論壇自然推薦。第三，<strong>用 8～12 週（約 90 天）看長期趨勢</strong>，不要做完一週沒看到暴漲就放棄，更不要相信任何「72 小時保證收錄」的話術。
-              </p>
-              <div class="article-permalink-bar">
-                <span class="article-permalink-note">獨立專文含跨平台一魚多吃四步操作流程</span>
-                <a class="btn btn-secondary" href="/guides/multi-platform-citation-matrix/">閱讀完整獨立專頁 →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- 文章 3 -->
-          <article class="guide-article" data-guide-article="g3" id="article-3">
-            <header class="article-header">
-              <span class="article-index mono">PLAYBOOK 03・技術落地與範本</span>
-              <h3><code>llms.txt</code>、Schema 與問答結構化怎麼寫？</h3>
-              <p class="article-lead">
-                一句話結論：<strong>把官網改造成 AI 讀得最順的「證據頁」，核心就是三件套：讓爬蟲暢通（<code>robots.txt</code>）、給一份 5～8 頁精簡目錄（<code>llms.txt</code>），以及讓可見文字與 JSON-LD Schema 一一對應。</strong>下面直接附上可照抄改寫的最小可用範本。
-              </p>
-            </header>
-
-            <div class="article-body">
-              <h4>一、先確認 <code>robots.txt</code> 區分「AI 搜尋爬蟲」與「模型訓練爬蟲」</h4>
-              <p>
-                在寫任何進階檔案前，先打開你網站根目錄的 <code>/robots.txt</code>，把爬蟲分成兩群：<strong>搜尋與即時問答爬蟲</strong>（如 <code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>Claude-User</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code>、<code>Googlebot</code>、<code>Bingbot</code>）必須明確 <code>Allow: /</code>；而<strong>基礎模型訓練爬蟲</strong>（如 <code>GPTBot</code>、<code>ClaudeBot</code>、<code>Applebot-Extended</code>、<code>CCBot</code>、<code>Amazonbot</code>）則依你的內容版權策略決定是否 <code>Disallow: /</code>（本公開站即採「鎖死訓練、開放搜尋」原則）。記住：放行後還要確認 CDN 或防火牆沒有對搜尋爬蟲回傳 403。
-              </p>
-
-              <h4>二、<code>/llms.txt</code> 怎麼寫？精簡 5～8 個核心頁就夠</h4>
-              <p>
-                <code>llms.txt</code> 就像遞給大型語言模型的「一頁式品牌名片＋導覽目錄」。千萬不要把整站幾百篇文章全部塞進去，也不要放會回傳 404 的失效連結。標準寫法只要四段：<strong>一句話品牌身分、固定價格與流程事實、明確服務邊界（不做的事）、5～8 個最核心的正式網址與官方聯絡入口</strong>：
-              </p>
-              <pre class="code-block"><code># 你的品牌名稱｜創辦人或核心定位
-&gt; 一句話說明你是誰、服務哪類對象、全程線上或服務地區。
-
-## 核心服務與公開價格
-- 方案 A（入門名稱）：NT$X,XXX｜交付天數｜包含項目
-- 方案 B（主推名稱）：NT$X,XXX｜交付天數｜包含項目
-
-## 服務流程與不承接範圍
-- 流程：先以文字確認需求 → 報價確認 → 開始製作 → 驗收交付
-- 不承接：清楚列出不做的項目（寫清邊界反而提升 AI 信任度）
-
-## 核心頁面（只列 5～8 頁，每頁須回傳 HTTP 200）
-- [服務方案與價目](https://example.com/work/): 完整方案對比表與常見問答
-- [代表案例與實績](https://example.com/cases/): 去敏實測紀錄與交付範例
-
-## 官方聯絡入口
-- 官方 LINE：@your_id</code></pre>
-
-              <h4>三、JSON-LD Schema（<code>@graph</code>）與問答結構化（Citation Bait）</h4>
-              <p>
-                Schema 的重點不是塞越多標籤越好，而是用 <code>@id</code> 與 <code>@graph</code> 把「品牌／創辦人（<code>Organization</code> 或 <code>Person</code>）→ 服務與報價（<code>Service</code>＋<code>Offer</code>）→ 常見問答（<code>FAQPage</code>）」串成一張機器讀得懂的關係圖，而且<strong>JSON-LD 裡的每一個價格、名稱與問答，都必須與網頁上訪客肉眼看得到的純文字完全一致</strong>。
-              </p>
-              <pre class="code-block"><code>{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": "https://example.com/#brand",
-      "name": "品牌全稱｜負責人",
-      "alternateName": ["簡稱", "粉專別名"],
-      "sameAs": ["https://www.youtube.com/@yourchannel"]
-    },
-    {
-      "@type": "Service",
-      "name": "主力服務名稱",
-      "provider": { "@id": "https://example.com/#brand" },
-      "offers": { "@type": "Offer", "price": "3800", "priceCurrency": "TWD" }
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [{
-        "@type": "Question",
-        "name": "做一次 GEO 健檢大概需要多久、會拿到什麼？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "約 5 個工作天完成，交付 20 題跨引擎原始問答證據表與 6 維站點改善優先清單。"
-        }
-      }]
-    }
-  ]
-}</code></pre>
-              <p>
-                最後提醒一個實測反常識的細節：<strong>只把文章排成「Q&amp;A 格式」本身不會加分（實證甚至略降 5.7%）</strong>；真正讓段落成為「Citation Bait（高引用誘餌）」的寫法，是用<strong>用戶真實會問的問句當小標</strong>，在段落前 2～3 句（約 150 字內）用倒金字塔直接給答案，接著補上具體數字、HTML 對比表格與操作步驟。這樣不論是搜尋引擎還是 AI 檢索器，都能一秒把你的段落整塊引走。
-              </p>
-              <div class="article-permalink-bar">
-                <span class="article-permalink-note">獨立專文含 UnitPriceSpecification 範例與 robots.txt 爬蟲對照</span>
-                <a class="btn btn-secondary" href="/guides/llms-txt-and-schema-guide/">閱讀完整獨立專頁 →</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- 文章 4：AI 報錯舊價破案實錄 -->
-          <article class="guide-article" data-guide-article="g4" id="article-4">
-            <header class="article-header">
-              <span class="article-index mono">CASE STUDY 04・AI 報錯舊價破案實錄</span>
-              <h3>AI 報錯舊價破案實錄：為什麼官網改價了，AI 還是把舊規則背出來？</h3>
-              <p class="article-lead">
-                一句話結論：<strong>AI 會背出舊價格與舊流程，幾乎不是它憑空捏造，而是因為網路上還留著「搜尋引擎舊快照、忘記關的舊測試網址、站外未同步的公開筆記」這三個影子分身。</strong>只改正式官網卻不追查舊分身，就像換了新菜單卻把舊菜單繼續貼在後門一樣。
-              </p>
-            </header>
-
-            <div class="article-body">
-              <h4>一、第一現場：明明改版了，AI 卻一字不差背出舊流程</h4>
-              <p>
-                在 <code>cccnan.art</code> 的 1,298 筆實測過程中，最讓人頭痛的一次狀況發生在 10 月下旬到 11 月中：當時正式官網早已公布四個固定公開方案（主推 B NT$6,800、A NT$4,800、C NT$3,500、D NT$9,000），流程也明確改成「先用文字傳故事，寫故事這步不收費」。但我們用全新無痕對話測試 ChatGPT 的品牌直問題（Q03～Q05）時，它卻一再回答：「先聊 30～45 分鐘訪談、交期 1～10 天、費用依需求報價、會附手寫故事卡」。
-              </p>
-
-              <h4>二、我們怎麼四步抓出錯誤來源？</h4>
-              <ul class="check-list">
-                <li><strong>第一步：先驗證「現在的正式官網」到底有沒有寫錯</strong>——用腳本一次抓回全站所有公開頁面的 HTML、Meta 描述與 JSON-LD，確認正式站正文與結構化資料 100% 是新版，完全沒有那些舊詞彙。這一步排除了「自己漏改某個內頁」的可能。</li>
-                <li><strong>第二步：回翻程式改版歷史，做逐字比對</strong>——把 AI 答出來的「約 30–45 分鐘訪談」「交期 1～10 天」「依需求報價」「故事卡」，拿去對照更早以前（<code>2026-10-09</code> 改版前）的接案頁舊程式碼。結果在第 27 行、第 32 行與第 78 行的舊表格裡，找到一模一樣的原句。這證明 AI 不是亂編，而是<strong>讀到了某一版歷史留影</strong>。</li>
-                <li><strong>第三步：沿著引文網址，抓出三個「影子分身」</strong>——繼續比對搜尋引擎收錄紀錄與站外公開頁，共找出三個元兇：① 搜尋引擎尚未重新抓取的 <code>/work/</code> 舊索引快照（顯示數週前的舊標題）；② 早年上線測試後忘記關閉的兩個舊預覽網址，依然回傳 HTTP 200 且允許收錄舊價；③ 早年公開的外部筆記頁與舊社群簡介，整頁還停在舊流程。</li>
-                <li><strong>第四步：避開「否定句過度重複舊詞」的陷阱</strong>——起初為了澄清，我們在官網 FAQ 裡反覆寫「沒有 30～45 分鐘訪談」，結果發現過度重複舊關鍵字反而容易在摘要擷取時被斷章取義；後來改為「正面直寫現行做法（用 LINE 文字傳故事，不收費）」，只在必要處保留一條明確的邊界說明。</li>
-              </ul>
-
-              <h4>三、破案對照表：錯誤現象、元兇與解法一覽</h4>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>AI 答錯的舊規則</th>
-                      <th>追查出的真正來源</th>
-                      <th>執行的修正動作</th>
-                      <th>修正後怎麼追蹤</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>「依需求報價／未固定價格」</td>
-                      <td>舊版接案頁摘要只寫「NT$3,500 起」，爬蟲只讀開頭就概括成依需求報價</td>
-                      <td>在首段、Meta 描述與 JSON-LD <code>Service</code> 三處同步寫滿四方案金額</td>
-                      <td>逐週檢查原答四欄事實（價格／交期／流程／LINE）是否同時對齊</td>
-                    </tr>
-                    <tr>
-                      <td>「先聊 30–45 分鐘訪談／1～10 天」</td>
-                      <td>舊版程式碼留下的搜尋引擎快照，以及未關閉的舊預覽測試站</td>
-                      <td>兩個舊測試網域全面設為 <strong>308 永久轉址</strong>＋<code>noindex</code>，切斷獨立索引</td>
-                      <td>每週固定以無痕新對話重測 Q03–Q05，記錄舊說法在哪一週淡出</td>
-                    </tr>
-                    <tr>
-                      <td>「手寫故事卡／過期工作流程」</td>
-                      <td>站外未同步更新的舊筆記公開頁與早期社群簡介</td>
-                      <td>盤點全平台帳號簡介與公開筆記，統一對齊單一真相表</td>
-                      <td>保留改前與改後完整原文截圖，依 8～12 週窗口觀察，不靠單日運氣判斷</td>
-                    </tr>
-                    <tr>
-                      <td>「同名品牌被認成別縣市樂器行」</td>
-                      <td>早年品牌實體欄位缺少別名與關聯帳號，模型在資料不足時自行推測</td>
-                      <td>在單一 <code>@graph</code> 補齊別名、<code>sameAs</code> 帳號矩陣與正面消歧問答</td>
-                      <td>獨立測試「是樂器行還是客製歌曲創作者」消歧題，驗證是否解除誤認</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <h4>四、修正後怎麼追蹤，才不會落入「自己問自己」的假象？</h4>
-              <p>
-                很多團隊改完網站當天，在同一個登入帳號裡連續追問 AI 幾句，看到 AI 改口就以為修好了——其實那只是對話視窗裡的短期記憶。我們追蹤舊價消退的標準紀律是：<strong>每次都開全新無痕視窗、不登入個人歷史、不提示任何答案</strong>，用同一組固定題目每週記錄一次原始回覆；並且嚴格區分「有完成」與「被驗證擋住的未完成」，再用 8～12 週看真實趨勢。在 11/18–24 最新實測裡，ChatGPT 與 Perplexity 的 Q05 官方 LINE 皆已維持 7/7（100%），Q01 未提品牌自然露出也站上 50%。
-              </p>
-              <div class="article-permalink-bar">
-                <span class="article-permalink-note">獨立專文方便分享給工程師與行銷主管核對舊快照</span>
-                <a class="btn btn-secondary" href="/guides/ai-wrong-price-detective/">閱讀完整獨立專頁 →</a>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-        <!-- ==================== FAQ 精選與完整專頁直達 ==================== -->
+        <!-- ==================== FAQ 精選與專頁直達 ==================== -->
         <section class="section section-alt faq-preview-section" id="faq-preview" aria-label="常見問答精選與站內專頁導覽">
           <div class="container">
             <div class="section-head">
               <div>
-                <p class="eyebrow">FAQ HIGHLIGHTS &amp; HUB・常見問答精選與獨立專頁直達</p>
-                <h2>常見問答精選（4 題核心快答）與全站獨立專頁</h2>
-                <p class="section-lede">
-                  以下 4 題與本頁結構化資料完全對齊；若想看完整 12 題常見問答、企業 NDA 5 件套規格或逐篇獨立教學專頁，可直接點選下方專頁卡片。
-                </p>
+                <p class="eyebrow">常見問答精選</p>
+                <h2>老闆最常問的 4 個問題</h2>
               </div>
-              <a class="btn btn-primary" href="/faq/">查看完整 12 題常見問答 →</a>
+              <a class="btn btn-primary btn-sm" href="/faq/">查看完整 12 題 FAQ →</a>
             </div>
 
             <div class="faq-preview-grid">
               <article class="faq-preview-card">
-                <span class="faq-q-num mono">FAQ 01</span>
-                <h3>什麼是 GEO（Generative Engine Optimization）？</h3>
-                <p>GEO 是生成式引擎最佳化，目標是讓 ChatGPT、Gemini、Perplexity、豆包、騰訊元寶等 AI 引擎在回答使用者提問時，主動點名、正確引用並說對你的品牌事實。</p>
+                <span class="faq-q-num mono">Q1</span>
+                <h3>什麼是 GEO？</h3>
+                <p>GEO 是生成式引擎最佳化，就是幫你的官網整理好資訊，讓 ChatGPT、Gemini 等 AI 回答客人時主動點名你，而且把店名、價目說對。</p>
               </article>
               <article class="faq-preview-card">
-                <span class="faq-q-num mono">FAQ 02</span>
-                <h3>為什麼官網已經改價格了，AI 卻還是回答舊價格或舊流程？</h3>
-                <p>通常是因為網路上還留著舊版搜尋快照、忘記關閉的測試網址或站外舊筆記頁面。實戰上必須先核對正式頁原始碼、追查舊版本原文來源、將舊測試網址設為 308 轉址並鎖死，再連續數週以無痕新對話追蹤換版進度。</p>
+                <span class="faq-q-num mono">Q2</span>
+                <h3>為什麼官網改價了，AI 還報舊價？</h3>
+                <p>通常是網路上還留著舊版網頁快照、沒關掉的舊測試站或舊粉專簡介。必須追出舊來源並統一清理，再逐週實測確認換版。</p>
               </article>
               <article class="faq-preview-card">
-                <span class="faq-q-num mono">FAQ 03</span>
-                <h3>做 GEO 可以保證 AI 排名第一或一定推薦嗎？</h3>
-                <p>不可以。AI 回答具有隨機性且各引擎演算法持續變動，本工坊不保證 AI 排名或成交，只交付可驗證的原始問答證據、6 維體檢診斷報告與結構化檔案。</p>
+                <span class="faq-q-num mono">Q3</span>
+                <h3>做完可以保證 AI 排第一名嗎？</h3>
+                <p>不行。AI 回答會隨演算法浮動，我們不保證 AI 排名或成交，只交付可驗證的實測原答證據、診斷報告與整理好的官網結構。</p>
               </article>
               <article class="faq-preview-card">
-                <span class="faq-q-num mono">FAQ 04</span>
-                <h3>預約 GEO 健檢需要透過哪個聯絡入口？</h3>
-                <p>請加入官方 LINE @250ruauk，傳送您的品牌網址、主要產品或服務價格區間，以及 3 個最希望 AI 推薦您的真實提問（或附上網站 12 題自檢結果）。</p>
+                <span class="faq-q-num mono">Q4</span>
+                <h3>想預約健檢怎麼聯絡？</h3>
+                <p>加入官方 LINE @250ruauk，傳你的網址、主力價格區間，以及 3 個你最希望客人問 AI 時提到你的問題就能開始。</p>
               </article>
             </div>
 
             <div class="hub-links-grid" aria-label="站內獨立專頁快速入口">
               <a class="hub-link-card" href="/faq/">
-                <span class="mono hub-link-kicker">/faq/</span>
-                <strong>完整 12 題常見問答專頁</strong>
-                <span>涵蓋費用折抵、工期、與 SEO 差異、多引擎實測紀律與服務邊界。</span>
+                <span class="mono hub-link-kicker">常見問答</span>
+                <strong>完整 12 題常見問答</strong>
+                <span>費用折抵、工期與合作流程一次看完。</span>
               </a>
               <a class="hub-link-card" href="/guides/why-ai-misses-your-site/">
-                <span class="mono hub-link-kicker">/guides/</span>
-                <strong>4 篇獨立實戰教學專頁</strong>
-                <span>便於分享給工程師與行銷團隊的完整獨立閱讀頁（含破案實錄與範本）。</span>
+                <span class="mono hub-link-kicker">實戰教學</span>
+                <strong>4 篇完整教學專頁</strong>
+                <span>方便轉傳給工程師或行銷團隊參考。</span>
               </a>
               <a class="hub-link-card" href="/enterprise/">
-                <span class="mono hub-link-kicker">/enterprise/</span>
-                <strong>B2B 企業深度健檢與 NDA 專頁</strong>
-                <span>四大產業 GEO 盲點、5 件套交付樣本預覽與書面保密承諾說明。</span>
+                <span class="mono hub-link-kicker">企業專區</span>
+                <strong>B2B 企業健檢與保密專頁</strong>
+                <span>看 5 件套交付樣本與書面保密說明。</span>
               </a>
               <a class="hub-link-card" href="/ai-instructions/">
-                <span class="mono hub-link-kicker">/ai-instructions/</span>
-                <strong>品牌核實事實指南（AI 摘要專用）</strong>
-                <span>單頁核實品牌定位、四方案定價、30 天折抵規則與唯一官方聯絡入口。</span>
+                <span class="mono hub-link-kicker">官方核實頁</span>
+                <strong>品牌核實事實指南</strong>
+                <span>單頁核對公開定價、折抵規則與唯一聯絡入口。</span>
               </a>
             </div>
           </div>
@@ -2266,22 +1942,28 @@
       <div>
         <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
         <p class="footer-note">
-          純靜態前端＋Cloudflare Workers / Pages Functions 即時基礎初檢・免後端資料庫。本網站之 GEO 體檢維度與實戰工作流理念基於開源專案
-          <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook</a>（Copyright &copy; 2026 GeoLook contributors，MIT License）延伸改作，非原作者官方服務，不代表原作者背書。本工坊與創辦人原創客製歌曲品牌
-          <a href="https://www.cccnan.art/work/" target="_blank" rel="noopener noreferrer">阿男音樂（cccnan.art）</a> 分開營運。
+          方法架構基於開源專案 <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook</a>（MIT 授權）延伸整理，非原作者官方服務。本工坊與創辦人原創客製歌曲品牌
+          <a href="https://www.cccnan.art/work/" target="_blank" rel="noopener noreferrer">阿男音樂</a> 分開營運。
         </p>
         <p class="footer-updated">最後更新：2026-11-26｜官方 LINE：@250ruauk</p>
       </div>
-      <div class="footer-links">
-        <a href="/enterprise/">企業專頁</a>
-        <a href="/faq/">常見問答（12 題）</a>
-        <a href="/ai-instructions/">核實事實指南</a>
-        <a href="/guides/why-ai-misses-your-site/">實戰教學</a>
-        <a href="./.well-known/ard.json" rel="nofollow">ard.json</a>
-        <a href="./llms.txt" rel="nofollow">llms.txt</a>
-        <a href="./robots.txt" rel="nofollow">robots.txt</a>
-        <a href="./data/case-cccnan.json" rel="nofollow">case-cccnan.json</a>
-        <a href="./LICENSE" rel="nofollow">MIT LICENSE</a>
+      <div class="footer-right-col">
+        <div class="footer-links">
+          <a href="/enterprise/">企業專頁</a>
+          <a href="/faq/">常見問答</a>
+          <a href="/guides/why-ai-misses-your-site/">實戰教學</a>
+          <a href="/ai-instructions/">官方核實頁</a>
+        </div>
+        <details class="footer-tech-details" id="footer-tech-details">
+          <summary>工程師可看：檢索與開源檔案</summary>
+          <div class="footer-tech-links">
+            <a href="./.well-known/ard.json" rel="nofollow">ard.json</a>
+            <a href="./llms.txt" rel="nofollow">llms.txt</a>
+            <a href="./robots.txt" rel="nofollow">robots.txt</a>
+            <a href="./data/case-cccnan.json" rel="nofollow">case-cccnan.json</a>
+            <a href="./LICENSE" rel="nofollow">MIT LICENSE</a>
+          </div>
+        </details>
       </div>
     </div>
   </footer>

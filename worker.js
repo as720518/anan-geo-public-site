@@ -177,7 +177,7 @@ function renderPromotionsHtmlSection(promotions) {
     `          <div>`,
     `            <p class="eyebrow">LIVE FIELD UPDATES・LINE@ 即時同步發布</p>`,
     `            <h2>最新實戰動態與公開更新</h2>`,
-    `            <p class="section-lede">阿男透過官方 LINE 同步發布的最新 GEO 實測筆記、工具更新與公開公告（自動同步至首頁、RSS 與 llms-full.txt）。</p>`,
+    `            <p class="section-lede">阿男透過官方 LINE 同步發布的最新實測筆記與公開更新。</p>`,
     `          </div>`,
     `          <span class="pill pill-teal">已同步 ${promotions.length} 則最新動態</span>`,
     `        </div>`,

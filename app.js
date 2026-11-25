@@ -3,10 +3,10 @@
   "use strict";
 
   const QUIZ_LAYERS = [
-    { id: "access", name: "第 1 關｜訪問層", total: 3, advice: "先修第 1 關（靜態 HTML、robots.txt 放行搜尋爬蟲與舊測試域 308 轉址），否則 AI 連門都進不來。" },
-    { id: "orientation", name: "第 2 關｜定向層", total: 3, advice: "先補第 2 關（乾淨 sitemap、唯一 canonical 與精簡有效 llms.txt），避免 AI 抓錯分身頁面。" },
-    { id: "understanding", name: "第 3 關｜理解層", total: 3, advice: "補強第 3 關（全平台口徑一致＋單一 @graph JSON-LD 與可見文字一致），降低認錯品牌或報錯價機率。" },
-    { id: "quotability", name: "第 4 關｜可引用層", total: 3, advice: "強化第 4 關（純文字價格對比表、首段直答邊界與獨立第三方回饋），讓 AI 敢把你寫進推薦名單。" },
+    { id: "access", name: "第 1 關｜訪問層", total: 3, advice: "先打通第 1 關：確認介紹與價格都是文字版、網站沒有擋掉搜尋引擎，並關閉殘留的舊測試站。" },
+    { id: "orientation", name: "第 2 關｜定向層", total: 3, advice: "先補第 2 關：整理乾淨的公開頁面目錄、固定正式網址與核心頁面導覽名片。" },
+    { id: "understanding", name: "第 3 關｜理解層", total: 3, advice: "補強第 3 關：統一各平台店名與簡介，並確保幕後數位名片與前台價格完全一致。" },
+    { id: "quotability", name: "第 4 關｜可引用層", total: 3, advice: "強化第 4 關：把價格做成文字對比表、開頭直答服務範圍，並累積外部真實評價。" },
   ];
 
   const INDUSTRY_COMPETITORS = [
@@ -106,7 +106,7 @@
         {
           name: "HubSpot",
           url: "https://www.hubspot.com",
-          note: "B2B 內容集客與 Schema 標竿",
+          note: "B2B 內容集客與網站結構標竿",
         },
         {
           name: "Stripe",
@@ -127,7 +127,7 @@
         {
           name: "阿男 GEO 實戰工坊（anangeo.com）",
           url: "https://anangeo.com",
-          note: "robots.txt＋llms.txt＋Schema 基準示範站",
+          note: "AI 讀取與結構化標準示範站",
         },
         {
           name: "微熱山丘 SunnyHills",
@@ -511,9 +511,9 @@
 
     clearNode(tbody);
     const rows = [
-      { key: "robots", label: "01｜AI 爬蟲放行（robots.txt）", max: 35 },
-      { key: "llms", label: "02｜AI 導覽索引（llms.txt）", max: 30 },
-      { key: "homepage", label: "03｜官網結構與標籤（首頁 HTML / JSON-LD）", max: 35 },
+      { key: "robots", label: "01｜網站有沒有對 AI 開門", max: 35 },
+      { key: "llms", label: "02｜有沒有給 AI 看的重點導覽", max: 30 },
+      { key: "homepage", label: "03｜店名、價目與問答清楚度", max: 35 },
     ];
 
     rows.forEach((rowDef) => {
@@ -568,7 +568,7 @@
       const tdLabel = document.createElement("td");
       tdLabel.className = "pk-cell-dim";
       tdLabel.setAttribute("data-label", "檢測維度");
-      tdLabel.textContent = "04｜首頁 4 大常犯錯檢查（唯一 H1／比較表／無壞描述／FAQPage）";
+      tdLabel.textContent = "04｜台灣官網 4 大常犯錯通過數";
 
       const tdMine = document.createElement("td");
       tdMine.className = "mono pk-cell-score";
@@ -726,8 +726,8 @@
       const llms = report.checks?.llms;
       const home = report.checks?.homepage;
       metaNote.textContent = state.leadUnlocked
-        ? `我方分項得分：robots.txt ${robots?.score ?? 0}/${robots?.max_score ?? 35}、llms.txt ${llms?.score ?? 0}/${llms?.max_score ?? 30}、首頁結構 ${home?.score ?? 0}/${home?.max_score ?? 35}。`
-        : "總分已出爐！輸入下方 Email 即可免費展開三項紅綠燈細節、爬蟲清單與白話修復建議。";
+        ? `我方分項得分：開門放行 ${robots?.score ?? 0}/${robots?.max_score ?? 35}、重點導覽 ${llms?.score ?? 0}/${llms?.max_score ?? 30}、首頁清楚度 ${home?.score ?? 0}/${home?.max_score ?? 35}。`
+        : "總分已出爐！輸入下方 Email 即可免費展開三項紅綠燈細節與白話修復建議。";
     }
 
     // 逐項 PK 對比表
@@ -938,8 +938,8 @@
     }
     setLiveStatus(
       competitor
-        ? `正在平行實測我方（${target}）與同行對手（${competitor}）的 robots.txt、llms.txt 與首頁結構，請稍候...`
-        : `正在即時檢測 ${target} 的 robots.txt、llms.txt 與首頁結構，請稍候...`,
+        ? `正在平行實測我方（${target}）與同行對手（${competitor}）的網站開放度、導覽與頁面結構，請稍候...`
+        : `正在即時檢測 ${target} 的網站開放度、導覽與頁面結構，請稍候...`,
       "loading"
     );
 
@@ -1110,7 +1110,7 @@
       const metaNote = el("live-meta-note");
       if (metaNote && state.lastLiveReport?.checks) {
         const { robots, llms, homepage } = state.lastLiveReport.checks;
-        metaNote.textContent = `我方分項得分：robots.txt ${robots?.score ?? 0}/${robots?.max_score ?? 35}、llms.txt ${llms?.score ?? 0}/${llms?.max_score ?? 30}、首頁結構 ${homepage?.score ?? 0}/${homepage?.max_score ?? 35}。`;
+        metaNote.textContent = `我方分項得分：開門放行 ${robots?.score ?? 0}/${robots?.max_score ?? 35}、重點導覽 ${llms?.score ?? 0}/${llms?.max_score ?? 30}、首頁清楚度 ${homepage?.score ?? 0}/${homepage?.max_score ?? 35}。`;
       }
 
       syncDetailLockVisibility();
@@ -1918,6 +1918,13 @@
 
     if (options.scroll !== false) {
       const targetEl = document.getElementById(cleanId);
+      if (targetEl) {
+        let ancestor = targetEl.closest("details");
+        while (ancestor) {
+          ancestor.open = true;
+          ancestor = ancestor.parentElement ? ancestor.parentElement.closest("details") : null;
+        }
+      }
       const fallbackEl =
         targetEl || (targetCategory ? document.getElementById(`cat-panel-${targetCategory}`) : null);
       if (fallbackEl) {
@@ -2256,10 +2263,10 @@
           planId: "ent-retainer",
           badge: "推薦方案｜企業 02",
           title: "企業月費陪跑監測（NT$25,000／月起）",
-          reason: "適合需要以 8～12 週長期追蹤 AI 回答趨勢、持續審查新頁 Schema 並量化 GA4 AI 參照流量的品牌或 B2B 企業。",
+          reason: "適合需要長期追蹤 AI 回答趨勢、持續把關新頁面口徑並量化 AI 導流成效的品牌或企業。",
           kicker: "企業長期追蹤報價",
           figure: "NT$25,000／月起",
-          formula: "依每月實測題庫數與監測平台數透明報價，含書面企業 NDA 與 GA4 AI 流量追蹤設定。",
+          formula: "依每月實測題庫數與監測平台數透明報價，含書面企業 NDA 與 AI 流量追蹤設定。",
           labelForLine: "企業 02｜企業月費陪跑監測（NT$25,000／月起）",
         };
       }
@@ -2267,10 +2274,10 @@
         planId: "ent-audit",
         badge: "推薦方案｜企業 01",
         title: "企業深度健檢與資安承諾專案（NT$28,000）",
-        reason: "適合重視法務資安 NDA、需要 50 題×多平台大樣本實測、最多 3 家對手 9 維度 PK 與高管團隊視訊講解的企業。",
+        reason: "適合重視書面保密承諾、需要 50 題跨平台實測、最多 3 家對手 PK 與團隊視訊講解的企業。",
         kicker: "單次企業專案總價",
         figure: "NT$28,000／專案",
-        formula: "含 5 件套完整交付（50 題原答證據＋3 家對手 PK＋27 隻爬蟲 WAF 實測＋修復範本＋書面 NDA＋視訊講解）。",
+        formula: "含 50 題原答證據＋3 家對手 PK＋完整修復範本＋書面 NDA＋團隊視訊講解。",
         labelForLine: "企業 01｜企業深度健檢與資安承諾專案（NT$28,000）",
       };
     }
@@ -2280,7 +2287,7 @@
         planId: "entry-rebuild",
         badge: "推薦方案｜入門 02",
         title: "小型官網 GEO 地基一次改造（NT$18,000）",
-        reason: "直接一次補齊全站單一 @graph JSON-LD、robots.txt／llms.txt、純文字價格比較表與 3～5 個核心服務頁改寫，並附改前改後複測對照。",
+        reason: "直接一次整理好全站數位名片、重點導覽、純文字價目對比表與 3～5 個主力服務頁，並附改前改後複測對照。",
         kicker: applyCredit ? "已套用 30 天內 NT$3,800 全額折抵" : "單次改造原定價（未套用折抵）",
         figure: applyCredit ? "折抵後只需補 NT$14,200" : "NT$18,000／專案",
         formula: applyCredit
