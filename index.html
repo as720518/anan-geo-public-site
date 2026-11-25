@@ -283,15 +283,15 @@
       </div>
     </section>
 
-    <!-- ==================== 1.5 輸入網址・10 秒免費基礎 GEO 初檢 ==================== -->
+    <!-- ==================== 1.5 輸入網址・10 秒免費基礎 GEO 初檢（含同行對手 PK） ==================== -->
     <section class="section live-check-section" id="live-check">
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">LIVE BASIC CHECK・即時公開頁實測（免登入・免安裝）</p>
-            <h2>輸入網址・10 秒免費基礎 GEO 初檢</h2>
+            <p class="eyebrow">LIVE BASIC CHECK &amp; COMPETITOR PK・即時公開頁實測（免登入・免安裝）</p>
+            <h2>輸入網址・10 秒免費基礎 GEO 初檢（支援同行對手 PK）</h2>
             <p class="section-lede">
-              直接輸入你的品牌官網網址，系統即時透過 Cloudflare 邊緣端實測三項基礎地基：<strong>AI 搜尋與訓練爬蟲放行（<code>robots.txt</code>）</strong>、<strong>AI 導覽索引（<code>llms.txt</code>）</strong>與<strong>首頁 HTML 標籤／JSON-LD 結構</strong>。全部為當下實測結果，抓不到一律誠實顯示「無法讀取／未設置」，絕不捏造分數。
+              輸入你的品牌官網，並可選填一位<strong>同行對手官網</strong>同時 PK！系統即時透過 Cloudflare 邊緣端實測三項基礎地基：<strong>AI 搜尋與訓練爬蟲放行（<code>robots.txt</code>）</strong>、<strong>AI 導覽索引（<code>llms.txt</code>）</strong>與<strong>首頁 HTML 標籤／JSON-LD 結構</strong>。立即看雙方總分與勝負差距，輸入 Email 即可免費解鎖完整紅綠燈明細與白話修復清單。
             </p>
           </div>
           <div class="honesty-pill">
@@ -301,124 +301,319 @@
         </div>
 
         <div class="live-check-panel">
-          <form class="live-check-form" id="live-check-form" novalidate aria-label="輸入網址進行 10 秒免費基礎 GEO 初檢">
-            <div class="live-input-row">
-              <label class="sr-only" for="live-check-url">輸入欲檢測的公開網站網址</label>
-              <input
-                type="url"
-                id="live-check-url"
-                name="url"
-                class="live-url-input"
-                placeholder="輸入公開網址，例如 https://anangeo.com 或 https://www.yourbrand.com"
-                autocomplete="url"
-                inputmode="url"
-                required
-              >
-              <button type="submit" class="btn btn-primary live-submit-btn" id="live-check-submit">開始初檢</button>
+          <form class="live-check-form" id="live-check-form" novalidate aria-label="輸入網址與同行對手網址進行 10 秒免費基礎 GEO 初檢">
+            <div class="live-pk-inputs">
+              <div class="live-field">
+                <label class="live-field-label" for="live-check-url">我的官網網址（必填）</label>
+                <input
+                  type="url"
+                  id="live-check-url"
+                  name="url"
+                  class="live-url-input"
+                  placeholder="輸入你的公開網址，例如 https://anangeo.com"
+                  autocomplete="url"
+                  inputmode="url"
+                  required
+                >
+              </div>
+              <div class="live-field">
+                <label class="live-field-label" for="live-competitor-url">對手官網網址（選填，可同時 PK）</label>
+                <input
+                  type="url"
+                  id="live-competitor-url"
+                  name="competitor_url"
+                  class="live-url-input"
+                  placeholder="可自行輸入任意對手網址，或從下方行業名單勾選（不勾不測）"
+                  autocomplete="url"
+                  inputmode="url"
+                >
+              </div>
+              <div class="live-submit-wrap">
+                <button type="submit" class="btn btn-primary live-submit-btn" id="live-check-submit">開始免費初檢</button>
+              </div>
+            </div>
+
+            <!-- 行業參考對手勾選清單（預設全部不勾選，沒勾絕不分析） -->
+            <div class="industry-picker" id="industry-competitor-picker">
+              <div class="industry-picker-head">
+                <div>
+                  <span class="industry-picker-kicker">OPTIONAL COMPETITOR PICKER・行業參考對手快選</span>
+                  <p class="industry-picker-desc">
+                    下方參考名單<strong>預設全部不勾選</strong>；只有您主動點擊勾選 1 位對手（或於上方自行輸入對手網址）才會啟動雙邊 PK，沒勾選的絕不分析。
+                  </p>
+                </div>
+                <div class="industry-selection-bar">
+                  <span class="selected-comp-pill" id="selected-competitor-summary">未選對手（僅測自己網站）</span>
+                  <button type="button" class="clear-comp-btn" id="clear-competitor-btn" hidden>取消勾選</button>
+                </div>
+              </div>
+
+              <div class="industry-tabs" id="industry-tabs" role="tablist" aria-label="行業分類對手清單">
+                <button type="button" role="tab" aria-selected="true" class="industry-tab is-active" data-industry="marketing">行銷／SEO顧問</button>
+                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="ecommerce">電商零售</button>
+                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="medical">醫美健康</button>
+                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="b2b">B2B企業服務</button>
+                <button type="button" role="tab" aria-selected="false" class="industry-tab" data-industry="local">客製與在地品牌</button>
+              </div>
+
+              <div class="industry-competitor-grid" id="industry-competitor-grid" aria-live="polite">
+                <label class="competitor-card">
+                  <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://www.awoo.ai">
+                  <span class="competitor-card-body">
+                    <span class="competitor-card-top">
+                      <strong class="competitor-card-name">awoo 阿物科技</strong>
+                      <span class="competitor-card-state">未勾選</span>
+                    </span>
+                    <code class="competitor-card-url">https://www.awoo.ai</code>
+                    <span class="competitor-card-note">台灣 SEO 與行銷科技品牌官網參考</span>
+                  </span>
+                </label>
+                <label class="competitor-card">
+                  <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://moz.com">
+                  <span class="competitor-card-body">
+                    <span class="competitor-card-top">
+                      <strong class="competitor-card-name">Moz</strong>
+                      <span class="competitor-card-state">未勾選</span>
+                    </span>
+                    <code class="competitor-card-url">https://moz.com</code>
+                    <span class="competitor-card-note">國際搜尋最佳化與知識內容標竿站</span>
+                  </span>
+                </label>
+                <label class="competitor-card">
+                  <input type="checkbox" class="competitor-card-checkbox" name="industry_competitor" value="https://ahrefs.com">
+                  <span class="competitor-card-body">
+                    <span class="competitor-card-top">
+                      <strong class="competitor-card-name">Ahrefs</strong>
+                      <span class="competitor-card-state">未勾選</span>
+                    </span>
+                    <code class="competitor-card-url">https://ahrefs.com</code>
+                    <span class="competitor-card-note">國際搜尋分析與內容佈局標竿站</span>
+                  </span>
+                </label>
+              </div>
             </div>
 
             <div class="live-samples-row">
               <span class="live-samples-label">一鍵試測範例：</span>
+              <button
+                type="button"
+                class="sample-url-btn sample-pk-btn"
+                id="sample-pk-btn"
+                data-pk-target="https://anangeo.com"
+                data-pk-competitor="https://www.cccnan.art"
+              >一鍵試測 PK（anangeo.com vs cccnan.art）</button>
               <button type="button" class="sample-url-btn" data-sample-url="https://anangeo.com">試測 https://anangeo.com</button>
               <button type="button" class="sample-url-btn" data-sample-url="https://www.cccnan.art">試測 https://www.cccnan.art</button>
             </div>
           </form>
 
           <p class="live-check-status" id="live-check-status" role="status" aria-live="polite">
-            輸入任意公開官網網址，或直接點擊上方範例鈕，約 3～10 秒即產出三項實測燈號與白話修復清單。
+            輸入任意公開官網網址（可加填同行對手同時 PK），或點擊上方「一鍵試測 PK」範例鈕，約 3～10 秒立即查看總分環形圖與勝負差距。
           </p>
 
           <div class="live-check-result" id="live-check-result" aria-live="polite">
-            <div class="live-score-overview">
-              <div class="score-ring-wrap">
-                <svg class="score-ring" id="live-score-ring-svg" viewBox="0 0 120 120" role="img" aria-label="GEO 基礎準備度分數環形圖">
-                  <circle class="score-ring-track" cx="60" cy="60" r="50"></circle>
-                  <circle
-                    class="score-ring-fill is-idle"
-                    id="live-score-ring-fill"
-                    cx="60"
-                    cy="60"
-                    r="50"
-                    stroke-dasharray="314.16"
-                    stroke-dashoffset="314.16"
-                  ></circle>
-                </svg>
-                <div class="score-ring-center">
-                  <strong class="mono" id="live-score-value">--</strong>
-                  <span>/ 100 分</span>
+            <div class="live-score-overview" id="live-score-overview">
+              <!-- 我方總分環形圖 -->
+              <div class="score-side is-primary">
+                <span class="score-side-tag" id="live-primary-tag">我方官網</span>
+                <div class="score-ring-wrap">
+                  <svg class="score-ring" id="live-score-ring-svg" viewBox="0 0 120 120" role="img" aria-label="我方 GEO 基礎準備度分數環形圖">
+                    <circle class="score-ring-track" cx="60" cy="60" r="50"></circle>
+                    <circle
+                      class="score-ring-fill is-idle"
+                      id="live-score-ring-fill"
+                      cx="60"
+                      cy="60"
+                      r="50"
+                      stroke-dasharray="314.16"
+                      stroke-dashoffset="314.16"
+                    ></circle>
+                  </svg>
+                  <div class="score-ring-center">
+                    <strong class="mono" id="live-score-value">--</strong>
+                    <span>/ 100 分</span>
+                  </div>
                 </div>
+                <span class="score-side-host mono" id="live-primary-host">等待輸入網址</span>
               </div>
 
+              <!-- 中央摘要 / PK 勝負差距 -->
               <div class="live-score-meta">
                 <div class="live-meta-top">
                   <span class="pill pill-brass" id="live-grade-badge">尚未開始實測</span>
                   <span class="mono live-target-host" id="live-target-display">等待輸入網址</span>
                 </div>
+
+                <div class="pk-versus-box" id="live-pk-versus" hidden>
+                  <span class="pk-vs-pill mono" id="live-pk-diff-badge">VS</span>
+                  <strong class="pk-vs-headline" id="live-pk-verdict">等待對手 PK 結果</strong>
+                  <p class="pk-vs-sub" id="live-pk-sub"></p>
+                </div>
+
                 <h3 id="live-grade-headline">立即實測你的網站，看看 AI 爬蟲讀得到多少基礎資訊</h3>
                 <p class="live-meta-note" id="live-meta-note">
-                  按下「開始初檢」後，系統會平行抓取目標站的 <code>/robots.txt</code>、<code>/llms.txt</code> 與首頁 HTML，即時計算 0–100 基礎準備度分數並給出白話修復優先順序。
-                </p>
-              </div>
-            </div>
-
-            <div class="live-cards-grid" id="live-check-cards">
-              <article class="check-light-card is-idle" data-check-card="robots">
-                <div class="check-card-head">
-                  <span class="check-card-kicker mono">01 / 35 分</span>
-                  <span class="light-badge is-idle">待檢測</span>
-                </div>
-                <h4>AI 爬蟲放行（<code>robots.txt</code>）</h4>
-                <p class="check-card-summary">實測 <code>Googlebot</code>、<code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code> 放行狀況，並檢查是否區分 <code>GPTBot</code>／<code>ClaudeBot</code>。</p>
-                <div class="check-card-details"></div>
-              </article>
-
-              <article class="check-light-card is-idle" data-check-card="llms">
-                <div class="check-card-head">
-                  <span class="check-card-kicker mono">02 / 30 分</span>
-                  <span class="light-badge is-idle">待檢測</span>
-                </div>
-                <h4>AI 導覽索引（<code>llms.txt</code>）</h4>
-                <p class="check-card-summary">實測根目錄 <code>/llms.txt</code> 是否回傳 HTTP 200、字元長度與 Markdown 結構，並辨識常見的「HTML 軟 404 誤導頁」。</p>
-                <div class="check-card-details"></div>
-              </article>
-
-              <article class="check-light-card is-idle" data-check-card="homepage">
-                <div class="check-card-head">
-                  <span class="check-card-kicker mono">03 / 35 分</span>
-                  <span class="light-badge is-idle">待檢測</span>
-                </div>
-                <h4>官網結構與標籤（首頁 HTML）</h4>
-                <p class="check-card-summary">實測首頁 HTTP 狀態、<code>&lt;title&gt;</code>、<code>meta description</code>、<code>canonical</code> 與 <code>application/ld+json</code> 數量及 Schema <code>@type</code>。</p>
-                <div class="check-card-details"></div>
-              </article>
-            </div>
-
-            <div class="live-bottom-grid">
-              <div class="live-recs-box">
-                <h4>白話修復建議</h4>
-                <ul class="live-recs-list" id="live-check-recs">
-                  <li>點選上方「試測 https://anangeo.com」或輸入自己的網站網址，系統會依實測結果條列優先修復項目。</li>
-                </ul>
-                <p class="live-disclaimer" id="live-check-disclaimer">
-                  免責聲明：僅為基礎公開頁初檢，不含 20 題跨平台 AI 實測與 WAF 深度掃描；本工坊不保證 AI 排名或必被推薦。
+                  按下「開始免費初檢」後，系統會即時抓取目標站（及選填對手站）的 <code>/robots.txt</code>、<code>/llms.txt</code> 與首頁 HTML，計算 0–100 基礎準備度總分與勝負差距。
                 </p>
               </div>
 
-              <div class="live-cta-box">
-                <span class="panel-kicker">NEXT STEP・完整 20 題跨引擎實測</span>
-                <h4>想知道 AI 實際回答有沒有點名你、有沒有報錯舊價？</h4>
+              <!-- 對手總分環形圖（僅 PK 模式顯示） -->
+              <div class="score-side is-competitor" id="live-comp-side" hidden>
+                <span class="score-side-tag is-comp">同行對手</span>
+                <div class="score-ring-wrap">
+                  <svg class="score-ring" id="live-comp-score-ring-svg" viewBox="0 0 120 120" role="img" aria-label="同行對手 GEO 基礎準備度分數環形圖">
+                    <circle class="score-ring-track" cx="60" cy="60" r="50"></circle>
+                    <circle
+                      class="score-ring-fill is-idle"
+                      id="live-comp-score-ring-fill"
+                      cx="60"
+                      cy="60"
+                      r="50"
+                      stroke-dasharray="314.16"
+                      stroke-dashoffset="314.16"
+                    ></circle>
+                  </svg>
+                  <div class="score-ring-center">
+                    <strong class="mono" id="live-comp-score-value">--</strong>
+                    <span>/ 100 分</span>
+                  </div>
+                </div>
+                <span class="score-side-host mono" id="live-comp-host">—</span>
+                <span class="pill pill-brass score-side-pill" id="live-comp-grade-badge">待檢測</span>
+              </div>
+            </div>
+
+            <!-- Email 解鎖完整報告門檻（完成初檢且尚未解鎖時顯示） -->
+            <div class="live-unlock-gate" id="live-unlock-gate" hidden>
+              <div class="unlock-gate-head">
+                <span class="pill pill-brass">完整明細待解鎖</span>
+                <h3>輸入 Email，立即免費解鎖三項紅綠燈明細與白話修復建議</h3>
                 <p>
-                  基礎初檢看的是「網站設定檔有沒有寫好」；真正決定客戶問 AI 會不會找到你，還要用無痕新對話實測 20 題與 9 維度健檢。
+                  系統已完成基礎實測！留下您的信箱，畫面將<strong>立即展開</strong>完整三項爬蟲與結構明細（含對手逐項對比與白話修復清單），並可同步留存報告摘要。
                 </p>
-                <div class="live-cta-actions">
-                  <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">
-                    加 LINE @250ruauk 做完整 20 題與 9 維度健檢
-                  </a>
-                  <button type="button" class="btn btn-secondary btn-full" id="copy-live-report-btn">
-                    複製初檢摘要貼給 LINE
+                <div class="unlock-preview-chips" aria-label="解鎖後可檢視的報告內容">
+                  <span class="unlock-chip">待解鎖｜01 AI 爬蟲放行清單（6 搜尋＋2 訓練）</span>
+                  <span class="unlock-chip">待解鎖｜02 llms.txt 有效索引與軟 404 診斷</span>
+                  <span class="unlock-chip">待解鎖｜03 首頁 HTML／JSON-LD 與白話修復建議</span>
+                </div>
+              </div>
+
+              <form class="live-lead-form" id="live-lead-form" novalidate aria-label="填寫 Email 解鎖完整初檢報告">
+                <div class="lead-input-row">
+                  <label class="sr-only" for="live-lead-email">接收完整報告的 Email 信箱</label>
+                  <input
+                    type="email"
+                    id="live-lead-email"
+                    name="email"
+                    class="live-url-input lead-email-input"
+                    placeholder="請輸入你的常用信箱（用於接收完整報告）"
+                    autocomplete="email"
+                    inputmode="email"
+                    required
+                  >
+                  <button type="submit" class="btn btn-primary lead-submit-btn" id="live-lead-submit">
+                    立即免費解鎖完整報告
                   </button>
                 </div>
-                <p class="copy-feedback" id="live-copy-feedback" aria-live="polite"></p>
+
+                <label class="lead-consent-label" for="live-lead-consent">
+                  <input type="checkbox" id="live-lead-consent" name="consent" class="lead-consent-checkbox" required>
+                  <span>同意由阿男 GEO 實戰工坊寄送檢測報告與後續 GEO 實戰資訊（可隨時取消訂閱）</span>
+                </label>
+
+                <p class="lead-form-status" id="live-lead-status" role="status" aria-live="polite"></p>
+              </form>
+            </div>
+
+            <!-- 完整紅綠燈明細與白話建議（實測後預設鎖定，解鎖後展開） -->
+            <div class="live-detail-wrap" id="live-detail-wrap">
+              <div class="live-unlocked-banner" id="live-unlocked-banner" hidden>
+                <strong id="live-unlocked-title">完整報告已免費解鎖</strong>
+                <span id="live-unlocked-msg"></span>
+                <a class="btn btn-secondary btn-sm" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">
+                  加 LINE @250ruauk 預約 20 題實測
+                </a>
+              </div>
+
+              <!-- 對手 PK 逐項分數對比表（PK 模式解鎖後顯示） -->
+              <div class="live-pk-breakdown" id="live-pk-breakdown" hidden>
+                <div class="pk-breakdown-head">
+                  <h4>我方 vs 同行對手｜三項基礎地基逐項 PK</h4>
+                  <span class="mono muted" id="live-pk-breakdown-meta"></span>
+                </div>
+                <div class="pk-breakdown-table-wrap">
+                  <table class="pk-breakdown-table" aria-label="我方與同行對手三項基礎指標對比表">
+                    <thead>
+                      <tr>
+                        <th scope="col">檢測維度</th>
+                        <th scope="col" id="pk-th-mine">我方官網</th>
+                        <th scope="col" id="pk-th-comp">同行對手</th>
+                        <th scope="col">差距</th>
+                      </tr>
+                    </thead>
+                    <tbody id="live-pk-breakdown-body"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="live-cards-grid" id="live-check-cards">
+                <article class="check-light-card is-idle" data-check-card="robots">
+                  <div class="check-card-head">
+                    <span class="check-card-kicker mono">01 / 35 分</span>
+                    <span class="light-badge is-idle">待檢測</span>
+                  </div>
+                  <h4>AI 爬蟲放行（<code>robots.txt</code>）</h4>
+                  <p class="check-card-summary">實測 <code>Googlebot</code>、<code>OAI-SearchBot</code>、<code>ChatGPT-User</code>、<code>Claude-SearchBot</code>、<code>PerplexityBot</code>、<code>DeepSeekBot</code> 放行狀況，並檢查是否區分 <code>GPTBot</code>／<code>ClaudeBot</code>。</p>
+                  <div class="check-card-details"></div>
+                </article>
+
+                <article class="check-light-card is-idle" data-check-card="llms">
+                  <div class="check-card-head">
+                    <span class="check-card-kicker mono">02 / 30 分</span>
+                    <span class="light-badge is-idle">待檢測</span>
+                  </div>
+                  <h4>AI 導覽索引（<code>llms.txt</code>）</h4>
+                  <p class="check-card-summary">實測根目錄 <code>/llms.txt</code> 是否回傳 HTTP 200、字元長度與 Markdown 結構，並辨識常見的「HTML 軟 404 誤導頁」。</p>
+                  <div class="check-card-details"></div>
+                </article>
+
+                <article class="check-light-card is-idle" data-check-card="homepage">
+                  <div class="check-card-head">
+                    <span class="check-card-kicker mono">03 / 35 分</span>
+                    <span class="light-badge is-idle">待檢測</span>
+                  </div>
+                  <h4>官網結構與標籤（首頁 HTML）</h4>
+                  <p class="check-card-summary">實測首頁 HTTP 狀態、<code>&lt;title&gt;</code>、<code>meta description</code>、<code>canonical</code> 與 <code>application/ld+json</code> 數量及 Schema <code>@type</code>。</p>
+                  <div class="check-card-details"></div>
+                </article>
+              </div>
+
+              <div class="live-bottom-grid">
+                <div class="live-recs-box">
+                  <h4>白話修復建議</h4>
+                  <ul class="live-recs-list" id="live-check-recs">
+                    <li>點選上方「一鍵試測 PK」或輸入自己的網站網址，系統會依實測結果條列優先修復項目。</li>
+                  </ul>
+                  <p class="live-disclaimer" id="live-check-disclaimer">
+                    免責聲明：僅為基礎公開頁初檢，不含 20 題跨平台 AI 實測與 WAF 深度掃描；本工坊不保證 AI 排名或必被推薦。
+                  </p>
+                </div>
+
+                <div class="live-cta-box">
+                  <span class="panel-kicker">NEXT STEP・完整 20 題跨引擎實測</span>
+                  <h4>想知道 AI 實際回答有沒有點名你、有沒有報錯舊價？</h4>
+                  <p>
+                    基礎初檢看的是「網站設定檔有沒有寫好」；真正決定客戶問 AI 會不會找到你，還要用無痕新對話實測 20 題與 9 維度健檢。
+                  </p>
+                  <div class="live-cta-actions">
+                    <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">
+                      加 LINE @250ruauk 做完整 20 題與 9 維度健檢
+                    </a>
+                    <button type="button" class="btn btn-secondary btn-full" id="copy-live-report-btn">
+                      複製初檢摘要貼給 LINE
+                    </button>
+                  </div>
+                  <p class="copy-feedback" id="live-copy-feedback" aria-live="polite"></p>
+                </div>
               </div>
             </div>
           </div>

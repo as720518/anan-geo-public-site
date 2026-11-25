@@ -1,4 +1,5 @@
 import { onRequest as handleApiCheck } from "./functions/api/check.js";
+import { onRequest as handleApiLead } from "./functions/api/lead.js";
 
 export default {
   async fetch(request, env) {
@@ -16,6 +17,9 @@ export default {
         return fetch(input, init);
       };
       return handleApiCheck({ request, env, fetch: smartFetch });
+    }
+    if (url.pathname === "/api/lead") {
+      return handleApiLead({ request, env });
     }
     return env.ASSETS.fetch(request);
   },

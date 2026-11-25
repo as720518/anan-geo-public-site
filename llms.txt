@@ -18,7 +18,7 @@
 4. 《AI 報錯舊價破案實錄：為什麼 AI 會把舊規則背出來、怎麼追查來源與追蹤》
 
 ## 互動自檢工具與避坑守則
-- 《輸入網址・10 秒免費基礎 GEO 初檢》：透過 Cloudflare Workers / Pages Function（`/api/check`）即時實測公開站點之 `robots.txt` AI 搜尋與訓練爬蟲分流、`/llms.txt` 純文字有效索引、以及首頁 HTML 標籤（`title`、`description`、`canonical`）與 JSON-LD Schema `@type`，回傳 0–100 基礎分數、紅黃綠燈明細與白話建議（僅為基礎公開頁初檢，不含 20 題跨平台 AI 實測與 WAF 深度掃描）。
+- 《輸入網址・10 秒免費基礎 GEO 初檢（支援行業對手勾選與自行輸入 PK）》：透過 Cloudflare Workers / Pages Function（`/api/check` 與 `/api/lead`）即時實測我方公開站點之 `robots.txt` AI 搜尋與訓練爬蟲分流、`/llms.txt` 純文字有效索引、以及首頁 HTML 標籤（`title`、`description`、`canonical`）與 JSON-LD Schema `@type`。內建 5 大行業參考對手勾選清單（完整顯示名稱與公開網址，預設全部不勾選，沒勾絕不分析）並保留自行輸入對手網址欄位；訪客填寫 Email 並勾選同意後立即免費解鎖完整紅黃綠燈明細，同時可於啟用寄信服務時依第 0／3／7 天節奏寄送初檢報告、1,298 筆實測破案實錄與健檢折抵提醒（僅為基礎公開頁初檢，不含 20 題跨平台 AI 實測與 WAF 深度掃描）。
 - 《3 分鐘 GEO 準備度 12 題自檢互動表》（訪問、定向、理解、可引用 4 層 × 12 題即時算分與弱點提示）
 - 《常見迷思闢謠卡》（破解 72 小時必收錄、llms.txt 萬能論、模擬器假分數、隱藏提示詞注入黑帽紅線）
 
