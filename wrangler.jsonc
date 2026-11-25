@@ -6,4 +6,18 @@
     "directory": ".",
     "binding": "ASSETS"
   }
+  // === 可選：Cloudflare D1 雲端資料庫綁定（未綁定時程式碼自動安全降級，不影響現有 Workers Builds 自動部署）===
+  // 如需於雲端長期保存 Email 名單（leads）與手機健檢紀錄（audits），請先於 Cloudflare Dashboard 建立 D1 資料庫，
+  // 再於 Cloudflare Workers → Settings → Bindings 新增 D1 綁定（Variable name: DB），或填入真實 database_id 後取消下方註解：
+  // ,
+  // "d1_databases": [
+  //   {
+  //     "binding": "DB",
+  //     "database_name": "anan-geo-admin",
+  //     "database_id": "<建立 D1 後填入真實 UUID，切勿提交假 ID 以免中斷 Workers Builds>"
+  //   }
+  // ]
+  // === 必要密鑰（請於 Cloudflare Dashboard → Settings → Variables and Secrets 設定為 Secret，絕勿寫入檔案）===
+  // - GEO_ADMIN_PASSWORD：/admin/ 雲端後台登入密碼（未設定時會安全拒絕登入並顯示設定提示）
+  // - GEO_ADMIN_SESSION_SECRET（選填）：HMAC-SHA256 Cookie 簽章額外密鑰（未設時以 GEO_ADMIN_PASSWORD 衍生）
 }

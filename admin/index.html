@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#090e14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GEO 後台">
+  <title>阿男 GEO 雲端後台</title>
+  <link rel="icon" href="/admin/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/admin/icon.svg">
+  <link rel="manifest" href="/admin/manifest.webmanifest">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <!-- 登入鎖屏視圖 -->
+  <main id="login-view" class="login-shell" aria-label="後台管理員登入">
+    <section class="login-card">
+      <div class="login-brand">
+        <img src="/admin/icon.svg" alt="" width="48" height="48" class="brand-icon">
+        <div>
+          <p class="eyebrow">ANANGEO CLOUD CONSOLE</p>
+          <h1 class="login-title">阿男 GEO 雲端後台</h1>
+        </div>
+      </div>
+
+      <p class="login-desc">
+        純雲端行動管理台，Mac 關機也能直接用手機查看名單、幫客戶即時健檢與下載單頁簡報。
+      </p>
+
+      <div id="login-config-banner" class="notice-banner notice-warn" hidden></div>
+
+      <form id="login-form" class="stack" autocomplete="off">
+        <label class="field">
+          <span class="field-label">管理密碼</span>
+          <div class="pw-wrap">
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              inputmode="text"
+              autocomplete="current-password"
+              placeholder="請輸入管理密碼"
+              required
+            >
+            <button type="button" id="toggle-pw-btn" class="ghost-mini" aria-label="切換顯示密碼">顯示</button>
+          </div>
+        </label>
+
+        <div id="login-error" class="form-error" role="alert" hidden></div>
+
+        <button type="submit" id="login-submit" class="btn-primary btn-block">
+          進入雲端後台
+        </button>
+      </form>
+
+      <p class="login-footnote">
+        本頁已套用搜尋引擎封鎖（noindex / nofollow），僅供站長本人使用。
+      </p>
+    </section>
+  </main>
+
+  <!-- 登入後行動主控台 -->
+  <div id="app-view" class="app-shell" hidden>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="topbar-brand">
+          <img src="/admin/icon.svg" alt="" width="30" height="30" class="brand-icon-sm">
+          <div class="topbar-titles">
+            <span class="topbar-name">阿男 GEO 雲端後台</span>
+            <span id="db-status-pill" class="status-pill status-pending">檢查連線中</span>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" id="refresh-btn" class="icon-btn" aria-label="重新整理資料" title="重新整理">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+              <polyline points="21 3 21 9 15 9"/>
+            </svg>
+          </button>
+          <button type="button" id="logout-btn" class="ghost-mini">登出</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-main">
+      <!-- 上方大字 KPI 看板 -->
+      <section class="kpi-grid" aria-label="關鍵數據總覽">
+        <article class="kpi-card">
+          <span class="kpi-label">累積收集名單</span>
+          <strong id="kpi-leads" class="kpi-value mono">0</strong>
+          <span id="kpi-leads-sub" class="kpi-sub">等待資料載入</span>
+        </article>
+        <article class="kpi-card">
+          <span class="kpi-label">雲端健檢次數</span>
+          <strong id="kpi-audits" class="kpi-value mono">0</strong>
+          <span id="kpi-audits-sub" class="kpi-sub">含對手 PK 紀錄</span>
+        </article>
+        <article class="kpi-card kpi-highlight">
+          <span class="kpi-label">1,298 筆基準分數</span>
+          <strong id="kpi-baseline" class="kpi-value mono">41→89</strong>
+          <span id="kpi-baseline-sub" class="kpi-sub">cccnan.art 實測基準</span>
+        </article>
+      </section>
+
+      <!-- D1 降級提示條（未綁 D1 時顯示） -->
+      <div id="db-notice-banner" class="notice-banner notice-info" hidden></div>
+
+      <!-- 分頁 1：總覽 -->
+      <section id="tab-overview" class="tab-panel" data-tab-panel="overview">
+        <div class="card">
+          <div class="card-head">
+            <h2>1,298 筆公開實測基準</h2>
+            <span id="baseline-window" class="tag-mono">35 實測日</span>
+          </div>
+          <p id="baseline-summary" class="muted-text">
+            對齊阿男音樂公開實測基準，方便向潛在客戶現場展示跨引擎實況。
+          </p>
+          <div id="baseline-engines" class="engine-grid"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>最新 Email 名單</h2>
+            <button type="button" class="link-btn" data-jump-tab="leads">查看全部</button>
+          </div>
+          <div id="overview-leads-list" class="mini-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>最新雲端健檢</h2>
+            <button type="button" class="link-btn" data-jump-tab="audit">開始新健檢</button>
+          </div>
+          <div id="overview-audits-list" class="mini-list"></div>
+        </div>
+      </section>
+
+      <!-- 分頁 2：Email名單 -->
+      <section id="tab-leads" class="tab-panel" data-tab-panel="leads" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h2>雲端收集名單</h2>
+            <span id="leads-count-badge" class="tag-mono">0 筆</span>
+          </div>
+          <label class="search-box">
+            <span class="sr-only">搜尋 Email 或網址</span>
+            <input id="leads-search" type="search" placeholder="輸入 Email 或網站網域快速篩選">
+          </label>
+          <div id="leads-list" class="record-list"></div>
+        </div>
+      </section>
+
+      <!-- 分頁 3：手機健檢/PK -->
+      <section id="tab-audit" class="tab-panel" data-tab-panel="audit" hidden>
+        <form id="audit-form" class="card stack">
+          <div class="card-head">
+            <h2>手機即時健檢與對手 PK</h2>
+            <span class="tag-brass">雲端直跑</span>
+          </div>
+          <p class="muted-text">
+            輸入客戶網站網址與最多 3 個同行對手，直接在 Cloudflare 雲端跑公開頁檢查並產出單頁 HTML 簡報。
+          </p>
+
+          <div class="form-grid">
+            <label class="field">
+              <span class="field-label">客戶品牌名稱（選填）</span>
+              <input id="audit-client-name" type="text" maxlength="80" placeholder="例如：晴光牙醫診所">
+            </label>
+            <label class="field">
+              <span class="field-label">客戶網站網址（必填）</span>
+              <input id="audit-target-url" type="url" inputmode="url" placeholder="https://example.com" required>
+            </label>
+          </div>
+
+          <div class="field">
+            <span class="field-label">快速勾選參考對照站（可複選）</span>
+            <div class="chip-row" id="preset-competitors">
+              <label class="chip-check">
+                <input type="checkbox" value="https://anangeo.com/">
+                <span>anangeo.com（標準示範）</span>
+              </label>
+              <label class="chip-check">
+                <input type="checkbox" value="https://www.cccnan.art/">
+                <span>www.cccnan.art（實戰案例）</span>
+              </label>
+            </div>
+          </div>
+
+          <label class="field">
+            <span class="field-label">自訂對手網址（選填，每行一個，與上方合計最多 3 個）</span>
+            <textarea id="audit-competitors-text" rows="2" placeholder="https://competitor-a.example&#10;https://competitor-b.example"></textarea>
+          </label>
+
+          <label class="field">
+            <span class="field-label">現場備註（選填，會印在簡報頂端）</span>
+            <input id="audit-notes" type="text" maxlength="300" placeholder="例如：現場討論重點或主要服務項目">
+          </label>
+
+          <div id="audit-error" class="form-error" role="alert" hidden></div>
+
+          <button type="submit" id="audit-submit" class="btn-primary btn-block">
+            開始雲端健檢並產出簡報
+          </button>
+        </form>
+
+        <!-- 健檢結果區 -->
+        <div id="audit-result-box" class="card stack" hidden>
+          <div class="card-head">
+            <h3 id="audit-result-title">健檢完成</h3>
+            <span id="audit-result-badge" class="score-pill">--</span>
+          </div>
+          <p id="audit-storage-msg" class="muted-text"></p>
+          <div id="audit-checks-detail" class="stack-sm"></div>
+          <div id="audit-pk-table" class="stack-sm"></div>
+          <div class="action-row">
+            <button type="button" id="download-latest-report" class="btn-primary">下載單頁 HTML 簡報</button>
+            <button type="button" id="copy-latest-summary" class="btn-secondary">複製 LINE 重點摘要</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 分頁 4：單頁報告/設定 -->
+      <section id="tab-reports" class="tab-panel" data-tab-panel="reports" hidden>
+        <div class="card">
+          <div class="card-head">
+            <h2>歷史單頁簡報清冊</h2>
+            <span id="reports-count-badge" class="tag-mono">0 份</span>
+          </div>
+          <div id="reports-list" class="record-list"></div>
+        </div>
+
+        <div class="card stack-sm">
+          <div class="card-head">
+            <h2>雲端環境與綁定檢查</h2>
+            <span class="tag-mono">零金鑰外露</span>
+          </div>
+          <div id="config-checklist" class="check-rows"></div>
+          <div class="setup-guide">
+            <h3>如何啟用 D1 雲端名單與歷史儲存</h3>
+            <ol>
+              <li>開啟 Cloudflare Dashboard → Storage &amp; Databases → D1 SQL Database，建立名為 <code>anan-geo-admin</code> 的資料庫。</li>
+              <li>進入 Worker <code>anan-geo-public-site</code> → Settings → Bindings，新增 D1 綁定且 Variable name 設為 <code>DB</code>。</li>
+              <li>進入 Settings → Variables and Secrets，確認已新增 Secret 變數 <code>GEO_ADMIN_PASSWORD</code>（可另設 <code>RESEND_API_KEY</code>）。</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="card stack-sm">
+          <div class="card-head">
+            <h2>手機安裝成全螢幕 App（PWA）</h2>
+            <span class="tag-brass">standalone</span>
+          </div>
+          <p class="muted-text">
+            在手機 Chrome 開啟 <code>anangeo.com/admin/</code>，點右上角選單「加到主畫面 / 安裝應用程式」；iPhone Safari 點下方「分享」→「加入主畫面」，桌面圖示點擊即全螢幕開啟。
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- 底部固定 4 個大拇指分頁鈕 -->
+    <nav class="bottom-nav" aria-label="後台主分頁切換">
+      <button type="button" class="nav-btn is-active" data-tab="overview" aria-current="page">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="9" rx="1.5"/>
+          <rect x="14" y="3" width="7" height="5" rx="1.5"/>
+          <rect x="14" y="12" width="7" height="9" rx="1.5"/>
+          <rect x="3" y="16" width="7" height="5" rx="1.5"/>
+        </svg>
+        <span>總覽</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="leads">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+          <polyline points="22,8 12,13 2,8"/>
+        </svg>
+        <span>Email名單</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="audit">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          <polyline points="8.5 11.5 10.5 13.5 14 9.5"/>
+        </svg>
+        <span>手機健檢/PK</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="reports">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="8" y1="13" x2="16" y2="13"/>
+          <line x1="8" y1="17" x2="13" y2="17"/>
+        </svg>
+        <span>單頁報告/設定</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- 輕量回饋氣泡 -->
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="/admin/admin.js" defer></script>
+</body>
+</html>

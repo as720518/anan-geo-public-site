@@ -665,6 +665,50 @@ async function callResend(fetchFn, apiKey, url, body) {
   }
 }
 
+const CREATE_LEADS_TABLE_SQL = `
+CREATE TABLE IF NOT EXISTS leads (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL,
+  target_url TEXT NOT NULL,
+  competitor_url TEXT,
+  score INTEGER,
+  competitor_score INTEGER,
+  grade_light TEXT,
+  summary_json TEXT,
+  created_at TEXT NOT NULL
+)
+`.trim();
+
+async function persistLeadToD1(env, record) {
+  if (!env?.DB || typeof env.DB.prepare !== "function") {
+    return { saved: false, id: null };
+  }
+  try {
+    await env.DB.prepare(CREATE_LEADS_TABLE_SQL).run();
+    const insertRes = await env.DB.prepare(
+      `INSERT INTO leads (email, target_url, competitor_url, score, competitor_score, grade_light, summary_json, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+      .bind(
+        record.email,
+        record.target_url,
+        record.competitor_url,
+        record.score,
+        record.competitor_score,
+        record.grade_light,
+        record.summary_json,
+        record.created_at
+      )
+      .run();
+    return {
+      saved: true,
+      id: insertRes?.meta?.last_row_id ?? null,
+    };
+  } catch {
+    return { saved: false, id: null };
+  }
+}
+
 export async function onRequest(context) {
   const { request, env = {} } = context || {};
 
@@ -780,6 +824,25 @@ export async function onRequest(context) {
     competitorSummary = compReportCheck.summary;
   }
 
+  const nowMs =
+    typeof context?.now === "number" && Number.isFinite(context.now) ? context.now : Date.now();
+  const submittedAt = new Date(nowMs).toISOString();
+
+  // 5.5 若已綁定 Cloudflare D1（env.DB），同步寫入雲端 leads 表（容錯不影響前端解鎖）
+  const d1Result = await persistLeadToD1(env, {
+    email: emailCheck.email,
+    target_url: targetReportCheck.summary.target_url,
+    competitor_url: competitorSummary ? competitorSummary.target_url : null,
+    score: targetReportCheck.summary.score,
+    competitor_score: competitorSummary ? competitorSummary.score : null,
+    grade_light: targetReportCheck.summary.grade_light,
+    summary_json: JSON.stringify({
+      target: targetReportCheck.summary,
+      competitor: competitorSummary,
+    }),
+    created_at: submittedAt,
+  });
+
   // 6. 尚未設定 RESEND_API_KEY -> 優雅降級回傳 200 preview_unlock（絕不回 500）
   const apiKey = typeof env?.RESEND_API_KEY === "string" ? env.RESEND_API_KEY.trim() : "";
   if (!apiKey) {
@@ -788,6 +851,7 @@ export async function onRequest(context) {
         ok: true,
         unlocked: true,
         mail_sent: false,
+        lead_stored: d1Result.saved,
         followup_scheduled: {
           day3: false,
           day7: false,
@@ -811,9 +875,6 @@ export async function onRequest(context) {
   const adminEmailRaw = typeof env?.ADMIN_NOTIFY_EMAIL === "string" ? env.ADMIN_NOTIFY_EMAIL.trim() : "";
   const adminEmailCheck = adminEmailRaw ? validateEmail(adminEmailRaw) : { ok: false };
 
-  const nowMs =
-    typeof context?.now === "number" && Number.isFinite(context.now) ? context.now : Date.now();
-  const submittedAt = new Date(nowMs).toISOString();
   const day3At = new Date(nowMs + FOLLOWUP_DELAY_HOURS.day3 * 60 * 60 * 1000).toISOString();
   const day7At = new Date(nowMs + FOLLOWUP_DELAY_HOURS.day7 * 60 * 60 * 1000).toISOString();
 
@@ -911,6 +972,7 @@ export async function onRequest(context) {
       ok: true,
       unlocked: true,
       mail_sent: mailSent,
+      lead_stored: d1Result.saved,
       followup_scheduled: {
         day3: day3Scheduled,
         day7: day7Scheduled,

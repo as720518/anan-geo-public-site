@@ -1,0 +1,25 @@
+{
+  "name": "阿男 GEO 雲端後台",
+  "short_name": "GEO 後台",
+  "description": "阿男 GEO 實戰工坊純雲端手機後台：管理名單、即時對手 PK 健檢與單頁簡報下載。",
+  "lang": "zh-Hant",
+  "start_url": "/admin/",
+  "scope": "/admin/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#090e14",
+  "theme_color": "#090e14",
+  "icons": [
+    {
+      "src": "/admin/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
