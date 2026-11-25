@@ -1,0 +1,8 @@
+worker.js
+wrangler.jsonc
+functions/
+*.bak-*
+.git
+.gitignore
+README.md
+.DS_Store

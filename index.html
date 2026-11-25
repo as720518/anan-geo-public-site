@@ -33,24 +33,35 @@
         "name": "阿男 GEO 實戰工坊｜品牌 AI 能見度健檢與官網地基改造",
         "provider": { "@id": "https://anangeo.com/#founder" },
         "areaServed": "TW",
-        "description": "提供不承諾 AI 排名、以可驗證原答證據與結構化檔案為交付核心的三階品牌 GEO 診斷與改造服務（與客製紀念歌曲服務品牌分開）。",
+        "description": "提供不承諾 AI 排名、以可驗證原答證據與結構化檔案為交付核心的兩層（入門／企業級）品牌 GEO 診斷與改造服務（與客製紀念歌曲服務品牌分開）。",
         "offers": [
           {
             "@type": "Offer",
-            "name": "GEO 健檢與 20 題 AI 診斷報告",
+            "name": "入門方案｜基礎 GEO 健檢與 20 題 AI 診斷報告",
             "price": "3800",
-            "priceCurrency": "TWD"
+            "priceCurrency": "TWD",
+            "description": "單次 20 題 AI 診斷報告；30 天內升級改造可全額折抵。"
           },
           {
             "@type": "Offer",
-            "name": "官網 GEO 地基一次改造專案",
+            "name": "入門方案｜小型官網 GEO 地基一次改造",
             "price": "18000",
-            "priceCurrency": "TWD"
+            "priceCurrency": "TWD",
+            "description": "限小型官網、不含代寫大量文章；含技術地基部署與核心服務頁高引用結構改造。"
           },
           {
             "@type": "Offer",
-            "name": "每月持續監測與內容投餵代操",
-            "description": "依題庫題數與平台數洽詢報價"
+            "name": "企業級方案｜企業深度健檢與資安承諾專案",
+            "price": "28000",
+            "priceCurrency": "TWD",
+            "description": "50 題×多平台實測＋企業 NDA 保密承諾書＋視訊報告講解。"
+          },
+          {
+            "@type": "Offer",
+            "name": "企業級方案｜企業月費陪跑監測",
+            "price": "25000",
+            "priceCurrency": "TWD",
+            "description": "NT$25,000／月起；每月跨引擎實測＋結構／內容優化＋GA4 AI 流量追蹤，依題庫與平台數報價。"
           }
         ]
       },
@@ -1127,7 +1138,7 @@
                 <button type="button" class="btn btn-secondary" id="quiz-reset-btn">全部重設</button>
                 <button type="button" class="btn btn-secondary" id="copy-quiz-btn">複製自檢摘要</button>
               </div>
-              <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">加 LINE @250ruauk 做 20 題深度健檢（NT$3,800）</a>
+              <a class="btn btn-primary btn-full" href="https://line.me/R/ti/p/@250ruauk" target="_blank" rel="noopener noreferrer">加 LINE @250ruauk 預約 20 題基礎健檢（NT$3,800）</a>
             </div>
             <p class="copy-feedback" id="quiz-copy-feedback" aria-live="polite"></p>
           </aside>
@@ -1171,66 +1182,107 @@
       <div class="container">
         <div class="section-head">
           <div>
-            <p class="eyebrow">TRANSPARENT PLANS・透明三階方案（獨立品牌 GEO 服務）</p>
-            <h2>幫你做 GEO：先驗現況，再決定要不要動大工程</h2>
+            <p class="eyebrow">TRANSPARENT PLANS・透明兩層方案（入門／企業級）</p>
+            <h2>幫你做 GEO：依規模分兩層，先驗現況再決定怎麼改</h2>
             <p class="section-lede">
-              每個品牌目前的網站體質與舊資料殘留不同。你可以從 NT$3,800 的 20 題 AI 診斷報告起步，看清自己現在在 AI 眼裡長什麼樣子，再決定要自己照報告修，還是交給我們一次把官網地基做好（本服務與客製紀念歌曲業務 <code>cccnan.art</code> 分開運作）。
+              個人與小型官網可從 NT$3,800 基礎 GEO 健檢起步（30 天內升級改造可全額折抵），或直接進行 NT$18,000 小型官網一次改造；B2B 與品牌企業則提供含企業 NDA 保密承諾書的 NT$28,000 深度健檢與 NT$25,000／月起月費陪跑監測（本服務與客製紀念歌曲業務 <code>cccnan.art</code> 分開運作）。
             </p>
           </div>
         </div>
 
-        <div class="pricing-grid">
-          <!-- 方案 1 -->
-          <article class="plan-card">
-            <div class="plan-top">
-              <span class="plan-tier mono">TIER 01・摸底體檢</span>
-              <h3>GEO 健檢與 20 題 AI 診斷報告</h3>
-              <p class="plan-price"><strong class="mono">NT$3,800</strong><span>／單次診斷</span></p>
-              <p class="plan-desc">適合已經有官網或粉專，想知道 AI 現在有沒有提到你、有沒有說錯價格與聯絡方式的品牌。</p>
-            </div>
-            <ul class="plan-list">
-              <li>設計 20 題貼近真實客人的測試題（未提品牌題＋品牌直問題）</li>
-              <li>跨主流 AI 引擎新對話實測，完整保留原始問答截圖／文字證據</li>
-              <li>GeoLook 6 維體檢＋四層依賴檢查（爬蟲、舊站殘留、結構缺口）</li>
-              <li>交付可執行的《GEO 診斷報告與優先修復清單》（PDF／HTML）</li>
-            </ul>
-            <a class="btn btn-secondary btn-full" href="#contact">預約 GEO 健檢</a>
-          </article>
+        <!-- 層級一：入門方案 -->
+        <div class="pricing-tier-group" aria-label="入門方案">
+          <div class="tier-group-head">
+            <span class="tier-badge tier-badge-entry mono">TIER 01・入門方案</span>
+            <h3>個人／工作室／小商家</h3>
+            <p>先低門檻看清 AI 眼中的自己，適合個人品牌、接案工作室與小型商家官網。</p>
+          </div>
 
-          <!-- 方案 2 -->
-          <article class="plan-card is-featured">
-            <div class="plan-top">
-              <span class="plan-tier mono">TIER 02・一次到位地基</span>
-              <h3>官網 GEO 地基一次改造專案</h3>
-              <p class="plan-price"><strong class="mono">NT$18,000</strong><span>／單次專案</span></p>
-              <p class="plan-desc">適合確認要讓網站「能被 AI 讀懂並正確引用」，想一次補齊技術地基與核心頁結構的品牌。</p>
-            </div>
-            <ul class="plan-list">
-              <li>包含 Tier 01 完整 20 題摸底診斷與品牌事實單一真相表整理</li>
-              <li>撰寫與部署 <code>/llms.txt</code>、<code>robots.txt</code> 爬蟲檢查與 <code>sitemap</code> 核對</li>
-              <li>建置全站可解析 JSON-LD Schema（實體別名、服務報價、FAQPage）</li>
-              <li>改寫 3～5 個核心服務頁為高引用結構（倒金字塔首段＋純文字規格表＋FAQ）</li>
-              <li>交付前提供自動化驗證紀錄與改後複測對照報告</li>
-            </ul>
-            <a class="btn btn-primary btn-full" href="#contact">預約 GEO 健檢與改造評估</a>
-          </article>
+          <div class="pricing-grid pricing-grid-2">
+            <!-- 入門 1 -->
+            <article class="plan-card">
+              <div class="plan-top">
+                <span class="plan-tier mono">ENTRY 01・20 題摸底體檢</span>
+                <h3>基礎 GEO 健檢與 20 題 AI 診斷報告</h3>
+                <p class="plan-price"><strong class="mono">NT$3,800</strong><span>／單次診斷</span></p>
+                <p class="plan-highlight-pill is-credit">30 天內升級改造可全額折抵</p>
+                <p class="plan-desc">適合已經有官網或粉專的個人／工作室／小商家，想知道 AI 現在有沒有點名你、有沒有報錯價格與聯絡方式。</p>
+                <ul class="plan-list">
+                  <li>設計 20 題貼近真實客人的測試題（未提品牌題＋品牌直問題）</li>
+                  <li>跨主流 AI 引擎新對話實測，完整保留原始問答截圖／文字證據</li>
+                  <li>GeoLook 6 維體檢＋四層依賴檢查（爬蟲、舊站殘留、結構缺口）</li>
+                  <li>交付可執行的《GEO 診斷報告與優先修復清單》（30 天內升級改造可全額折抵 NT$3,800）</li>
+                </ul>
+              </div>
+              <a class="btn btn-secondary btn-full" href="#contact">預約基礎 GEO 健檢</a>
+            </article>
 
-          <!-- 方案 3 -->
-          <article class="plan-card">
-            <div class="plan-top">
-              <span class="plan-tier mono">TIER 03・長期追蹤代操</span>
-              <h3>每月持續監測與內容投餵代操</h3>
-              <p class="plan-price"><strong class="mono">洽詢報價</strong><span>／依題庫與平台數客製</span></p>
-              <p class="plan-desc">適合希望以 8～12 週以上節奏長期經營跨平台信源、持續追蹤 AI 回答變化的成長型品牌。</p>
-            </div>
-            <ul class="plan-list">
-              <li>每月固定題庫跨引擎複測，建立可對照的長期趨勢紀錄</li>
-              <li>一魚多吃跨平台內容規劃（官網專文＋社群／問答／海外與中文信源）</li>
-              <li>定期檢查新上線頁面之 Schema、舊口徑殘留與新增競品信源</li>
-              <li>每月交付月度原答證據包與下月執行工單</li>
-            </ul>
-            <a class="btn btn-secondary btn-full" href="#contact">透過 LINE 洽詢客製報價</a>
-          </article>
+            <!-- 入門 2 -->
+            <article class="plan-card is-featured">
+              <div class="plan-top">
+                <span class="plan-tier mono">ENTRY 02・一次到位地基</span>
+                <h3>小型官網 GEO 地基一次改造</h3>
+                <p class="plan-price"><strong class="mono">NT$18,000</strong><span>／單次專案</span></p>
+                <p class="plan-highlight-pill is-scope">限小型官網・不含代寫大量文章</p>
+                <p class="plan-desc">適合確認要讓網站「能被 AI 讀懂並正確引用」的小型官網（30 天內先做過 NT$3,800 健檢可全額折抵）。</p>
+                <ul class="plan-list">
+                  <li>包含完整 20 題摸底診斷與品牌事實單一真相表整理（限小型官網架構）</li>
+                  <li>撰寫與部署 <code>/llms.txt</code>、<code>robots.txt</code> 爬蟲檢查與 <code>sitemap</code> 核對</li>
+                  <li>建置全站可解析 JSON-LD Schema（實體別名、服務報價、FAQPage）</li>
+                  <li>改寫 3～5 個核心服務頁為高引用結構（倒金字塔首段＋純文字規格表＋FAQ，不含代寫大量文章）</li>
+                  <li>交付前提供自動化驗證紀錄與改後複測對照報告</li>
+                </ul>
+              </div>
+              <a class="btn btn-primary btn-full" href="#contact">預約小型官網改造評估</a>
+            </article>
+          </div>
+        </div>
+
+        <!-- 層級二：企業級方案 -->
+        <div class="pricing-tier-group is-enterprise" aria-label="企業級方案">
+          <div class="tier-group-head">
+            <span class="tier-badge tier-badge-ent mono">TIER 02・企業級方案</span>
+            <h3>B2B／品牌企業</h3>
+            <p>涵蓋企業 NDA 資料安全承諾、高管／團隊視訊講解與每月 GA4 AI 流量追蹤。</p>
+          </div>
+
+          <div class="pricing-grid pricing-grid-2">
+            <!-- 企業 1 -->
+            <article class="plan-card">
+              <div class="plan-top">
+                <span class="plan-tier mono">ENTERPRISE 01・50 題深度健檢＋資安承諾</span>
+                <h3>企業深度健檢與資安承諾專案</h3>
+                <p class="plan-price"><strong class="mono">NT$28,000</strong><span>／單次專案</span></p>
+                <p class="plan-highlight-pill is-nda">含企業 NDA 保密承諾書＋視訊報告講解</p>
+                <p class="plan-desc">適合重視法務資安邊界、跨產品線與多決策角色的 B2B 或品牌企業，提供大樣本實測與團隊簡報對焦。</p>
+                <ul class="plan-list">
+                  <li><strong>50 題×多平台實測</strong>：覆蓋產品規格、採購情境與競品對比提問，完整保留原答證據</li>
+                  <li><strong>企業 NDA 保密承諾書</strong>：只碰公開資訊、單戶本機隔離、不用於公開模型訓練、結案 30 日可銷毀</li>
+                  <li><strong>視訊報告講解</strong>：線上視訊會議向決策者與行銷／工程團隊解說實測落差與優先修補順序</li>
+                  <li>交付企業版 GeoLook 診斷簡報與可直接交辦上線之結構化修復範本</li>
+                </ul>
+              </div>
+              <a class="btn btn-secondary btn-full" href="#contact">預約企業深度健檢（可附 NDA 範本）</a>
+            </article>
+
+            <!-- 企業 2 -->
+            <article class="plan-card is-featured-ent">
+              <div class="plan-top">
+                <span class="plan-tier mono">ENTERPRISE 02・月費陪跑監測</span>
+                <h3>企業月費陪跑監測</h3>
+                <p class="plan-price"><strong class="mono">NT$25,000</strong><span>／月起</span></p>
+                <p class="plan-highlight-pill is-scope">依題庫與平台數報價</p>
+                <p class="plan-desc">適合需要以 8～12 週以上節奏長期追蹤 AI 回答變化、優化官網結構並量化 AI 導流成效的 B2B／品牌企業。</p>
+                <ul class="plan-list">
+                  <li><strong>每月跨引擎實測</strong>：固定題庫定期無痕複測，建立可逐月對照的趨勢與引用來源紀錄</li>
+                  <li><strong>結構／內容優化</strong>：持續檢查新頁面 Schema、純文字對比表與跨平台口徑，防堵舊價回流</li>
+                  <li><strong>GA4 AI 流量追蹤</strong>：協助設定並追蹤 ChatGPT、Perplexity、Gemini 等 AI 參照流量與轉換表現</li>
+                  <li>依題庫規模與監測平台數報價，每月交付原答證據包與下月執行工單</li>
+                </ul>
+              </div>
+              <a class="btn btn-primary btn-full" href="#contact">透過 LINE 洽詢企業月費陪跑</a>
+            </article>
+          </div>
         </div>
 
         <!-- 誠實邊界聲明 + 聯絡卡片 -->
@@ -1279,7 +1331,7 @@
       <div>
         <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
         <p class="footer-note">
-          純靜態前端＋Cloudflare Pages Functions 即時基礎初檢・免後端資料庫。本網站之 GEO 體檢維度與實戰工作流理念基於開源專案
+          純靜態前端＋Cloudflare Workers / Pages Functions 即時基礎初檢・免後端資料庫。本網站之 GEO 體檢維度與實戰工作流理念基於開源專案
           <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook</a>（Copyright &copy; 2026 GeoLook contributors，MIT License）延伸改作，非原作者官方服務，不代表原作者背書。
         </p>
       </div>
