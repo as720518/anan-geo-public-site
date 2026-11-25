@@ -4,7 +4,8 @@
   "main": "worker.js",
   "assets": {
     "directory": ".",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "run_worker_first": ["/", "/index.html", "/rss.xml", "/llms-full.txt", "/admin/*", "/api/*"]
   },
   "d1_databases": [
     {
