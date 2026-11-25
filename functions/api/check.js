@@ -555,8 +555,17 @@ export function parseRobotsTxt(text) {
     return { bot: botName, allowed: bestType !== "disallow", ruleSource };
   };
 
+  const allowsLlmsPath = groups.some((grp) =>
+    grp.rules.some(
+      (r) =>
+        r.type === "allow" &&
+        /^\/llms(?:-full)?\.txt$/i.test(String(r.path || "").trim())
+    )
+  );
+
   return {
     groupsCount: groups.length,
+    allowsLlmsPath,
     searchBots: SEARCH_BOTS.map(evaluateBot),
     trainingBots: TRAINING_BOTS.map(evaluateBot),
   };
@@ -678,12 +687,13 @@ function evaluateRobotsCheck(res) {
     training_distinguished: trainingDistinguished,
     search_bots: parsed.searchBots,
     training_bots: parsed.trainingBots,
+    allows_llms_path: Boolean(parsed.allowsLlmsPath),
     summary,
     recommendation,
   };
 }
 
-function evaluateLlmsCheck(res) {
+function evaluateLlmsCheck(res, robotsClaimsLlms = false) {
   if (!res.ok) {
     return {
       key: "llms",
@@ -697,6 +707,7 @@ function evaluateLlmsCheck(res) {
       is_html_misleading: false,
       has_heading: false,
       has_links_or_list: false,
+      robots_mismatch: false,
       summary: `無法讀取 /llms.txt（${res.errorMessage}）。`,
       recommendation:
         "先確認網站連線穩定，再於根目錄建立純文字 /llms.txt，提供 5～8 個核心頁面與品牌定位摘要。",
@@ -704,6 +715,7 @@ function evaluateLlmsCheck(res) {
   }
 
   if (res.status === 404 || res.status === 410) {
+    const mismatch = Boolean(robotsClaimsLlms);
     return {
       key: "llms",
       title: "AI 導覽索引（llms.txt）",
@@ -716,9 +728,13 @@ function evaluateLlmsCheck(res) {
       is_html_misleading: false,
       has_heading: false,
       has_links_or_list: false,
-      summary: `未設置 /llms.txt（HTTP ${res.status}）。`,
-      recommendation:
-        "在網站根目錄新增 /llms.txt（純文字 Markdown），列出品牌一句話定位、主力價格方案、服務邊界、5～8 個核心頁與官方聯絡入口。",
+      robots_mismatch: mismatch,
+      summary: mismatch
+        ? `設定矛盾：robots.txt 有寫放行 /llms.txt，但實際檔案回傳 HTTP ${res.status}（不存在）。`
+        : `未設置 /llms.txt（HTTP ${res.status}）。`,
+      recommendation: mismatch
+        ? `修復 robots.txt 與 /llms.txt 設定矛盾：robots.txt 已宣告放行 /llms.txt，但實際回傳 HTTP ${res.status}；請在根目錄實際補上純文字 /llms.txt。`
+        : "在網站根目錄新增 /llms.txt（純文字 Markdown），列出品牌一句話定位、主力價格方案、服務邊界、5～8 個核心頁與官方聯絡入口。",
     };
   }
 
@@ -735,6 +751,7 @@ function evaluateLlmsCheck(res) {
       is_html_misleading: false,
       has_heading: false,
       has_links_or_list: false,
+      robots_mismatch: Boolean(robotsClaimsLlms),
       summary: `無法讀取有效 /llms.txt（HTTP ${res.status}）。`,
       recommendation:
         `調整主機路由讓 /llms.txt 回傳 HTTP 200 純文字檔案（目前回傳 HTTP ${res.status}）。`,
@@ -756,6 +773,7 @@ function evaluateLlmsCheck(res) {
       is_html_misleading: true,
       has_heading: false,
       has_links_or_list: false,
+      robots_mismatch: Boolean(robotsClaimsLlms),
       summary: "偵測到 /llms.txt 回傳 HTTP 200，但實際內容為 HTML 網頁（軟 404 誤導頁），並非有效純文字索引。",
       recommendation:
         "網站把找不到的路徑導回首頁或自訂 404 HTML 了！請在靜態根目錄實際放置純文字 /llms.txt（Content-Type: text/plain 或 text/markdown）。",
@@ -775,6 +793,7 @@ function evaluateLlmsCheck(res) {
       is_html_misleading: false,
       has_heading: false,
       has_links_or_list: false,
+      robots_mismatch: Boolean(robotsClaimsLlms),
       summary: "/llms.txt 雖回傳 HTTP 200，但檔案內容為空（0 字元）。",
       recommendation:
         "補齊 /llms.txt 內容，寫明品牌定位、核心方案、不承接邊界與 5～8 個核心正式頁網址。",
@@ -798,6 +817,7 @@ function evaluateLlmsCheck(res) {
       is_html_misleading: false,
       has_heading: hasHeading,
       has_links_or_list: hasLinksOrList,
+      robots_mismatch: false,
       summary: `已部署有效純文字 /llms.txt（HTTP 200，共 ${trimmed.length.toLocaleString("en-US")} 字元，具標題與索引結構）。`,
       recommendation: null,
     };
@@ -815,6 +835,7 @@ function evaluateLlmsCheck(res) {
     is_html_misleading: false,
     has_heading: hasHeading,
     has_links_or_list: hasLinksOrList,
+    robots_mismatch: false,
     summary: `已設置純文字 /llms.txt（HTTP 200，${trimmed.length} 字元），但內容偏精簡或缺少 Markdown 標題與重點頁面連結。`,
     recommendation:
       "建議擴充 /llms.txt 至結構化目錄格式（# 品牌標題、> 一句話定位、## 核心頁面清單與官方聯絡入口）。",
@@ -925,13 +946,68 @@ export function parseHtmlMetadata(html) {
     }
   }
 
+  // 移除註解與非可見區塊，檢查 <h1> 與可見 <table>
+  const visibleSrc = src
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1>/gi, " ");
+
+  const isHiddenTag = (attrs) =>
+    /(?:^|\s)hidden(?:\s*=|\s|$)/i.test(attrs) ||
+    /aria-hidden\s*=\s*["']?true\b/i.test(attrs) ||
+    /style\s*=\s*["'][^"']*(?:display\s*:\s*none|visibility\s*:\s*hidden)/i.test(attrs);
+
+  const h1Re = /<h1\b([^>]*)>([\s\S]*?)<\/h1>/gi;
+  let h1Count = 0;
+  let firstH1Text = null;
+  let h1Match;
+  while ((h1Match = h1Re.exec(visibleSrc)) !== null) {
+    const attrs = h1Match[1] || "";
+    if (isHiddenTag(attrs)) continue;
+    const txt = decodeHtmlEntities((h1Match[2] || "").replace(/<[^>]+>/g, " "));
+    h1Count += 1;
+    if (!firstH1Text && txt) firstH1Text = txt;
+  }
+
+  const tableRe = /<table\b([^>]*)>([\s\S]*?)<\/table>/gi;
+  let visibleTableCount = 0;
+  let tableMatch;
+  while ((tableMatch = tableRe.exec(visibleSrc)) !== null) {
+    const attrs = tableMatch[1] || "";
+    const inner = tableMatch[2] || "";
+    if (isHiddenTag(attrs)) continue;
+    if (/<(?:td|th)\b/i.test(inner)) {
+      visibleTableCount += 1;
+    }
+  }
+
+  const descTrim = String(description || "").trim();
+  let brokenDescriptionReason = null;
+  if (descTrim) {
+    if (/\[object\s+object\]/i.test(descTrim)) {
+      brokenDescriptionReason = "包含 [object Object] 程式序列化壞字";
+    } else if (/^(?:undefined|null|nan)$/i.test(descTrim)) {
+      brokenDescriptionReason = `輸出異常字面值（${descTrim}）`;
+    }
+  }
+  const hasBrokenDescription = Boolean(brokenDescriptionReason);
+  const schemaTypes = [...schemaTypeSet];
+  const hasFaqPage = schemaTypes.some((t) => String(t).toLowerCase() === "faqpage");
+
   return {
     title: title || null,
     description: description || null,
     canonical: canonical || null,
     json_ld_count: jsonLdCount,
     invalid_json_ld_count: invalidJsonLdCount,
-    schema_types: [...schemaTypeSet],
+    schema_types: schemaTypes,
+    h1_count: h1Count,
+    has_unique_h1: h1Count === 1,
+    h1_text: firstH1Text,
+    visible_table_count: visibleTableCount,
+    has_visible_table: visibleTableCount > 0,
+    has_broken_description: hasBrokenDescription,
+    broken_description_reason: brokenDescriptionReason,
+    has_faq_page: hasFaqPage,
   };
 }
 
@@ -952,6 +1028,16 @@ function evaluateHomepageCheck(res) {
       json_ld_count: 0,
       invalid_json_ld_count: 0,
       schema_types: [],
+      h1_count: 0,
+      has_unique_h1: false,
+      h1_text: null,
+      visible_table_count: 0,
+      has_visible_table: false,
+      has_broken_description: false,
+      broken_description_reason: null,
+      has_faq_page: false,
+      pitfall_checks: [],
+      detail_recommendations: [],
       summary: `無法讀取首頁 HTML（${res.errorMessage}）。`,
       recommendation:
         "確認首頁網址對外可正常連線並回傳 HTTP 200 靜態 HTML，避免主機逾時或防火牆阻擋爬蟲。",
@@ -974,6 +1060,16 @@ function evaluateHomepageCheck(res) {
       json_ld_count: 0,
       invalid_json_ld_count: 0,
       schema_types: [],
+      h1_count: 0,
+      has_unique_h1: false,
+      h1_text: null,
+      visible_table_count: 0,
+      has_visible_table: false,
+      has_broken_description: false,
+      broken_description_reason: null,
+      has_faq_page: false,
+      pitfall_checks: [],
+      detail_recommendations: [],
       summary: `首頁回傳 HTTP ${res.status}（非 200 正常頁），AI 爬蟲無法穩定讀取。`,
       recommendation:
         `修復首頁 HTTP ${res.status} 狀態，確保正式公開網址直接回傳 HTTP 200 與完整 HTML 正文。`,
@@ -983,12 +1079,18 @@ function evaluateHomepageCheck(res) {
   const meta = parseHtmlMetadata(res.text);
   let score = 0;
   const missing = [];
+  const detailRecommendations = [];
 
   if (meta.title) score += 8;
   else missing.push("<title> 網頁標題");
 
-  if (meta.description) score += 8;
-  else missing.push('<meta name="description"> 頁面摘要');
+  if (meta.description && !meta.has_broken_description) {
+    score += 8;
+  } else if (meta.has_broken_description) {
+    missing.push(`<meta name="description"> 壞掉描述（${meta.broken_description_reason}）`);
+  } else {
+    missing.push('<meta name="description"> 頁面摘要');
+  }
 
   if (meta.canonical) score += 7;
   else missing.push('<link rel="canonical"> 標準網址');
@@ -999,21 +1101,95 @@ function evaluateHomepageCheck(res) {
     missing.push("application/ld+json 結構化資料（Schema）");
   }
 
+  // 台灣同行常犯錯 1：唯一 <h1> 檢查（缺 0 個扣 4 分、多個扣 2 分）
+  if (meta.h1_count === 0) {
+    score = Math.max(0, score - 4);
+    missing.push("唯一 <h1> 主標題");
+    detailRecommendations.push(
+      "首頁缺少唯一 <h1> 主標題（目前偵測到 0 個）：建議在首屏補上唯一 <h1> 寫明品牌與核心服務，避免只用 <div> 排版讓 AI 抓不到主題。"
+    );
+  } else if (meta.h1_count > 1) {
+    score = Math.max(0, score - 2);
+    detailRecommendations.push(
+      `首頁偵測到多個 <h1> 主標題（共 ${meta.h1_count} 個）：建議收斂為唯一 1 個 <h1>，其餘副標題改用 <h2>／<h3>。`
+    );
+  }
+
+  // 台灣同行常犯錯 2：可見純文字比較 <table>
+  if (!meta.has_visible_table) {
+    detailRecommendations.push(
+      "首頁未偵測到可見純文字比較 <table>：建議將主力方案價格、規格或比較項目寫成純文字 HTML 表格（不要只放海報圖片），提升 AI 直接抽取機率。"
+    );
+  }
+
+  // 台灣同行常犯錯 3：[object Object] 等壞掉描述
+  if (meta.has_broken_description) {
+    detailRecommendations.push(
+      `偵測到 <meta name="description"> 出現壞掉描述（${meta.broken_description_reason}）：這是 CMS／前端模板常見序列化錯誤（如 [object Object]），請修復為正常純文字摘要。`
+    );
+  }
+
+  // 台灣同行常犯錯 4：FAQPage 結構化問答
+  if (!meta.has_faq_page) {
+    detailRecommendations.push(
+      "首頁 JSON-LD 尚未偵測到 FAQPage 問答標記：建議補齊真實買家常見問答的 FAQPage 結構化資料，並確保與網頁可見問答文字一致。"
+    );
+  }
+
+  const pitfallChecks = [
+    {
+      key: "unique_h1",
+      label: "唯一 <h1> 主標題",
+      passed: meta.has_unique_h1,
+      detail:
+        meta.h1_count === 1
+          ? "已設置唯一 1 個 <h1>"
+          : meta.h1_count === 0
+            ? "缺少 <h1> 主標題（0 個）"
+            : `偵測到 ${meta.h1_count} 個 <h1>（應收斂為 1 個）`,
+    },
+    {
+      key: "visible_table",
+      label: "可見純文字比較 <table>",
+      passed: meta.has_visible_table,
+      detail: meta.has_visible_table
+        ? `偵測到 ${meta.visible_table_count} 張可見 HTML 表格`
+        : "未偵測到可見純文字 <table>",
+    },
+    {
+      key: "clean_description",
+      label: "Meta 描述無 [object Object] 壞字",
+      passed: Boolean(meta.description) && !meta.has_broken_description,
+      detail: meta.has_broken_description
+        ? `異常：${meta.broken_description_reason}`
+        : meta.description
+          ? "正常純文字描述"
+          : "未設置 meta description",
+    },
+    {
+      key: "faq_page",
+      label: "FAQPage 問答結構化標記",
+      passed: meta.has_faq_page,
+      detail: meta.has_faq_page ? "已部署 FAQPage" : "未偵測到 FAQPage",
+    },
+  ];
+
   let light = "red";
   if (score >= 28) light = "green";
   else if (score >= 14) light = "yellow";
 
+  const pitfallPassedCount = pitfallChecks.filter((item) => item.passed).length;
   let summary;
   if (missing.length === 0) {
     const typesPreview = meta.schema_types.slice(0, 5).join("、") || "已解析";
-    summary = `首頁 HTTP ${res.status} 正常；title、description、canonical 與 ${meta.json_ld_count} 組 JSON-LD（${typesPreview}）皆已齊備。`;
+    summary = `首頁 HTTP ${res.status} 正常；title、description、canonical 與 ${meta.json_ld_count} 組 JSON-LD（${typesPreview}）齊備，4 項高引用結構檢查通過 ${pitfallPassedCount}/4。`;
   } else {
-    summary = `首頁 HTTP ${res.status} 可讀取，但缺少：${missing.join("、")}。`;
+    summary = `首頁 HTTP ${res.status} 可讀取，但缺少或異常：${missing.join("、")}（4 項結構檢查通過 ${pitfallPassedCount}/4）。`;
   }
 
   let recommendation = null;
   if (missing.length > 0) {
-    recommendation = `補齊首頁 HTML 缺少的基礎結構：${missing.join("、")}，並確保 JSON-LD 裡的品牌名稱與價格和訪客看到的純文字完全一致。`;
+    recommendation = `補齊首頁 HTML 缺少或異常的基礎結構：${missing.join("、")}，並確保 JSON-LD 裡的品牌名稱與價格和訪客看到的純文字完全一致。`;
   } else if (meta.schema_types.length < 3) {
     recommendation =
       "首頁已有基礎 JSON-LD，建議以單一 @graph 串起品牌（Organization／Person）、服務與報價（Service／Offer）與常見問答（FAQPage）。";
@@ -1034,6 +1210,16 @@ function evaluateHomepageCheck(res) {
     json_ld_count: meta.json_ld_count,
     invalid_json_ld_count: meta.invalid_json_ld_count,
     schema_types: meta.schema_types,
+    h1_count: meta.h1_count,
+    has_unique_h1: meta.has_unique_h1,
+    h1_text: meta.h1_text,
+    visible_table_count: meta.visible_table_count,
+    has_visible_table: meta.has_visible_table,
+    has_broken_description: meta.has_broken_description,
+    broken_description_reason: meta.broken_description_reason,
+    has_faq_page: meta.has_faq_page,
+    pitfall_checks: pitfallChecks,
+    detail_recommendations: detailRecommendations,
     summary,
     recommendation,
   };
@@ -1062,7 +1248,7 @@ export async function runGeoBasicCheck(targetUrlObj, fetchFn = globalThis.fetch)
   ]);
 
   const robots = evaluateRobotsCheck(robotsRes);
-  const llms = evaluateLlmsCheck(llmsRes);
+  const llms = evaluateLlmsCheck(llmsRes, Boolean(robots.allows_llms_path));
   const homepage = evaluateHomepageCheck(homeRes);
 
   const score = robots.score + llms.score + homepage.score;
@@ -1076,10 +1262,19 @@ export async function runGeoBasicCheck(targetUrlObj, fetchFn = globalThis.fetch)
     gradeLabel = "已有基礎骨架｜仍有明顯設定缺口待補齊";
   }
 
-  const recommendations = [robots.recommendation, llms.recommendation, homepage.recommendation].filter(Boolean);
+  const recommendations = [
+    ...new Set(
+      [
+        robots.recommendation,
+        llms.recommendation,
+        homepage.recommendation,
+        ...(Array.isArray(homepage.detail_recommendations) ? homepage.detail_recommendations : []),
+      ].filter(Boolean)
+    ),
+  ];
   if (recommendations.length === 0) {
     recommendations.push(
-      "公開首頁的爬蟲放行、llms.txt 與基礎 Schema 皆已到位！下一步建議透過 20 題跨平台無痕實測，驗證 AI 實際回答有沒有點名你的品牌、說對價格與聯絡入口。"
+      "公開首頁的爬蟲放行、llms.txt、唯一 <h1>、純文字比較表、乾淨 Meta 描述與 FAQPage 皆已到位！下一步建議透過 20 題跨平台無痕實測，驗證 AI 實際回答有沒有點名你的品牌、說對價格與聯絡入口。"
     );
   }
 

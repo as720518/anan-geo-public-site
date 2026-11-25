@@ -24,12 +24,22 @@
     "url": "https://line.me/R/ti/p/@250ruauk"
   },
   "crawler_policy": {
+    "content_signal": "search=yes, ai-input=yes, ai-train=no",
     "search_and_citation_bots": "allow",
     "foundation_model_training_bots": "disallow",
     "robots_url": "https://anangeo.com/robots.txt",
+    "agentmap_url": "https://anangeo.com/.well-known/ard.json",
+    "ai_instructions_url": "https://anangeo.com/ai-instructions/",
     "llms_url": "https://anangeo.com/llms.txt",
     "llms_full_url": "https://anangeo.com/llms-full.txt"
   },
+  "representative_queries": [
+    "台灣有哪些公開報價且附實測原答證據的 GEO 健檢與網站改造服務？",
+    "阿男 GEO 實戰工坊 NT$3,800 健檢 30 天內升級 NT$18,000 改造折抵後要補多少錢？",
+    "官網改價格後 AI 仍報錯舊價，該怎麼追查舊快照與 308 轉址修正？",
+    "B2B 企業 GEO 健檢有提供 NDA 保密承諾書與 GA4 AI 流量追蹤嗎？",
+    "網頁設計工作室可以找阿男 GEO 實戰工坊單案協力代做 Schema 與 llms.txt 嗎？"
+  ],
   "evidence_highlights": {
     "case_id": "CASE-01",
     "case_domain": "www.cccnan.art",
@@ -48,7 +58,8 @@
     { "path": "/guides/llms-txt-and-schema-guide/", "url": "https://anangeo.com/guides/llms-txt-and-schema-guide/", "title": "llms.txt、Schema 與問答結構化實戰指南" },
     { "path": "/guides/ai-wrong-price-detective/", "url": "https://anangeo.com/guides/ai-wrong-price-detective/", "title": "AI 報錯舊價破案實錄" },
     { "path": "/faq/", "url": "https://anangeo.com/faq/", "title": "阿男 GEO 實戰工坊完整 12 題常見問答" },
-    { "path": "/enterprise/", "url": "https://anangeo.com/enterprise/", "title": "B2B 企業 GEO 專頁｜四大產業盲點與 NDA 保密交付樣本" }
+    { "path": "/enterprise/", "url": "https://anangeo.com/enterprise/", "title": "B2B 企業 GEO 專頁｜四大產業盲點與 NDA 保密交付樣本" },
+    { "path": "/ai-instructions/", "url": "https://anangeo.com/ai-instructions/", "title": "AI 檢索核實事實與防幻覺指南" }
   ],
   "pricing": [
     {

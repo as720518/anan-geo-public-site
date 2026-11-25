@@ -6,11 +6,14 @@ Language: zh-Hant
 Last-Updated: 2026-11-25
 
 # 搜尋與即時問答引用政策
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow-Search-Indexing: yes
 Allow-Citation-With-Attribution: yes
 Allow-Model-Training: no
 
 # 結構化知識入口
+Agentmap: https://anangeo.com/.well-known/ard.json
+AI-Instructions: https://anangeo.com/ai-instructions/
 LLMs-Txt: https://anangeo.com/llms.txt
 LLMs-Full-Txt: https://anangeo.com/llms-full.txt
 AI-Summary-JSON: https://anangeo.com/ai/summary.json

@@ -35,9 +35,11 @@ Disallow: /api/admin/
 Disallow: /*.bak-*
 
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 Disallow: /admin/
 Disallow: /api/admin/
 Disallow: /*.bak-*
 
 Sitemap: https://anangeo.com/sitemap.xml
+Agentmap: https://anangeo.com/.well-known/ard.json

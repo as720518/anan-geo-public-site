@@ -3455,3 +3455,539 @@ tbody tr:last-child td {
     transition: none !important;
   }
 }
+
+/* ==================== geo-site-8: Top 5 Conversion & Engineering Upgrades ==================== */
+.pitfall-chip-list {
+  margin-top: 8px;
+}
+
+.pitfall-chip-list .bot-chip {
+  white-space: normal;
+  text-align: left;
+  line-height: 1.4;
+}
+
+/* 1. 免費半套檔案產生器 */
+.starter-kit-box {
+  margin-top: 22px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(22, 34, 46, 0.92) 0%, rgba(14, 22, 30, 0.96) 100%);
+  border: 1px solid rgba(217, 167, 74, 0.42);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.starter-kit-head h4 {
+  margin: 4px 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.24rem;
+  color: var(--ink-primary);
+}
+
+.starter-kit-desc {
+  margin: 0 0 18px;
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+}
+
+.starter-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 18px;
+}
+
+.starter-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.starter-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+.starter-input {
+  min-height: 42px;
+  padding: 9px 12px;
+  font-size: 0.88rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.starter-gen-wrap {
+  min-width: 0;
+}
+
+.starter-output-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  min-width: 0;
+}
+
+.starter-file-card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.starter-file-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.starter-file-head strong {
+  display: block;
+  font-size: 0.96rem;
+  color: var(--accent-brass);
+}
+
+.starter-file-head span {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--ink-muted);
+}
+
+.starter-file-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.btn-xs {
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  min-height: 32px;
+}
+
+.starter-code {
+  margin: 0;
+  max-height: 290px;
+  overflow: auto;
+  font-size: 0.78rem;
+  line-height: 1.56;
+  white-space: pre;
+}
+
+.starter-boundary-box {
+  margin-top: 14px;
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: rgba(52, 179, 153, 0.08);
+  border: 1px solid rgba(52, 179, 153, 0.32);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.starter-boundary-copy {
+  flex: 1 1 420px;
+  min-width: 0;
+}
+
+.starter-boundary-copy strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--accent-teal);
+  margin-bottom: 4px;
+}
+
+.starter-boundary-copy p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--ink-secondary);
+}
+
+.starter-boundary-cta {
+  flex-shrink: 0;
+}
+
+/* 2. 15 秒點 3 下挑方案互動試算器＋四方案並排表＋同業合作入口 */
+.plan-picker-widget {
+  margin-bottom: 28px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #16222e 0%, #101821 100%);
+  border: 1px solid rgba(217, 167, 74, 0.42);
+  min-width: 0;
+}
+
+.plan-picker-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px 18px;
+  margin-bottom: 18px;
+}
+
+.plan-picker-head h3 {
+  margin: 4px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.32rem;
+}
+
+.picker-credit-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-teal-soft);
+  border: 1px solid rgba(52, 179, 153, 0.36);
+  font-size: 0.82rem;
+  color: var(--ink-primary);
+  cursor: pointer;
+}
+
+.picker-credit-toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-teal);
+}
+
+.picker-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.picker-step-card {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  min-width: 0;
+}
+
+.picker-step-num {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-brass);
+  margin-bottom: 10px;
+}
+
+.picker-btn-group {
+  display: grid;
+  gap: 8px;
+}
+
+.picker-opt-btn {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--ink-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease;
+}
+
+.picker-opt-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--ink-primary);
+}
+
+.picker-opt-btn.is-active {
+  border-color: var(--accent-brass);
+  background: var(--accent-brass-soft);
+  color: #f9dfa4;
+}
+
+.picker-result-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
+  gap: 18px;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  align-items: center;
+}
+
+.picker-result-main h4 {
+  margin: 10px 0 8px;
+  font-size: 1.18rem;
+  color: var(--ink-primary);
+}
+
+.picker-result-main p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+}
+
+.picker-calc-box {
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: var(--bg-canvas);
+  border: 1px solid rgba(52, 179, 153, 0.38);
+  min-width: 0;
+}
+
+.picker-calc-label {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--accent-teal);
+  margin-bottom: 4px;
+}
+
+.picker-calc-figure {
+  display: block;
+  font-size: 1.38rem;
+  color: var(--accent-brass);
+  margin-bottom: 6px;
+}
+
+.picker-calc-formula {
+  margin: 0 0 12px;
+  font-size: 0.84rem;
+  color: var(--ink-secondary);
+  line-height: 1.55;
+}
+
+.plan-card.is-picker-match {
+  box-shadow: 0 0 0 2px var(--accent-teal), 0 18px 42px rgba(0, 0, 0, 0.32);
+}
+
+.plan-compare-box {
+  margin-bottom: 28px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  min-width: 0;
+}
+
+.plan-compare-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.plan-compare-head h3 {
+  margin: 4px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+}
+
+.agency-partner-box {
+  margin-bottom: 28px;
+  padding: 26px;
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 8% 12%, rgba(52, 179, 153, 0.12), transparent 45%),
+    radial-gradient(circle at 92% 88%, rgba(217, 167, 74, 0.12), transparent 45%),
+    var(--bg-surface);
+  border: 1px solid rgba(52, 179, 153, 0.38);
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.75fr);
+  gap: 22px;
+  align-items: center;
+  min-width: 0;
+}
+
+.agency-partner-copy h3 {
+  margin: 6px 0 10px;
+  font-family: var(--font-display);
+  font-size: 1.32rem;
+}
+
+.agency-partner-copy p {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  color: var(--ink-secondary);
+}
+
+.agency-points {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: var(--ink-secondary);
+}
+
+.agency-points strong {
+  color: var(--ink-primary);
+}
+
+.agency-partner-cta {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-strong);
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.agency-cta-tag {
+  font-size: 0.74rem;
+  color: var(--accent-teal);
+  font-weight: 700;
+}
+
+.agency-partner-cta h4 {
+  margin: 0;
+  font-size: 1.06rem;
+}
+
+.agency-partner-cta p {
+  margin: 0 0 4px;
+  font-size: 0.84rem;
+  color: var(--ink-secondary);
+}
+
+/* 3. 點選行業 → 30 秒想好 3 題並一鍵帶進 LINE 小幫手 */
+.line-q-helper {
+  margin-bottom: 18px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background: rgba(11, 17, 23, 0.76);
+  border: 1px solid rgba(217, 167, 74, 0.36);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.line-q-helper-head h4 {
+  margin: 4px 0 12px;
+  font-size: 1.02rem;
+  color: var(--ink-primary);
+}
+
+.line-q-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.line-q-tab {
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--ink-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease;
+}
+
+.line-q-tab:hover {
+  border-color: var(--border-strong);
+  color: var(--ink-primary);
+}
+
+.line-q-tab.is-active {
+  border-color: var(--accent-brass);
+  background: var(--accent-brass-soft);
+  color: #f9dfa4;
+}
+
+.line-q-inputs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.line-q-input {
+  min-height: 38px;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.line-q-list {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.line-q-list li {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.86rem;
+  color: var(--ink-primary);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.q-type-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-teal);
+}
+
+.line-q-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.line-q-actions .btn {
+  flex: 1 1 200px;
+}
+
+@media (max-width: 1024px) {
+  .starter-controls,
+  .starter-output-grid,
+  .picker-steps-grid,
+  .picker-result-card,
+  .agency-partner-box,
+  .line-q-inputs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .starter-kit-box,
+  .plan-picker-widget,
+  .plan-compare-box,
+  .agency-partner-box,
+  .line-q-helper {
+    padding: 16px;
+  }
+
+  .starter-boundary-cta,
+  .starter-boundary-cta .btn,
+  .line-q-actions .btn {
+    width: 100%;
+  }
+}

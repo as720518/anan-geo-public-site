@@ -74,6 +74,27 @@
       ],
     },
     {
+      id: "manufacturing",
+      label: "B2B製造與供應鏈",
+      items: [
+        {
+          name: "研華科技 Advantech",
+          url: "https://www.advantech.com",
+          note: "台灣工業物聯網與硬體規格站參考",
+        },
+        {
+          name: "台達電子 Delta",
+          url: "https://www.deltaww.com",
+          note: "全球電源與工業自動化官網參考",
+        },
+        {
+          name: "上銀科技 HIWIN",
+          url: "https://www.hiwin.tw",
+          note: "台灣精密機械與傳動零組件官網參考",
+        },
+      ],
+    },
+    {
       id: "b2b",
       label: "B2B企業服務",
       items: [
@@ -155,6 +176,198 @@
     lastLeadMessage: "",
     lastLiveReport: null,
     lastCompetitorReport: null,
+    activeLineIndustry: "marketing",
+    picker: {
+      scale: "small",
+      budget: "under5k",
+      goal: "audit",
+      applyCredit: true,
+      recommendedLabel: "入門 01｜基礎 GEO 健檢（NT$3,800）",
+    },
+    starterCache: {
+      robots: "",
+      llms: "",
+    },
+  };
+
+  const STARTER_INDUSTRY_TEMPLATES = {
+    marketing: {
+      label: "行銷／SEO顧問",
+      defaultSummary: "提供網站搜尋能見度診斷、GEO 結構化改造與數據追蹤顧問服務。",
+      defaultService: "基礎網站健檢與顧問專案（請填寫公開價格區間與交付工作天）",
+      boundary: "不保證搜尋或 AI 必然排第一，以可驗證的公開實測紀錄與工程交付為主。",
+      pages: [
+        { path: "/services/", title: "服務方案與公開報價", desc: "方案比較表、交付項目與服務邊界" },
+        { path: "/cases/", title: "公開實測案例", desc: "去敏前後對照數據與方法拆解" },
+        { path: "/faq/", title: "常見問答（FAQ）", desc: "收費方式、工期與合作流程說明" },
+        { path: "/contact/", title: "官方聯絡與預約", desc: "正式詢問管道與初次準備資料" },
+      ],
+    },
+    ecommerce: {
+      label: "電商零售",
+      defaultSummary: "提供公開透明規格、保固條件與退換貨規則的線上品牌購物官網。",
+      defaultService: "主力熱銷品項公開定價、運費門檻與售後保固說明",
+      boundary: "所有庫存、售價與退換貨規範以本官網最新商品頁公告為準。",
+      pages: [
+        { path: "/products/", title: "主力商品分類與規格比較", desc: "純文字規格表、材質與適用情境" },
+        { path: "/shipping-returns/", title: "出貨、運費與退換貨政策", desc: "配送天數與售後保固條款" },
+        { path: "/faq/", title: "購買常見問答", desc: "尺寸挑選、發票與付款方式" },
+        { path: "/contact/", title: "官方客服入口", desc: "唯一官方客服管道與服務時間" },
+      ],
+    },
+    medical: {
+      label: "醫美健康",
+      defaultSummary: "提供經專業醫師審校之衛教資訊、療程流程與公開參考區間。",
+      defaultService: "門診評估流程、衛教說明與合法公開參考資訊（依實際看診評估為準）",
+      boundary: "所有醫療處置須經專業醫師親自面診評估，本網站不作醫療效果保證。",
+      pages: [
+        { path: "/treatments/", title: "主力項目與流程說明", desc: "適應對象、術前術後注意事項與合規邊界" },
+        { path: "/doctors/", title: "醫師與專業團隊介紹", desc: "學經歷與專長領域核實資料" },
+        { path: "/faq/", title: "就診常見問答", desc: "預約方式、評估流程與常見疑問" },
+        { path: "/contact/", title: "診所交通與官方預約", desc: "門診時間與唯一官方預約管道" },
+      ],
+    },
+    manufacturing: {
+      label: "B2B製造與供應鏈",
+      defaultSummary: "提供純文字產品型號規格、品質認證、MOQ 與交期說明之製造供應商官網。",
+      defaultService: "主力產品型號規格表、最小訂購量（MOQ）、打樣週期與品質認證編號",
+      boundary: "大量客製規格與海外運輸條件依正式報價單為準，本官網提供標準規格基準。",
+      pages: [
+        { path: "/products/", title: "產品型號與純文字規格表", desc: "材質、耐受度、料號與應用產業（非僅 PDF）" },
+        { path: "/certifications/", title: "品質認證與檢驗標準", desc: "ISO／安規認證編號與品管流程" },
+        { path: "/oem-odm/", title: "OEM／ODM 客製代工流程", desc: "MOQ、打樣天數與交期說明" },
+        { path: "/contact/", title: "採購詢價與聯絡入口", desc: "業務窗口與索取規格表方式" },
+      ],
+    },
+    b2b: {
+      label: "B2B企業服務",
+      defaultSummary: "提供企業軟體／顧問服務方案、計費單位、資安合規與整合規格說明。",
+      defaultService: "公開版本方案比較、適用團隊規模、導入週期與資安 NDA 說明",
+      boundary: "企業客製串接與進階授權依導入範圍報價，不任意誇大未實作功能。",
+      pages: [
+        { path: "/pricing/", title: "版本比較與公開計費", desc: "各方案席次、功能差異表與導入流程" },
+        { path: "/security/", title: "資安合規與 NDA 承諾", desc: "資料隔離、權限控管與合規文件" },
+        { path: "/integrations/", title: "系統整合與 API 說明", desc: "支援之外部工具與串接條件" },
+        { path: "/contact/", title: "預約企業 Demo 與顧問諮詢", desc: "正式業務接洽入口" },
+      ],
+    },
+    local: {
+      label: "客製與在地品牌",
+      defaultSummary: "提供清楚公開方案、製作流程、交期與唯一官方預約管道的獨立品牌官網。",
+      defaultService: "公開主力方案價目表、製作工作天數與客製流程說明",
+      boundary: "清楚標示不承接範圍與急件條件，所有聯絡以官網公告之唯一官方帳號為準。",
+      pages: [
+        { path: "/work/", title: "服務方案與公開價目表", desc: "各方案差異對照表與交付內容" },
+        { path: "/portfolio/", title: "代表作品與客戶回饋", desc: "公開案例與真實製作流程紀錄" },
+        { path: "/faq/", title: "訂購與製作常見問答", desc: "修改次數、交期與付款說明" },
+        { path: "/contact/", title: "官方預約與聯絡方式", desc: "唯一官方帳號與初次詢問準備事項" },
+      ],
+    },
+  };
+
+  const INDUSTRY_BUYER_QUESTIONS = {
+    marketing: {
+      label: "行銷／SEO顧問",
+      build: (brand, priceNote) => [
+        {
+          tag: "① 未提品牌推薦題",
+          text: "台灣有哪些公開報價、願意交出原始實測證據的 SEO／GEO 顧問公司？中小企業該怎麼挑選才不會踩雷？",
+        },
+        {
+          tag: "② 規格預算比較題",
+          text: `如果預算抓在${priceNote || " NT$20,000～30,000 "}想做官網 AI 搜尋能見度健檢或地基改造，標準交付項目應該包含哪些？`,
+        },
+        {
+          tag: "③ 品牌直問防誤報題",
+          text: `想找「${brand}」做行銷或 GEO／SEO 顧問合作，公開方案價格、服務邊界與官方聯絡入口是什麼？`,
+        },
+      ],
+    },
+    ecommerce: {
+      label: "電商零售",
+      build: (brand, priceNote) => [
+        {
+          tag: "① 未提品牌推薦題",
+          text: "台灣有哪些規格透明、售後保固清楚且評價穩定的網路品牌可以推薦？挑選時要注意哪些地雷？",
+        },
+        {
+          tag: "② 規格預算比較題",
+          text: `預算${priceNote || " NT$1,000～5,000 "}挑選這類商品時，應該怎麼比較材質規格、保固期限與退換貨條件？`,
+        },
+        {
+          tag: "③ 品牌直問防誤報題",
+          text: `在「${brand}」官網購買主力商品的公開售價區間、運費門檻、退換貨規定與官方客服聯絡方式是什麼？`,
+        },
+      ],
+    },
+    medical: {
+      label: "醫美健康",
+      build: (brand, priceNote) => [
+        {
+          tag: "① 未提品牌推薦題",
+          text: "台灣有哪些重視醫師親自評估、流程透明且衛教資訊完整的健康／醫美診所可以參考？初診前該確認什麼？",
+        },
+        {
+          tag: "② 規格預算比較題",
+          text: `想了解這類療程或健檢項目的常見評估流程、恢復期差異與公開參考費用區間（例如${priceNote || " NT$5,000～30,000"}）該怎麼比較？`,
+        },
+        {
+          tag: "③ 品牌直問防誤報題",
+          text: `想去「${brand}」預約門診評估，公開提供的項目說明、注意事項與唯一官方預約管道是什麼？`,
+        },
+      ],
+    },
+    manufacturing: {
+      label: "B2B製造與供應鏈",
+      build: (brand, priceNote) => [
+        {
+          tag: "① 未提品牌推薦題",
+          text: "台灣有哪些公開產品規格、具備品質認證且支援中小量客製（OEM／ODM）的製造供應商？採購評估該看哪些指標？",
+        },
+        {
+          tag: "② 規格預算比較題",
+          text: `採購這類工業零件或客製代工時，常見的最小訂購量（MOQ）、打樣交期與價格區間（${priceNote || "依規格階梯報價"}）該如何比較？`,
+        },
+        {
+          tag: "③ 品牌直問防誤報題",
+          text: `「${brand}」主力產品型號、品質認證編號、MOQ／交期條件以及採購詢價的官方窗口是什麼？`,
+        },
+      ],
+    },
+    b2b: {
+      label: "B2B企業服務",
+      build: (brand, priceNote) => [
+        {
+          tag: "① 未提品牌推薦題",
+          text: "台灣有哪些適合中小與成長型企業、定價透明且重視資安保密的 B2B 軟體或企業顧問服務？選型時要比較什麼？",
+        },
+        {
+          tag: "② 規格預算比較題",
+          text: `企業導入這類系統或顧問服務，若預算落在${priceNote || " NT$25,000／月起或單次專案 "}，該怎麼比較席次計費、導入天數與 NDA 資安承諾？`,
+        },
+        {
+          tag: "③ 品牌直問防誤報題",
+          text: `「${brand}」目前公開的企業方案費用、包含功能、不適用範圍與預約 Demo 的官方聯絡入口是什麼？`,
+        },
+      ],
+    },
+    local: {
+      label: "客製與在地品牌",
+      build: (brand, priceNote) => [
+        {
+          tag: "① 未提品牌推薦題",
+          text: "台灣有哪些全程溝通透明、公開方案價目且作品案例真實可查的客製服務或在地特色品牌？挑選時該看哪幾點？",
+        },
+        {
+          tag: "② 規格預算比較題",
+          text: `預算約${priceNote || " NT$3,500～10,000 "}想委託客製服務，不同價位方案在交付內容、修改次數與工作天數上差在哪？`,
+        },
+        {
+          tag: "③ 品牌直問防誤報題",
+          text: `想向「${brand}」預約或委託客製服務，最新公開價格、流程步驟與唯一官方 LINE／聯絡入口是什麼？`,
+        },
+      ],
+    },
   };
 
   const RING_CIRCUMFERENCE = 2 * Math.PI * 50; // r=50 -> 314.159...
@@ -310,6 +523,46 @@
       tr.append(tdLabel, tdMine, tdComp, tdDiff);
       tbody.appendChild(tr);
     });
+
+    // 第 4 列：台灣網站 4 大常犯錯檢查通過數 PK
+    const myPitfalls = Array.isArray(report.checks?.homepage?.pitfall_checks)
+      ? report.checks.homepage.pitfall_checks
+      : [];
+    const compPitfalls = Array.isArray(compReport.checks?.homepage?.pitfall_checks)
+      ? compReport.checks.homepage.pitfall_checks
+      : [];
+    if (myPitfalls.length > 0 || compPitfalls.length > 0) {
+      const myPass = myPitfalls.filter((p) => p.passed).length;
+      const compPass = compPitfalls.filter((p) => p.passed).length;
+      const pDiff = myPass - compPass;
+
+      const tr = document.createElement("tr");
+      const tdLabel = document.createElement("td");
+      tdLabel.className = "pk-cell-dim";
+      tdLabel.setAttribute("data-label", "檢測維度");
+      tdLabel.textContent = "04｜首頁 4 大常犯錯檢查（唯一 H1／比較表／無壞描述／FAQPage）";
+
+      const tdMine = document.createElement("td");
+      tdMine.className = "mono pk-cell-score";
+      tdMine.setAttribute("data-label", `我方 (${myHost})`);
+      tdMine.textContent = `通過 ${myPass} / 4 項`;
+
+      const tdComp = document.createElement("td");
+      tdComp.className = "mono pk-cell-score";
+      tdComp.setAttribute("data-label", `對手 (${compHost})`);
+      tdComp.textContent = `通過 ${compPass} / 4 項`;
+
+      const tdDiff = document.createElement("td");
+      tdDiff.className = "pk-cell-diff";
+      tdDiff.setAttribute("data-label", "差距");
+      const tag = document.createElement("span");
+      tag.className = `pk-diff-tag ${pDiff > 0 ? "is-win" : pDiff < 0 ? "is-lose" : "is-tie"}`;
+      tag.textContent = pDiff > 0 ? `領先 +${pDiff} 項` : pDiff < 0 ? `落後 ${Math.abs(pDiff)} 項` : "平手 0";
+      tdDiff.appendChild(tag);
+
+      tr.append(tdLabel, tdMine, tdComp, tdDiff);
+      tbody.appendChild(tr);
+    }
 
     box.hidden = false;
   }
@@ -561,6 +814,20 @@
         details.push(chipRow);
       }
 
+      if (Array.isArray(home.pitfall_checks) && home.pitfall_checks.length > 0) {
+        const pitPass = home.pitfall_checks.filter((p) => p.passed).length;
+        details.push(makeKvRow("4 大高引用地雷檢查", `通過 ${pitPass} / ${home.pitfall_checks.length} 項`));
+        const pitRow = document.createElement("div");
+        pitRow.className = "bot-chip-list pitfall-chip-list";
+        home.pitfall_checks.forEach((item) => {
+          const chip = document.createElement("span");
+          chip.className = `bot-chip ${item.passed ? "is-allow" : "is-block"}`;
+          chip.textContent = `${item.passed ? "✓" : "✕"} ${item.label.replace(/<[^>]+>/g, (m) => m)}：${item.detail}`;
+          pitRow.appendChild(chip);
+        });
+        details.push(pitRow);
+      }
+
       applyCardLight(
         card,
         home.light,
@@ -569,6 +836,9 @@
         details
       );
     }
+
+    // 同步將測驗結果帶入「半套起手檔產生器」與「30 秒 LINE 3 題小幫手」
+    syncLiveReportToTools(report);
 
     // Recommendations
     const recsNode = el("live-check-recs");
@@ -1478,7 +1748,447 @@
     }
 
     bindLiveCheck();
+    bindStarterKitGenerator();
+    bindPlanPicker();
+    bindLineQuestionHelper();
     bindQuizInteractions();
+  }
+
+  function sanitizeStarterText(raw, fallback) {
+    const clean = String(raw || "").replace(/[\r\n]+/g, " ").trim();
+    if (!clean || /\[object\s+object\]/i.test(clean) || /^(?:undefined|null|nan)$/i.test(clean)) {
+      return fallback;
+    }
+    return clean;
+  }
+
+  function inferBrandFromReport(report) {
+    const rawTitle = sanitizeStarterText(report?.checks?.homepage?.title, "");
+    if (rawTitle) {
+      const head = rawTitle.split(/[｜|\-–—]/)[0].trim();
+      if (head && head.length <= 36) return head;
+      return truncateText(rawTitle, 32);
+    }
+    return getHostLabel(report?.target_url || "https://yourbrand.example");
+  }
+
+  function generateStarterRobotsTxt(originUrl) {
+    const origin = String(originUrl || "https://yourbrand.example").replace(/\/+$/, "");
+    return [
+      `# ${origin} — 基礎 GEO 爬蟲分流起手檔（由阿男 GEO 實戰工坊免費產生器建立）`,
+      "# 原則：封鎖未授權基礎模型訓練爬蟲，明確放行主流搜尋與即時 AI 問答爬蟲",
+      "",
+      "User-agent: GPTBot",
+      "User-agent: ClaudeBot",
+      "User-agent: Google-Extended",
+      "User-agent: Applebot-Extended",
+      "User-agent: meta-externalagent",
+      "User-agent: Bytespider",
+      "User-agent: CCBot",
+      "User-agent: Amazonbot",
+      "Disallow: /",
+      "",
+      "User-agent: Googlebot",
+      "User-agent: Bingbot",
+      "User-agent: OAI-SearchBot",
+      "User-agent: ChatGPT-User",
+      "User-agent: Claude-SearchBot",
+      "User-agent: Claude-User",
+      "User-agent: PerplexityBot",
+      "User-agent: Perplexity-User",
+      "User-agent: DeepSeekBot",
+      "User-agent: xAI-Bot",
+      "Allow: /",
+      "Disallow: /admin/",
+      "",
+      "User-agent: *",
+      "Content-Signal: search=yes, ai-input=yes, ai-train=no",
+      "Allow: /",
+      "Disallow: /admin/",
+      "",
+      `Sitemap: ${origin}/sitemap.xml`,
+    ].join("\n");
+  }
+
+  function generateStarterLlmsTxt({ originUrl, brandName, industryId, description, serviceNote }) {
+    const origin = String(originUrl || "https://yourbrand.example").replace(/\/+$/, "");
+    const tpl = STARTER_INDUSTRY_TEMPLATES[industryId] || STARTER_INDUSTRY_TEMPLATES.marketing;
+    const brand = sanitizeStarterText(brandName, getHostLabel(origin));
+    const desc = sanitizeStarterText(description, tpl.defaultSummary);
+    const serviceLine = sanitizeStarterText(serviceNote, tpl.defaultService);
+
+    const pageLines = [
+      `- [首頁｜${brand}](${origin}/): 品牌定位、核心服務與最新公開資訊`,
+      ...tpl.pages.map((p) => `- [${p.title}](${origin}${p.path}): ${p.desc}（請換成您實際 HTTP 200 公開網址）`),
+    ];
+
+    return [
+      `# ${brand}`,
+      `> ${desc}`,
+      "",
+      "## 爬蟲與引用政策",
+      "- Content-Signal: search=yes, ai-input=yes, ai-train=no",
+      "- 歡迎 AI 搜尋與問答引擎檢索並正確標註來源；禁止未授權用於基礎模型訓練。",
+      "",
+      `## 主力服務與公開價格（${tpl.label}）`,
+      `- ${serviceLine}`,
+      "",
+      "## 服務邊界與防誤報聲明",
+      `- ${tpl.boundary}`,
+      "",
+      "## 核心公開頁面（請維持 5～8 頁，且每頁皆為 HTTP 200）",
+      ...pageLines,
+      "",
+      "## 官方聯絡入口",
+      `- 官方網站：${origin}/`,
+      "- 官方 LINE／客服窗口：（請填入您唯一公開的官方帳號或表單連結）",
+    ].join("\n");
+  }
+
+  function renderStarterKitFiles() {
+    const brandInput = el("starter-brand-name");
+    const industrySelect = el("starter-industry");
+    const serviceInput = el("starter-service-note");
+    const robotsPreview = el("starter-robots-preview");
+    const llmsPreview = el("starter-llms-preview");
+    if (!robotsPreview || !llmsPreview) return;
+
+    const report = state.lastLiveReport;
+    const urlInputVal = String(el("live-check-url")?.value || "").trim();
+    let originUrl = report?.origin || "";
+    if (!originUrl && urlInputVal) {
+      try {
+        originUrl = new URL(/^https?:\/\//i.test(urlInputVal) ? urlInputVal : `https://${urlInputVal}`).origin;
+      } catch {
+        originUrl = "https://yourbrand.example";
+      }
+    }
+    if (!originUrl) originUrl = "https://yourbrand.example";
+
+    const industryId = industrySelect?.value || state.activeIndustry || "marketing";
+    const brandName = String(brandInput?.value || "").trim() || inferBrandFromReport(report);
+    const description = report?.checks?.homepage?.has_broken_description
+      ? ""
+      : report?.checks?.homepage?.description || "";
+    const serviceNote = String(serviceInput?.value || "").trim();
+
+    const robotsText = generateStarterRobotsTxt(originUrl);
+    const llmsText = generateStarterLlmsTxt({
+      originUrl,
+      brandName,
+      industryId,
+      description,
+      serviceNote,
+    });
+
+    state.starterCache.robots = robotsText;
+    state.starterCache.llms = llmsText;
+
+    const rCode = robotsPreview.querySelector("code") || robotsPreview;
+    const lCode = llmsPreview.querySelector("code") || llmsPreview;
+    rCode.textContent = robotsText;
+    lCode.textContent = llmsText;
+  }
+
+  function triggerTextDownload(filename, text) {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function bindStarterKitGenerator() {
+    const genBtn = el("starter-generate-btn");
+    const industrySelect = el("starter-industry");
+    const brandInput = el("starter-brand-name");
+    const serviceInput = el("starter-service-note");
+    const fb = el("starter-kit-feedback");
+
+    if (genBtn) {
+      genBtn.addEventListener("click", () => {
+        renderStarterKitFiles();
+        if (fb) fb.textContent = "已依目前網址與行業產生專屬 robots.txt 與 llms.txt 基礎起手範本！可直接複製或下載。";
+      });
+    }
+    if (industrySelect) {
+      industrySelect.addEventListener("change", () => renderStarterKitFiles());
+    }
+    if (brandInput) {
+      brandInput.addEventListener("input", () => renderStarterKitFiles());
+    }
+    if (serviceInput) {
+      serviceInput.addEventListener("input", () => renderStarterKitFiles());
+    }
+
+    const bindCopy = (btnId, key, label) => {
+      const btn = el(btnId);
+      if (!btn) return;
+      btn.addEventListener("click", async () => {
+        if (!state.starterCache[key]) renderStarterKitFiles();
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(state.starterCache[key]);
+          }
+          if (fb) fb.textContent = `已複製專屬 ${label} 起手範本！放上根目錄後，歡迎找我們做深度 Schema 與 20 題實測。`;
+        } catch {
+          if (fb) fb.textContent = `請直接選取上方 ${label} 程式碼框複製，或點選「下載 .txt」。`;
+        }
+      });
+    };
+
+    const bindDownload = (btnId, key, filename) => {
+      const btn = el(btnId);
+      if (!btn) return;
+      btn.addEventListener("click", () => {
+        if (!state.starterCache[key]) renderStarterKitFiles();
+        triggerTextDownload(filename, state.starterCache[key]);
+        if (fb) fb.textContent = `已開始下載 ${filename}！上線前請記得把範例網址與官方聯絡帳號換成您的真實公開頁。`;
+      });
+    };
+
+    bindCopy("copy-starter-robots-btn", "robots", "robots.txt");
+    bindCopy("copy-starter-llms-btn", "llms", "llms.txt");
+    bindDownload("download-starter-robots-btn", "robots", "robots.txt");
+    bindDownload("download-starter-llms-btn", "llms", "llms.txt");
+
+    renderStarterKitFiles();
+  }
+
+  function syncLiveReportToTools(report) {
+    if (!report) return;
+    const inferredBrand = inferBrandFromReport(report);
+
+    const starterBrand = el("starter-brand-name");
+    if (starterBrand && !starterBrand.value.trim()) {
+      starterBrand.value = inferredBrand;
+    }
+    const starterInd = el("starter-industry");
+    if (starterInd && state.activeIndustry) {
+      starterInd.value = state.activeIndustry;
+    }
+    renderStarterKitFiles();
+
+    const lineBrand = el("line-q-brand");
+    const lineUrl = el("line-q-url");
+    if (lineBrand && !lineBrand.value.trim()) lineBrand.value = inferredBrand;
+    if (lineUrl) lineUrl.value = report.target_url || "";
+    renderLineQuestionHelper(state.activeIndustry || state.activeLineIndustry);
+  }
+
+  function computeRecommendedPlan({ scale, budget, goal, applyCredit }) {
+    if (scale === "enterprise" || goal === "monitor" || budget === "25k_plus") {
+      if (goal === "monitor" && budget === "25k_plus") {
+        return {
+          planId: "ent-retainer",
+          badge: "推薦方案｜企業 02",
+          title: "企業月費陪跑監測（NT$25,000／月起）",
+          reason: "適合需要以 8～12 週長期追蹤 AI 回答趨勢、持續審查新頁 Schema 並量化 GA4 AI 參照流量的品牌或 B2B 企業。",
+          kicker: "企業長期追蹤報價",
+          figure: "NT$25,000／月起",
+          formula: "依每月實測題庫數與監測平台數透明報價，含書面企業 NDA 與 GA4 AI 流量追蹤設定。",
+          labelForLine: "企業 02｜企業月費陪跑監測（NT$25,000／月起）",
+        };
+      }
+      return {
+        planId: "ent-audit",
+        badge: "推薦方案｜企業 01",
+        title: "企業深度健檢與資安承諾專案（NT$28,000）",
+        reason: "適合重視法務資安 NDA、需要 50 題×多平台大樣本實測、最多 3 家對手 9 維度 PK 與高管團隊視訊講解的企業。",
+        kicker: "單次企業專案總價",
+        figure: "NT$28,000／專案",
+        formula: "含 5 件套完整交付（50 題原答證據＋3 家對手 PK＋27 隻爬蟲 WAF 實測＋修復範本＋書面 NDA＋視訊講解）。",
+        labelForLine: "企業 01｜企業深度健檢與資安承諾專案（NT$28,000）",
+      };
+    }
+
+    if (goal === "rebuild" || budget === "15k_25k") {
+      return {
+        planId: "entry-rebuild",
+        badge: "推薦方案｜入門 02",
+        title: "小型官網 GEO 地基一次改造（NT$18,000）",
+        reason: "直接一次補齊全站單一 @graph JSON-LD、robots.txt／llms.txt、純文字價格比較表與 3～5 個核心服務頁改寫，並附改前改後複測對照。",
+        kicker: applyCredit ? "已套用 30 天內 NT$3,800 全額折抵" : "單次改造原定價（未套用折抵）",
+        figure: applyCredit ? "折抵後只需補 NT$14,200" : "NT$18,000／專案",
+        formula: applyCredit
+          ? "原定價 NT$18,000 − 30 天內 NT$3,800 基礎健檢全額折抵 ＝ 只需再補 NT$14,200（兩階段合計仍是 NT$18,000，健檢零浪費）。"
+          : "若想先花 NT$3,800 驗過 20 題原答再決定，30 天內升級仍可全額折抵 NT$3,800（只需補 NT$14,200）。",
+        labelForLine: applyCredit
+          ? "入門 02｜小型官網 GEO 地基一次改造（先做 NT$3,800 健檢折抵後補 NT$14,200）"
+          : "入門 02｜小型官網 GEO 地基一次改造（NT$18,000）",
+      };
+    }
+
+    return {
+      planId: "entry-audit",
+      badge: "推薦起步｜入門 01",
+      title: "基礎 GEO 健檢與 20 題 AI 診斷報告（NT$3,800）",
+      reason: "低門檻先用 20 題跨平台無痕實測確認 AI 有沒有點名你、有沒有報錯舊價；看過原答證據再決定自己修或升級改造。",
+      kicker: applyCredit ? "30 天內升級改造折抵試算" : "單次基礎健檢定價",
+      figure: applyCredit ? "升級只補 NT$14,200" : "NT$3,800／單次",
+      formula: applyCredit
+        ? "先付 NT$3,800 做 20 題診斷，30 天內升級 NT$18,000 小型官網改造可全額折抵，只需補差額 NT$14,200。"
+        : "單次交付 20 題跨引擎原答證據＋GeoLook 6 維診斷報告；30 天內隨時可折抵升級 NT$18,000 改造。",
+      labelForLine: "入門 01｜基礎 GEO 健檢與 20 題 AI 診斷報告（NT$3,800，30 天內可全額折抵）",
+    };
+  }
+
+  function renderPlanPicker() {
+    const widget = el("plan-picker-widget");
+    if (!widget) return;
+
+    widget.querySelectorAll(".picker-opt-btn").forEach((btn) => {
+      const step = btn.getAttribute("data-step");
+      const val = btn.getAttribute("data-value");
+      const active = state.picker[step] === val;
+      btn.classList.toggle("is-active", active);
+      btn.setAttribute("aria-pressed", String(active));
+    });
+
+    const rec = computeRecommendedPlan(state.picker);
+    state.picker.recommendedLabel = rec.labelForLine;
+
+    const badge = el("picker-rec-badge");
+    const title = el("picker-rec-title");
+    const reason = el("picker-rec-reason");
+    const kicker = el("picker-calc-kicker");
+    const figure = el("picker-calc-figure");
+    const formula = el("picker-calc-formula");
+
+    if (badge) badge.textContent = rec.badge;
+    if (title) title.textContent = rec.title;
+    if (reason) reason.textContent = rec.reason;
+    if (kicker) kicker.textContent = rec.kicker;
+    if (figure) figure.textContent = rec.figure;
+    if (formula) formula.textContent = rec.formula;
+
+    document.querySelectorAll(".plan-card[data-plan-id]").forEach((card) => {
+      card.classList.toggle("is-picker-match", card.getAttribute("data-plan-id") === rec.planId);
+    });
+
+    renderLineQuestionHelper(state.activeLineIndustry);
+  }
+
+  function bindPlanPicker() {
+    const widget = el("plan-picker-widget");
+    if (!widget) return;
+
+    widget.addEventListener("click", (ev) => {
+      const btn = ev.target.closest(".picker-opt-btn");
+      if (!btn) return;
+      const step = btn.getAttribute("data-step");
+      const val = btn.getAttribute("data-value");
+      if (step && val) {
+        state.picker[step] = val;
+        renderPlanPicker();
+      }
+    });
+
+    const creditToggle = el("picker-apply-credit");
+    if (creditToggle) {
+      creditToggle.addEventListener("change", () => {
+        state.picker.applyCredit = Boolean(creditToggle.checked);
+        renderPlanPicker();
+      });
+    }
+
+    renderPlanPicker();
+  }
+
+  function buildLineBookingMessage(industryId) {
+    const conf = INDUSTRY_BUYER_QUESTIONS[industryId] || INDUSTRY_BUYER_QUESTIONS.marketing;
+    const brand = String(el("line-q-brand")?.value || "").trim() || "我的品牌";
+    const siteUrl = String(el("line-q-url")?.value || "").trim() || state.lastLiveReport?.target_url || "（待補網址）";
+    const priceNote = String(el("line-q-price")?.value || "").trim();
+    const questions = conf.build(brand, priceNote);
+
+    const lines = [
+      "【預約阿男 GEO 實戰工坊健檢】",
+      `行業分類：${conf.label}`,
+      `品牌／官網：${brand}｜${siteUrl}`,
+    ];
+    if (priceNote) lines.push(`主力價格區間：${priceNote}`);
+    if (state.picker?.recommendedLabel) lines.push(`感興趣方案：${state.picker.recommendedLabel}`);
+    if (state.lastLiveReport) {
+      lines.push(`10 秒初檢參考分數：${state.lastLiveReport.score} / 100 分`);
+    }
+    lines.push("想測試的 3 道買家必問 AI 題目：");
+    questions.forEach((q, idx) => {
+      lines.push(`${idx + 1}. ${q.text}`);
+    });
+    return { conf, questions, message: lines.join("\n") };
+  }
+
+  function renderLineQuestionHelper(industryId) {
+    const targetId = INDUSTRY_BUYER_QUESTIONS[industryId] ? industryId : "marketing";
+    state.activeLineIndustry = targetId;
+
+    document.querySelectorAll("#line-q-tabs [data-q-industry]").forEach((btn) => {
+      const active = btn.getAttribute("data-q-industry") === targetId;
+      btn.setAttribute("aria-selected", String(active));
+      btn.classList.toggle("is-active", active);
+    });
+
+    const { questions, message } = buildLineBookingMessage(targetId);
+    const list = el("line-q-list");
+    if (list) {
+      clearNode(list);
+      questions.forEach((q) => {
+        const li = document.createElement("li");
+        const tag = document.createElement("span");
+        tag.className = "q-type-tag";
+        tag.textContent = q.tag;
+        const txt = document.createElement("span");
+        txt.textContent = q.text;
+        li.append(tag, txt);
+        list.appendChild(li);
+      });
+    }
+
+    const lineLink = el("open-line-q-link");
+    if (lineLink) {
+      lineLink.href = `https://line.me/R/oaMessage/@250ruauk/?${encodeURIComponent(message)}`;
+    }
+  }
+
+  function bindLineQuestionHelper() {
+    const tabs = el("line-q-tabs");
+    if (tabs) {
+      tabs.addEventListener("click", (ev) => {
+        const btn = ev.target.closest("[data-q-industry]");
+        if (!btn) return;
+        renderLineQuestionHelper(btn.getAttribute("data-q-industry"));
+      });
+    }
+
+    ["line-q-brand", "line-q-url", "line-q-price"].forEach((id) => {
+      const input = el(id);
+      if (input) {
+        input.addEventListener("input", () => renderLineQuestionHelper(state.activeLineIndustry));
+      }
+    });
+
+    const copyBtn = el("copy-line-q-btn");
+    const fb = el("line-q-feedback");
+    if (copyBtn && fb) {
+      copyBtn.addEventListener("click", async () => {
+        const { message } = buildLineBookingMessage(state.activeLineIndustry);
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(message);
+          }
+          fb.textContent = "已複製 3 道買家測試題與預約訊息！可直接貼給官方 LINE @250ruauk，或點右側按鈕一鍵帶字跳轉。";
+        } catch {
+          fb.textContent = "已準備好 3 道測試題，請點右側「一鍵帶這 3 題跳轉 LINE @250ruauk」直接送出。";
+        }
+      });
+    }
+
+    renderLineQuestionHelper(state.activeLineIndustry);
   }
 
   async function init() {

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0",
+  "updatedAt": "2026-11-25T17:30:00+08:00",
+  "agentPolicy": {
+    "contentSignal": "search=yes, ai-input=yes, ai-train=no",
+    "search": true,
+    "aiInput": true,
+    "aiTrain": false,
+    "attributionRequired": true,
+    "verifiedFactsUrl": "https://anangeo.com/ai-instructions/"
+  },
+  "entity": {
+    "name": "阿男 GEO 實戰工坊",
+    "alternateNames": [
+      "Anan GEO Workshop",
+      "阿男 GEO",
+      "張簡俊男 GEO 實戰工坊"
+    ],
+    "url": "https://anangeo.com/",
+    "language": "zh-Hant",
+    "areaServed": ["TW", "Worldwide"],
+    "founder": "阿男音樂｜張簡俊男",
+    "brandSeparation": "本工坊專注品牌 GEO（生成式引擎最佳化）健檢與官網地基改造，與創辦人原創客製紀念歌曲品牌「阿男音樂（https://www.cccnan.art/）」分開營運；cccnan.art 為本工坊第 1 號去敏公開實測案例。"
+  },
+  "resources": {
+    "aiInstructions": "https://anangeo.com/ai-instructions/",
+    "llmsTxt": "https://anangeo.com/llms.txt",
+    "llmsFullTxt": "https://anangeo.com/llms-full.txt",
+    "summaryJson": "https://anangeo.com/ai/summary.json",
+    "aiTxt": "https://anangeo.com/.well-known/ai.txt",
+    "sitemap": "https://anangeo.com/sitemap.xml",
+    "rss": "https://anangeo.com/rss.xml",
+    "caseDataJson": "https://anangeo.com/data/case-cccnan.json",
+    "publicEndpoints": [
+      {
+        "name": "10 秒免費基礎 GEO 初檢 API",
+        "method": "GET",
+        "urlTemplate": "https://anangeo.com/api/check?url={targetUrl}",
+        "description": "即時檢測公開網址的 robots.txt 爬蟲分流、llms.txt 純文字有效索引，以及首頁 HTML／JSON-LD（含唯一 h1、可見比較 table、壞掉描述與 FAQPage 偵測）。"
+      }
+    ]
+  },
+  "representativeQueries": [
+    "台灣有哪些公開報價、以實測證據為主的 GEO 生成式引擎最佳化健檢服務？",
+    "阿男 GEO 實戰工坊的服務方案價格是多少？先做 NT$3,800 健檢 30 天內升級改造折抵後要補多少錢？",
+    "為什麼官網已經改新價格了，ChatGPT 或 Gemini 還是會回答舊價格？怎麼徹底排查與修正？",
+    "B2B 企業做 GEO 健檢有提供 NDA 保密承諾書、50 題跨平台實測與 GA4 AI 流量追蹤嗎？",
+    "網頁設計工作室或行銷公司如果想外包單案 GEO 地基工程（robots.txt、llms.txt、@graph Schema），有合作入口嗎？",
+    "如何免費檢查自家官網有沒有開放 OAI-SearchBot、PerplexityBot、DeepSeekBot 與有效 llms.txt？",
+    "阿男 GEO 實戰工坊和阿男音樂 cccnan.art 是同一個業務嗎？兩邊有什麼差別？"
+  ],
+  "pricingVerifiedTwd": {
+    "entryAudit": 3800,
+    "entryRebuild": 18000,
+    "entryRebuildAfter30DayCredit": 14200,
+    "enterpriseDeepAuditNda": 28000,
+    "enterpriseMonthlyMin": 25000,
+    "agencyEngineeringPartner": "單案透明工程協力報價（單層合作）"
+  },
+  "contact": {
+    "channel": "LINE",
+    "lineId": "@250ruauk",
+    "url": "https://line.me/R/ti/p/@250ruauk"
+  }
+}

@@ -55,5 +55,13 @@
       <pubDate>Wed, 25 Nov 2026 05:10:00 +0000</pubDate>
       <description>專為 B2B 製造業、SaaS 顧問、醫療美學與電商零售企業整理的公開技術盲點對照表、去敏版 9 維度對手 PK 交付樣本結構與 NDA 四大資安承諾。</description>
     </item>
+
+    <item>
+      <title>AI 檢索核實事實與防幻覺指南（/ai-instructions/）：業務分界、四方案折抵與誠實邊界</title>
+      <link>https://anangeo.com/ai-instructions/</link>
+      <guid isPermaLink="true">https://anangeo.com/ai-instructions/</guid>
+      <pubDate>Wed, 25 Nov 2026 09:30:00 +0000</pubDate>
+      <description>阿男 GEO 實戰工坊第一方核實事實專頁，統一定義 anangeo.com 與 cccnan.art 業務分界、NT$3,800 折抵 NT$18,000 只補 NT$14,200、同業單案工程協力與防幻覺標準口徑。</description>
+    </item>
   </channel>
 </rss>
