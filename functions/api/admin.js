@@ -329,7 +329,7 @@ function parseCookies(cookieHeader) {
   return map;
 }
 
-async function verifySessionRequest(request, env, nowSec = Math.floor(Date.now() / 1000)) {
+export async function verifySessionRequest(request, env, nowSec = Math.floor(Date.now() / 1000)) {
   const secretMaterial = getSessionSecretMaterial(env);
   if (!secretMaterial) {
     return { ok: false, reason: "not_configured" };
@@ -400,6 +400,11 @@ async function verifySessionRequest(request, env, nowSec = Math.floor(Date.now()
   } catch {
     return { ok: false, reason: "bad_json" };
   }
+}
+
+export async function isAdminAuthorized(request, env, nowSec = Math.floor(Date.now() / 1000)) {
+  const auth = await verifySessionRequest(request, env, nowSec);
+  return Boolean(auth.ok && auth.role === "admin");
 }
 
 function getPartnerRateBuckets(nowMs) {
@@ -1219,6 +1224,9 @@ export async function onRequest(context) {
           db_bound: false,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
           serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
+          relay_admin_configured: Boolean(
+            typeof env?.RELAY_ADMIN_TOKEN === "string" && env.RELAY_ADMIN_TOKEN.trim()
+          ),
         },
         kpi: {
           leads_count: 0,
@@ -1280,6 +1288,9 @@ export async function onRequest(context) {
           db_bound: true,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
           serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
+          relay_admin_configured: Boolean(
+            typeof env?.RELAY_ADMIN_TOKEN === "string" && env.RELAY_ADMIN_TOKEN.trim()
+          ),
         },
         kpi: {
           leads_count: Number(leadCountRow?.cnt || 0),
@@ -1306,6 +1317,9 @@ export async function onRequest(context) {
           db_bound: false,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
           serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
+          relay_admin_configured: Boolean(
+            typeof env?.RELAY_ADMIN_TOKEN === "string" && env.RELAY_ADMIN_TOKEN.trim()
+          ),
         },
         kpi: {
           leads_count: 0,

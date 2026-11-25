@@ -438,7 +438,111 @@
         </div>
       </section>
 
-      <!-- 分頁 4：單頁報告/設定 -->
+      <!-- 分頁 4：官網貼文管理（站長專用，預覽／新增／刪除首頁貼文） -->
+      <section id="tab-posts" class="tab-panel" data-tab-panel="posts" hidden>
+        <div class="card stack">
+          <div class="card-head">
+            <h2>發布新官網貼文</h2>
+            <span class="tag-brass">即時同步首頁</span>
+          </div>
+          <p class="muted-text" style="margin-bottom:0;">
+            寫好標題與摘要就能直接登上官網首頁，也能順手同步到 Threads（脆）；右側／下方會即時預覽首頁卡片長相。
+          </p>
+
+          <div class="posts-compose-layout">
+            <form id="post-create-form" class="stack" autocomplete="off">
+              <label class="field">
+                <span class="field-label">貼文標題（必填）</span>
+                <input
+                  id="post-title"
+                  name="title"
+                  type="text"
+                  maxlength="180"
+                  placeholder="例如：本週高雄診所網站結構實測紀錄"
+                  required
+                >
+              </label>
+
+              <label class="field">
+                <span class="field-label">內容摘要（必填）</span>
+                <textarea
+                  id="post-summary"
+                  name="summary"
+                  rows="4"
+                  maxlength="1200"
+                  placeholder="寫下要顯示在官網首頁卡片的重點內容，支援換行分段。"
+                  required
+                ></textarea>
+              </label>
+
+              <div class="form-grid">
+                <label class="field">
+                  <span class="field-label">價格／標籤（選填）</span>
+                  <input
+                    id="post-price"
+                    name="price_summary"
+                    type="text"
+                    maxlength="120"
+                    placeholder="例如：實戰筆記 或 NT$3,800 起"
+                  >
+                </label>
+
+                <label class="field">
+                  <span class="field-label">圖片網址（選填）</span>
+                  <input
+                    id="post-image-url"
+                    name="image_url"
+                    type="url"
+                    inputmode="url"
+                    placeholder="https://anangeo.com/og-cover.png"
+                  >
+                </label>
+              </div>
+
+              <label class="post-checkbox-row" for="post-publish-threads">
+                <input id="post-publish-threads" name="publish_to_threads" type="checkbox">
+                <span>
+                  <strong>同時發布到 Threads（脆）</strong>
+                  <small>勾選後將一併送出至已綁定的 Threads 帳號，未綁定時仍會正常上架官網。</small>
+                </span>
+              </label>
+
+              <div id="post-form-error" class="form-error" role="alert" hidden></div>
+              <div id="post-form-status" class="notice-banner notice-info" role="status" hidden></div>
+
+              <button type="submit" id="post-submit-btn" class="btn-primary btn-block">
+                🚀 立即發布
+              </button>
+            </form>
+
+            <div class="post-preview-pane stack-sm">
+              <div class="post-preview-head">
+                <span class="field-label">首頁深海金綠卡片即時預覽</span>
+                <span class="tag-mono">16:10 不裁切</span>
+              </div>
+              <div id="post-live-preview" class="post-live-preview-host" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card stack">
+          <div class="card-head">
+            <div class="posts-title-group">
+              <h2>目前官網貼文</h2>
+              <span id="posts-count-badge" class="tag-mono">0 則</span>
+            </div>
+            <div class="posts-toolbar">
+              <button type="button" id="posts-refresh-btn" class="ghost-mini">🔄 重新整理</button>
+              <a class="ghost-mini" href="/#relay-updates" target="_blank" rel="noopener noreferrer">🌐 開啟首頁查看</a>
+            </div>
+          </div>
+
+          <div id="posts-list-notice" class="notice-banner notice-warn" hidden></div>
+          <div id="posts-list" class="record-list"></div>
+        </div>
+      </section>
+
+      <!-- 分頁 5：單頁報告/設定 -->
       <section id="tab-reports" class="tab-panel" data-tab-panel="reports" hidden>
         <div class="card">
           <div class="card-head">
@@ -459,7 +563,7 @@
             <ol>
               <li>開啟 Cloudflare Dashboard → Storage &amp; Databases → D1 SQL Database，建立名為 <code>anan-geo-admin</code> 的資料庫。</li>
               <li>進入 Worker <code>anan-geo-public-site</code> → Settings → Bindings，新增 D1 綁定且 Variable name 設為 <code>DB</code>。</li>
-              <li>進入 Settings → Variables and Secrets，確認已新增 Secret 變數 <code>GEO_ADMIN_PASSWORD</code>（可另設 <code>PARTNER_ACCESS_CODE</code> 開放合夥人免費入口、<code>RESEND_API_KEY</code> 與 <code>SERPER_API_KEY</code> 啟用 Google＋地圖找對手加速）。</li>
+              <li>進入 Settings → Variables and Secrets，確認已新增 Secret 變數 <code>GEO_ADMIN_PASSWORD</code>（可另設 <code>RELAY_ADMIN_TOKEN</code> 啟用官網貼文管理、<code>PARTNER_ACCESS_CODE</code> 開放合夥人免費入口、<code>RESEND_API_KEY</code> 與 <code>SERPER_API_KEY</code> 啟用 Google＋地圖找對手加速）。</li>
             </ol>
           </div>
         </div>
@@ -476,10 +580,10 @@
       </section>
     </div>
 
-    <!-- 底部固定 4 個大拇指分頁鈕（合夥人模式自動隱藏） -->
+    <!-- 底部固定 5 個等寬大拇指分頁鈕（合夥人模式自動隱藏） -->
     <nav id="bottom-nav" class="bottom-nav" aria-label="後台主分頁切換">
       <button type="button" class="nav-btn is-active" data-tab="overview" aria-current="page">
-        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="3" y="3" width="7" height="9" rx="1.5"/>
           <rect x="14" y="3" width="7" height="5" rx="1.5"/>
           <rect x="14" y="12" width="7" height="9" rx="1.5"/>
@@ -488,22 +592,31 @@
         <span>總覽</span>
       </button>
       <button type="button" class="nav-btn" data-tab="leads">
-        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
           <polyline points="22,8 12,13 2,8"/>
         </svg>
         <span>Email名單</span>
       </button>
       <button type="button" class="nav-btn" data-tab="audit">
-        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/>
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
           <polyline points="8.5 11.5 10.5 13.5 14 9.5"/>
         </svg>
         <span>手機健檢/PK</span>
       </button>
+      <button type="button" class="nav-btn" data-tab="posts">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5z"/>
+          <line x1="8" y1="8" x2="16" y2="8"/>
+          <line x1="8" y1="12" x2="16" y2="12"/>
+          <line x1="8" y1="16" x2="12" y2="16"/>
+        </svg>
+        <span>官網貼文</span>
+      </button>
       <button type="button" class="nav-btn" data-tab="reports">
-        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
           <polyline points="14 2 14 8 20 8"/>
           <line x1="8" y1="13" x2="16" y2="13"/>

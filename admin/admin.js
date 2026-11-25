@@ -25,6 +25,12 @@
       customDirectCost: null,
       clientName: "",
     },
+    posts: [],
+    postsLoaded: false,
+    postsLoading: false,
+    postsSubmitting: false,
+    postsConfirmDeleteId: null,
+    postsDeletingId: null,
   };
 
   const els = {
@@ -130,6 +136,20 @@
     reportsCountBadge: document.getElementById("reports-count-badge"),
     reportsList: document.getElementById("reports-list"),
     configChecklist: document.getElementById("config-checklist"),
+    postCreateForm: document.getElementById("post-create-form"),
+    postTitle: document.getElementById("post-title"),
+    postSummary: document.getElementById("post-summary"),
+    postPrice: document.getElementById("post-price"),
+    postImageUrl: document.getElementById("post-image-url"),
+    postPublishThreads: document.getElementById("post-publish-threads"),
+    postFormError: document.getElementById("post-form-error"),
+    postFormStatus: document.getElementById("post-form-status"),
+    postSubmitBtn: document.getElementById("post-submit-btn"),
+    postLivePreview: document.getElementById("post-live-preview"),
+    postsCountBadge: document.getElementById("posts-count-badge"),
+    postsRefreshBtn: document.getElementById("posts-refresh-btn"),
+    postsListNotice: document.getElementById("posts-list-notice"),
+    postsList: document.getElementById("posts-list"),
     toast: document.getElementById("toast"),
   };
 
@@ -250,6 +270,12 @@
     if (els.leadsList) els.leadsList.innerHTML = "";
     if (els.reportsList) els.reportsList.innerHTML = "";
     if (els.configChecklist) els.configChecklist.innerHTML = "";
+    if (els.postsList) els.postsList.innerHTML = "";
+    if (els.postsListNotice) els.postsListNotice.hidden = true;
+    state.posts = [];
+    state.postsLoaded = false;
+    state.postsConfirmDeleteId = null;
+    state.postsDeletingId = null;
   }
 
   function applyRoleView(role, partnerName = "", rateLimit = null) {
@@ -305,6 +331,12 @@
       if (active) btn.setAttribute("aria-current", "page");
       else btn.removeAttribute("aria-current");
     });
+    if (safeTab === "posts" && state.role === "admin") {
+      renderPostLivePreview();
+      if (!state.postsLoaded && !state.postsLoading) {
+        loadAdminPosts({ silent: true });
+      }
+    }
   }
 
   function showLoginView(passwordConfigured = true, partnerEnabled = state.partnerEnabled) {
@@ -496,6 +528,7 @@
       { label: "雲端資料庫（D1 綁定 DB）", ok: Boolean(cfg.db_bound), okText: "已連線", noText: "未綁定（降級模式）" },
       { label: "自動追單信件（RESEND_API_KEY）", ok: Boolean(cfg.resend_configured), okText: "已啟用", noText: "預覽解鎖模式" },
       { label: "關鍵字找對手（SERPER_API_KEY）", ok: Boolean(cfg.serper_configured), okText: "Google＋地圖加速", noText: "免 Key 備用搜尋" },
+      { label: "官網貼文管理（RELAY_ADMIN_TOKEN）", ok: Boolean(cfg.relay_admin_configured), okText: "已設定", noText: "未設定（選配）" },
     ];
     els.configChecklist.innerHTML = rows
       .map(
@@ -1038,6 +1071,226 @@
     return lines.join("\n");
   }
 
+  // ==================== 官網貼文管理（列表預覽／新增發布／二次確認刪除） ====================
+  function sanitizePreviewHttpUrl(raw) {
+    const text = String(raw || "").trim();
+    if (!text) return "";
+    try {
+      const parsed = new URL(text);
+      if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return "";
+      return parsed.toString();
+    } catch {
+      return "";
+    }
+  }
+
+  function formatTodayDateTaipei() {
+    const now = new Date(Date.now() + 8 * 60 * 60 * 1000);
+    const y = now.getUTCFullYear();
+    const m = String(now.getUTCMonth() + 1).padStart(2, "0");
+    const d = String(now.getUTCDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function renderPostLivePreview() {
+    if (!els.postLivePreview) return;
+    const title = (els.postTitle?.value || "").trim() || "這裡會即時顯示貼文標題";
+    const summary =
+      (els.postSummary?.value || "").trim() ||
+      "輸入貼文摘要後，這裡會直接模擬官網首頁深海金綠動態卡片的呈現效果。";
+    const price = (els.postPrice?.value || "").trim();
+    const safeImg = sanitizePreviewHttpUrl(els.postImageUrl?.value || "");
+    const willThreads = Boolean(els.postPublishThreads?.checked);
+
+    const mediaHtml = safeImg
+      ? `<div class="relay-preview-media"><img src="${escapeHtml(safeImg)}" alt="${escapeHtml(title)}" loading="lazy"></div>`
+      : "";
+    const priceBadge = price ? `<span class="relay-preview-price">${escapeHtml(price)}</span>` : "";
+    const footHtml = willThreads
+      ? `<div class="relay-preview-foot">查看 Threads 原文 →（發布後自動帶入）</div>`
+      : "";
+
+    els.postLivePreview.innerHTML = `
+      <article class="relay-preview-card">
+        ${mediaHtml}
+        <div class="relay-preview-body">
+          <div class="relay-preview-meta">
+            <span class="relay-preview-date">${escapeHtml(formatTodayDateTaipei())}</span>
+            ${priceBadge}
+          </div>
+          <h3 class="relay-preview-title">${escapeHtml(title)}</h3>
+          <p class="relay-preview-summary">${escapeHtml(summary)}</p>
+          ${footHtml}
+        </div>
+      </article>`;
+  }
+
+  function renderAdminPostsList() {
+    if (!els.postsList) return;
+    const list = Array.isArray(state.posts) ? state.posts : [];
+    if (els.postsCountBadge) {
+      els.postsCountBadge.textContent = `${list.length} 則`;
+    }
+    if (list.length === 0) {
+      els.postsList.innerHTML =
+        '<div class="empty-state">目前還沒有官網貼文，填寫上方表單按「🚀 立即發布」就會立刻出現在首頁。</div>';
+      return;
+    }
+
+    els.postsList.innerHTML = list
+      .map((item) => {
+        const id = String(item.id || "");
+        const safeImg = sanitizePreviewHttpUrl(item.image_url || "");
+        const safePermalink = sanitizePreviewHttpUrl(item.threads_permalink || "");
+        const hasThreads = Boolean(item.threads_post_id || safePermalink);
+        const isArchived = item.status === "archived";
+        const isConfirming = state.postsConfirmDeleteId === id;
+        const isDeleting = state.postsDeletingId === id;
+
+        const thumbHtml = safeImg
+          ? `<div class="post-thumb"><img src="${escapeHtml(safeImg)}" alt="${escapeHtml(item.title || "貼文縮圖")}" loading="lazy"></div>`
+          : "";
+        const priceHtml = item.price_summary
+          ? `<span class="tag-brass">${escapeHtml(item.price_summary)}</span>`
+          : "";
+        const statusHtml = isArchived
+          ? `<span class="post-badge-site">已封存</span>`
+          : `<span class="score-pill score-green">顯示中</span>`;
+        const threadsHtml = hasThreads
+          ? safePermalink
+            ? `<a class="post-badge-threads" href="${escapeHtml(safePermalink)}" target="_blank" rel="noopener noreferrer">已發 Threads ↗</a>`
+            : `<span class="post-badge-threads">已發 Threads</span>`
+          : `<span class="post-badge-site">僅官網顯示</span>`;
+
+        const confirmBar = isConfirming
+          ? `<div class="post-confirm-bar" role="region" aria-label="確認刪除貼文">
+              <span>確定要從官網刪除這則貼文嗎？刪除後無法復原。</span>
+              <div class="post-confirm-actions">
+                <button type="button" class="ghost-mini" data-cancel-delete-post-id="${escapeHtml(id)}" ${isDeleting ? "disabled" : ""}>取消</button>
+                <button type="button" class="btn-danger-mini" data-confirm-delete-post-id="${escapeHtml(id)}" ${isDeleting ? "disabled" : ""}>${isDeleting ? "刪除中…" : "確認刪除"}</button>
+              </div>
+            </div>`
+          : "";
+
+        return `
+          <article class="post-item-card" data-post-id="${escapeHtml(id)}">
+            <div class="post-item-main">
+              ${thumbHtml}
+              <div class="post-item-content">
+                <h3 class="post-item-title">${escapeHtml(item.title || "未命名貼文")}</h3>
+                ${item.summary ? `<p class="post-item-summary">${escapeHtml(item.summary)}</p>` : ""}
+                <div class="post-badges">
+                  ${statusHtml}
+                  ${threadsHtml}
+                  ${priceHtml}
+                </div>
+              </div>
+            </div>
+            <div class="post-item-footer">
+              <span class="record-meta mono">發布時間：${escapeHtml(formatTime(item.published_at || item.updated_at))}</span>
+              <button
+                type="button"
+                class="btn-danger-mini"
+                data-delete-post-id="${escapeHtml(id)}"
+                ${isDeleting ? "disabled" : ""}
+              >
+                🗑️ 刪除
+              </button>
+            </div>
+            ${confirmBar}
+          </article>`;
+      })
+      .join("");
+  }
+
+  async function loadAdminPosts({ silent = false } = {}) {
+    if (state.role !== "admin" || !els.postsList) return false;
+    state.postsLoading = true;
+    if (els.postsRefreshBtn) {
+      els.postsRefreshBtn.disabled = true;
+      els.postsRefreshBtn.textContent = "載入中…";
+    }
+    if (els.postsListNotice) els.postsListNotice.hidden = true;
+    if (!state.postsLoaded) {
+      els.postsList.innerHTML = '<div class="empty-state">正在讀取目前官網貼文…</div>';
+    }
+
+    try {
+      const res = await apiFetch("/api/admin/promotions", { method: "GET" });
+      if (res.status === 401) {
+        showLoginView(true, state.partnerEnabled);
+        showToast("登入階段已逾時，請重新登入");
+        return false;
+      }
+      if (!res.ok) {
+        state.postsLoaded = true;
+        state.posts = [];
+        renderAdminPostsList();
+        if (els.postsListNotice) {
+          els.postsListNotice.textContent =
+            res.data?.error ||
+            (res.status === 503
+              ? "尚未設定官網貼文管理權杖（RELAY_ADMIN_TOKEN），請於 Cloudflare Workers 後台設定後再整理。"
+              : `讀取官網貼文失敗（HTTP ${res.status}）。`);
+          els.postsListNotice.hidden = false;
+        }
+        return false;
+      }
+
+      const list = Array.isArray(res.data?.promotions) ? res.data.promotions : [];
+      state.posts = list;
+      state.postsLoaded = true;
+      state.postsConfirmDeleteId = null;
+      renderAdminPostsList();
+      if (!silent) {
+        showToast(`已更新官網貼文（共 ${list.length} 則）`);
+      }
+      return true;
+    } catch {
+      if (els.postsListNotice) {
+        els.postsListNotice.textContent = "連線貼文服務暫時失敗，請稍後按「重新整理」再試。";
+        els.postsListNotice.hidden = false;
+      }
+      return false;
+    } finally {
+      state.postsLoading = false;
+      if (els.postsRefreshBtn) {
+        els.postsRefreshBtn.disabled = false;
+        els.postsRefreshBtn.textContent = "🔄 重新整理";
+      }
+    }
+  }
+
+  async function deleteAdminPost(promoId) {
+    if (!promoId || state.postsDeletingId) return;
+    state.postsDeletingId = promoId;
+    renderAdminPostsList();
+
+    try {
+      const res = await apiFetch(`/api/admin/promotions?id=${encodeURIComponent(promoId)}`, {
+        method: "DELETE",
+      });
+      if (res.status === 401) {
+        showLoginView(true, state.partnerEnabled);
+        showToast("登入階段已逾時，請重新登入");
+        return;
+      }
+      if (!res.ok) {
+        showToast(res.data?.error || `刪除失敗（HTTP ${res.status}）`);
+        return;
+      }
+      state.postsConfirmDeleteId = null;
+      state.postsDeletingId = null;
+      showToast("已從官網刪除貼文");
+      await loadAdminPosts({ silent: true });
+    } catch {
+      showToast("刪除時網路連線失敗，請稍後再試");
+    } finally {
+      state.postsDeletingId = null;
+      renderAdminPostsList();
+    }
+  }
+
   // ==================== 事件綁定 ====================
   if (els.loginModeTabs) {
     els.loginModeTabs.addEventListener("click", (evt) => {
@@ -1272,6 +1525,9 @@
       return;
     }
     const ok = await loadOverview();
+    if (state.activeTab === "posts") {
+      await loadAdminPosts({ silent: true });
+    }
     if (ok) showToast("已更新最新雲端資料");
   });
 
@@ -1769,9 +2025,144 @@
     });
   }
 
+  // 官網貼文分頁事件（即時預覽、新增發布、列表重新整理與二次確認刪除）
+  for (const inputEl of [els.postTitle, els.postSummary, els.postPrice, els.postImageUrl, els.postPublishThreads]) {
+    if (inputEl) {
+      inputEl.addEventListener("input", renderPostLivePreview);
+      inputEl.addEventListener("change", renderPostLivePreview);
+    }
+  }
+
+  if (els.postsRefreshBtn) {
+    els.postsRefreshBtn.addEventListener("click", () => {
+      loadAdminPosts({ silent: false });
+    });
+  }
+
+  if (els.postCreateForm) {
+    els.postCreateForm.addEventListener("submit", async (evt) => {
+      evt.preventDefault();
+      if (state.postsSubmitting) return;
+      if (els.postFormError) els.postFormError.hidden = true;
+      if (els.postFormStatus) els.postFormStatus.hidden = true;
+
+      const title = (els.postTitle?.value || "").trim();
+      const summary = (els.postSummary?.value || "").trim();
+      const priceSummary = (els.postPrice?.value || "").trim();
+      const imageUrl = (els.postImageUrl?.value || "").trim();
+      const publishToThreads = Boolean(els.postPublishThreads?.checked);
+
+      if (!title) {
+        if (els.postFormError) {
+          els.postFormError.textContent = "請填寫貼文標題。";
+          els.postFormError.hidden = false;
+        }
+        return;
+      }
+      if (!summary) {
+        if (els.postFormError) {
+          els.postFormError.textContent = "請填寫貼文內容摘要。";
+          els.postFormError.hidden = false;
+        }
+        return;
+      }
+      if (imageUrl && !sanitizePreviewHttpUrl(imageUrl)) {
+        if (els.postFormError) {
+          els.postFormError.textContent = "圖片網址請填寫有效的 https:// 或 http:// 公開連結。";
+          els.postFormError.hidden = false;
+        }
+        return;
+      }
+
+      state.postsSubmitting = true;
+      if (els.postSubmitBtn) {
+        els.postSubmitBtn.disabled = true;
+        els.postSubmitBtn.textContent = publishToThreads ? "發布到官網與 Threads 中…" : "發布到官網中…";
+      }
+
+      try {
+        const res = await apiFetch("/api/admin/promotions", {
+          method: "POST",
+          body: JSON.stringify({
+            title,
+            summary,
+            price_summary: priceSummary,
+            image_url: imageUrl,
+            publish_to_threads: publishToThreads,
+          }),
+        });
+        if (res.status === 401) {
+          showLoginView(true, state.partnerEnabled);
+          showToast("登入階段已逾時，請重新登入");
+          return;
+        }
+        if (!res.ok || res.data?.ok === false) {
+          if (els.postFormError) {
+            els.postFormError.textContent = res.data?.error || `發布失敗（HTTP ${res.status}），請稍後再試。`;
+            els.postFormError.hidden = false;
+          }
+          return;
+        }
+
+        els.postCreateForm.reset();
+        renderPostLivePreview();
+
+        const threadsErr = res.data?.threads_error;
+        const statusMsg = threadsErr
+          ? `已成功發布到官網首頁！（同步 Threads 未完成：${threadsErr}）`
+          : publishToThreads
+            ? "已成功發布到官網首頁並同步送出至 Threads！"
+            : "已成功發布到官網首頁！約 1 分鐘內首頁訪客即可看到新貼文。";
+        if (els.postFormStatus) {
+          els.postFormStatus.textContent = statusMsg;
+          els.postFormStatus.className = threadsErr ? "notice-banner notice-warn" : "notice-banner notice-info";
+          els.postFormStatus.hidden = false;
+        }
+        showToast("官網貼文發布成功");
+        await loadAdminPosts({ silent: true });
+      } catch {
+        if (els.postFormError) {
+          els.postFormError.textContent = "網路連線異常，發布未完成，請稍後再試。";
+          els.postFormError.hidden = false;
+        }
+      } finally {
+        state.postsSubmitting = false;
+        if (els.postSubmitBtn) {
+          els.postSubmitBtn.disabled = false;
+          els.postSubmitBtn.textContent = "🚀 立即發布";
+        }
+      }
+    });
+  }
+
+  if (els.postsList) {
+    els.postsList.addEventListener("click", (evt) => {
+      const delBtn = evt.target.closest("[data-delete-post-id]");
+      if (delBtn) {
+        const id = delBtn.getAttribute("data-delete-post-id") || "";
+        if (!id) return;
+        state.postsConfirmDeleteId = state.postsConfirmDeleteId === id ? null : id;
+        renderAdminPostsList();
+        return;
+      }
+      const cancelBtn = evt.target.closest("[data-cancel-delete-post-id]");
+      if (cancelBtn) {
+        state.postsConfirmDeleteId = null;
+        renderAdminPostsList();
+        return;
+      }
+      const confirmBtn = evt.target.closest("[data-confirm-delete-post-id]");
+      if (confirmBtn) {
+        const id = confirmBtn.getAttribute("data-confirm-delete-post-id") || "";
+        if (id) deleteAdminPost(id);
+      }
+    });
+  }
+
   // 啟動檢查：呼叫 /api/admin/session（固定 HTTP 200，確保未登入時 0 console error）
   async function bootstrap() {
     renderPricingCalculator();
+    renderPostLivePreview();
     const res = await apiFetch("/api/admin/session", { method: "GET" });
     state.partnerEnabled = Boolean(res.data?.partner_enabled);
     if (res.ok && res.data?.authenticated) {

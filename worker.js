@@ -1,9 +1,19 @@
 import { onRequest as handleApiCheck } from "./functions/api/check.js";
 import { onRequest as handleApiLead } from "./functions/api/lead.js";
-import { onRequest as handleApiAdmin } from "./functions/api/admin.js";
+import {
+  onRequest as handleApiAdmin,
+  isAdminAuthorized,
+  verifySessionRequest,
+} from "./functions/api/admin.js";
 
 const DEFAULT_RELAY_PROMOTIONS_URL = "https://relay.anangeo.com/api/promotions?tenant=geo-26d78867";
+const DEFAULT_RELAY_TENANT_SLUG = "geo-26d78867";
+const RELAY_ADMIN_PRIMARY_BASE = "https://relay.anangeo.com";
+const RELAY_ADMIN_FALLBACK_BASE = "https://anan-social-relay.as720518.workers.dev";
 const RELAY_FETCH_TIMEOUT_MS = 1500;
+const RELAY_ADMIN_READ_TIMEOUT_MS = 8000;
+const RELAY_ADMIN_WRITE_TIMEOUT_MS = 15000;
+const MAX_PROMOTION_BODY_BYTES = 64 * 1024;
 const RELAY_PROMOTIONS_SLOT = "<!-- RELAY_PROMOTIONS_SLOT -->";
 const MAX_RELAY_PROMOTIONS = 12;
 
@@ -300,6 +310,243 @@ function withAdminNoIndexHeaders(response, pathname) {
   });
 }
 
+function adminProxyJsonResponse(payload, status = 200) {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+      "X-Robots-Tag": "noindex, nofollow",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
+}
+
+function resolveRelayAdminBaseUrls(env) {
+  const custom =
+    typeof env?.RELAY_ADMIN_BASE_URL === "string"
+      ? env.RELAY_ADMIN_BASE_URL.trim().replace(/\/+$/, "")
+      : "";
+  if (custom) {
+    if (!sanitizeHttpUrl(custom)) return null;
+    return [custom];
+  }
+  return [RELAY_ADMIN_PRIMARY_BASE, RELAY_ADMIN_FALLBACK_BASE];
+}
+
+async function forwardRelayAdminRequest({ baseUrls, pathAndQuery, method, token, bodyJson, timeoutMs }) {
+  for (let i = 0; i < baseUrls.length; i += 1) {
+    const targetUrl = `${baseUrls[i]}${pathAndQuery}`;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const headers = {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      if (bodyJson !== undefined) {
+        headers["Content-Type"] = "application/json";
+      }
+      const resp = await fetch(targetUrl, {
+        method,
+        headers,
+        body: bodyJson,
+        signal: controller.signal,
+      });
+      if (resp.status >= 500 && i < baseUrls.length - 1) {
+        try {
+          await resp.body?.cancel();
+        } catch {}
+        continue;
+      }
+      const rawText = await resp.text();
+      let parsed = null;
+      try {
+        parsed = rawText ? JSON.parse(rawText) : null;
+      } catch {
+        parsed = null;
+      }
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        return adminProxyJsonResponse(parsed, resp.status);
+      }
+      return adminProxyJsonResponse(
+        {
+          ok: resp.ok,
+          error: resp.ok ? "貼文中繼回傳非預期格式。" : `貼文中繼暫時無法回應（HTTP ${resp.status}）。`,
+        },
+        resp.status
+      );
+    } catch {
+      if (i < baseUrls.length - 1) continue;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  return adminProxyJsonResponse(
+    {
+      ok: false,
+      code: "RELAY_UPSTREAM_UNAVAILABLE",
+      error: "無法連線至貼文中繼服務，請稍後再試。",
+    },
+    502
+  );
+}
+
+async function handleAdminPromotionsProxy(request, env) {
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Cache-Control": "no-store",
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    });
+  }
+
+  // 嚴格驗證站長登入 Session（未登入一律 401，合夥人一律 403）
+  const authorized = await isAdminAuthorized(request, env);
+  if (!authorized) {
+    const sessionCheck = await verifySessionRequest(request, env);
+    if (sessionCheck.ok && sessionCheck.role === "partner") {
+      return adminProxyJsonResponse(
+        { ok: false, code: "FORBIDDEN", error: "合夥人權限無法管理官網貼文。" },
+        403
+      );
+    }
+    return adminProxyJsonResponse(
+      { ok: false, code: "UNAUTHORIZED", error: "請先輸入站長管理密碼登入後台。" },
+      401
+    );
+  }
+
+  const method = request.method.toUpperCase();
+  if (method !== "GET" && method !== "POST" && method !== "DELETE") {
+    return adminProxyJsonResponse(
+      { ok: false, code: "METHOD_NOT_ALLOWED", error: "此端點僅支援 GET、POST 與 DELETE。" },
+      405
+    );
+  }
+
+  const relayAdminToken = typeof env?.RELAY_ADMIN_TOKEN === "string" ? env.RELAY_ADMIN_TOKEN.trim() : "";
+  if (!relayAdminToken) {
+    return adminProxyJsonResponse(
+      {
+        ok: false,
+        code: "RELAY_ADMIN_TOKEN_NOT_CONFIGURED",
+        error: "尚未設定官網貼文管理權杖（RELAY_ADMIN_TOKEN），請於 Cloudflare Workers 後台新增此 Secret 後即可使用。",
+      },
+      503
+    );
+  }
+
+  const tenant = (env?.RELAY_TENANT_SLUG || DEFAULT_RELAY_TENANT_SLUG).trim() || DEFAULT_RELAY_TENANT_SLUG;
+  const baseUrls = resolveRelayAdminBaseUrls(env);
+  if (!baseUrls) {
+    return adminProxyJsonResponse(
+      { ok: false, code: "INVALID_RELAY_BASE_URL", error: "RELAY_ADMIN_BASE_URL 格式無效。" },
+      500
+    );
+  }
+
+  const reqUrl = new URL(request.url);
+
+  if (method === "GET") {
+    const params = new URLSearchParams({ tenant });
+    const rawLimit = reqUrl.searchParams.get("limit");
+    if (rawLimit !== null && rawLimit.trim() !== "") {
+      const limitNum = Number(rawLimit);
+      if (Number.isInteger(limitNum) && limitNum >= 1 && limitNum <= 50) {
+        params.set("limit", String(limitNum));
+      }
+    }
+    return forwardRelayAdminRequest({
+      baseUrls,
+      pathAndQuery: `/api/admin/promotions?${params.toString()}`,
+      method: "GET",
+      token: relayAdminToken,
+      timeoutMs: RELAY_ADMIN_READ_TIMEOUT_MS,
+    });
+  }
+
+  if (method === "POST") {
+    let rawBody = "";
+    try {
+      rawBody = await request.text();
+    } catch {
+      return adminProxyJsonResponse({ ok: false, code: "INVALID_BODY", error: "無法讀取貼文內容。" }, 400);
+    }
+    if (new TextEncoder().encode(rawBody).byteLength > MAX_PROMOTION_BODY_BYTES) {
+      return adminProxyJsonResponse({ ok: false, code: "PAYLOAD_TOO_LARGE", error: "貼文資料量超過上限。" }, 413);
+    }
+    let body = null;
+    try {
+      body = rawBody.trim() ? JSON.parse(rawBody) : null;
+    } catch {
+      body = null;
+    }
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return adminProxyJsonResponse({ ok: false, code: "INVALID_JSON", error: "請傳入正確的 JSON 物件。" }, 400);
+    }
+
+    const title = stripXmlControlChars(body.title ?? "").trim().slice(0, 180);
+    const summary = stripXmlControlChars(body.summary ?? "").trim().slice(0, 1200);
+    const priceSummary = stripXmlControlChars(body.price_summary ?? "").trim().slice(0, 120);
+    const rawImageUrl = typeof body.image_url === "string" ? body.image_url.trim() : "";
+    const publishToThreads = Boolean(body.publish_to_threads);
+
+    if (!title) {
+      return adminProxyJsonResponse({ ok: false, code: "MISSING_TITLE", error: "請填寫貼文標題。" }, 400);
+    }
+    if (!summary) {
+      return adminProxyJsonResponse({ ok: false, code: "MISSING_SUMMARY", error: "請填寫貼文內容摘要。" }, 400);
+    }
+
+    let safeImageUrl = "";
+    if (rawImageUrl) {
+      safeImageUrl = sanitizeHttpUrl(rawImageUrl);
+      if (!safeImageUrl) {
+        return adminProxyJsonResponse(
+          { ok: false, code: "INVALID_IMAGE_URL", error: "圖片網址必須為有效的 https:// 或 http:// 公開連結。" },
+          400
+        );
+      }
+    }
+
+    // 強制注入伺服器端 tenant_slug，絕不信任前端傳入的租戶
+    const upstreamPayload = {
+      tenant_slug: tenant,
+      title,
+      summary,
+      price_summary: priceSummary,
+      image_url: safeImageUrl,
+      publish_to_threads: publishToThreads,
+    };
+
+    return forwardRelayAdminRequest({
+      baseUrls,
+      pathAndQuery: "/api/admin/promotions",
+      method: "POST",
+      token: relayAdminToken,
+      bodyJson: JSON.stringify(upstreamPayload),
+      timeoutMs: RELAY_ADMIN_WRITE_TIMEOUT_MS,
+    });
+  }
+
+  // DELETE /api/admin/promotions?id=...
+  const promoId = (reqUrl.searchParams.get("id") || "").trim();
+  if (!promoId || promoId.length > 128 || /[\s\u0000-\u001f\u007f]/.test(promoId)) {
+    return adminProxyJsonResponse({ ok: false, code: "INVALID_ID", error: "請提供有效的貼文編號。" }, 400);
+  }
+  const delParams = new URLSearchParams({ tenant, id: promoId });
+  return forwardRelayAdminRequest({
+    baseUrls,
+    pathAndQuery: `/api/admin/promotions?${delParams.toString()}`,
+    method: "DELETE",
+    token: relayAdminToken,
+    timeoutMs: RELAY_ADMIN_READ_TIMEOUT_MS,
+  });
+}
+
 function createSmartFetch(url, env) {
   const selfHosts = new Set([url.hostname, "anangeo.com", "www.anangeo.com"]);
   return (input, init) => {
@@ -336,6 +583,10 @@ export default {
     }
     if (url.pathname === "/api/lead") {
       return handleApiLead({ request, env });
+    }
+    const normalizedPath = url.pathname.replace(/\/+$/, "");
+    if (normalizedPath === "/api/admin/promotions") {
+      return handleAdminPromotionsProxy(request, env);
     }
     if (
       url.pathname === "/api/admin/search-competitors" ||
