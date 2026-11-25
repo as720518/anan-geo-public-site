@@ -26,15 +26,38 @@
         </div>
       </div>
 
-      <p class="login-desc">
+      <p id="login-desc" class="login-desc">
         純雲端行動管理台，Mac 關機也能直接用手機查看名單、幫客戶即時健檢與下載單頁簡報。
       </p>
 
+      <div id="login-mode-tabs" class="login-mode-tabs" role="tablist" aria-label="選擇登入身分" hidden>
+        <button type="button" class="mode-tab-btn is-active" data-login-mode="admin" role="tab" aria-selected="true">
+          站長登入
+        </button>
+        <button type="button" class="mode-tab-btn" data-login-mode="partner" role="tab" aria-selected="false">
+          合夥人／業務免費入口
+        </button>
+      </div>
+
       <div id="login-config-banner" class="notice-banner notice-warn" hidden></div>
+      <div id="login-partner-hint" class="notice-banner notice-info" hidden>
+        合夥人專用免費工作台：可直接用關鍵字找對手、10 秒健檢並下載帶您推薦署名的超炫動態老闆簡報（不包含總名單與系統設定）。
+      </div>
 
       <form id="login-form" class="stack" autocomplete="off">
+        <label id="login-partner-name-field" class="field" hidden>
+          <span class="field-label">合夥人／業務署名（選填，自動印在客戶簡報上）</span>
+          <input
+            id="login-partner-name"
+            name="partner_name"
+            type="text"
+            maxlength="40"
+            placeholder="例如：林小美顧問／高雄特約夥伴"
+          >
+        </label>
+
         <label class="field">
-          <span class="field-label">管理密碼</span>
+          <span id="login-password-label" class="field-label">管理密碼</span>
           <div class="pw-wrap">
             <input
               id="login-password"
@@ -57,7 +80,7 @@
       </form>
 
       <p class="login-footnote">
-        本頁已套用搜尋引擎封鎖（noindex / nofollow），僅供站長本人使用。
+        本頁已套用搜尋引擎封鎖（noindex / nofollow），僅供授權站長與特約合夥人使用。
       </p>
     </section>
   </main>
@@ -69,7 +92,7 @@
         <div class="topbar-brand">
           <img src="/admin/icon.svg" alt="" width="30" height="30" class="brand-icon-sm">
           <div class="topbar-titles">
-            <span class="topbar-name">阿男 GEO 雲端後台</span>
+            <span id="topbar-name" class="topbar-name">阿男 GEO 雲端後台</span>
             <span id="db-status-pill" class="status-pill status-pending">檢查連線中</span>
           </div>
         </div>
@@ -86,8 +109,8 @@
     </header>
 
     <div class="app-main">
-      <!-- 上方大字 KPI 看板 -->
-      <section class="kpi-grid" aria-label="關鍵數據總覽">
+      <!-- 上方大字 KPI 看板（站長專用，合夥人自動隱藏） -->
+      <section id="kpi-grid" class="kpi-grid" aria-label="關鍵數據總覽">
         <article class="kpi-card">
           <span class="kpi-label">累積收集名單</span>
           <strong id="kpi-leads" class="kpi-value mono">0</strong>
@@ -153,8 +176,31 @@
         </div>
       </section>
 
-      <!-- 分頁 3：手機健檢/PK -->
+      <!-- 分頁 3：手機健檢/PK（站長與合夥人共用工作區） -->
       <section id="tab-audit" class="tab-panel" data-tab-panel="audit" hidden>
+        <!-- 合夥人專用歡迎與推薦署名看板（僅 role=partner 顯示） -->
+        <div id="partner-workspace-banner" class="card partner-banner stack-sm" hidden>
+          <div class="partner-banner-head">
+            <div>
+              <p class="eyebrow">PARTNER FREE WORKSPACE</p>
+              <h2>合夥人工作台</h2>
+            </div>
+            <span id="partner-quota-pill" class="tag-mono partner-quota-pill">每小時剩餘 30/30</span>
+          </div>
+          <p class="muted-text" style="margin:0;">
+            🔍 關鍵字找對手 ＋ 10 秒健檢 ＋ 下載超炫動態簡報（自動帶入您的推薦署名，無需登入總名單）。
+          </p>
+          <label class="field partner-sig-field">
+            <span class="field-label">簡報推薦署名／服務窗口（下載 HTML 時自動印入）</span>
+            <input
+              id="partner-signature-input"
+              type="text"
+              maxlength="40"
+              placeholder="例如：林小美顧問／高雄特約夥伴"
+            >
+          </label>
+        </div>
+
         <!-- 關鍵字找對手與多站即時比對 -->
         <div id="competitor-finder-card" class="card stack">
           <div class="card-head">
@@ -213,8 +259,8 @@
 
         <form id="audit-form" class="card stack">
           <div class="card-head">
-            <h2>手機即時健檢與對手 PK</h2>
-            <span class="tag-brass">雲端直跑</span>
+            <h2 id="audit-form-title">手機即時健檢與對手 PK</h2>
+            <span id="audit-form-badge" class="tag-brass">雲端直跑</span>
           </div>
           <p class="muted-text">
             輸入客戶網站網址與最多 4 個同行對手，直接在 Cloudflare 雲端跑公開頁檢查並一鍵下載老闆超炫動態 HTML 簡報。
@@ -299,7 +345,7 @@
             <ol>
               <li>開啟 Cloudflare Dashboard → Storage &amp; Databases → D1 SQL Database，建立名為 <code>anan-geo-admin</code> 的資料庫。</li>
               <li>進入 Worker <code>anan-geo-public-site</code> → Settings → Bindings，新增 D1 綁定且 Variable name 設為 <code>DB</code>。</li>
-              <li>進入 Settings → Variables and Secrets，確認已新增 Secret 變數 <code>GEO_ADMIN_PASSWORD</code>（可另設 <code>RESEND_API_KEY</code> 與 <code>SERPER_API_KEY</code> 啟用 Google＋地圖找對手加速）。</li>
+              <li>進入 Settings → Variables and Secrets，確認已新增 Secret 變數 <code>GEO_ADMIN_PASSWORD</code>（可另設 <code>PARTNER_ACCESS_CODE</code> 開放合夥人免費入口、<code>RESEND_API_KEY</code> 與 <code>SERPER_API_KEY</code> 啟用 Google＋地圖找對手加速）。</li>
             </ol>
           </div>
         </div>
@@ -316,8 +362,8 @@
       </section>
     </div>
 
-    <!-- 底部固定 4 個大拇指分頁鈕 -->
-    <nav class="bottom-nav" aria-label="後台主分頁切換">
+    <!-- 底部固定 4 個大拇指分頁鈕（合夥人模式自動隱藏） -->
+    <nav id="bottom-nav" class="bottom-nav" aria-label="後台主分頁切換">
       <button type="button" class="nav-btn is-active" data-tab="overview" aria-current="page">
         <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="3" y="3" width="7" height="9" rx="1.5"/>

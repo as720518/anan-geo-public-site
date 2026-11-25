@@ -3,12 +3,14 @@
  * 阿男 GEO 實戰工坊 — 純雲端手機後台 API（零外部依賴、純 Web Standard API）
  *
  * 端點：
- * - POST /api/admin/login        驗證 env.GEO_ADMIN_PASSWORD（固定時間比對）並簽發 HMAC-SHA256 HttpOnly Cookie
- * - POST /api/admin/logout       清除登入 Cookie
- * - GET  /api/admin/overview     讀取雲端 D1 名單列表、最新健檢紀錄、1,298 筆公開實測統計（未綁 D1 自動安全降級）
- * - POST /api/admin/audit              在雲端直接對指定客戶網址＋對手網址執行 GEO 初檢、存入 D1 audits 表並產出單頁 HTML 簡報
- * - GET  /api/admin/audit-report       依 id 讀取已儲存的單頁 HTML 簡報（供手機下載或預覽）
- * - POST /api/admin/search-competitors 依關鍵字搜尋同業官網（優先 Serper Google+Places，無 Key 自動降級 DuckDuckGo HTML）
+ * - GET  /api/admin/session            檢查登入狀態與角色（永遠回 200，確保未登入 0 console error）
+ * - POST /api/admin/login              支援站長密碼（GEO_ADMIN_PASSWORD → role:"admin"）與可選合夥人口令（PARTNER_ACCESS_CODE → role:"partner"）
+ * - POST /api/admin/logout             清除登入 Cookie
+ * - GET  /api/admin/me                 回傳目前登入角色（admin / partner）、合夥人署名與可用限額
+ * - GET  /api/admin/overview           站長專用：讀取雲端 D1 名單列表、最新健檢紀錄、1,298 筆公開實測統計（合夥人呼叫回 403）
+ * - POST /api/admin/audit              站長專用：雲端健檢並存入 D1 audits 表（合夥人呼叫回 403）
+ * - GET  /api/admin/audit-report       站長專用：讀取已儲存的單頁 HTML 簡報（合夥人呼叫回 403）
+ * - POST /api/admin/search-competitors 依關鍵字搜尋同業官網（合夥人模式受每小時／每日防濫用上限保護）
  */
 
 import { runGeoBasicCheck, validatePublicUrl } from "./check.js";
@@ -21,6 +23,11 @@ const MAX_COMPETITORS = 4;
 const SEARCH_TIMEOUT_MS = 8000;
 const DEFAULT_SEARCH_LIMIT = 8;
 const MAX_SEARCH_LIMIT = 15;
+const DEFAULT_PARTNER_SEARCH_HOURLY_LIMIT = 30;
+const DEFAULT_PARTNER_SEARCH_DAILY_LIMIT = 120;
+const PARTNER_ALLOWED_ENDPOINTS = new Set(["/api/admin/me", "/api/admin/search-competitors"]);
+
+const partnerRateMemory = new Map();
 
 const EXCLUDED_COMPETITOR_DOMAINS = new Set([
   // 社群平台
@@ -148,6 +155,14 @@ CREATE TABLE IF NOT EXISTS audits (
 )
 `.trim();
 
+const CREATE_PARTNER_RATE_LIMITS_SQL = `
+CREATE TABLE IF NOT EXISTS partner_rate_limits (
+  bucket_key TEXT PRIMARY KEY,
+  count INTEGER NOT NULL DEFAULT 0,
+  updated_at TEXT NOT NULL
+)
+`.trim();
+
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
@@ -231,9 +246,30 @@ function getAdminPassword(env) {
   return typeof env?.GEO_ADMIN_PASSWORD === "string" ? env.GEO_ADMIN_PASSWORD.trim() : "";
 }
 
+function getPartnerAccessCode(env) {
+  return typeof env?.PARTNER_ACCESS_CODE === "string" ? env.PARTNER_ACCESS_CODE.trim() : "";
+}
+
+function parsePositiveLimit(rawVal, fallback) {
+  const num = Number(rawVal);
+  if (Number.isFinite(num) && num >= 1) {
+    return Math.floor(num);
+  }
+  return fallback;
+}
+
+function getPartnerSearchLimits(env) {
+  const hourly = parsePositiveLimit(env?.PARTNER_SEARCH_HOURLY_LIMIT, DEFAULT_PARTNER_SEARCH_HOURLY_LIMIT);
+  const daily = Math.max(
+    hourly,
+    parsePositiveLimit(env?.PARTNER_SEARCH_DAILY_LIMIT, DEFAULT_PARTNER_SEARCH_DAILY_LIMIT)
+  );
+  return { hourly, daily };
+}
+
 function getSessionSecretMaterial(env) {
   const custom = typeof env?.GEO_ADMIN_SESSION_SECRET === "string" ? env.GEO_ADMIN_SESSION_SECRET.trim() : "";
-  const base = custom || getAdminPassword(env);
+  const base = custom || getAdminPassword(env) || getPartnerAccessCode(env);
   if (!base) return "";
   return `anangeo-admin-session-v1:${base}`;
 }
@@ -248,15 +284,31 @@ async function importHmacKey(secretMaterial) {
   );
 }
 
-async function signSessionToken(env, nowSec = Math.floor(Date.now() / 1000)) {
+async function signSessionToken(
+  env,
+  { role = "admin", partnerName = "" } = {},
+  nowSec = Math.floor(Date.now() / 1000)
+) {
   const secretMaterial = getSessionSecretMaterial(env);
   if (!secretMaterial) return null;
-  const payload = {
-    v: 1,
-    sub: "admin",
-    iat: nowSec,
-    exp: nowSec + SESSION_TTL_SECONDS,
-  };
+  const normalizedRole = role === "partner" ? "partner" : "admin";
+  const payload =
+    normalizedRole === "partner"
+      ? {
+          v: 1,
+          sub: "partner",
+          role: "partner",
+          partner_name: clampText(partnerName, 40),
+          iat: nowSec,
+          exp: nowSec + SESSION_TTL_SECONDS,
+        }
+      : {
+          v: 1,
+          sub: "admin",
+          role: "admin",
+          iat: nowSec,
+          exp: nowSec + SESSION_TTL_SECONDS,
+        };
   const payloadB64 = toBase64Url(encoder.encode(JSON.stringify(payload)));
   const key = await importHmacKey(secretMaterial);
   const sigBuf = await crypto.subtle.sign("HMAC", key, encoder.encode(payloadB64));
@@ -316,16 +368,180 @@ async function verifySessionRequest(request, env, nowSec = Math.floor(Date.now()
   }
   try {
     const payload = JSON.parse(decoder.decode(payloadBytes));
-    if (payload?.v !== 1 || payload?.sub !== "admin") {
+    if (payload?.v !== 1) {
       return { ok: false, reason: "bad_claims" };
     }
     if (!Number.isFinite(payload.exp) || payload.exp <= nowSec) {
       return { ok: false, reason: "expired" };
     }
-    return { ok: true, payload };
+
+    // 向下相容舊版站長 Session（無 role 欄位時 sub === "admin" 視為 admin）
+    if (payload.sub === "admin" && (payload.role === undefined || payload.role === "admin")) {
+      if (!getAdminPassword(env)) {
+        return { ok: false, reason: "admin_not_configured" };
+      }
+      return { ok: true, payload, role: "admin", partner_name: "" };
+    }
+
+    if (payload.sub === "partner" && payload.role === "partner") {
+      // 若管理員已移除 PARTNER_ACCESS_CODE，既有合夥人 Cookie 應立即失效
+      if (!getPartnerAccessCode(env)) {
+        return { ok: false, reason: "partner_revoked" };
+      }
+      return {
+        ok: true,
+        payload,
+        role: "partner",
+        partner_name: clampText(typeof payload.partner_name === "string" ? payload.partner_name : "", 40),
+      };
+    }
+
+    return { ok: false, reason: "bad_claims" };
   } catch {
     return { ok: false, reason: "bad_json" };
   }
+}
+
+function getPartnerRateBuckets(nowMs) {
+  const safeNow = Number.isFinite(nowMs) ? nowMs : Date.now();
+  const d = new Date(safeNow);
+  const iso = d.toISOString();
+  const hourKey = `partner-search:hr:${iso.slice(0, 13)}`;
+  const dayKey = `partner-search:day:${iso.slice(0, 10)}`;
+  const nextHourMs = Date.UTC(
+    d.getUTCFullYear(),
+    d.getUTCMonth(),
+    d.getUTCDate(),
+    d.getUTCHours() + 1,
+    0,
+    0,
+    0
+  );
+  const nextDayMs = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 1, 0, 0, 0, 0);
+  return {
+    iso,
+    hourKey,
+    dayKey,
+    retryHourSec: Math.max(1, Math.ceil((nextHourMs - safeNow) / 1000)),
+    retryDaySec: Math.max(1, Math.ceil((nextDayMs - safeNow) / 1000)),
+  };
+}
+
+function prunePartnerRateMemory(keepHourKey, keepDayKey) {
+  if (partnerRateMemory.size <= 120) return;
+  for (const k of partnerRateMemory.keys()) {
+    if (k !== keepHourKey && k !== keepDayKey) {
+      partnerRateMemory.delete(k);
+    }
+  }
+}
+
+async function readPartnerRateCounts(env, hourKey, dayKey) {
+  if (env?.DB && typeof env.DB.prepare === "function") {
+    try {
+      await env.DB.prepare(CREATE_PARTNER_RATE_LIMITS_SQL).run();
+      const [hRow, dRow] = await Promise.all([
+        env.DB.prepare("SELECT count FROM partner_rate_limits WHERE bucket_key = ?").bind(hourKey).first(),
+        env.DB.prepare("SELECT count FROM partner_rate_limits WHERE bucket_key = ?").bind(dayKey).first(),
+      ]);
+      return {
+        hourCount: Number(hRow?.count || 0),
+        dayCount: Number(dRow?.count || 0),
+        backend: "d1",
+      };
+    } catch {
+      // D1 暫時不可用時安全降級回記憶體計數器
+    }
+  }
+  return {
+    hourCount: Number(partnerRateMemory.get(hourKey) || 0),
+    dayCount: Number(partnerRateMemory.get(dayKey) || 0),
+    backend: "memory",
+  };
+}
+
+async function incrementPartnerRateCounts(env, hourKey, dayKey, isoNow) {
+  if (env?.DB && typeof env.DB.prepare === "function") {
+    try {
+      await env.DB.prepare(CREATE_PARTNER_RATE_LIMITS_SQL).run();
+      const upsertSql =
+        "INSERT INTO partner_rate_limits (bucket_key, count, updated_at) VALUES (?, 1, ?) " +
+        "ON CONFLICT(bucket_key) DO UPDATE SET count = count + 1, updated_at = excluded.updated_at";
+      await Promise.all([
+        env.DB.prepare(upsertSql).bind(hourKey, isoNow).run(),
+        env.DB.prepare(upsertSql).bind(dayKey, isoNow).run(),
+      ]);
+      return;
+    } catch {
+      // D1 寫入異常時改用記憶體計數
+    }
+  }
+  prunePartnerRateMemory(hourKey, dayKey);
+  partnerRateMemory.set(hourKey, Number(partnerRateMemory.get(hourKey) || 0) + 1);
+  partnerRateMemory.set(dayKey, Number(partnerRateMemory.get(dayKey) || 0) + 1);
+}
+
+async function peekPartnerSearchQuota(env, nowMs = Date.now()) {
+  const limits = getPartnerSearchLimits(env);
+  const { hourKey, dayKey } = getPartnerRateBuckets(nowMs);
+  const { hourCount, dayCount } = await readPartnerRateCounts(env, hourKey, dayKey);
+  return {
+    hourly_limit: limits.hourly,
+    hourly_used: hourCount,
+    hourly_remaining: Math.max(0, limits.hourly - hourCount),
+    daily_limit: limits.daily,
+    daily_used: dayCount,
+    daily_remaining: Math.max(0, limits.daily - dayCount),
+  };
+}
+
+async function consumePartnerSearchQuota(env, nowMs = Date.now()) {
+  const limits = getPartnerSearchLimits(env);
+  const { iso, hourKey, dayKey, retryHourSec, retryDaySec } = getPartnerRateBuckets(nowMs);
+  const { hourCount, dayCount } = await readPartnerRateCounts(env, hourKey, dayKey);
+
+  if (hourCount >= limits.hourly) {
+    return {
+      allowed: false,
+      scope: "hourly",
+      retryAfterSeconds: retryHourSec,
+      hourly_limit: limits.hourly,
+      hourly_used: hourCount,
+      hourly_remaining: 0,
+      daily_limit: limits.daily,
+      daily_used: dayCount,
+      daily_remaining: Math.max(0, limits.daily - dayCount),
+    };
+  }
+
+  if (dayCount >= limits.daily) {
+    return {
+      allowed: false,
+      scope: "daily",
+      retryAfterSeconds: retryDaySec,
+      hourly_limit: limits.hourly,
+      hourly_used: hourCount,
+      hourly_remaining: Math.max(0, limits.hourly - hourCount),
+      daily_limit: limits.daily,
+      daily_used: dayCount,
+      daily_remaining: 0,
+    };
+  }
+
+  await incrementPartnerRateCounts(env, hourKey, dayKey, iso);
+  const nextHourCount = hourCount + 1;
+  const nextDayCount = dayCount + 1;
+  return {
+    allowed: true,
+    scope: null,
+    retryAfterSeconds: 0,
+    hourly_limit: limits.hourly,
+    hourly_used: nextHourCount,
+    hourly_remaining: Math.max(0, limits.hourly - nextHourCount),
+    daily_limit: limits.daily,
+    daily_used: nextDayCount,
+    daily_remaining: Math.max(0, limits.daily - nextDayCount),
+  };
 }
 
 function buildCookieHeader(request, value, maxAgeSeconds) {
@@ -803,6 +1019,8 @@ function buildSinglePageAuditHtml({ clientName, targetReport, competitorReports,
 export async function onRequest(context) {
   const { request, env = {} } = context || {};
   const fetchFn = typeof context?.fetch === "function" ? context.fetch : globalThis.fetch;
+  const nowMs = Number.isFinite(context?.now) ? context.now : Date.now();
+  const nowSec = Math.floor(nowMs / 1000);
   const reqUrl = new URL(request.url);
   const pathname = reqUrl.pathname.replace(/\/+$/, "") || "/api/admin";
 
@@ -821,23 +1039,30 @@ export async function onRequest(context) {
     if (request.method !== "GET") {
       return jsonResponse({ ok: false, code: "METHOD_NOT_ALLOWED", error: "此端點僅支援 GET。" }, 405);
     }
-    const authCheck = await verifySessionRequest(request, env);
+    const authCheck = await verifySessionRequest(request, env, nowSec);
     return jsonResponse({
       ok: true,
       authenticated: authCheck.ok,
+      role: authCheck.ok ? authCheck.role : null,
+      partner_name: authCheck.ok && authCheck.role === "partner" ? authCheck.partner_name : null,
       password_configured: Boolean(getAdminPassword(env)),
-      db_connected: Boolean(env?.DB && typeof env.DB.prepare === "function"),
+      partner_enabled: Boolean(getPartnerAccessCode(env)),
+      db_connected:
+        authCheck.ok && authCheck.role === "admin"
+          ? Boolean(env?.DB && typeof env.DB.prepare === "function")
+          : false,
     });
   }
 
-  // 1. POST /api/admin/login
+  // 1. POST /api/admin/login（雙角色：站長 GEO_ADMIN_PASSWORD / 合夥人 PARTNER_ACCESS_CODE）
   if (pathname === "/api/admin/login") {
     if (request.method !== "POST") {
       return jsonResponse({ ok: false, code: "METHOD_NOT_ALLOWED", error: "登入端點僅支援 POST。" }, 405);
     }
 
     const configuredPw = getAdminPassword(env);
-    if (!configuredPw) {
+    const partnerCode = getPartnerAccessCode(env);
+    if (!configuredPw && !partnerCode) {
       return jsonResponse(
         {
           ok: false,
@@ -855,26 +1080,37 @@ export async function onRequest(context) {
     }
 
     const inputPw = typeof parsed.data.password === "string" ? parsed.data.password : "";
-    const matched = await constantTimePasswordMatch(inputPw, configuredPw);
-    if (!matched) {
+    const adminMatched = configuredPw ? await constantTimePasswordMatch(inputPw, configuredPw) : false;
+    const partnerMatched =
+      !adminMatched && partnerCode ? await constantTimePasswordMatch(inputPw, partnerCode) : false;
+
+    if (!adminMatched && !partnerMatched) {
       return jsonResponse(
         {
           ok: false,
           code: "INVALID_PASSWORD",
-          error: "管理密碼不正確，請重新確認。",
+          error: partnerCode ? "管理密碼或合夥人口令不正確，請重新確認。" : "管理密碼不正確，請重新確認。",
         },
         401
       );
     }
 
-    const token = await signSessionToken(env);
+    const role = adminMatched ? "admin" : "partner";
+    const partnerName =
+      role === "partner"
+        ? clampText(typeof parsed.data.partner_name === "string" ? parsed.data.partner_name : "", 40)
+        : "";
+    const token = await signSessionToken(env, { role, partnerName }, nowSec);
     const setCookie = buildCookieHeader(request, token, SESSION_TTL_SECONDS);
     return jsonResponse(
       {
         ok: true,
         authenticated: true,
-        db_connected: Boolean(env?.DB && typeof env.DB.prepare === "function"),
-        message: "登入成功。",
+        role,
+        partner_name: role === "partner" ? partnerName : null,
+        db_connected:
+          role === "admin" ? Boolean(env?.DB && typeof env.DB.prepare === "function") : false,
+        message: role === "partner" ? "已進入合夥人工作台。" : "登入成功。",
       },
       200,
       { "Set-Cookie": setCookie }
@@ -895,17 +1131,70 @@ export async function onRequest(context) {
   }
 
   // 以下端點全部需要有效登入 Session
-  const auth = await verifySessionRequest(request, env);
+  const auth = await verifySessionRequest(request, env, nowSec);
   if (!auth.ok) {
     return jsonResponse(
       {
         ok: false,
         code: "UNAUTHORIZED",
-        error: "請先輸入管理密碼登入雲端後台。",
+        error: "請先輸入管理密碼或合夥人口令登入。",
         password_configured: Boolean(getAdminPassword(env)),
+        partner_enabled: Boolean(getPartnerAccessCode(env)),
       },
       401
     );
+  }
+
+  // 嚴格角色隔離：合夥人僅允許呼叫白名單端點，其餘總名單／管理員端點一律回 403 FORBIDDEN
+  if (auth.role === "partner" && !PARTNER_ALLOWED_ENDPOINTS.has(pathname)) {
+    return jsonResponse(
+      {
+        ok: false,
+        code: "FORBIDDEN",
+        error: "合夥人權限僅開放關鍵字找對手與免費健檢，無法存取總名單或站長管理端點。",
+      },
+      403
+    );
+  }
+
+  // 2.5 GET /api/admin/me（站長與合夥人皆可呼叫，回傳目前角色、署名與可用權限／額度）
+  if (pathname === "/api/admin/me") {
+    if (request.method !== "GET") {
+      return jsonResponse({ ok: false, code: "METHOD_NOT_ALLOWED", error: "此端點僅支援 GET。" }, 405);
+    }
+    if (auth.role === "partner") {
+      const rateLimit = await peekPartnerSearchQuota(env, nowMs);
+      return jsonResponse({
+        ok: true,
+        authenticated: true,
+        role: "partner",
+        partner_name: auth.partner_name,
+        partner_display_name: auth.partner_name || "特約合夥人",
+        permissions: {
+          search_competitors: true,
+          public_check: true,
+          boss_report_download: true,
+          view_leads: false,
+          view_overview: false,
+          export_leads: false,
+        },
+        rate_limit: rateLimit,
+      });
+    }
+    return jsonResponse({
+      ok: true,
+      authenticated: true,
+      role: "admin",
+      partner_name: null,
+      permissions: {
+        search_competitors: true,
+        public_check: true,
+        boss_report_download: true,
+        view_leads: true,
+        view_overview: true,
+        export_leads: true,
+      },
+    });
   }
 
   // 3. GET /api/admin/overview
@@ -926,6 +1215,7 @@ export async function onRequest(context) {
           "目前尚未綁定 Cloudflare D1 資料庫（DB）。以下顯示 1,298 筆公開基準統計；您仍可直接用手機做即時健檢與下載單頁簡報，於 Cloudflare 後台綁定 D1（變數名 DB）後即自動啟用雲端名單與歷史紀錄儲存。",
         config_status: {
           password_configured: true,
+          partner_configured: Boolean(getPartnerAccessCode(env)),
           db_bound: false,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
           serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
@@ -986,6 +1276,7 @@ export async function onRequest(context) {
         db_notice: null,
         config_status: {
           password_configured: true,
+          partner_configured: Boolean(getPartnerAccessCode(env)),
           db_bound: true,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
           serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
@@ -1011,6 +1302,7 @@ export async function onRequest(context) {
           "偵測到 D1 綁定但暫時無法完成查詢，已自動切換為唯讀基準模式（1,298 筆公開統計）。請於 Cloudflare 後台檢查 DB 綁定狀態。",
         config_status: {
           password_configured: true,
+          partner_configured: Boolean(getPartnerAccessCode(env)),
           db_bound: false,
           resend_configured: Boolean(typeof env?.RESEND_API_KEY === "string" && env.RESEND_API_KEY.trim()),
           serper_configured: Boolean(typeof env?.SERPER_API_KEY === "string" && env.SERPER_API_KEY.trim()),
@@ -1238,6 +1530,36 @@ export async function onRequest(context) {
         ? Math.min(MAX_SEARCH_LIMIT, Math.floor(rawLimit))
         : DEFAULT_SEARCH_LIMIT;
 
+    // 合夥人搜尋防濫用上限（每小時／每日），避免免費 Serper 額度被刷爆
+    let partnerRateLimit = null;
+    if (auth.role === "partner") {
+      const rl = await consumePartnerSearchQuota(env, nowMs);
+      partnerRateLimit = {
+        hourly_limit: rl.hourly_limit,
+        hourly_used: rl.hourly_used,
+        hourly_remaining: rl.hourly_remaining,
+        daily_limit: rl.daily_limit,
+        daily_used: rl.daily_used,
+        daily_remaining: rl.daily_remaining,
+      };
+      if (!rl.allowed) {
+        return jsonResponse(
+          {
+            ok: false,
+            code: "RATE_LIMIT_EXCEEDED",
+            error:
+              rl.scope === "hourly"
+                ? `合夥人搜尋額度已達本小時上限（每小時最多 ${rl.hourly_limit} 次），請稍後再試或改於下方手動輸入對手網址。`
+                : `合夥人搜尋額度已達今日上限（每日最多 ${rl.daily_limit} 次），請明日再試或改於下方手動輸入對手網址。`,
+            rate_limit: partnerRateLimit,
+          },
+          429,
+          { "Retry-After": String(rl.retryAfterSeconds) }
+        );
+      }
+    }
+
+    const isPartner = auth.role === "partner";
     const serperKey = typeof env?.SERPER_API_KEY === "string" ? env.SERPER_API_KEY.trim() : "";
 
     if (serperKey) {
@@ -1261,6 +1583,7 @@ export async function onRequest(context) {
           filtered_out_count: serperRes.filteredOutCount,
           total: serperRes.results.length,
           results: serperRes.results,
+          ...(partnerRateLimit ? { rate_limit: partnerRateLimit } : {}),
         });
       }
 
@@ -1276,11 +1599,12 @@ export async function onRequest(context) {
         engine: "duckduckgo_fallback",
         needs_serper_key: false,
         degraded: true,
-        notice: "Serper 搜尋暫時無法回應，已自動切換為免 Key 備用搜尋。",
+        notice: "主要搜尋服務暫時無法回應，已自動切換為免額度備用搜尋。",
         warning: fallbackRes.warning,
         filtered_out_count: fallbackRes.filteredOutCount,
         total: fallbackRes.results.length,
         results: fallbackRes.results,
+        ...(partnerRateLimit ? { rate_limit: partnerRateLimit } : {}),
       });
     }
 
@@ -1296,8 +1620,9 @@ export async function onRequest(context) {
       engine: "duckduckgo_fallback",
       needs_serper_key: true,
       degraded: Boolean(ddgRes.degraded),
-      notice:
-        "目前尚未設定 SERPER_API_KEY，已自動切換免 Key 備用搜尋；於 Cloudflare 設定 SERPER_API_KEY Secret 可啟用 Google 搜尋＋地圖商家官網加速。",
+      notice: isPartner
+        ? "目前使用免額度備用搜尋；若查無結果，可直接於下方手動貼上同業網址進行比對。"
+        : "目前尚未設定 SERPER_API_KEY，已自動切換免 Key 備用搜尋；於 Cloudflare 設定 SERPER_API_KEY Secret 可啟用 Google 搜尋＋地圖商家官網加速。",
       warning:
         ddgRes.warning ||
         (ddgRes.results.length === 0
@@ -1306,6 +1631,7 @@ export async function onRequest(context) {
       filtered_out_count: ddgRes.filteredOutCount,
       total: ddgRes.results.length,
       results: ddgRes.results,
+      ...(partnerRateLimit ? { rate_limit: partnerRateLimit } : {}),
     });
   }
 

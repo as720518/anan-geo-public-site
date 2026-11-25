@@ -597,10 +597,12 @@ export function buildBossReportHtml({
   targetReport = {},
   competitorReports = [],
   notes = "",
+  partnerName = "",
   generatedAt = new Date().toISOString(),
 } = {}) {
   const targetUrl = String(targetReport.target_url || "");
   const displayName = String(clientName || targetReport.display_name || hostFromUrl(targetUrl)).trim() || "客戶網站";
+  const cleanPartnerName = String(partnerName || "").replace(/\s+/g, " ").trim().slice(0, 40);
   const targetScore = clampScore(targetReport.score ?? 0);
   const targetLight = targetReport.grade_light || lightFromPct(targetScore);
   const tMeta = lightMeta(targetLight);
@@ -899,10 +901,22 @@ export function buildBossReportHtml({
     ? `<div class="note-box"><strong>現場討論備註：</strong>${escapeHtml(notes)}</div>`
     : "";
 
+  const partnerBadgeHtml = cleanPartnerName
+    ? `<div class="partner-badge" data-partner-attribution="1">
+        <span class="partner-badge-dot" aria-hidden="true"></span>
+        <span>特約合夥人免費健檢推薦・服務窗口：<strong>${escapeHtml(cleanPartnerName)}</strong></span>
+      </div>`
+    : "";
+
+  const partnerCtaNoteHtml = cleanPartnerName
+    ? `<p class="partner-cta-note">本份體檢簡報由特約合夥人 <strong>${escapeHtml(cleanPartnerName)}</strong> 免費協助產出，聯繫官方 LINE 預約深度健檢時歡迎告知推薦窗口。</p>`
+    : "";
+
   // 供前端互動腳本使用的安全 JSON（已完全轉義 < > &）
   const embeddedPayload = {
     mode: isPkMode ? "pk" : "single",
     targetScore,
+    partnerName: cleanPartnerName,
     self: {
       id: targetSeries.id,
       name: targetSeries.name,
@@ -1071,6 +1085,50 @@ export function buildBossReportHtml({
       gap: 4px 14px;
       overflow-wrap: anywhere;
       word-break: break-word;
+    }
+
+    .partner-badge {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 100%;
+      padding: 7px 12px;
+      border-radius: 12px;
+      background: rgba(52, 179, 153, 0.14);
+      border: 1px solid rgba(52, 179, 153, 0.42);
+      color: #c9f2e8;
+      font-size: 13px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .partner-badge strong {
+      color: #ffffff;
+    }
+
+    .partner-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    .partner-cta-note {
+      margin: 0;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(52, 179, 153, 0.1);
+      border: 1px solid rgba(52, 179, 153, 0.3);
+      color: #cceee6;
+      font-size: 13px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    .partner-cta-note strong {
+      color: #ffffff;
     }
 
     .hero-dashboard {
@@ -2002,6 +2060,7 @@ export function buildBossReportHtml({
         <span>檢測網站：${escapeHtml(targetUrl)}</span>
         <span>檢測時間：${escapeHtml(readableTime)}</span>
       </div>
+      ${partnerBadgeHtml}
 
       <div class="hero-dashboard">
         <div class="ring-box" data-score-ring="1" data-target-score="${targetScore}">
@@ -2118,6 +2177,7 @@ export function buildBossReportHtml({
       <p class="sec-sub" style="margin:0;">
         這份簡報先幫你抓出網站公開門面的關鍵缺口；如果想直接看真實買家問 20 個問題時，AI 到底推薦了你還是推薦了對手、有沒有報錯價，歡迎預約「入門實測健檢」（NT$3,800，30 天內升級改造可全額折抵）。
       </p>
+      ${partnerCtaNoteHtml}
       <div class="cta-actions">
         <a class="btn-gold" href="${LINE_URL}" target="_blank" rel="noopener">加官方 LINE ${LINE_ID} 預約討論</a>
         <button type="button" id="print-brief-btn" class="btn-ghost">列印／存成 PDF</button>

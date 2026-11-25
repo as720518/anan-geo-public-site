@@ -4,6 +4,11 @@
   const MAX_COMPARE_COUNT = 4;
 
   const state = {
+    role: null,
+    partnerName: "",
+    partnerEnabled: false,
+    loginMode: "admin",
+    partnerRateLimit: null,
     overview: null,
     activeTab: "overview",
     latestAudit: null,
@@ -17,14 +22,28 @@
   const els = {
     loginView: document.getElementById("login-view"),
     appView: document.getElementById("app-view"),
+    loginDesc: document.getElementById("login-desc"),
+    loginModeTabs: document.getElementById("login-mode-tabs"),
+    loginPartnerHint: document.getElementById("login-partner-hint"),
+    loginPartnerNameField: document.getElementById("login-partner-name-field"),
+    loginPartnerName: document.getElementById("login-partner-name"),
+    loginPasswordLabel: document.getElementById("login-password-label"),
     loginForm: document.getElementById("login-form"),
     loginPassword: document.getElementById("login-password"),
     togglePwBtn: document.getElementById("toggle-pw-btn"),
     loginSubmit: document.getElementById("login-submit"),
     loginError: document.getElementById("login-error"),
     loginConfigBanner: document.getElementById("login-config-banner"),
+    topbarName: document.getElementById("topbar-name"),
     dbStatusPill: document.getElementById("db-status-pill"),
     dbNoticeBanner: document.getElementById("db-notice-banner"),
+    kpiGrid: document.getElementById("kpi-grid"),
+    bottomNav: document.getElementById("bottom-nav"),
+    partnerWorkspaceBanner: document.getElementById("partner-workspace-banner"),
+    partnerQuotaPill: document.getElementById("partner-quota-pill"),
+    partnerSignatureInput: document.getElementById("partner-signature-input"),
+    auditFormTitle: document.getElementById("audit-form-title"),
+    auditFormBadge: document.getElementById("audit-form-badge"),
     refreshBtn: document.getElementById("refresh-btn"),
     logoutBtn: document.getElementById("logout-btn"),
     kpiLeads: document.getElementById("kpi-leads"),
@@ -146,23 +165,127 @@
     return { status: resp.status, ok: resp.ok, data };
   }
 
+  function getEffectivePartnerName() {
+    if (state.role !== "partner") return "";
+    const typed = (els.partnerSignatureInput?.value || "").replace(/\s+/g, " ").trim().slice(0, 40);
+    return typed || state.partnerName || "特約合夥人";
+  }
+
+  function renderPartnerQuota(rateLimit) {
+    if (rateLimit && typeof rateLimit === "object") {
+      state.partnerRateLimit = rateLimit;
+    }
+    const rl = state.partnerRateLimit;
+    if (!els.partnerQuotaPill) return;
+    if (!rl) {
+      els.partnerQuotaPill.textContent = "每小時上限 30 次";
+      return;
+    }
+    els.partnerQuotaPill.textContent = `搜尋剩餘 ${rl.hourly_remaining}/${rl.hourly_limit}（時）・${rl.daily_remaining}/${rl.daily_limit}（日）`;
+  }
+
+  function setLoginMode(mode) {
+    const next = mode === "partner" ? "partner" : "admin";
+    state.loginMode = next;
+    const isPartner = next === "partner";
+    if (els.loginModeTabs) {
+      els.loginModeTabs.querySelectorAll("[data-login-mode]").forEach((btn) => {
+        const active = btn.getAttribute("data-login-mode") === next;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+      });
+    }
+    if (els.loginPartnerNameField) els.loginPartnerNameField.hidden = !isPartner;
+    if (els.loginPartnerHint) els.loginPartnerHint.hidden = !isPartner;
+    if (els.loginPasswordLabel) {
+      els.loginPasswordLabel.textContent = isPartner ? "合夥人專用口令" : "管理密碼";
+    }
+    if (els.loginPassword) {
+      els.loginPassword.placeholder = isPartner ? "請輸入合夥人專用口令" : "請輸入管理密碼";
+    }
+    if (els.loginSubmit && !els.loginSubmit.disabled) {
+      els.loginSubmit.textContent = isPartner ? "進入合夥人工作台" : "進入雲端後台";
+    }
+    if (els.loginError) els.loginError.hidden = true;
+  }
+
+  function clearAdminOnlyDom() {
+    if (els.overviewLeadsList) els.overviewLeadsList.innerHTML = "";
+    if (els.overviewAuditsList) els.overviewAuditsList.innerHTML = "";
+    if (els.leadsList) els.leadsList.innerHTML = "";
+    if (els.reportsList) els.reportsList.innerHTML = "";
+    if (els.configChecklist) els.configChecklist.innerHTML = "";
+  }
+
+  function applyRoleView(role, partnerName = "", rateLimit = null) {
+    const isPartner = role === "partner";
+    state.role = isPartner ? "partner" : "admin";
+    state.partnerName = isPartner ? String(partnerName || "").trim().slice(0, 40) : "";
+    document.body.classList.toggle("role-partner", isPartner);
+
+    if (isPartner) {
+      state.overview = null;
+      clearAdminOnlyDom();
+      if (els.kpiGrid) els.kpiGrid.hidden = true;
+      if (els.dbNoticeBanner) els.dbNoticeBanner.hidden = true;
+      if (els.bottomNav) els.bottomNav.hidden = true;
+      if (els.partnerWorkspaceBanner) els.partnerWorkspaceBanner.hidden = false;
+      if (els.topbarName) els.topbarName.textContent = "合夥人工作台";
+      if (els.dbStatusPill) {
+        els.dbStatusPill.textContent = state.partnerName ? `合夥人・${state.partnerName}` : "合夥人免費入口";
+        els.dbStatusPill.className = "status-pill status-ok";
+      }
+      if (els.partnerSignatureInput) {
+        els.partnerSignatureInput.value = state.partnerName;
+      }
+      renderPartnerQuota(rateLimit);
+      if (els.auditFormTitle) els.auditFormTitle.textContent = "10 秒即時健檢與對手 PK";
+      if (els.auditFormBadge) els.auditFormBadge.textContent = "合夥人免費直跑";
+      if (els.auditSubmit && !els.auditSubmit.disabled) {
+        els.auditSubmit.textContent = "開始 10 秒健檢並產出簡報";
+      }
+      switchTab("audit");
+    } else {
+      if (els.kpiGrid) els.kpiGrid.hidden = false;
+      if (els.bottomNav) els.bottomNav.hidden = false;
+      if (els.partnerWorkspaceBanner) els.partnerWorkspaceBanner.hidden = true;
+      if (els.topbarName) els.topbarName.textContent = "阿男 GEO 雲端後台";
+      if (els.auditFormTitle) els.auditFormTitle.textContent = "手機即時健檢與對手 PK";
+      if (els.auditFormBadge) els.auditFormBadge.textContent = "雲端直跑";
+      if (els.auditSubmit && !els.auditSubmit.disabled) {
+        els.auditSubmit.textContent = "開始雲端健檢並產出簡報";
+      }
+    }
+  }
+
   function switchTab(tabName) {
-    state.activeTab = tabName;
+    const safeTab = state.role === "partner" ? "audit" : tabName;
+    state.activeTab = safeTab;
     document.querySelectorAll("[data-tab-panel]").forEach((panel) => {
-      panel.hidden = panel.getAttribute("data-tab-panel") !== tabName;
+      panel.hidden = panel.getAttribute("data-tab-panel") !== safeTab;
     });
     document.querySelectorAll(".nav-btn").forEach((btn) => {
-      const active = btn.getAttribute("data-tab") === tabName;
+      const active = btn.getAttribute("data-tab") === safeTab;
       btn.classList.toggle("is-active", active);
       if (active) btn.setAttribute("aria-current", "page");
       else btn.removeAttribute("aria-current");
     });
   }
 
-  function showLoginView(passwordConfigured = true) {
+  function showLoginView(passwordConfigured = true, partnerEnabled = state.partnerEnabled) {
+    state.partnerEnabled = Boolean(partnerEnabled);
+    document.body.classList.remove("role-partner");
     els.appView.hidden = true;
     els.loginView.hidden = false;
-    if (!passwordConfigured) {
+    if (els.loginModeTabs) {
+      els.loginModeTabs.hidden = !state.partnerEnabled;
+    }
+    if (!state.partnerEnabled) {
+      setLoginMode("admin");
+    } else {
+      setLoginMode(state.loginMode);
+    }
+    if (!passwordConfigured && !state.partnerEnabled) {
       els.loginConfigBanner.textContent =
         "提示：雲端環境尚未設定 GEO_ADMIN_PASSWORD。請先至 Cloudflare Workers 後台 → Settings → Variables and Secrets 新增此 Secret 變數。";
       els.loginConfigBanner.hidden = false;
@@ -334,6 +457,7 @@
     const cfg = data.config_status || {};
     const rows = [
       { label: "管理密碼（GEO_ADMIN_PASSWORD）", ok: Boolean(cfg.password_configured), okText: "已設定", noText: "未設定" },
+      { label: "合夥人免費入口（PARTNER_ACCESS_CODE）", ok: Boolean(cfg.partner_configured), okText: "已啟用", noText: "未設定（選配）" },
       { label: "雲端資料庫（D1 綁定 DB）", ok: Boolean(cfg.db_bound), okText: "已連線", noText: "未綁定（降級模式）" },
       { label: "自動追單信件（RESEND_API_KEY）", ok: Boolean(cfg.resend_configured), okText: "已啟用", noText: "預覽解鎖模式" },
       { label: "關鍵字找對手（SERPER_API_KEY）", ok: Boolean(cfg.serper_configured), okText: "Google＋地圖加速", noText: "免 Key 備用搜尋" },
@@ -349,16 +473,41 @@
       .join("");
   }
 
+  async function loadPartnerWorkspace() {
+    const res = await apiFetch("/api/admin/me", { method: "GET" });
+    if (res.status === 401) {
+      showLoginView(res.data?.password_configured !== false, res.data?.partner_enabled ?? state.partnerEnabled);
+      return false;
+    }
+    if (!res.ok || !res.data?.ok) {
+      showToast(res.data?.error || "讀取合夥人工作台失敗");
+      return false;
+    }
+    if (res.data.role === "admin") {
+      return loadOverview();
+    }
+    showAppView();
+    applyRoleView("partner", res.data.partner_name || "", res.data.rate_limit || null);
+    return true;
+  }
+
   async function loadOverview() {
+    if (state.role === "partner") {
+      return loadPartnerWorkspace();
+    }
     const res = await apiFetch("/api/admin/overview", { method: "GET" });
     if (res.status === 401) {
-      showLoginView(res.data?.password_configured !== false);
+      showLoginView(res.data?.password_configured !== false, res.data?.partner_enabled ?? state.partnerEnabled);
       return false;
+    }
+    if (res.status === 403) {
+      return loadPartnerWorkspace();
     }
     if (!res.ok || !res.data?.ok) {
       showToast(res.data?.error || "讀取總覽資料失敗");
       return false;
     }
+    applyRoleView("admin");
     showAppView();
     renderOverview(res.data);
     return true;
@@ -498,6 +647,7 @@
       targetReport,
       competitorReports,
       notes,
+      partnerName: getEffectivePartnerName(),
       generatedAt: nowIso,
     });
     const filename = builder.buildBossReportFilename({
@@ -535,10 +685,32 @@
       lines.push("", "【優先補強方向】");
       t.recommendations.forEach((r, i) => lines.push(`${i + 1}. ${r}`));
     }
+    const partnerSig = getEffectivePartnerName();
+    if (partnerSig) {
+      lines.push("", `推薦協助健檢窗口：${partnerSig}`);
+    }
     return lines.join("\n");
   }
 
   // ==================== 事件綁定 ====================
+  if (els.loginModeTabs) {
+    els.loginModeTabs.addEventListener("click", (evt) => {
+      const btn = evt.target.closest("[data-login-mode]");
+      if (!btn) return;
+      setLoginMode(btn.getAttribute("data-login-mode") || "admin");
+    });
+  }
+
+  if (els.partnerSignatureInput) {
+    els.partnerSignatureInput.addEventListener("input", () => {
+      const sig = els.partnerSignatureInput.value.replace(/\s+/g, " ").trim().slice(0, 40);
+      state.partnerName = sig;
+      if (state.role === "partner" && els.dbStatusPill) {
+        els.dbStatusPill.textContent = sig ? `合夥人・${sig}` : "合夥人免費入口";
+      }
+    });
+  }
+
   els.togglePwBtn.addEventListener("click", () => {
     const isPw = els.loginPassword.type === "password";
     els.loginPassword.type = isPw ? "text" : "password";
@@ -549,8 +721,10 @@
     evt.preventDefault();
     els.loginError.hidden = true;
     const password = els.loginPassword.value || "";
+    const partnerNameInput = (els.loginPartnerName?.value || "").trim();
     if (!password) {
-      els.loginError.textContent = "請先輸入管理密碼。";
+      els.loginError.textContent =
+        state.loginMode === "partner" ? "請先輸入合夥人專用口令。" : "請先輸入管理密碼。";
       els.loginError.hidden = false;
       return;
     }
@@ -560,20 +734,28 @@
     try {
       const res = await apiFetch("/api/admin/login", {
         method: "POST",
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({
+          password,
+          ...(partnerNameInput ? { partner_name: partnerNameInput } : {}),
+        }),
       });
       if (!res.ok || !res.data?.ok) {
-        els.loginError.textContent = res.data?.error || "登入失敗，請重新確認密碼。";
+        els.loginError.textContent = res.data?.error || "登入失敗，請重新確認密碼或口令。";
         els.loginError.hidden = false;
         return;
       }
       els.loginPassword.value = "";
-      await loadOverview();
-      switchTab("overview");
-      showToast("已進入雲端後台");
+      if (res.data.role === "partner") {
+        await loadPartnerWorkspace();
+        showToast("已進入合夥人工作台");
+      } else {
+        await loadOverview();
+        switchTab("overview");
+        showToast("已進入雲端後台");
+      }
     } finally {
       els.loginSubmit.disabled = false;
-      els.loginSubmit.textContent = "進入雲端後台";
+      els.loginSubmit.textContent = state.loginMode === "partner" ? "進入合夥人工作台" : "進入雲端後台";
     }
   });
 
@@ -719,16 +901,25 @@
 
   els.logoutBtn.addEventListener("click", async () => {
     await apiFetch("/api/admin/logout", { method: "POST", body: "{}" });
+    state.role = null;
+    state.partnerName = "";
+    state.partnerRateLimit = null;
     state.overview = null;
     state.latestAudit = null;
+    clearAdminOnlyDom();
     resetFinderState();
     els.auditResultBox.hidden = true;
-    showLoginView(true);
+    showLoginView(true, state.partnerEnabled);
     showToast("已安全登出");
   });
 
   els.refreshBtn.addEventListener("click", async () => {
     showToast("更新資料中…");
+    if (state.role === "partner") {
+      const ok = await loadPartnerWorkspace();
+      if (ok) showToast("已更新合夥人工作台狀態");
+      return;
+    }
     const ok = await loadOverview();
     if (ok) showToast("已更新最新雲端資料");
   });
@@ -790,9 +981,73 @@
       .filter(Boolean);
     const competitorUrls = [...checkedPresets, ...customLines].slice(0, MAX_COMPARE_COUNT);
 
+    const defaultAuditBtnText =
+      state.role === "partner" ? "開始 10 秒健檢並產出簡報" : "開始雲端健檢並產出簡報";
+
     els.auditSubmit.disabled = true;
-    els.auditSubmit.textContent = "雲端檢測與產生簡報中…";
+    els.auditSubmit.textContent =
+      state.role === "partner" ? "10 秒即時健檢中…" : "雲端檢測與產生簡報中…";
     try {
+      // 合夥人模式：全程透過公開 /api/check 與純前端簡報產生器執行，絕不寫入或存取站長總庫
+      if (state.role === "partner") {
+        const targetRes = await apiFetch(`/api/check?url=${encodeURIComponent(targetUrl)}`, {
+          method: "GET",
+        });
+        if (!targetRes.ok || !targetRes.data?.ok) {
+          els.auditError.textContent = targetRes.data?.error || "健檢失敗，請確認客戶網址可公開讀取。";
+          els.auditError.hidden = false;
+          return;
+        }
+
+        const targetReport = targetRes.data;
+        const dedupCompUrls = [];
+        const seenUrls = new Set([targetReport.target_url]);
+        for (const rawComp of competitorUrls) {
+          if (dedupCompUrls.length >= MAX_COMPARE_COUNT) break;
+          if (rawComp && !seenUrls.has(rawComp)) {
+            seenUrls.add(rawComp);
+            dedupCompUrls.push(rawComp);
+          }
+        }
+
+        const compResponses = await Promise.all(
+          dedupCompUrls.map((compUrl) =>
+            apiFetch(`/api/check?url=${encodeURIComponent(compUrl)}`, { method: "GET" }).catch(() => ({
+              ok: false,
+              data: null,
+            }))
+          )
+        );
+        const competitorReports = compResponses
+          .filter((r) => r.ok && r.data?.ok && r.data.target_url !== targetReport.target_url)
+          .map((r) => r.data);
+
+        const compactCompetitors = competitorReports.map((c) => ({
+          target_url: c.target_url,
+          score: c.score,
+          grade_light: c.grade_light,
+          diff: targetReport.score - c.score,
+          robots_score: c.checks?.robots?.score ?? 0,
+          llms_score: c.checks?.llms?.score ?? 0,
+          homepage_score: c.checks?.homepage?.score ?? 0,
+        }));
+
+        const clientName = (els.auditClientName.value || "").trim() || hostOnly(targetReport.target_url);
+        const generatedAt = new Date().toISOString();
+        const partnerSig = getEffectivePartnerName();
+        renderLatestAudit({
+          ok: true,
+          client_name: clientName,
+          created_at: generatedAt,
+          target: targetReport,
+          competitors: competitorReports,
+          competitors_summary: compactCompetitors,
+          storage_notice: `已完成 10 秒即時健檢；下載簡報將自動帶入合夥人推薦署名「${partnerSig}」。`,
+        });
+        showToast("10 秒健檢完成，簡報已自動帶入合夥人署名");
+        return;
+      }
+
       const res = await apiFetch("/api/admin/audit", {
         method: "POST",
         body: JSON.stringify({
@@ -803,7 +1058,7 @@
         }),
       });
       if (res.status === 401) {
-        showLoginView(true);
+        showLoginView(true, state.partnerEnabled);
         showToast("登入階段已逾時，請重新登入");
         return;
       }
@@ -817,7 +1072,7 @@
       await loadOverview();
     } finally {
       els.auditSubmit.disabled = false;
-      els.auditSubmit.textContent = "開始雲端健檢並產出簡報";
+      els.auditSubmit.textContent = defaultAuditBtnText;
     }
   });
 
@@ -836,6 +1091,7 @@
         targetReport: audit.target,
         competitorReports: comps,
         notes: (els.auditNotes?.value || "").trim(),
+        partnerName: getEffectivePartnerName(),
         generatedAt: audit.created_at || new Date().toISOString(),
       });
       const filename = builder.buildBossReportFilename({
@@ -901,9 +1157,12 @@
           }),
         });
         if (res.status === 401) {
-          showLoginView(true);
+          showLoginView(true, state.partnerEnabled);
           showToast("登入階段已逾時，請重新登入");
           return;
+        }
+        if (res.data?.rate_limit) {
+          renderPartnerQuota(res.data.rate_limit);
         }
         if (!res.ok || !res.data?.ok) {
           els.finderError.textContent = res.data?.error || "搜尋失敗，請稍後再試。";
@@ -1076,10 +1335,15 @@
   // 啟動檢查：呼叫 /api/admin/session（固定 HTTP 200，確保未登入時 0 console error）
   async function bootstrap() {
     const res = await apiFetch("/api/admin/session", { method: "GET" });
+    state.partnerEnabled = Boolean(res.data?.partner_enabled);
     if (res.ok && res.data?.authenticated) {
-      await loadOverview();
+      if (res.data.role === "partner") {
+        await loadPartnerWorkspace();
+      } else {
+        await loadOverview();
+      }
     } else {
-      showLoginView(res.data?.password_configured !== false);
+      showLoginView(res.data?.password_configured !== false, state.partnerEnabled);
     }
   }
 
