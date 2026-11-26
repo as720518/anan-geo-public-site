@@ -5697,3 +5697,220 @@ html.has-cat-tabs .category-panel.is-cat-collapsed {
     text-align: center;
   }
 }
+
+/* ==================== 網站成交力 4 大指標 ＆ 下週 5 篇五行發文處方箋（geo-site-18） ==================== */
+.live-conversion-wrap {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border-radius: var(--radius-md);
+  background: var(--bg-canvas);
+  border: 1px solid rgba(217, 167, 74, 0.36);
+  min-width: 0;
+}
+
+.conversion-section-head,
+.wuxing-rx-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+
+.conversion-section-head h4,
+.wuxing-rx-head h4 {
+  margin: 4px 0 6px;
+  font-family: var(--font-display);
+  font-size: clamp(1.06rem, 1.7vw, 1.24rem);
+  color: var(--ink-primary);
+  overflow-wrap: anywhere;
+}
+
+.conversion-section-sub {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+}
+
+.conversion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.conversion-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-top: 3px solid var(--border-strong);
+  min-width: 0;
+}
+
+.conversion-card.is-green {
+  border-top-color: var(--accent-teal);
+}
+
+.conversion-card.is-yellow {
+  border-top-color: var(--accent-brass);
+}
+
+.conversion-card.is-red {
+  border-top-color: var(--accent-coral);
+}
+
+.conversion-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.conversion-card-kicker {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent-brass);
+  margin-bottom: 2px;
+}
+
+.conversion-card h5 {
+  margin: 0;
+  font-size: 0.98rem;
+  color: var(--ink-primary);
+  line-height: 1.38;
+}
+
+.conversion-card-summary {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.conversion-card-rec {
+  margin: auto 0 0;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-subtle);
+  font-size: 0.83rem;
+  color: #b7efe2;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.wuxing-rx-box {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(160deg, rgba(21, 33, 46, 0.96), rgba(11, 17, 23, 0.98));
+  border: 1px solid var(--border-strong);
+  min-width: 0;
+}
+
+.wuxing-rx-actions {
+  flex-shrink: 0;
+}
+
+.wuxing-rx-list {
+  display: grid;
+  gap: 12px;
+}
+
+.wuxing-rx-card {
+  display: grid;
+  gap: 7px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: rgba(11, 17, 23, 0.78);
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--accent-brass);
+  min-width: 0;
+}
+
+.wuxing-rx-card.is-water {
+  border-left-color: #5aa9ff;
+}
+
+.wuxing-rx-card.is-wood {
+  border-left-color: var(--accent-teal);
+}
+
+.wuxing-rx-card.is-metal {
+  border-left-color: var(--accent-brass);
+}
+
+.wuxing-rx-card.is-earth {
+  border-left-color: #c89b6e;
+}
+
+.wuxing-rx-card.is-fire {
+  border-left-color: var(--accent-coral);
+}
+
+.wuxing-rx-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 10px;
+}
+
+.wuxing-rx-day {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--accent-brass);
+}
+
+.wuxing-rx-prio {
+  font-size: 0.75rem;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink-secondary);
+}
+
+.wuxing-rx-title {
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: 1.48;
+  overflow-wrap: anywhere;
+}
+
+.wuxing-rx-tips {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+  font-size: 0.84rem;
+  color: var(--ink-secondary);
+  line-height: 1.58;
+}
+
+@media (max-width: 760px) {
+  .live-conversion-wrap {
+    padding: 16px;
+  }
+
+  .conversion-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wuxing-rx-box {
+    padding: 14px;
+  }
+
+  .wuxing-rx-actions,
+  .wuxing-rx-actions .btn {
+    width: 100%;
+  }
+}

@@ -592,6 +592,360 @@ export function buildBossReportFilename({ clientName, targetUrl, competitorCount
   return `geo-boss-brief-${slug}-${modeTag}-${datePart}.html`;
 }
 
+const BOSS_CONV_INDUSTRIES = [
+  {
+    key: "beauty_wellness",
+    label: "美容美體・美甲美睫・SPA",
+    defaultService: "肩頸舒壓與肌膚保養",
+    painScenario: "久坐緊繃、氣色暗沉或睡不好",
+    careStandard: "手技力道調整、用品乾淨透明與預約流程",
+    dailyDetail: "毛巾消毒、備茶與包廂通風整理",
+    entryExample: "新客單次舒壓體驗",
+    keywords: ["美容", "美體", "spa", "芳療", "精油", "撥筋", "美甲", "美睫", "護膚", "越式洗頭", "做臉", "舒壓", "按摩"],
+  },
+  {
+    key: "medical_health",
+    label: "醫療診所・牙科・物理調理",
+    defaultService: "門診評估與日常調理",
+    painScenario: "反覆痠痛、牙口不適或一直猶豫不敢預約檢查",
+    careStandard: "醫師溝通細心度、療程說明清楚與術後照護方式",
+    dailyDetail: "器械高溫滅菌與候診空間整理",
+    entryExample: "初診一對一檢查與評估",
+    keywords: ["牙醫", "牙科", "診所", "植牙", "矯正", "全瓷冠", "醫美", "中醫", "復健", "整復", "推拿", "物理治療", "醫師", "門診"],
+  },
+  {
+    key: "food_retail",
+    label: "餐飲・烘焙・咖啡・伴手禮",
+    defaultService: "招牌餐點與手作點心",
+    painScenario: "聚餐或送禮挑半天怕踩雷、不知道哪一道最合口味",
+    careStandard: "食材新鮮來源、甜度份量標示與保存期限說明",
+    dailyDetail: "清晨挑豆試杯、烤箱預熱與食材備料",
+    entryExample: "人氣招牌單人品嚐組合",
+    keywords: ["餐廳", "咖啡", "烘焙", "甜點", "蛋糕", "伴手禮", "美食", "早午餐", "火鍋", "燒肉", "料理", "飲料", "麵包"],
+  },
+  {
+    key: "b2b_manufacturing",
+    label: "製造代工・精密加工・供應鏈",
+    defaultService: "精密零件打樣與代工製造",
+    painScenario: "急著找穩定配合工廠、擔心交期延誤或公差對不上",
+    careStandard: "材質檢驗報告、最小訂購量透明與打樣確認流程",
+    dailyDetail: "機台開機校正、首件量測與出廠品檢",
+    entryExample: "小量打樣與圖面可行性初評",
+    keywords: ["精密", "加工", "cnc", "模具", "射出", "工廠", "製造", "代工", "oem", "odm", "零件", "機械", "五金", "供應鏈"],
+  },
+  {
+    key: "professional_service",
+    label: "顧問・行銷・設計・軟體服務",
+    defaultService: "品牌官網與專業顧問評估",
+    painScenario: "投入不少時間與預算做網站和曝光，卻遲遲等不到精準詢問",
+    careStandard: "過往實績公開度、報價邊界透明與驗收交付標準",
+    dailyDetail: "盤點客戶資料、核對報價口徑與檢查細節清單",
+    entryExample: "入門健檢與一對一方向診斷",
+    keywords: ["geo", "seo", "顧問", "行銷", "設計", "軟體", "系統", "網站", "法律", "會計", "室內設計", "工坊", "課程"],
+  },
+  {
+    key: "custom_local",
+    label: "客製與在地門市服務",
+    defaultService: "專屬客製與在地門市服務",
+    painScenario: "想找質感好又好溝通的在地店家，卻不知道第一步該怎麼開口詢問",
+    careStandard: "需求溝通流程、製作時間透明與成品交付方式",
+    dailyDetail: "整理工作台器物、確認當日預約細節與測試品質",
+    entryExample: "入門體驗與免費初步諮詢",
+    keywords: ["客製", "紀念歌", "手作", "花藝", "婚禮", "寵物", "民宿", "清潔", "維修", "工作室", "門市", "在地", "音樂"],
+  },
+];
+
+function stripPlainLabel(str, maxLen = 28) {
+  const cleaned = String(str ?? "").replace(/[\r\n\t]+/g, " ").replace(/\s+/g, " ").trim();
+  return cleaned.length > maxLen ? `${cleaned.slice(0, maxLen)}…` : cleaned;
+}
+
+function resolveConversionAndPrescription(targetReport, displayName) {
+  const home = targetReport?.checks?.homepage || {};
+  const existingConv = targetReport?.conversion_diagnosis;
+  const existingRx = targetReport?.weekly_wuxing_prescription;
+
+  let convDiag = null;
+  if (existingConv && Array.isArray(existingConv.indicators) && existingConv.indicators.length > 0) {
+    convDiag = {
+      overall_light: existingConv.overall_light || "yellow",
+      summary: String(existingConv.summary || ""),
+      indicators: existingConv.indicators.slice(0, 4).map((ind) => ({
+        key: String(ind.key || ""),
+        name: String(ind.name || ""),
+        wuxing_label: String(ind.wuxing_label || ""),
+        light: ind.light === "green" || ind.light === "yellow" || ind.light === "red" ? ind.light : "yellow",
+        light_label: ind.light_label || (ind.light === "green" ? "綠燈" : ind.light === "yellow" ? "黃燈" : "紅燈"),
+        summary: String(ind.summary || ""),
+        recommendation: String(ind.recommendation || ""),
+      })),
+    };
+  } else {
+    // 向下相容舊資料（未附即時掃描欄位時，依首頁公開結構誠實推導基礎提醒）
+    const hasFaq = Boolean(home.has_faq_page);
+    const hasTable = Boolean(home.has_visible_table);
+    const hasReview = Array.isArray(home.schema_types) && home.schema_types.some((t) => /review|rating/i.test(String(t)));
+    convDiag = {
+      overall_light: hasFaq && hasTable && hasReview ? "green" : "yellow",
+      summary: "依首頁現有公開結構整理的 4 大成交力檢視重點，協助把進站訪客穩定轉為 LINE 詢問。",
+      indicators: [
+        {
+          key: "mobile_readability",
+          name: "手機三行好讀度",
+          wuxing_label: "三行好讀排版",
+          light: "yellow",
+          light_label: "黃燈",
+          summary: "建議檢查手機首頁每一段文字是否控制在 3 行內並留空行，避免滑過變成密集文字牆。",
+          recommendation: "把超過 3 行的長段在句號處拆開留白，讓忙碌客人 3 秒看完重點。",
+        },
+        {
+          key: "pain_and_knowledge",
+          name: "客人痛點與常識問答",
+          wuxing_label: "水・痛點 ＋ 木・知識",
+          light: hasFaq ? "green" : "red",
+          light_label: hasFaq ? "綠燈" : "紅燈",
+          summary: hasFaq
+            ? "首頁已具問答架構，能協助新客快速看懂常見疑問。"
+            : "首頁尚未看到明顯的客人常見問答區塊，陌生客人容易滿頭問號離開。",
+          recommendation: "補上 3～5 個客人最常私訊的痛點與挑選常識問答。",
+        },
+        {
+          key: "proof_and_cases",
+          name: "真實案例與客人見證",
+          wuxing_label: "金・成果見證",
+          light: hasReview ? "green" : "yellow",
+          light_label: hasReview ? "綠燈" : "黃燈",
+          summary: hasReview
+            ? "已偵測到客人評價信號，有助建立陌生訪客信任。"
+            : "建議於首頁補上獨立的真實案例與前後對照回饋區，讓新客更快安心。",
+          recommendation: "整理 2～3 則真實服務前後紀錄與客人回饋，強化信任感。",
+        },
+        {
+          key: "entry_ladder",
+          name: "低門檻破冰體驗入口",
+          wuxing_label: "火・三層體驗階梯",
+          light: hasTable ? "yellow" : "red",
+          light_label: hasTable ? "黃燈" : "紅燈",
+          summary: hasTable
+            ? "已有純文字價目表，建議再把「新客第一步入門體驗」擺在顯眼處搭配預約鈕。"
+            : "尚未看到透明起步價與新客入門破冰體驗入口，觀望客較難跨出第一步。",
+          recommendation: "設計一個透明費用、低負擔的初次體驗入口並直接串接官方 LINE 預約。",
+        },
+      ],
+    };
+  }
+
+  let rx = null;
+  if (existingRx && Array.isArray(existingRx.posts) && existingRx.posts.length > 0) {
+    rx = {
+      brand_label: String(existingRx.brand_label || displayName || "貴站"),
+      industry_label: String(existingRx.industry_label || "在地品牌服務"),
+      core_service: String(existingRx.core_service || ""),
+      headline: String(existingRx.headline || `贈送：${displayName} 專屬下週 5 篇五行發文處方箋`),
+      intro: String(existingRx.intro || ""),
+      posts: existingRx.posts.slice(0, 5).map((p) => ({
+        day: String(p.day || ""),
+        element_tag: String(p.element_tag || "earth"),
+        element_label: String(p.element_label || ""),
+        priority_note: String(p.priority_note || ""),
+        title: String(p.title || ""),
+        writing_tips: Array.isArray(p.writing_tips) ? p.writing_tips.slice(0, 3).map((t) => String(t || "")) : [],
+        mobile_format_tip: String(p.mobile_format_tip || ""),
+      })),
+    };
+  } else {
+    const combined = `${displayName || ""} ${home.title || ""} ${home.description || ""}`.toLowerCase();
+    let best = BOSS_CONV_INDUSTRIES[BOSS_CONV_INDUSTRIES.length - 1];
+    let bestScore = 0;
+    for (const prof of BOSS_CONV_INDUSTRIES) {
+      let sc = 0;
+      for (const kw of prof.keywords) {
+        if (combined.includes(kw.toLowerCase())) sc += 1;
+      }
+      if (sc > bestScore) {
+        bestScore = sc;
+        best = prof;
+      }
+    }
+    const safeBrand = stripPlainLabel(displayName || home.title || "本店", 24) || "本店";
+    const safeService = best.defaultService;
+    rx = {
+      brand_label: safeBrand,
+      industry_label: best.label,
+      core_service: safeService,
+      headline: `贈送：${safeBrand} 專屬下週 5 篇五行發文處方箋`,
+      intro: `系統依貴站屬性辨識為「${best.label}」，幫你排好週一到週五金木水火土完整一輪發文清單，連白話標題都先擬好了。`,
+      posts: [
+        {
+          day: "週一",
+          element_tag: "water",
+          element_label: "💧 水｜痛點故事篇",
+          priority_note: "優先修補：客人痛點共鳴",
+          title: `明明已經${best.painScenario}，為什麼很多人對「${safeService}」還是遲遲不敢踏出第一步？`,
+          writing_tips: [
+            "第 1 段（2～3 行）：寫一位客人剛來時隨口說出的一句真實煩惱。",
+            "第 2 段（2～3 行）：同理大家最怕踩的 2 個顧慮，不講大道理。",
+            "第 3 段（1～2 行）：溫和安撫並留一句輕巧私訊邀請。",
+          ],
+          mobile_format_tip: "每段不超過手機 3 行就空一行。",
+        },
+        {
+          day: "週二",
+          element_tag: "wood",
+          element_label: "🌱 木｜專業知識篇",
+          priority_note: "建立專業信任與搜尋引用",
+          title: `挑選「${safeService}」前先看這 3 點！避開外行人最常白花錢的迷思`,
+          writing_tips: [
+            `第 1 段（2 行）：點出挑選時最容易忽略的重點（如：${best.careStandard}）。`,
+            "第 2 段（1-2-3 條列）：列出 3 個客人自己就能判斷的白話標準。",
+            "第 3 段（1～2 行）：同步放進官網問答區，方便問答引擎引用。",
+          ],
+          mobile_format_tip: "用 1. 2. 3. 條列分段留白。",
+        },
+        {
+          day: "週三",
+          element_tag: "metal",
+          element_label: "🪙 金｜成果見證篇",
+          priority_note: "優先修補：真實案例與見證",
+          title: `${safeBrand}真實服務紀錄：從原本卡關猶豫，到完成「${safeService}」後鬆一口氣的前後對照`,
+          writing_tips: [
+            "第 1 段（2～3 行）：交代客人來之前的真實狀況與猶豫點。",
+            "第 2 段（2～3 行）：說清楚我們幫他把關的關鍵細節。",
+            "第 3 段（2 行）：引述客人完成後最真實的一句回饋。",
+          ],
+          mobile_format_tip: "搭配 1 張店內實拍圖信任感更強。",
+        },
+        {
+          day: "週四",
+          element_tag: "earth",
+          element_label: "🪴 土｜日常溫度篇",
+          priority_note: "拉近熟客與在地鄰居距離",
+          title: `開店門前的 30 分鐘準備日常：為什麼${safeBrand}堅持在這個小細節慢慢來？`,
+          writing_tips: [
+            `第 1 段（2 行）：拍一張工作台自然光實拍照，分享「${best.dailyDetail}」。`,
+            "第 2 段（2～3 行）：聊聊為什麼願意花這 30 分鐘把關品質。",
+            "第 3 段（1～2 行）：跟老客人與在地朋友自然打招呼。",
+          ],
+          mobile_format_tip: "像聊天一樣自然，150～220 字最剛好。",
+        },
+        {
+          day: "週五",
+          element_tag: "fire",
+          element_label: "🔥 火｜破冰行動篇",
+          priority_note: "優先修補：低門檻破冰體驗入口",
+          title: `第一次來${safeBrand}不知道怎麼選？專為新朋友準備的「${best.entryExample}」流程公開`,
+          writing_tips: [
+            `第 1 段（2 行）：向新朋友介紹低門檻「${best.entryExample}」。`,
+            "第 2 段（2～3 行）：寫清楚流程、時間與公開透明費用，零推銷壓力。",
+            "第 3 段（1～2 行）：放上官方 LINE 與預約方式，邀請預約時段。",
+          ],
+          mobile_format_tip: "費用與預約入口單獨成行留白。",
+        },
+      ],
+    };
+  }
+
+  const copyLines = [
+    `【${rx.headline}】`,
+    `辨識行業：${rx.industry_label}`,
+    "",
+    "【網站成交力 4 大指標摘要】",
+    ...convDiag.indicators.map((ind) => `- ${ind.name}（${ind.light_label}）：${ind.summary}`),
+    "",
+    "【週一至週五五行發文清單】",
+  ];
+  for (const p of rx.posts) {
+    copyLines.push("", `${p.day}｜${p.element_label}`, `標題：${p.title}`);
+    for (const tip of p.writing_tips) {
+      copyLines.push(`  • ${tip}`);
+    }
+  }
+  copyLines.push("", `預約官網改造或開通 LINE@ 語音自動發文：加官方 LINE ${LINE_ID}`);
+
+  return { convDiag, rx, prescriptionCopyText: copyLines.join("\n") };
+}
+
+function buildConversionAndPrescriptionSectionHtml(convDiag, rx) {
+  const convCardsHtml = convDiag.indicators
+    .map((ind) => {
+      const m = lightMeta(ind.light);
+      return `
+        <article class="conv-card">
+          <div class="conv-card-top">
+            <div>
+              <span class="conv-wuxing">${escapeHtml(ind.wuxing_label)}</span>
+              <h3>${escapeHtml(ind.name)}</h3>
+            </div>
+            <span class="pill" style="background:${m.bg};color:${m.color};border-color:${m.border};">${escapeHtml(ind.light_label)}</span>
+          </div>
+          <p class="conv-summary">${escapeHtml(ind.summary)}</p>
+          <p class="conv-rec"><strong>白話怎麼補：</strong>${escapeHtml(ind.recommendation)}</p>
+        </article>`;
+    })
+    .join("");
+
+  const rxCardsHtml = rx.posts
+    .map(
+      (post) => `
+        <article class="rx-card rx-${escapeHtml(post.element_tag)}">
+          <div class="rx-card-top">
+            <span class="rx-day">${escapeHtml(post.day)}｜${escapeHtml(post.element_label)}</span>
+            ${post.priority_note ? `<span class="rx-prio">${escapeHtml(post.priority_note)}</span>` : ""}
+          </div>
+          <h4 class="rx-title">${escapeHtml(post.title)}</h4>
+          <ul class="rx-tips">
+            ${post.writing_tips.map((tip) => `<li>${escapeHtml(tip)}</li>`).join("")}
+          </ul>
+          ${post.mobile_format_tip ? `<p class="rx-mobile-tip">📱 排版提醒：${escapeHtml(post.mobile_format_tip)}</p>` : ""}
+        </article>`
+    )
+    .join("");
+
+  return `
+    <!-- 網站成交力 4 大指標 ＆ 贈送下週 5 篇五行發文處方箋 -->
+    <section class="section card conv-rx-section" id="conversion-wuxing-section">
+      <div class="section-head">
+        <div>
+          <p class="sec-kicker">CONVERSION &amp; WEEKLY PRESCRIPTION</p>
+          <h2>網站成交力 4 大指標 ＆ 贈送下週 5 篇五行發文處方箋</h2>
+        </div>
+        <span class="rank-pill">行業：${escapeHtml(rx.industry_label)}</span>
+      </div>
+      <p class="sec-sub">${escapeHtml(convDiag.summary)}</p>
+
+      <div class="conv-grid">
+        ${convCardsHtml}
+      </div>
+
+      <div class="rx-block">
+        <div class="rx-head">
+          <div>
+            <p class="sec-kicker">FREE BONUS・金木水火土完整一輪</p>
+            <h3>${escapeHtml(rx.headline)}</h3>
+            <p class="sec-sub" style="margin:4px 0 0;">${escapeHtml(rx.intro)}</p>
+          </div>
+          <div class="rx-copy-bar">
+            <button type="button" id="copy-prescription-btn" class="btn-gold">📋 一鍵複製下週 5 篇發文處方箋</button>
+          </div>
+        </div>
+        <p id="copy-prescription-feedback" class="copy-rx-fb" aria-live="polite"></p>
+        <div class="rx-list">
+          ${rxCardsHtml}
+        </div>
+        <div class="rx-dual-hook">
+          <div class="rx-hook-item">
+            <strong>把問答與體驗階梯直接寫進官網</strong>
+            <p>讓搜尋與問答引擎主動讀懂並推薦你，歡迎加官方 LINE ${LINE_ID} 預約官網改造評估。</p>
+          </div>
+          <div class="rx-hook-item">
+            <strong>沒空自己排版發文？</strong>
+            <p>開通 LINE@ 自動發文小幫手，對手機講 20 秒語音就幫你切好三行同步官網與 Threads！</p>
+          </div>
+        </div>
+      </div>
+    </section>`;
+}
+
 export function buildBossReportHtml({
   clientName = "",
   targetReport = {},
@@ -912,11 +1266,15 @@ export function buildBossReportHtml({
     ? `<p class="partner-cta-note">本份體檢簡報由特約合夥人 <strong>${escapeHtml(cleanPartnerName)}</strong> 免費協助產出，聯繫官方 LINE 預約深度健檢時歡迎告知推薦窗口。</p>`
     : "";
 
+  const { convDiag, rx, prescriptionCopyText } = resolveConversionAndPrescription(targetReport, displayName);
+  const conversionPrescriptionHtml = buildConversionAndPrescriptionSectionHtml(convDiag, rx);
+
   // 供前端互動腳本使用的安全 JSON（已完全轉義 < > &）
   const embeddedPayload = {
     mode: isPkMode ? "pk" : "single",
     targetScore,
     partnerName: cleanPartnerName,
+    prescriptionCopyText,
     self: {
       id: targetSeries.id,
       name: targetSeries.name,
@@ -1956,6 +2314,205 @@ export function buildBossReportHtml({
       color: #f3d796;
     }
 
+    /* ==================== 網站成交力 4 大指標 ＆ 五行處方箋 ==================== */
+    .conv-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .conv-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .conv-card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .conv-wuxing {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--brass);
+      margin-bottom: 2px;
+    }
+
+    .conv-card h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .conv-summary {
+      margin: 0;
+      font-size: 13.5px;
+      color: var(--ink-sub);
+      overflow-wrap: anywhere;
+    }
+
+    .conv-rec {
+      margin: auto 0 0;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: #c9f2e8;
+      overflow-wrap: anywhere;
+    }
+
+    .rx-block {
+      margin-top: 8px;
+      padding: 18px 15px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(155deg, #132030 0%, #0d1622 100%);
+      border: 1px solid rgba(228, 182, 92, 0.36);
+    }
+
+    .rx-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .rx-head h3 {
+      margin: 2px 0 0;
+      font-size: clamp(17px, 3.8vw, 20px);
+      font-weight: 800;
+      color: #ffffff;
+      overflow-wrap: anywhere;
+    }
+
+    .rx-copy-bar {
+      flex-shrink: 0;
+      max-width: 100%;
+    }
+
+    .copy-rx-fb {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+      min-height: 0;
+    }
+
+    .copy-rx-fb:empty {
+      display: none;
+    }
+
+    .rx-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .rx-card {
+      background: #0d1622;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--brass);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .rx-water { border-left-color: #5aa9ff; }
+    .rx-wood { border-left-color: #34b399; }
+    .rx-metal { border-left-color: #e4b65c; }
+    .rx-earth { border-left-color: #c89b6e; }
+    .rx-fire { border-left-color: #f07c67; }
+
+    .rx-card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px 10px;
+    }
+
+    .rx-day {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--brass);
+    }
+
+    .rx-prio {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--ink-sub);
+    }
+
+    .rx-title {
+      margin: 0;
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .rx-tips {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13.5px;
+      color: var(--ink-sub);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .rx-mobile-tip {
+      margin: 2px 0 0;
+      font-size: 12.5px;
+      color: #9ed9ca;
+    }
+
+    .rx-dual-hook {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .rx-hook-item {
+      padding: 12px 13px;
+      border-radius: var(--radius-sm);
+      background: rgba(228, 182, 92, 0.08);
+      border: 1px solid rgba(228, 182, 92, 0.28);
+      font-size: 13px;
+      color: var(--ink-sub);
+    }
+
+    .rx-hook-item strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #f8e2ae;
+      font-size: 13.5px;
+    }
+
+    .rx-hook-item p {
+      margin: 0;
+    }
+
     /* ==================== 底部 CTA 與頁尾 ==================== */
     .cta-box {
       background: linear-gradient(145deg, #172536, #111b28);
@@ -2024,6 +2581,10 @@ export function buildBossReportHtml({
       .action-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
+      .conv-grid,
+      .rx-dual-hook {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2035,14 +2596,14 @@ export function buildBossReportHtml({
 
     @media print {
       body { background: #ffffff; color: #0f172a; padding: 0; }
-      .hero, .card, .cta-box, .dim-card, .action-card, .pk-row, .insight-panel {
+      .hero, .card, .cta-box, .dim-card, .action-card, .pk-row, .insight-panel, .conv-card, .rx-block, .rx-card {
         background: #ffffff !important;
         color: #0f172a !important;
         border-color: #cbd5e1 !important;
         box-shadow: none !important;
       }
-      h1, h2, h3, .verdict-headline, .pk-name, .ring-num, .insight-q { color: #0f172a !important; }
-      .hero-meta, .verdict-sub, .sec-sub, .dim-status, .action-detail, .footer { color: #475569 !important; }
+      h1, h2, h3, h4, .verdict-headline, .pk-name, .ring-num, .insight-q, .rx-title { color: #0f172a !important; }
+      .hero-meta, .verdict-sub, .sec-sub, .dim-status, .action-detail, .conv-summary, .rx-tips, .footer { color: #475569 !important; }
       .btn-ghost { display: none !important; }
     }
   </style>
@@ -2165,6 +2726,8 @@ export function buildBossReportHtml({
         ${top3Html}
       </div>
     </section>
+
+    ${conversionPrescriptionHtml}
 
     <!-- 下一步 CTA -->
     <section class="cta-box">
@@ -2399,6 +2962,38 @@ export function buildBossReportHtml({
     if (printBtn) {
       printBtn.addEventListener("click", function () {
         window.print();
+      });
+    }
+
+    // 7. 一鍵複製下週 5 篇五行發文處方箋
+    var copyRxBtn = document.getElementById("copy-prescription-btn");
+    var copyRxFb = document.getElementById("copy-prescription-feedback");
+    if (copyRxBtn) {
+      copyRxBtn.addEventListener("click", function () {
+        var textToCopy = String(DATA.prescriptionCopyText || "");
+        if (!textToCopy) return;
+        function showCopied() {
+          if (copyRxFb) {
+            copyRxFb.textContent = "已複製下週 5 篇五行發文處方箋！可直接貼到記事本或傳給團隊使用。";
+          }
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textToCopy).then(showCopied).catch(function () {
+            showCopied();
+          });
+        } else {
+          try {
+            var ta = document.createElement("textarea");
+            ta.value = textToCopy;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+          } catch (e) {}
+          showCopied();
+        }
       });
     }
   })();

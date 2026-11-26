@@ -8,6 +8,8 @@
  * 3. 官網結構與標籤（首頁 HTTP 狀態、title、description、canonical、JSON-LD @type）
  */
 
+import { analyzeConversionAndPrescription } from "../lib/conversion-wuxing.js";
+
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -1278,6 +1280,21 @@ export async function runGeoBasicCheck(targetUrlObj, fetchFn = globalThis.fetch)
     );
   }
 
+  const homeHtmlForConversion =
+    homeRes.ok && homeRes.status >= 200 && homeRes.status < 300 ? homeRes.text : "";
+  const { conversion_diagnosis, weekly_wuxing_prescription } = analyzeConversionAndPrescription({
+    html: homeHtmlForConversion,
+    targetUrl: targetUrlObj.href,
+    meta: {
+      title: homepage.title,
+      description: homepage.description,
+      h1_text: homepage.h1_text,
+      schema_types: homepage.schema_types,
+      has_visible_table: homepage.has_visible_table,
+      has_faq_page: homepage.has_faq_page,
+    },
+  });
+
   return {
     ok: true,
     target_url: targetUrlObj.href,
@@ -1293,6 +1310,8 @@ export async function runGeoBasicCheck(targetUrlObj, fetchFn = globalThis.fetch)
       llms,
       homepage,
     },
+    conversion_diagnosis,
+    weekly_wuxing_prescription,
     recommendations,
     disclaimer: DISCLAIMER_TEXT,
     next_step: {

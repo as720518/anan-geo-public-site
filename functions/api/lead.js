@@ -15,6 +15,11 @@
  */
 
 import { validatePublicUrl } from "./check.js";
+import {
+  sanitizeConversionDiagnosis,
+  sanitizeWeeklyPrescription,
+  formatPrescriptionPlainText,
+} from "../lib/conversion-wuxing.js";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -278,6 +283,9 @@ function sanitizeReportSummary(rawReport, fallbackScore, targetUrlHref) {
       .filter(Boolean);
   }
 
+  const conversionDiagnosis = sanitizeConversionDiagnosis(src.conversion_diagnosis);
+  const weeklyPrescription = sanitizeWeeklyPrescription(src.weekly_wuxing_prescription);
+
   return {
     ok: true,
     summary: {
@@ -287,6 +295,8 @@ function sanitizeReportSummary(rawReport, fallbackScore, targetUrlHref) {
       grade_label: clampText(src.grade_label, 140),
       checks,
       recommendations,
+      conversion_diagnosis: conversionDiagnosis,
+      weekly_wuxing_prescription: weeklyPrescription,
     },
   };
 }
@@ -359,6 +369,61 @@ function buildVisitorEmail({ targetSummary, competitorSummary, submittedAt }) {
           .join("")
       : `<li style="margin:0;line-height:1.65;">基礎公開設定皆已到位，建議進一步透過 20 題跨平台無痕實測確認 AI 實際點名與報價準確度。</li>`;
 
+  const lightPillStyle = (light) => {
+    if (light === "green") return "background:#d1fae5;color:#065f46;";
+    if (light === "yellow") return "background:#fef3c7;color:#92400e;";
+    return "background:#fee2e2;color:#991b1b;";
+  };
+
+  const convDiag = targetSummary.conversion_diagnosis;
+  const convHtml =
+    convDiag && Array.isArray(convDiag.indicators) && convDiag.indicators.length > 0
+      ? `
+      <h2 style="margin:24px 0 10px;font-size:16px;color:#0f172a;">網站成交力 4 大指標診斷</h2>
+      <p style="margin:0 0 10px;font-size:13.5px;color:#475569;line-height:1.6;">${escapeHtml(convDiag.summary || "針對手機好讀度、痛點問答、真實見證與破冰體驗入口的即時掃描結果：")}</p>
+      <table style="width:100%;border-collapse:collapse;font-size:13.5px;border:1px solid #e2e8f0;margin-bottom:18px;">
+        <tbody>
+          ${convDiag.indicators
+            .map(
+              (ind) => `
+          <tr>
+            <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;font-weight:700;color:#0f172a;width:36%;vertical-align:top;">
+              ${escapeHtml(ind.name)}<br>
+              <span style="display:inline-block;margin-top:4px;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;${lightPillStyle(ind.light)}">${escapeHtml(ind.light_label || LIGHT_LABELS[ind.light] || ind.light)}</span>
+            </td>
+            <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#334155;vertical-align:top;line-height:1.6;">
+              ${escapeHtml(ind.summary)}<br>
+              <span style="color:#0f766e;font-size:12.5px;">建議：${escapeHtml(ind.recommendation)}</span>
+            </td>
+          </tr>`
+            )
+            .join("")}
+        </tbody>
+      </table>`
+      : "";
+
+  const rx = targetSummary.weekly_wuxing_prescription;
+  const rxHtml =
+    rx && Array.isArray(rx.posts) && rx.posts.length > 0
+      ? `
+      <h2 style="margin:24px 0 8px;font-size:16px;color:#0f172a;">贈送：下週 5 篇五行發文處方箋（連標題都幫你擬好了）</h2>
+      <p style="margin:0 0 12px;font-size:13.5px;color:#475569;line-height:1.6;">${escapeHtml(rx.intro || "週一至週五涵蓋金木水火土完整一輪，直接照著發就能幫官網與社群累積信任。")}</p>
+      ${rx.posts
+        .map(
+          (post) => `
+      <div style="margin:0 0 10px;padding:12px 14px;border-radius:10px;background:#f8fafc;border:1px solid #cbd5e1;">
+        <div style="font-size:12px;font-weight:700;color:#92400e;margin-bottom:4px;">${escapeHtml(post.day)}｜${escapeHtml(post.element_label)}${post.priority_note ? `・${escapeHtml(post.priority_note)}` : ""}</div>
+        <div style="font-size:14.5px;font-weight:700;color:#0f172a;margin-bottom:6px;line-height:1.5;">${escapeHtml(post.title)}</div>
+        <ul style="margin:0;padding-left:18px;font-size:13px;color:#334155;line-height:1.6;">
+          ${(Array.isArray(post.writing_tips) ? post.writing_tips : [])
+            .map((tip) => `<li style="margin:0 0 3px;">${escapeHtml(tip)}</li>`)
+            .join("")}
+        </ul>
+      </div>`
+        )
+        .join("")}`
+      : "";
+
   const pkBannerHtml = isPk
     ? `
       <div style="margin:16px 0;padding:16px;border-radius:10px;background:#0f172a;color:#f8fafc;">
@@ -409,6 +474,9 @@ function buildVisitorEmail({ targetSummary, competitorSummary, submittedAt }) {
         ${recsHtml}
       </ul>
 
+      ${convHtml}
+      ${rxHtml}
+
       <div style="padding:16px 18px;border-radius:10px;background:#fffbeb;border:1px solid #f59e0b;">
         <div style="font-weight:700;font-size:15px;color:#92400e;margin-bottom:6px;">下一步：想知道 ChatGPT、Gemini、Perplexity 真實回答有沒有點名你？</div>
         <p style="margin:0 0 12px;font-size:14px;line-height:1.65;color:#78350f;">
@@ -442,6 +510,13 @@ function buildVisitorEmail({ targetSummary, competitorSummary, submittedAt }) {
     targetSummary.recommendations.forEach((r, idx) => textLines.push(`${idx + 1}. ${r}`));
   } else {
     textLines.push("1. 公開首頁基礎設定已到位，建議進一步做 20 題跨平台無痕實測。");
+  }
+  const convRxPlain = formatPrescriptionPlainText(
+    targetSummary.conversion_diagnosis,
+    targetSummary.weekly_wuxing_prescription
+  );
+  if (convRxPlain) {
+    textLines.push("", convRxPlain);
   }
   textLines.push(
     "",

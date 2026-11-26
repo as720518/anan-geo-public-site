@@ -880,6 +880,9 @@
       });
     }
 
+    // 網站成交力 4 大指標 ＆ 下週 5 篇五行發文處方箋（全數使用 textContent 防 XSS）
+    renderConversionAndPrescription(report);
+
     // Disclaimer
     const disclaimerNode = el("live-check-disclaimer");
     if (disclaimerNode && report.disclaimer) {
@@ -994,8 +997,207 @@
     }
   }
 
+  function buildPrescriptionCopyText(report) {
+    if (!report) return "";
+    const diag = report.conversion_diagnosis;
+    const rx = report.weekly_wuxing_prescription;
+    const lines = [];
+    if (diag && Array.isArray(diag.indicators) && diag.indicators.length > 0) {
+      lines.push("【網站成交力 4 大指標診斷】");
+      diag.indicators.forEach((ind) => {
+        lines.push(`- ${ind.name}（${ind.light_label || LIGHT_TEXT[ind.light] || ""}）：${ind.summary}`);
+      });
+      lines.push("");
+    }
+    if (rx && Array.isArray(rx.posts) && rx.posts.length > 0) {
+      lines.push(`【${rx.headline || "專屬下週 5 篇五行發文處方箋"}】`);
+      if (rx.industry_label) lines.push(`辨識行業：${rx.industry_label}`);
+      rx.posts.forEach((post) => {
+        lines.push("", `${post.day}｜${post.element_label}`, `擬定標題：${post.title}`);
+        if (Array.isArray(post.writing_tips)) {
+          post.writing_tips.forEach((tip) => lines.push(`  • ${tip}`));
+        }
+      });
+      lines.push("", "預約官網改造評估或開通 LINE@ 語音自動發文：加官方 LINE @250ruauk");
+    }
+    return lines.join("\n").trim();
+  }
+
+  function renderConversionAndPrescription(report) {
+    const wrap = el("live-conversion-wrap");
+    const grid = el("live-conversion-grid");
+    const rxList = el("live-wuxing-list");
+    if (!wrap || !grid || !rxList) return;
+
+    const diag = report?.conversion_diagnosis;
+    const rx = report?.weekly_wuxing_prescription;
+    const hasDiag = Boolean(diag && Array.isArray(diag.indicators) && diag.indicators.length > 0);
+    const hasRx = Boolean(rx && Array.isArray(rx.posts) && rx.posts.length > 0);
+
+    if (!hasDiag && !hasRx) {
+      wrap.hidden = true;
+      clearNode(grid);
+      clearNode(rxList);
+      return;
+    }
+
+    wrap.hidden = false;
+
+    const summaryEl = el("live-conversion-summary");
+    if (summaryEl) {
+      summaryEl.textContent = diag?.summary || "即時掃描手機好讀度、痛點問答、真實見證與破冰體驗入口。";
+    }
+
+    const badgeEl = el("live-conversion-badge");
+    if (badgeEl && diag) {
+      const ov = diag.overall_light || "yellow";
+      const cls = ov === "green" ? "pill-teal" : ov === "yellow" ? "pill-brass" : "pill-coral";
+      badgeEl.className = `pill ${cls}`;
+      badgeEl.textContent = `${diag.green_count ?? 0} 綠・${diag.yellow_count ?? 0} 黃・${diag.red_count ?? 0} 紅`;
+    }
+
+    clearNode(grid);
+    if (hasDiag) {
+      diag.indicators.forEach((ind) => {
+        const card = document.createElement("article");
+        const light = ind.light === "green" || ind.light === "yellow" || ind.light === "red" ? ind.light : "yellow";
+        card.className = `conversion-card is-${light}`;
+        card.setAttribute("data-conv-key", String(ind.key || ""));
+
+        const head = document.createElement("div");
+        head.className = "conversion-card-head";
+
+        const titleWrap = document.createElement("div");
+        const kicker = document.createElement("span");
+        kicker.className = "conversion-card-kicker";
+        kicker.textContent = String(ind.wuxing_label || "");
+
+        const h5 = document.createElement("h5");
+        h5.textContent = String(ind.name || "");
+        titleWrap.append(kicker, h5);
+
+        const lightBadge = document.createElement("span");
+        lightBadge.className = `light-badge is-${light}`;
+        lightBadge.textContent = String(ind.light_label || LIGHT_TEXT[light] || "");
+
+        head.append(titleWrap, lightBadge);
+
+        const sumP = document.createElement("p");
+        sumP.className = "conversion-card-summary";
+        sumP.textContent = String(ind.summary || "");
+
+        const recP = document.createElement("p");
+        recP.className = "conversion-card-rec";
+        const recStrong = document.createElement("strong");
+        recStrong.textContent = "白話補強：";
+        recP.append(recStrong, document.createTextNode(String(ind.recommendation || "")));
+
+        card.append(head, sumP, recP);
+        grid.appendChild(card);
+      });
+    }
+
+    const indEl = el("live-wuxing-industry");
+    if (indEl) {
+      indEl.textContent = rx?.industry_label ? `自動辨識行業：${rx.industry_label}` : "專屬下週發文清單";
+    }
+    const headlineEl = el("live-wuxing-headline");
+    if (headlineEl) {
+      headlineEl.textContent = rx?.headline || "贈送：專屬下週 5 篇五行發文處方箋";
+    }
+    const introEl = el("live-wuxing-intro");
+    if (introEl) {
+      introEl.textContent = rx?.intro || "";
+    }
+
+    clearNode(rxList);
+    if (hasRx) {
+      rx.posts.forEach((post) => {
+        const item = document.createElement("article");
+        const elTag = ["water", "wood", "metal", "earth", "fire"].includes(post.element_tag)
+          ? post.element_tag
+          : "earth";
+        item.className = `wuxing-rx-card is-${elTag}`;
+        item.setAttribute("data-wuxing-element", elTag);
+
+        const top = document.createElement("div");
+        top.className = "wuxing-rx-top";
+
+        const dayBadge = document.createElement("span");
+        dayBadge.className = "wuxing-rx-day";
+        dayBadge.textContent = `${post.day || ""}｜${post.element_label || ""}`;
+
+        top.appendChild(dayBadge);
+        if (post.priority_note) {
+          const prio = document.createElement("span");
+          prio.className = "wuxing-rx-prio";
+          prio.textContent = String(post.priority_note);
+          top.appendChild(prio);
+        }
+
+        const titleEl = document.createElement("h5");
+        titleEl.className = "wuxing-rx-title";
+        titleEl.textContent = String(post.title || "");
+
+        const tipsUl = document.createElement("ul");
+        tipsUl.className = "wuxing-rx-tips";
+        (Array.isArray(post.writing_tips) ? post.writing_tips : []).forEach((tip) => {
+          const li = document.createElement("li");
+          li.textContent = String(tip || "");
+          tipsUl.appendChild(li);
+        });
+
+        item.append(top, titleEl, tipsUl);
+        rxList.appendChild(item);
+      });
+    }
+
+    const rxCopyFb = el("live-wuxing-copy-fb");
+    if (rxCopyFb) rxCopyFb.textContent = "";
+  }
+
   function compactReportForLead(report) {
     if (!report) return null;
+    const convDiag = report.conversion_diagnosis
+      ? {
+          overall_light: report.conversion_diagnosis.overall_light,
+          summary: report.conversion_diagnosis.summary,
+          indicators: Array.isArray(report.conversion_diagnosis.indicators)
+            ? report.conversion_diagnosis.indicators.slice(0, 4).map((ind) => ({
+                key: ind.key,
+                name: ind.name,
+                wuxing_label: ind.wuxing_label,
+                light: ind.light,
+                light_label: ind.light_label,
+                summary: ind.summary,
+                recommendation: ind.recommendation,
+              }))
+            : [],
+        }
+      : null;
+
+    const rx = report.weekly_wuxing_prescription
+      ? {
+          brand_label: report.weekly_wuxing_prescription.brand_label,
+          industry_key: report.weekly_wuxing_prescription.industry_key,
+          industry_label: report.weekly_wuxing_prescription.industry_label,
+          core_service: report.weekly_wuxing_prescription.core_service,
+          headline: report.weekly_wuxing_prescription.headline,
+          intro: report.weekly_wuxing_prescription.intro,
+          posts: Array.isArray(report.weekly_wuxing_prescription.posts)
+            ? report.weekly_wuxing_prescription.posts.slice(0, 5).map((p) => ({
+                day: p.day,
+                element_tag: p.element_tag,
+                element_label: p.element_label,
+                priority_note: p.priority_note,
+                title: p.title,
+                writing_tips: Array.isArray(p.writing_tips) ? p.writing_tips.slice(0, 3) : [],
+                mobile_format_tip: p.mobile_format_tip,
+              }))
+            : [],
+        }
+      : null;
+
     return {
       target_url: report.target_url,
       score: report.score,
@@ -1027,6 +1229,8 @@
             }
           : null,
       },
+      conversion_diagnosis: convDiag,
+      weekly_wuxing_prescription: rx,
       recommendations: Array.isArray(report.recommendations) ? report.recommendations.slice(0, 6) : [],
     };
   }
@@ -1404,6 +1608,26 @@
           copyFb.textContent = "已複製初檢摘要！請直接貼給官方 LINE @250ruauk 預約深度健檢。";
         } catch {
           copyFb.textContent = `您的基礎初檢分數為 ${report.score}/100，請加官方 LINE @250ruauk 傳送網址預約完整健檢。`;
+        }
+      });
+    }
+
+    const copyRxBtn = el("copy-wuxing-rx-btn");
+    const copyRxFb = el("live-wuxing-copy-fb");
+    if (copyRxBtn && copyRxFb) {
+      copyRxBtn.addEventListener("click", async () => {
+        const text = buildPrescriptionCopyText(state.lastLiveReport);
+        if (!text) {
+          copyRxFb.textContent = "請先執行一次網站初檢，再複製下週 5 篇發文處方箋。";
+          return;
+        }
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          }
+          copyRxFb.textContent = "已複製下週 5 篇五行發文處方箋！可直接貼到記事本或傳給團隊排程。";
+        } catch {
+          copyRxFb.textContent = "處方箋已準備好，可直接選取上方 5 篇標題與寫法提示使用。";
         }
       });
     }
