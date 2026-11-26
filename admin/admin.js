@@ -10,6 +10,8 @@
     loginMode: "admin",
     partnerRateLimit: null,
     overview: null,
+    overviewSummary: null,
+    vipClientName: "",
     activeTab: "overview",
     activeWorkTab: "audit-tools",
     latestAudit: null,
@@ -69,6 +71,24 @@
     baselineWindow: document.getElementById("baseline-window"),
     baselineSummary: document.getElementById("baseline-summary"),
     baselineEngines: document.getElementById("baseline-engines"),
+    cloudSummaryCard: document.getElementById("cloud-summary-card"),
+    summaryStatusBadge: document.getElementById("summary-status-badge"),
+    summaryHeadline: document.getElementById("summary-headline"),
+    summaryLeadsVal: document.getElementById("summary-leads-val"),
+    summaryLeadsSub: document.getElementById("summary-leads-sub"),
+    summaryAuditsVal: document.getElementById("summary-audits-val"),
+    summaryAuditsSub: document.getElementById("summary-audits-sub"),
+    summarySamplesVal: document.getElementById("summary-samples-val"),
+    summarySamplesSub: document.getElementById("summary-samples-sub"),
+    summaryLightsVal: document.getElementById("summary-lights-val"),
+    summaryLightsSub: document.getElementById("summary-lights-sub"),
+    summaryUpdatedMeta: document.getElementById("summary-updated-meta"),
+    vipDeliveryCard: document.getElementById("vip-delivery-card"),
+    vipClientName: document.getElementById("vip-client-name"),
+    vipPreviewBtn: document.getElementById("vip-preview-btn"),
+    vipCopyLinkBtn: document.getElementById("vip-copy-link-btn"),
+    vipGreetingPreview: document.getElementById("vip-greeting-preview"),
+    vipCopyFeedback: document.getElementById("vip-copy-feedback"),
     overviewLeadsList: document.getElementById("overview-leads-list"),
     overviewAuditsList: document.getElementById("overview-audits-list"),
     leadsCountBadge: document.getElementById("leads-count-badge"),
@@ -265,6 +285,7 @@
   }
 
   function clearAdminOnlyDom() {
+    state.overviewSummary = null;
     if (els.overviewLeadsList) els.overviewLeadsList.innerHTML = "";
     if (els.overviewAuditsList) els.overviewAuditsList.innerHTML = "";
     if (els.leadsList) els.leadsList.innerHTML = "";
@@ -541,6 +562,133 @@
       .join("");
   }
 
+  function resolveVipShareUrl() {
+    const apiUrl = state.overviewSummary?.vip_delivery?.url;
+    if (typeof apiUrl === "string" && /^https:\/\/anangeo\.com\/guides\/store-owner-vip\/?$/i.test(apiUrl)) {
+      return apiUrl;
+    }
+    return "https://anangeo.com/guides/store-owner-vip/";
+  }
+
+  function buildVipDeliveryGreeting(clientName = "") {
+    const cleanName = String(clientName || "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 40);
+    const greetingHead = cleanName ? `${cleanName} 您好：` : "老闆您好：";
+    const vipUrl = resolveVipShareUrl();
+    return [
+      greetingHead,
+      "感謝您的信任與合作！這邊附上為您準備的 VIP 結案專屬贈禮《實體店網路吸客 5 堂實戰微課》（全 5 堂互動閱讀版，支援手機三行好讀排版與 15 項 3 分鐘落地練習）：",
+      vipUrl,
+      "",
+      "這頁為客戶專屬未公開連結，建議直接存成手機書籤隨時複習。操作上有任何問題，歡迎隨時加官方 LINE @954pwtpz（阿男GEO總公司）找我們討論！",
+    ].join("\n");
+  }
+
+  function renderVipDeliveryPreview() {
+    if (!els.vipGreetingPreview) return;
+    els.vipGreetingPreview.textContent = buildVipDeliveryGreeting(state.vipClientName);
+  }
+
+  async function copyTextWithFallback(text) {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch {
+        // 降級改用暫時 textarea 複製
+      }
+    }
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "readonly");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      const copied = document.execCommand("copy");
+      ta.remove();
+      return Boolean(copied);
+    } catch {
+      return false;
+    }
+  }
+
+  function renderOverviewSummary(summaryData) {
+    if (!summaryData || typeof summaryData !== "object") return;
+    state.overviewSummary = summaryData;
+
+    const base = summaryData.baseline || {};
+    const stats = summaryData.stats || {};
+    const dbConnected = Boolean(summaryData.db_connected);
+
+    if (els.summaryStatusBadge) {
+      els.summaryStatusBadge.textContent = dbConnected ? "D1 即時戰績" : "基準唯讀模式";
+      els.summaryStatusBadge.className = dbConnected ? "tag-brass" : "tag-mono";
+    }
+
+    if (els.summaryHeadline) {
+      els.summaryHeadline.textContent = `對齊 ${base.brand_name || "阿男音樂"}（${base.window || "公開實測基準"}）：自然露出 ${base.before_natural_mention || "0%"} → ${base.after_natural_mention || "50%"}。`;
+    }
+
+    if (els.summaryLeadsVal) {
+      els.summaryLeadsVal.textContent = `${Number(stats.leads_total || 0)} 筆`;
+    }
+    if (els.summaryLeadsSub) {
+      const avgText = stats.leads_avg_score != null ? `・均分 ${stats.leads_avg_score}` : "";
+      els.summaryLeadsSub.textContent = dbConnected
+        ? `近 7 天 +${Number(stats.leads_last_7d || 0)} 筆${avgText}`
+        : "綁定 D1 後即時統計";
+    }
+
+    if (els.summaryAuditsVal) {
+      els.summaryAuditsVal.textContent = `${Number(stats.audits_total || 0)} 次`;
+    }
+    if (els.summaryAuditsSub) {
+      const green = Number(stats.audits_green_count || 0);
+      const yellow = Number(stats.audits_yellow_count || 0);
+      const red = Number(stats.audits_red_count || 0);
+      els.summaryAuditsSub.textContent = dbConnected
+        ? `近 7 天 +${Number(stats.audits_last_7d || 0)} 次・綠${green}/黃${yellow}/紅${red}`
+        : "即時健檢免綁可用";
+    }
+
+    if (els.summarySamplesVal) {
+      els.summarySamplesVal.textContent = `${Number(base.total_samples || 0).toLocaleString("en-US")} 筆`;
+    }
+    if (els.summarySamplesSub) {
+      els.summarySamplesSub.textContent = `${Number(base.test_days || 0)} 實測日・官網 ${Number(base.site_pages_current || 0)} 頁・${Number(base.content_assets || 0)} 主題`;
+    }
+
+    if (els.summaryLightsVal) {
+      els.summaryLightsVal.textContent = `${Number(base.audit_score_before || 0)}→${Number(base.audit_score_after || 0)} 分`;
+    }
+    if (els.summaryLightsSub) {
+      els.summaryLightsSub.textContent = `入口核對：${base.after_line_accuracy || "100%"}`;
+    }
+
+    if (els.summaryUpdatedMeta) {
+      const totalRecords = Number(stats.total_records || 0);
+      const latestStamp = stats.latest_audit_at || stats.latest_lead_at;
+      const latestText = latestStamp ? `｜最新活動 ${formatTime(latestStamp)}` : "";
+      els.summaryUpdatedMeta.textContent = `雲端累計紀錄 ${totalRecords} 筆（名單＋健檢）｜來源 ${base.source || "case-cccnan.json"}｜同步時間 ${formatTime(summaryData.generated_at)}${latestText}`;
+    }
+
+    renderVipDeliveryPreview();
+  }
+
+  async function loadOverviewSummary() {
+    if (state.role === "partner") return false;
+    const res = await apiFetch("/api/admin/overview-summary", { method: "GET" });
+    if (res.ok && res.data?.ok) {
+      renderOverviewSummary(res.data);
+      return true;
+    }
+    return false;
+  }
+
   async function loadPartnerWorkspace() {
     const res = await apiFetch("/api/admin/me", { method: "GET" });
     if (res.status === 401) {
@@ -563,7 +711,10 @@
     if (state.role === "partner") {
       return loadPartnerWorkspace();
     }
-    const res = await apiFetch("/api/admin/overview", { method: "GET" });
+    const [res, summaryRes] = await Promise.all([
+      apiFetch("/api/admin/overview", { method: "GET" }),
+      apiFetch("/api/admin/overview-summary", { method: "GET" }).catch(() => ({ ok: false, data: null })),
+    ]);
     if (res.status === 401) {
       showLoginView(res.data?.password_configured !== false, res.data?.partner_enabled ?? state.partnerEnabled);
       return false;
@@ -578,6 +729,9 @@
     applyRoleView("admin");
     showAppView();
     renderOverview(res.data);
+    if (summaryRes.ok && summaryRes.data?.ok) {
+      renderOverviewSummary(summaryRes.data);
+    }
     return true;
   }
 
@@ -2159,10 +2313,32 @@
     });
   }
 
+  if (els.vipClientName) {
+    els.vipClientName.addEventListener("input", () => {
+      state.vipClientName = els.vipClientName.value || "";
+      renderVipDeliveryPreview();
+    });
+  }
+
+  if (els.vipCopyLinkBtn) {
+    els.vipCopyLinkBtn.addEventListener("click", async () => {
+      const greetingText = buildVipDeliveryGreeting(state.vipClientName);
+      const copied = await copyTextWithFallback(greetingText);
+      const msg = copied
+        ? "已複製 VIP 專屬學習連結與結案問候語，可直接貼進 LINE 傳給老闆！"
+        : "已準備好結案問候語，請長按上方預覽框全選複製。";
+      if (els.vipCopyFeedback) {
+        els.vipCopyFeedback.textContent = msg;
+      }
+      showToast(copied ? "已複製 VIP 專屬學習連結（含結案問候語）" : "請手動複製上方問候語");
+    });
+  }
+
   // 啟動檢查：呼叫 /api/admin/session（固定 HTTP 200，確保未登入時 0 console error）
   async function bootstrap() {
     renderPricingCalculator();
     renderPostLivePreview();
+    renderVipDeliveryPreview();
     const res = await apiFetch("/api/admin/session", { method: "GET" });
     state.partnerEnabled = Boolean(res.data?.partner_enabled);
     if (res.ok && res.data?.authenticated) {

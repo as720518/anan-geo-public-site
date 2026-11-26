@@ -133,6 +133,79 @@
 
       <!-- 分頁 1：總覽 -->
       <section id="tab-overview" class="tab-panel" data-tab-panel="overview">
+        <!-- 雲端總覽戰績卡（對接 GET /api/admin/overview-summary，免開本機掌握最新戰績） -->
+        <div id="cloud-summary-card" class="card stack-sm cloud-summary-card">
+          <div class="card-head">
+            <h2>📊 雲端總覽戰績卡</h2>
+            <span id="summary-status-badge" class="tag-mono">戰績載入中</span>
+          </div>
+          <p id="summary-headline" class="muted-text" style="margin-bottom:0;">
+            整合每日 GEO 實測基準與雲端收錄統計，免開本機即可即時掌握名單、健檢與實測表現。
+          </p>
+          <div class="summary-metrics-grid">
+            <article class="summary-metric-tile">
+              <span class="summary-metric-label">收錄名單統計</span>
+              <strong id="summary-leads-val" class="summary-metric-val mono">0 筆</strong>
+              <span id="summary-leads-sub" class="summary-metric-sub">近 7 天 0 筆</span>
+            </article>
+            <article class="summary-metric-tile">
+              <span class="summary-metric-label">初檢與健檢統計</span>
+              <strong id="summary-audits-val" class="summary-metric-val mono">0 次</strong>
+              <span id="summary-audits-sub" class="summary-metric-sub">近 7 天 0 次</span>
+            </article>
+            <article class="summary-metric-tile">
+              <span class="summary-metric-label">公開實測規模</span>
+              <strong id="summary-samples-val" class="summary-metric-val mono">1,298 筆</strong>
+              <span id="summary-samples-sub" class="summary-metric-sub">35 實測日・官網 44 頁</span>
+            </article>
+            <article class="summary-metric-tile summary-tile-accent">
+              <span class="summary-metric-label">實測基準摘要</span>
+              <strong id="summary-lights-val" class="summary-metric-val mono">41→89 分</strong>
+              <span id="summary-lights-sub" class="summary-metric-sub">LINE 命中 100%</span>
+            </article>
+          </div>
+          <div id="summary-updated-meta" class="summary-meta-bar">等待載入雲端實測戰績摘要…</div>
+        </div>
+
+        <!-- 5 堂實戰微課 VIP 交付包卡片（一鍵預覽＋複製含結案問候語連結） -->
+        <div id="vip-delivery-card" class="card stack-sm vip-delivery-card">
+          <div class="card-head">
+            <h2>🎁 結案交付｜5 堂實戰微課 VIP 交付包</h2>
+            <span class="tag-brass">noindex 專屬頁</span>
+          </div>
+          <p class="muted-text" style="margin-bottom:0;">
+            專為成交與健檢結案老闆打造的 5 堂台灣實體店吸客白話微課（未收錄網站地圖與首頁公開導覽，保護贈品價值），手機與電腦皆可一鍵複製帶結案問候語的專屬連結傳進 LINE（官方窗口 <code>@954pwtpz</code>）。
+          </p>
+          <label class="field">
+            <span class="field-label">成交老闆稱呼／店名（選填，自動帶入下方結案問候語）</span>
+            <input
+              id="vip-client-name"
+              type="text"
+              maxlength="40"
+              placeholder="例如：林老闆、晴光美容工作室"
+            >
+          </label>
+          <div class="vip-delivery-actions">
+            <a
+              id="vip-preview-btn"
+              class="btn-secondary"
+              href="/guides/store-owner-vip/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              👁️ 預覽 5 堂微課 VIP 交付頁
+            </a>
+            <button type="button" id="vip-copy-link-btn" class="btn-primary">
+              📋 複製 VIP 專屬學習連結（帶結案問候語）
+            </button>
+          </div>
+          <div class="field">
+            <span class="field-label">結案問候語預覽（按下上方按鈕直接整段複製傳給老闆）</span>
+            <pre id="vip-greeting-preview" class="vip-greeting-preview"></pre>
+          </div>
+          <p id="vip-copy-feedback" class="vip-copy-feedback" role="status" aria-live="polite"></p>
+        </div>
+
         <div class="card">
           <div class="card-head">
             <h2>1,298 筆公開實測基準</h2>

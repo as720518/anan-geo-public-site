@@ -668,9 +668,13 @@ export default {
       }
     }
 
-    // 4. 靜態資產派發並為 text/html、text/plain 補齊 charset=utf-8；/admin/* 強制補 noindex
+    // 4. 靜態資產派發並為 text/html、text/plain 補齊 charset=utf-8；/admin/* 與 VIP 專屬頁強制補 noindex
     const assetResp = withUtf8Charset(await env.ASSETS.fetch(request));
-    if (url.pathname.startsWith("/admin/")) {
+    if (
+      url.pathname.startsWith("/admin/") ||
+      url.pathname === "/guides/store-owner-vip" ||
+      url.pathname.startsWith("/guides/store-owner-vip/")
+    ) {
       return withAdminNoIndexHeaders(assetResp, url.pathname);
     }
 

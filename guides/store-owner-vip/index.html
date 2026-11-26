@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+  <title>實體店網路吸客 5 堂實戰微課（台灣老闆白話版）｜VIP 結案客戶 專屬客戶贈品</title>
+  <style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface-soft: #f3ede2;
+  --ink: #1e242b;
+  --ink-muted: #525d68;
+  --line: #e4dac9;
+  --accent: #b87424;
+  --accent-deep: #8c5312;
+  --accent-soft: #fdf4e7;
+  --teal: #1d6f63;
+  --teal-soft: #e9f6f3;
+  --radius: 16px;
+  --shadow: 0 10px 28px rgba(30, 36, 43, 0.06);
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.82;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.ebook-shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px 18px 64px;
+}
+.ebook-hero {
+  background: linear-gradient(135deg, #1b2430 0%, #263445 68%, #2e4246 100%);
+  color: #f6f3ec;
+  border-radius: 22px;
+  padding: 28px 26px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: #f2c97d;
+  background: rgba(242, 201, 125, 0.14);
+  border: 1px solid rgba(242, 201, 125, 0.35);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 12px;
+}
+.ebook-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(1.38rem, 2.7vw, 2rem);
+  line-height: 1.35;
+  color: #ffffff;
+}
+.hero-sub {
+  margin: 0 0 16px;
+  color: #d6dde6;
+  font-size: 0.96rem;
+  max-width: 68ch;
+}
+.hero-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  color: #e4eaf0;
+}
+.hero-badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-gold {
+  background: #e1a84b;
+  color: #1b2128;
+}
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.btn-outline {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn-teal {
+  background: var(--teal);
+  color: #ffffff;
+}
+.progress-strip {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.progress-label {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+.progress-label strong { color: var(--teal); }
+.progress-bar-wrap {
+  flex: 1 1 200px;
+  max-width: 360px;
+  height: 10px;
+  background: var(--surface-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--teal), #329f8d);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+.ebook-grid {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.chapter-nav {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  position: sticky;
+  top: 16px;
+}
+.chapter-nav-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  letter-spacing: 0.05em;
+  margin: 2px 6px 10px;
+}
+.chapter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chapter-tab {
+  width: 100%;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.chapter-tab:hover { border-color: var(--accent); }
+.chapter-tab.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(184, 116, 36, 0.12);
+}
+.chapter-tab-num {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-deep);
+  margin-bottom: 3px;
+}
+.chapter-tab-title {
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--ink);
+}
+.lesson-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 28px 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.lesson-panel[hidden] { display: none; }
+.lesson-header {
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.lesson-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.pill {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.pill-num { background: #1e242b; color: #f2c97d; }
+.pill-tier { background: var(--teal-soft); color: var(--teal); }
+.pill-tool { background: var(--accent-soft); color: var(--accent-deep); }
+.lesson-header h2 {
+  margin: 0;
+  font-size: clamp(1.22rem, 2.2vw, 1.56rem);
+  line-height: 1.42;
+  color: var(--ink);
+}
+.tip-box {
+  background: var(--accent-soft);
+  border: 1px solid #efd5b0;
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin: 0 0 22px;
+}
+.tip-box summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--accent-deep);
+  list-style: none;
+}
+.tip-box summary::-webkit-details-marker { display: none; }
+.tip-box ul {
+  margin: 10px 0 2px;
+  padding-left: 20px;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.tip-box li { margin-bottom: 6px; }
+.section-block {
+  margin-bottom: 26px;
+}
+.section-block h3 {
+  margin: 0 0 12px;
+  font-size: 1.08rem;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.story-card {
+  background: var(--bg);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 14px 14px 0;
+  padding: 16px 18px;
+}
+.reading-para {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: var(--ink);
+  max-width: 40ch;
+}
+.reading-para:last-child { margin-bottom: 0; }
+.point-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+.point-head {
+  margin: 0 0 10px;
+  font-size: 1.03rem;
+  line-height: 1.5;
+  color: var(--ink);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.point-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.exercise-box {
+  background: var(--teal-soft);
+  border: 1px solid #bfe3db;
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+.exercise-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.exercise-item label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid #d1e8e2;
+  border-radius: 12px;
+  padding: 11px 13px;
+  cursor: pointer;
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+.exercise-item input[type="checkbox"] {
+  margin-top: 5px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--teal);
+  flex-shrink: 0;
+}
+.exercise-item.is-done label {
+  background: #f5fbf9;
+  color: var(--ink-muted);
+  text-decoration: line-through;
+}
+.lesson-pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.ebook-footer-cta {
+  background: #1e2733;
+  color: #eef2f6;
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ebook-footer-cta h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+.ebook-footer-cta p {
+  margin: 0;
+  font-size: 0.94rem;
+  color: #cfd8e3;
+}
+.copy-feedback {
+  font-size: 13px;
+  color: #9be8d8;
+  margin-top: 6px;
+  min-height: 20px;
+}
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: rgba(30, 36, 43, 0.07);
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+@media (max-width: 860px) {
+  .ebook-shell { padding: 14px 12px 48px; }
+  .ebook-hero { padding: 20px 18px; border-radius: 16px; }
+  .ebook-grid { grid-template-columns: 1fr; gap: 14px; }
+  .chapter-nav { position: static; }
+  .chapter-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 8px;
+  }
+  .lesson-panel { padding: 20px 16px; border-radius: 16px; }
+  .reading-para { max-width: 100%; }
+}
+@media print {
+  body { background: #ffffff; }
+  .ebook-shell { max-width: 100%; padding: 0; }
+  .chapter-nav, .hero-actions, .progress-strip, .lesson-pager, .no-print { display: none !important; }
+  .ebook-grid { display: block; }
+  .lesson-panel {
+    display: block !important;
+    box-shadow: none;
+    border: 1px solid #cccccc;
+    page-break-after: always;
+    break-after: page;
+  }
+  .lesson-panel:last-of-type {
+    page-break-after: auto;
+    break-after: auto;
+  }
+  .point-card, .story-card, .exercise-box {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .tip-box { display: block; }
+}
+</style>
+</head>
+<body>
+  <div class="ebook-shell">
+    <header class="ebook-hero">
+      <div class="hero-kicker">🔒 VIP 結案交付專屬閱讀頁（未公開索引・全套 5 堂完整收錄）</div>
+      <h1>實體店網路吸客 5 堂實戰微課（台灣老闆白話版）</h1>
+      <p class="hero-sub">感謝您的信任與合作！這份 5 堂台灣實體店白話實戰微課是阿男 GEO 實戰工坊的 VIP 結案專屬學習包：每堂約 5 分鐘讀完，採手機三行好讀排版，搭配 15 項 3 分鐘落地練習與進度紀錄，隨時在手機或電腦都能打開複習。</p>
+      <div class="hero-meta-row">
+        <div class="hero-badges">
+          <span class="hero-badge">專屬版本：VIP 結案客戶 專屬客戶贈品</span>
+          <span class="hero-badge">版本日期：2026-11-26</span>
+          <span class="hero-badge">共 5 堂・15 項實戰練習</span>
+        </div>
+        <div class="hero-actions no-print">
+          <button type="button" class="btn btn-ghost" id="btn-toggle-all">展開全部 5 堂總覽</button>
+          <button type="button" class="btn btn-gold" id="btn-print-ebook">列印 / 另存 PDF</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="progress-strip no-print" aria-label="練習完成進度">
+      <div class="progress-label">課後 3 分鐘落地進度：<strong id="progress-text">已完成 0 / 15 項實戰練習（0%）</strong></div>
+      <div class="progress-bar-wrap" aria-hidden="true">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="ebook-grid">
+      <aside class="chapter-nav no-print" aria-label="課程章節目錄">
+        <div class="chapter-nav-title">課程章節切換（5 堂全收錄）</div>
+        <div class="chapter-list">
+          <button type="button" class="chapter-tab is-active" data-lesson-tab="1" aria-pressed="true"><span class="chapter-tab-num"><span>第 1 堂</span><span>約 5 分鐘</span></span><span class="chapter-tab-title">為什麼客人滑過你的店卻沒進門？先把「冰冷價目表」換成客人聽得懂的痛點問答</span></button><button type="button" class="chapter-tab" data-lesson-tab="2" aria-pressed="false"><span class="chapter-tab-num"><span>第 2 堂</span><span>約 5 分鐘</span></span><span class="chapter-tab-title">別再天天發海報傳單！「五行內容羅盤」讓熟客愛看、新客自己私訊</span></button><button type="button" class="chapter-tab" data-lesson-tab="3" aria-pressed="false"><span class="chapter-tab-num"><span>第 3 堂</span><span>約 5 分鐘</span></span><span class="chapter-tab-title">新客不敢走進陌生店？設計「三層體驗階梯」，讓路過客安心踏出第一步</span></button><button type="button" class="chapter-tab" data-lesson-tab="4" aria-pressed="false"><span class="chapter-tab-num"><span>第 4 堂</span><span>約 5 分鐘</span></span><span class="chapter-tab-title">手機滑過去只有 3 秒鐘：「三行好讀排版法」與不露臉也好看的店內配圖</span></button><button type="button" class="chapter-tab" data-lesson-tab="5" aria-pressed="false"><span class="chapter-tab-num"><span>第 5 堂</span><span>約 5 分鐘</span></span><span class="chapter-tab-title">忙店務沒空每天想破頭？打造「講 20 秒語音就同步官網與社群」的省力吸客循環</span></button>
+        </div>
+      </aside>
+
+      <main id="ebook-main">
+        <article class="lesson-panel" id="lesson-1" data-lesson-panel="1"><header class="lesson-header"><div class="lesson-pills"><span class="pill pill-num">第 1 堂 / 共 5 堂</span><span class="pill pill-tier">免費公開引流課</span><span class="pill pill-tool">連問三個為什麼・客戶痛點問答</span></div><h2>為什麼客人滑過你的店卻沒進門？先把「冰冷價目表」換成客人聽得懂的痛點問答</h2></header><details class="tip-box" open><summary>💡 本堂 30 秒重點提示（點此展開／收合速記）</summary><ul><li><strong>重點 1：</strong>客人半夜搜尋時，找的是身上的困擾，不是儀器名詞</li><li><strong>重點 2：</strong>用「連問三個為什麼」，挖出新客不敢進門的真正顧慮</li><li><strong>重點 3：</strong>在價目表旁邊補上 3 題白話問答，新客與搜尋系統同時看懂</li></ul></details><section class="section-block"><h3>一、真實店面場景</h3><div class="story-card"><p class="reading-para">星期三下午兩點，高雄楠梓一家美容工作室裡安靜得很，只有精油擴香機輕輕作響。</p><p class="reading-para">老闆娘滑著手機嘆氣，她花了不少錢做網站，也把全部項目與價目拍成海報傳上去。</p><p class="reading-para">手藝明明比連鎖店細心，來過的熟客回訪率也很高，平日下午卻常常空著兩張床。</p><p class="reading-para">偏偏隔壁街另一家同業，裝潢普通，卻每天都有新客從 Google 和網路問答找上門。</p><p class="reading-para">差距不在手藝，而在新客滑進來的那 10 秒鐘，有沒有一眼看見「這家店懂我的困擾」。</p></div></section><section class="section-block"><h3>二、1-2-3 白話重點</h3><div class="point-card"><h4 class="point-head"><span class="point-badge">1</span><span>客人半夜搜尋時，找的是身上的困擾，不是儀器名詞</span></h4><p class="reading-para">很多老闆習慣在官網寫「引進歐洲儀器、獨家手技、頂級配方」，自己看覺得很專業。</p><p class="reading-para">但半夜睡不著滑手機的客人，心裡想的其實是「肩膀硬到轉頭會卡，哪家按完能好睡」。</p><p class="reading-para">不論是人眼看，還是搜尋與問答引擎幫忙找店，都會優先挑出寫出具體情境的店家。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">2</span><span>用「連問三個為什麼」，挖出新客不敢進門的真正顧慮</span></h4><p class="reading-para">客人沒預約，很少只是因為覺得貴，多半心裡藏著說不出口的擔心與防備。</p><p class="reading-para">第一層先問表面症狀：他現在哪裡不舒服、最想解決哪個日常小麻煩？</p><p class="reading-para">第二層再問生活顧慮：他是不是怕痛、怕花太久時間、或怕穿裙子不方便？</p><p class="reading-para">第三層挖進門門檻：他最怕走進陌生店被強迫推銷包套，也不知道結帳到底要付多少。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">3</span><span>在價目表旁邊補上 3 題白話問答，新客與搜尋系統同時看懂</span></h4><p class="reading-para">你不用把原本的價目表全部重做，只要在旁邊用純文字寫清楚時間、公開費用與注意事項。</p><p class="reading-para">接著補上客人私訊最常問的三題，例如「第一次去會不會被推銷」、「附近好不好停車」。</p><p class="reading-para">當客人還沒踏進門就先放下戒心，私訊詢問的意願自然會明顯高出一截。</p></div></section><section class="section-block"><h3>三、今天花 3 分鐘就能做完的落地練習</h3><div class="exercise-box"><p class="reading-para">不用坐在電腦前苦想，現在拿起手機翻開過去 7 天的 LINE 對話紀錄就好。</p><ul class="exercise-list"><li class="exercise-item"><label for="ex-l1-s1"><input type="checkbox" class="exercise-check" id="ex-l1-s1" data-check-key="ex-l1-s1"><span>挑出這週進門的 3 位客人，寫下他們坐下來講的第一句生活煩惱。</span></label></li><li class="exercise-item"><label for="ex-l1-s2"><input type="checkbox" class="exercise-check" id="ex-l1-s2" data-check-key="ex-l1-s2"><span>把這 3 句原話改成問題標題，下面各用 2 句白話寫出你的貼心回覆。</span></label></li><li class="exercise-item"><label for="ex-l1-s3"><input type="checkbox" class="exercise-check" id="ex-l1-s3" data-check-key="ex-l1-s3"><span>將這 3 題純文字問答放進官網價目旁，或直接當成這週第一篇貼文開頭。</span></label></li></ul><p class="reading-para">想確認自家官網現在在搜尋與問答引擎眼裡長什麼樣子，歡迎加官方 LINE <code>@954pwtpz</code> 預約健檢。</p></div></section><div class="lesson-pager no-print"><span></span><button type="button" class="btn btn-teal" data-jump-lesson="2">下一堂（第 2 堂） →</button></div></article><article class="lesson-panel" id="lesson-2" data-lesson-panel="2" hidden><header class="lesson-header"><div class="lesson-pills"><span class="pill pill-num">第 2 堂 / 共 5 堂</span><span class="pill pill-tier">客戶專屬贈品</span><span class="pill pill-tool">五行內容羅盤（金木水火土）</span></div><h2>別再天天發海報傳單！「五行內容羅盤」讓熟客愛看、新客自己私訊</h2></header><details class="tip-box" open><summary>💡 本堂 30 秒重點提示（點此展開／收合速記）</summary><ul><li><strong>重點 1：</strong>為什麼只發價目與活動傳單，會越發越沒人看？</li><li><strong>重點 2：</strong>認識店面「五行內容羅盤」：金、木、水、火、土各司其職</li><li><strong>重點 3：</strong>照著黃金節奏輪動，發「火」的時候客人自己會來敲門</li></ul></details><section class="section-block"><h3>一、真實店面場景</h3><div class="story-card"><p class="reading-para">台南一家美甲工作室的店長，每天晚上打烊後都會認真做一張新海報發到粉專和 Threads。</p><p class="reading-para">上面寫滿色膠款式、價格、預約空檔，排版漂漂亮亮，貼出去卻只剩兩三個親友按讚。</p><p class="reading-para">她覺得很挫折，心想是不是社群觸及壞掉了，乾脆兩週都不想再更新。</p><p class="reading-para">其實不是平台針對她，而是換成我們自己滑手機，看到滿版傳單也會反射性往回滑。</p><p class="reading-para">店家的內容就像日常吃飯要配菜，如果餐餐都只端出廣告菜單，客人很快就會吃膩。</p></div></section><section class="section-block"><h3>二、1-2-3 白話重點</h3><div class="point-card"><h4 class="point-head"><span class="point-badge">1</span><span>為什麼只發價目與活動傳單，會越發越沒人看？</span></h4><p class="reading-para">客人滑社群是在休息找資訊，並不是每天剛好都在找東西買單。</p><p class="reading-para">當你的版面連續十篇都在喊「快來預約、本月空檔」，陌生人只會覺得推銷感太重。</p><p class="reading-para">真正讓人願意停下來看完、甚至按追蹤的，是有共鳴的故事與帶得走的實用常識。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">2</span><span>認識店面「五行內容羅盤」：金、木、水、火、土各司其職</span></h4><p class="reading-para">把店裡能寫的題材分成五味，平時輪流端上桌，版面立刻變得有血有肉：</p><p class="reading-para">「金」是成果見證：放客人真實回饋、施作前後紀錄與作品實拍，讓新客感到安心。</p><p class="reading-para">「木」是專業知識：教居家保養小撇步、挑選避坑標準，建立你在地專家的信任感。</p><p class="reading-para">「水」是痛點故事：寫客人常卡住的生活困擾或開店初衷，讓潛在客人覺得「這在說我」。</p><p class="reading-para">「火」是主打行動：把體驗項目、時間、公開價格與預約方式講清楚，自然承接詢問。</p><p class="reading-para">「土」是日常溫度：分享備料整理、進修花絮或熟客暖心小互動，拉近鄰里人情味。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">3</span><span>照著黃金節奏輪動，發「火」的時候客人自己會來敲門</span></h4><p class="reading-para">一週不用發到七篇，只要穩穩維持三到四篇，照著水、木、金、土、火輪流搭配即可。</p><p class="reading-para">平時多用水、木、土累積好感與專業，穿插金建立口碑，最後再發火公告預約時段。</p><p class="reading-para">客人心裡早就信任你了，看到空檔提醒就會自然私訊預約，完全不用硬著頭皮催單。</p></div></section><section class="section-block"><h3>三、今天花 3 分鐘就能做完的落地練習</h3><div class="exercise-box"><p class="reading-para">打開你最近經營的粉專、IG 或 Threads，往前滑看最近發過的 10 篇貼文。</p><ul class="exercise-list"><li class="exercise-item"><label for="ex-l2-s1"><input type="checkbox" class="exercise-check" id="ex-l2-s1" data-check-key="ex-l2-s1"><span>幫這 10 篇逐一標上金、木、水、火、土，看看是不是有超過一半都是「火」。</span></label></li><li class="exercise-item"><label for="ex-l2-s2"><input type="checkbox" class="exercise-check" id="ex-l2-s2" data-check-key="ex-l2-s2"><span>找出目前掛零或最少的那一行（多半是水痛點故事或木專業知識）。</span></label></li><li class="exercise-item"><label for="ex-l2-s3"><input type="checkbox" class="exercise-check" id="ex-l2-s3" data-check-key="ex-l2-s3"><span>在備忘錄寫下這週要先補的一篇題目，先把最缺的那一味補上餐桌。</span></label></li></ul><p class="reading-para">如果你希望系統自動統計最近 10 篇缺哪一行並直接推題目，歡迎加官方 LINE <code>@954pwtpz</code> 詢問。</p></div></section><div class="lesson-pager no-print"><button type="button" class="btn btn-outline" data-jump-lesson="1">← 上一堂（第 1 堂）</button><button type="button" class="btn btn-teal" data-jump-lesson="3">下一堂（第 3 堂） →</button></div></article><article class="lesson-panel" id="lesson-3" data-lesson-panel="3" hidden><header class="lesson-header"><div class="lesson-pills"><span class="pill pill-num">第 3 堂 / 共 5 堂</span><span class="pill pill-tier">客戶專屬贈品</span><span class="pill pill-tool">三層體驗階梯（破冰 → 主力 → 養護）</span></div><h2>新客不敢走進陌生店？設計「三層體驗階梯」，讓路過客安心踏出第一步</h2></header><details class="tip-box" open><summary>💡 本堂 30 秒重點提示（點此展開／收合速記）</summary><ul><li><strong>重點 1：</strong>陌生客人還沒感受過你的手藝，高單價門檻會讓他先關視窗</li><li><strong>重點 2：</strong>拆解「三層體驗階梯」，讓不同階段的客人各取所需</li><li><strong>重點 3：</strong>把「入門破冰項」放在最顯眼處，不強迫推銷反而留客更穩</li></ul></details><section class="section-block"><h3>一、真實店面場景</h3><div class="story-card"><p class="reading-para">台中有間技術很扎實的調理工作室，主力課程一次要價兩三千元，包套甚至破萬元。</p><p class="reading-para">老闆很困惑：明明官網流量還不錯，LINE 也常有新朋友加進來，問完價目卻沒下文。</p><p class="reading-para">後來我們幫他看對話紀錄，發現新客一進來只看到最貴的主力包套，心裡立刻打退堂鼓。</p><p class="reading-para">換位思考一下，你第一次走進一條陌生巷子裡的小館，通常會先點一碗招牌麵試口味。</p><p class="reading-para">不會在還沒吃過第一口之前，就直接刷卡買下一整年的十人合菜餐券。</p></div></section><section class="section-block"><h3>二、1-2-3 白話重點</h3><div class="point-card"><h4 class="point-head"><span class="point-badge">1</span><span>陌生客人還沒感受過你的手藝，高單價門檻會讓他先關視窗</span></h4><p class="reading-para">網路上的信任是一層一層疊起來的，新客最在意的不是絕對便宜，而是「踩雷風險高不高」。</p><p class="reading-para">如果官網首頁與預約選單只放高單價全套方案，新客為了保護荷包，只好先已讀不回。</p><p class="reading-para">先替新朋友準備一塊好踏上來的踏腳石，比花大錢買廣告拉曝光更能提高進店率。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">2</span><span>拆解「三層體驗階梯」，讓不同階段的客人各取所需</span></h4><p class="reading-para">第一層是「入門破冰體驗項」：時間約 30 到 45 分鐘、體感明顯、費用親切透明。</p><p class="reading-para">它的任務不是一次賺大錢，而是讓新客零壓力親身體驗：「這家店環境乾淨、手藝實在！」</p><p class="reading-para">第二層是「主力招牌解決項」：等客人實際來過覺得舒服，自然會挑選你最拿手的完整服務。</p><p class="reading-para">第三層是「長期定期養護項」：針對已經固定回訪的熟客，提供規律保養節奏與專屬排程。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">3</span><span>把「入門破冰項」放在最顯眼處，不強迫推銷反而留客更穩</span></h4><p class="reading-para">在官網首屏、Google 商家服務欄與貼文結尾，把這項新客第一步體驗寫得明明白白。</p><p class="reading-para">註明項目名稱、總共花多久、公開費用多少，以及「全程不強迫推銷」的安心承諾。</p><p class="reading-para">當客人跨進門並獲得超乎預期的好體驗，接下來往第二層、第三層走都是水到渠成的事。</p></div></section><section class="section-block"><h3>三、今天花 3 分鐘就能做完的落地練習</h3><div class="exercise-box"><p class="reading-para">拿出一張白紙，把店裡現有的服務項目照三層階梯重新排隊，不用急著重新發明商品。</p><ul class="exercise-list"><li class="exercise-item"><label for="ex-l3-s1"><input type="checkbox" class="exercise-check" id="ex-l3-s1" data-check-key="ex-l3-s1"><span>從現有項目挑出 1 個最容易有感、時間適中的單項，定為「新客入門破冰體驗」。</span></label></li><li class="exercise-item"><label for="ex-l3-s2"><input type="checkbox" class="exercise-check" id="ex-l3-s2" data-check-key="ex-l3-s2"><span>幫這項體驗寫出一句清楚規格：項目名、施作分鐘數、公開費用與預約方式。</span></label></li><li class="exercise-item"><label for="ex-l3-s3"><input type="checkbox" class="exercise-check" id="ex-l3-s3" data-check-key="ex-l3-s3"><span>檢查你的官網與官方 LINE 歡迎訊息，把這項破冰入口放到第一眼就看得到的位置。</span></label></li></ul><p class="reading-para">想幫自家服務設計更順眼的官網三層階梯與純文字價目表，歡迎加官方 LINE <code>@954pwtpz</code> 聊聊。</p></div></section><div class="lesson-pager no-print"><button type="button" class="btn btn-outline" data-jump-lesson="2">← 上一堂（第 2 堂）</button><button type="button" class="btn btn-teal" data-jump-lesson="4">下一堂（第 4 堂） →</button></div></article><article class="lesson-panel" id="lesson-4" data-lesson-panel="4" hidden><header class="lesson-header"><div class="lesson-pills"><span class="pill pill-num">第 4 堂 / 共 5 堂</span><span class="pill pill-tier">客戶專屬贈品</span><span class="pill pill-tool">四段式軟文骨架・手機三行排版</span></div><h2>手機滑過去只有 3 秒鐘：「三行好讀排版法」與不露臉也好看的店內配圖</h2></header><details class="tip-box" open><summary>💡 本堂 30 秒重點提示（點此展開／收合速記）</summary><ul><li><strong>重點 1：</strong>手機閱讀黃金鐵律：每段不超過 3 行，句號處就按兩下空行</li><li><strong>重點 2：</strong>套用「四段式實戰軟文骨架」，三分鐘就能寫出高閱讀率好文</li><li><strong>重點 3：</strong>老闆害羞不愛露臉？記住這 3 招，店內配圖照樣有質感</li></ul></details><section class="section-block"><h3>一、真實店面場景</h3><div class="story-card"><p class="reading-para">桃園一位烘焙坊老闆文筆很好，每次進新食材都會在手機裡一口氣寫下三百字心得。</p><p class="reading-para">從麵粉產地寫到發酵溫度，內容非常真誠，但整篇文字黏成一大塊，連一個空行都沒有。</p><p class="reading-para">他把文章發出去後，朋友私訊跟他說：「哥，你的字好密，我坐捷運滑過去眼睛好酸。」</p><p class="reading-para">現在超過八成客人都是通勤或睡前用小螢幕滑手機，停在一篇貼文上的耐心不到三秒。</p><p class="reading-para">文章再用心，只要第一眼看起來像密密麻麻的考卷，絕大多數人連第一行都不會讀完。</p></div></section><section class="section-block"><h3>二、1-2-3 白話重點</h3><div class="point-card"><h4 class="point-head"><span class="point-badge">1</span><span>手機閱讀黃金鐵律：每段不超過 3 行，句號處就按兩下空行</span></h4><p class="reading-para">台灣手機畫面一行大約容納 16 到 18 個中文字，超過三行就會變成壓迫感很重的文字牆。</p><p class="reading-para">養成一個超簡單習慣：每寫完一兩句完整意思，在句號後面就空一行再接下一段。</p><p class="reading-para">留白不是浪費版面，而是替客人的眼睛留出呼吸空間，讓視線順著一段一段滑到底。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">2</span><span>套用「四段式實戰軟文骨架」，三分鐘就能寫出高閱讀率好文</span></h4><p class="reading-para">第一段放醒目問題或生活反差標題，例如「為什麼手工吐司放隔天容易乾硬？」。</p><p class="reading-para">第二段寫兩三行真實店面小故事，帶出客人常遇到的畫面，絕不一開頭就硬報價。</p><p class="reading-para">第三段用 1、2、3 條列三個白話重點，讓滑得再快的讀者也能三秒掃走精華。</p><p class="reading-para">第四段補上一句溫和輕巧的預約小尾巴，只留一個清楚聯絡入口，不讓客人選擇困難。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">3</span><span>老闆害羞不愛露臉？記住這 3 招，店內配圖照樣有質感</span></h4><p class="reading-para">第一招靠窗借自然光：白天把偏黃的室內燈關掉，讓柔和窗光灑在木桌或器物上最耐看。</p><p class="reading-para">第二招拍局部工藝與乾淨角落：拍雙手整理工具、茶杯水氣、毛巾摺角，比正面擺拍更真實。</p><p class="reading-para">第三招嚴拒塑膠假人臉與雜亂滿版字：畫面乾淨有生活感，客人自然對店裡環境產生好印象。</p></div></section><section class="section-block"><h3>三、今天花 3 分鐘就能做完的落地練習</h3><div class="exercise-box"><p class="reading-para">不用重新構思新文章，今天就拿一篇你之前發過、字數比較多的舊貼文來動手微調。</p><ul class="exercise-list"><li class="exercise-item"><label for="ex-l4-s1"><input type="checkbox" class="exercise-check" id="ex-l4-s1" data-check-key="ex-l4-s1"><span>把原文裡超過 3 行的長段落，都在句號處切開並加上空白行，原字句一字不刪。</span></label></li><li class="exercise-item"><label for="ex-l4-s2"><input type="checkbox" class="exercise-check" id="ex-l4-s2" data-check-key="ex-l4-s2"><span>把第一句改成一個客人有感的生活問句，確認手機畫面一眼看過去清爽不擁擠。</span></label></li><li class="exercise-item"><label for="ex-l4-s3"><input type="checkbox" class="exercise-check" id="ex-l4-s3" data-check-key="ex-l4-s3"><span>走到店裡最靠近窗邊的乾淨角落，用手機橫豎各拍 1 張器物實拍，存成素材庫備用。</span></label></li></ul><p class="reading-para">如果你想看如何把手機三行排版與風格配圖做成自動化流程，歡迎加官方 LINE <code>@954pwtpz</code>。</p></div></section><div class="lesson-pager no-print"><button type="button" class="btn btn-outline" data-jump-lesson="3">← 上一堂（第 3 堂）</button><button type="button" class="btn btn-teal" data-jump-lesson="5">下一堂（第 5 堂） →</button></div></article><article class="lesson-panel" id="lesson-5" data-lesson-panel="5" hidden><header class="lesson-header"><div class="lesson-pills"><span class="pill pill-num">第 5 堂 / 共 5 堂</span><span class="pill pill-tier">客戶專屬贈品</span><span class="pill pill-tool">20 秒語音循環・官網長尾資產庫</span></div><h2>忙店務沒空每天想破頭？打造「講 20 秒語音就同步官網與社群」的省力吸客循環</h2></header><details class="tip-box" open><summary>💡 本堂 30 秒重點提示（點此展開／收合速記）</summary><ul><li><strong>重點 1：</strong>為什麼只發社群還不夠？貼文三天沉底，官網才是長期資產</li><li><strong>重點 2：</strong>把前四堂心法壓縮成「每週兩次、每次 20 秒」的送客後小習慣</li><li><strong>重點 3：</strong>讓內容同步分流，每季回頭盤點一次，網路口碑就會越滾越穩</li></ul></details><section class="section-block"><h3>一、真實店面場景</h3><div class="story-card"><p class="reading-para">前面四堂聽起來都很有道理，但彰化一家個人工作室老闆忍不住苦笑說：「我哪有時間？」</p><p class="reading-para">白天忙著接待客人、整理環境、進貨對帳，晚上回到家只想放空，根本沒力氣開電腦寫文。</p><p class="reading-para">每次立志要認真經營網路，撐了兩個禮拜一忙起來就斷更，最後又回到原地踏步。</p><p class="reading-para">這也是幾乎所有台灣實體店老闆的共同卡關：不是不知道重要，而是做法太耗體力。</p><p class="reading-para">一套真正能跑一整年的吸客習慣，必須省力到「送完客人喘口氣的那一分鐘」就能完成。</p></div></section><section class="section-block"><h3>二、1-2-3 白話重點</h3><div class="point-card"><h4 class="point-head"><span class="point-badge">1</span><span>為什麼只發社群還不夠？貼文三天沉底，官網才是長期資產</span></h4><p class="reading-para">你在粉專或 Threads 發一篇用心好文，三天後演算法推過就沉到河道最底端，新客很難翻到。</p><p class="reading-para">但如果你把同一篇白話問答與實戰紀錄，同步存進自己官網的公開文章與常見問答裡，</p><p class="reading-para">它就會 24 小時掛在網路上，持續被 Google 搜尋與各大問答引擎讀到、收錄並引用。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">2</span><span>把前四堂心法壓縮成「每週兩次、每次 20 秒」的送客後小習慣</span></h4><p class="reading-para">不用逼自己每天寫長文，只要每週挑兩個剛送走客人的空檔，拿起手機按住語音鍵講 20 秒。</p><p class="reading-para">講什麼最自然？就講剛剛那位客人問了什麼問題、你怎麼幫他處理、以及他離開前的回饋。</p><p class="reading-para">搭配事先排好的痛點問答清單與五行輪動提醒，完全不用對著空白螢幕發呆想題目。</p></div><div class="point-card"><h4 class="point-head"><span class="point-badge">3</span><span>讓內容同步分流，每季回頭盤點一次，網路口碑就會越滾越穩</span></h4><p class="reading-para">講完的 20 秒語音整理成四段式三行好讀短文後，一次同步進官網最新動態與社群版面。</p><p class="reading-para">官網負責累積長期搜尋能見度，社群負責與熟客互動，兩邊共用同一套透明價格與事實口徑。</p><p class="reading-para">每隔一季花 15 分鐘檢查官網問答、破冰體驗項與聯絡入口是否最新，網路就會默默替你帶客。</p></div></section><section class="section-block"><h3>三、今天花 3 分鐘就能做完的落地練習</h3><div class="exercise-box"><p class="reading-para">別等到「有空的一整天」，今天就先為自己設好最小、最不會中斷的開工節奏。</p><ul class="exercise-list"><li class="exercise-item"><label for="ex-l5-s1"><input type="checkbox" class="exercise-check" id="ex-l5-s1" data-check-key="ex-l5-s1"><span>在手機行事曆固定每週二、週五打烊前 10 分鐘，設一個「20 秒記錄店內日常」提醒。</span></label></li><li class="exercise-item"><label for="ex-l5-s2"><input type="checkbox" class="exercise-check" id="ex-l5-s2" data-check-key="ex-l5-s2"><span>現在就對手機錄一段 20 秒語音，聊聊今天有位客人最常問的小問題與你的回答。</span></label></li><li class="exercise-item"><label for="ex-l5-s3"><input type="checkbox" class="exercise-check" id="ex-l5-s3" data-check-key="ex-l5-s3"><span>確認你的官網、Google 商家與官方 LINE 簡介上的店名、地址與體驗價完全一致。</span></label></li></ul><p class="reading-para">想把「語音轉三行貼文＋同步官網與社群」直接接進你的店裡，或預約官網全面健檢嗎？</p><p class="reading-para">歡迎隨時加阿男GEO總公司官方 LINE <code>@954pwtpz</code> 與我們聊聊。</p></div></section><div class="lesson-pager no-print"><button type="button" class="btn btn-outline" data-jump-lesson="4">← 上一堂（第 4 堂）</button><button type="button" class="btn btn-gold" data-jump-lesson="1">回到第 1 堂複習 ↺</button></div></article>
+
+        <section class="ebook-footer-cta">
+          <div>
+            <h3>想把這 5 堂方法直接落實到官網與日常發文？</h3>
+            <p>歡迎加入阿男GEO總公司官方 LINE <strong>@954pwtpz</strong>，安排網站健檢追蹤或開通語音發文小幫手。</p>
+            <div class="copy-feedback" id="copy-line-feedback" aria-live="polite"></div>
+          </div>
+          <div class="hero-actions no-print">
+            <a class="btn btn-gold" href="https://line.me/R/ti/p/@954pwtpz" target="_blank" rel="noopener noreferrer">加官方 LINE @954pwtpz</a>
+            <button type="button" class="btn btn-ghost" id="btn-copy-line">複製 @954pwtpz</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script>
+(function () {
+  'use strict';
+  var STORAGE_KEY = 'anan_geo_vip_course_checks_v1';
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[data-lesson-tab]'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[data-lesson-panel]'));
+  var checks = Array.prototype.slice.call(document.querySelectorAll('.exercise-check'));
+  var toggleAllBtn = document.getElementById('btn-toggle-all');
+  var printBtn = document.getElementById('btn-print-ebook');
+  var copyLineBtn = document.getElementById('btn-copy-line');
+  var copyFeedback = document.getElementById('copy-line-feedback');
+  var progressText = document.getElementById('progress-text');
+  var progressFill = document.getElementById('progress-fill');
+  var activeLesson = '1';
+  var showAllMode = false;
+
+  function renderView() {
+    for (var i = 0; i < panels.length; i += 1) {
+      var pid = panels[i].getAttribute('data-lesson-panel');
+      panels[i].hidden = !showAllMode && pid !== activeLesson;
+    }
+    for (var j = 0; j < tabs.length; j += 1) {
+      var tid = tabs[j].getAttribute('data-lesson-tab');
+      var isAct = !showAllMode && tid === activeLesson;
+      tabs[j].classList.toggle('is-active', isAct);
+      tabs[j].setAttribute('aria-pressed', String(isAct));
+    }
+    if (toggleAllBtn) {
+      toggleAllBtn.textContent = showAllMode ? '切回單堂專注閱讀' : '展開全部 5 堂總覽';
+    }
+  }
+
+  function selectLesson(numStr, shouldScroll) {
+    activeLesson = String(numStr);
+    showAllMode = false;
+    renderView();
+    if (shouldScroll) {
+      var target = document.getElementById('lesson-' + activeLesson);
+      if (target && typeof target.scrollIntoView === 'function') {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  tabs.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      selectLesson(btn.getAttribute('data-lesson-tab'), false);
+    });
+  });
+
+  document.querySelectorAll('[data-jump-lesson]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      selectLesson(btn.getAttribute('data-jump-lesson'), true);
+    });
+  });
+
+  if (toggleAllBtn) {
+    toggleAllBtn.addEventListener('click', function () {
+      showAllMode = !showAllMode;
+      renderView();
+    });
+  }
+
+  if (printBtn) {
+    printBtn.addEventListener('click', function () {
+      window.print();
+    });
+  }
+
+  function loadSavedChecks() {
+    try {
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveChecks(map) {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+    } catch (e) {
+      // 離線檔案環境若停用 localStorage 則靜默略過
+    }
+  }
+
+  function updateProgress() {
+    var total = checks.length;
+    var done = 0;
+    var stateMap = {};
+    for (var i = 0; i < checks.length; i += 1) {
+      var cb = checks[i];
+      var key = cb.getAttribute('data-check-key');
+      if (cb.checked) {
+        done += 1;
+        stateMap[key] = true;
+      }
+      var li = cb.closest('.exercise-item');
+      if (li) li.classList.toggle('is-done', cb.checked);
+    }
+    var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    if (progressText) {
+      progressText.textContent = '已完成 ' + done + ' / ' + total + ' 項實戰練習（' + pct + '%）';
+    }
+    if (progressFill) {
+      progressFill.style.width = pct + '%';
+    }
+    saveChecks(stateMap);
+  }
+
+  var saved = loadSavedChecks();
+  for (var k = 0; k < checks.length; k += 1) {
+    var key = checks[k].getAttribute('data-check-key');
+    if (saved && saved[key]) checks[k].checked = true;
+    checks[k].addEventListener('change', updateProgress);
+  }
+  updateProgress();
+  try {
+    var qs = new URLSearchParams(window.location.search);
+    var qLesson = qs.get('lesson') || (window.location.hash || '').replace(/^#lesson-/, '');
+    if (/^[1-5]$/.test(qLesson)) {
+      selectLesson(qLesson, false);
+    }
+  } catch (e) {}
+
+  if (copyLineBtn && copyFeedback) {
+    copyLineBtn.addEventListener('click', function () {
+      var lineId = '@954pwtpz';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(lineId).then(function () {
+          copyFeedback.textContent = '已複製官方 LINE ID：' + lineId + '，歡迎直接貼上加入好友。';
+        }).catch(function () {
+          copyFeedback.textContent = '請手動複製官方 LINE ID：' + lineId;
+        });
+      } else {
+        copyFeedback.textContent = '請手動複製官方 LINE ID：' + lineId;
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

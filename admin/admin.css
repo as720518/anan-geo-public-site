@@ -1854,8 +1854,125 @@ body.preview-open {
   text-align: center;
 }
 
+/* ==================== 雲端總覽戰績卡與 VIP 5 堂微課交付卡（geo-site-19） ==================== */
+.cloud-summary-card {
+  background: linear-gradient(160deg, rgba(52, 179, 153, 0.1) 0%, var(--bg-surface) 58%);
+  border-color: rgba(52, 179, 153, 0.34);
+  border-top: 3px solid var(--accent-teal);
+}
+
+.summary-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.summary-metric-tile {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 11px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.summary-tile-accent {
+  background: linear-gradient(155deg, rgba(217, 167, 74, 0.14), var(--bg-elevated) 70%);
+  border-color: rgba(217, 167, 74, 0.38);
+}
+
+.summary-metric-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.summary-metric-val {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--ink-primary);
+  overflow-wrap: anywhere;
+}
+
+.summary-tile-accent .summary-metric-val {
+  color: var(--accent-brass);
+}
+
+.summary-metric-sub {
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.summary-meta-bar {
+  font-size: 12px;
+  color: var(--ink-secondary);
+  padding: 9px 11px;
+  border-radius: var(--radius-sm);
+  background: rgba(9, 14, 20, 0.55);
+  border: 1px solid var(--border-subtle);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.vip-delivery-card {
+  background: linear-gradient(160deg, rgba(217, 167, 74, 0.11) 0%, var(--bg-surface) 60%);
+  border-color: rgba(217, 167, 74, 0.36);
+  border-top: 3px solid var(--accent-brass);
+}
+
+.vip-delivery-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.vip-delivery-actions > a,
+.vip-delivery-actions > button {
+  width: 100%;
+  text-decoration: none;
+  text-align: center;
+}
+
+.vip-greeting-preview {
+  margin: 0;
+  padding: 12px 13px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  color: var(--ink-secondary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+.vip-copy-feedback {
+  margin: 0;
+  min-height: 1.3em;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent-teal);
+}
+
 /* ==================== 桌面 RWD 強化 ==================== */
 @media (min-width: 768px) {
+  .summary-metrics-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .vip-delivery-actions {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 12px;
+  }
   .app-main {
     padding: 20px 20px 110px;
   }

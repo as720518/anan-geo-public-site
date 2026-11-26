@@ -7,6 +7,7 @@
  * - POST /api/admin/login              支援站長密碼（GEO_ADMIN_PASSWORD → role:"admin"）與可選合夥人口令（PARTNER_ACCESS_CODE → role:"partner"）
  * - POST /api/admin/logout             清除登入 Cookie
  * - GET  /api/admin/me                 回傳目前登入角色（admin / partner）、合夥人署名與可用限額
+ * - GET  /api/admin/overview-summary   受登入保護之結構化戰績摘要（讀取 data/case-cccnan.json＋D1 真實統計；合夥人僅回公開基準）
  * - GET  /api/admin/overview           站長專用：讀取雲端 D1 名單列表、最新健檢紀錄、1,298 筆公開實測統計（合夥人呼叫回 403）
  * - POST /api/admin/audit              站長專用：雲端健檢並存入 D1 audits 表（合夥人呼叫回 403）
  * - GET  /api/admin/audit-report       站長專用：讀取已儲存的單頁 HTML 簡報（合夥人呼叫回 403）
@@ -25,7 +26,11 @@ const DEFAULT_SEARCH_LIMIT = 8;
 const MAX_SEARCH_LIMIT = 15;
 const DEFAULT_PARTNER_SEARCH_HOURLY_LIMIT = 30;
 const DEFAULT_PARTNER_SEARCH_DAILY_LIMIT = 120;
-const PARTNER_ALLOWED_ENDPOINTS = new Set(["/api/admin/me", "/api/admin/search-competitors"]);
+const PARTNER_ALLOWED_ENDPOINTS = new Set([
+  "/api/admin/me",
+  "/api/admin/search-competitors",
+  "/api/admin/overview-summary",
+]);
 
 const partnerRateMemory = new Map();
 
@@ -107,11 +112,15 @@ const LIGHT_LABELS = {
 };
 
 const FALLBACK_BASELINE = {
+  version: "2026.11.25-public-v2",
   brand_name: "阿男音樂｜張簡俊男",
   domain: "www.cccnan.art",
   window: "2026-09-23 ～ 2026-11-24（2026-11-25 案例包）",
   total_samples: 1298,
   test_days: 35,
+  content_assets: 63,
+  publish_records: 313,
+  site_pages_audited: 37,
   site_pages_current: 44,
   audit_score_before: 41,
   audit_score_after: 89,
@@ -119,6 +128,7 @@ const FALLBACK_BASELINE = {
   after_natural_mention: "11/18–24：ChatGPT 50%｜Perplexity 50% 露出",
   before_line_accuracy: "0 / 10（0.0%）",
   after_line_accuracy: "ChatGPT 7/7・Perplexity 7/7（100%）",
+  source: "fallback",
   engines: [
     { id: "chatgpt", label: "ChatGPT", badge: "11/18–24 基準 7/14（50.0%）", after_metric: "7 / 14（50.0%）｜LINE 7/7" },
     { id: "perplexity", label: "Perplexity", badge: "情境 14/27（51.9%）｜50% 露出", after_metric: "情境 51.9%｜LINE 7/7" },
@@ -407,6 +417,27 @@ export async function isAdminAuthorized(request, env, nowSec = Math.floor(Date.n
   return Boolean(auth.ok && auth.role === "admin");
 }
 
+export async function requireAdminSession(request, env, nowSec = Math.floor(Date.now() / 1000)) {
+  const auth = await verifySessionRequest(request, env, nowSec);
+  if (!auth.ok) {
+    return {
+      ok: false,
+      auth,
+      response: jsonResponse(
+        {
+          ok: false,
+          code: "UNAUTHORIZED",
+          error: "請先輸入管理密碼或合夥人口令登入。",
+          password_configured: Boolean(getAdminPassword(env)),
+          partner_enabled: Boolean(getPartnerAccessCode(env)),
+        },
+        401
+      ),
+    };
+  }
+  return { ok: true, auth, response: null };
+}
+
 function getPartnerRateBuckets(nowMs) {
   const safeNow = Number.isFinite(nowMs) ? nowMs : Date.now();
   const d = new Date(safeNow);
@@ -608,11 +639,15 @@ async function loadBaselineStats(request, env) {
               }))
           : FALLBACK_BASELINE.engines;
         return {
+          version: raw?.version || FALLBACK_BASELINE.version,
           brand_name: b.name || FALLBACK_BASELINE.brand_name,
           domain: b.domain || FALLBACK_BASELINE.domain,
           window: b.window || FALLBACK_BASELINE.window,
           total_samples: Number(m.total_samples) || FALLBACK_BASELINE.total_samples,
           test_days: Number(m.test_days) || FALLBACK_BASELINE.test_days,
+          content_assets: Number(m.content_assets) || FALLBACK_BASELINE.content_assets,
+          publish_records: Number(m.publish_records) || FALLBACK_BASELINE.publish_records,
+          site_pages_audited: Number(m.site_pages_audited) || FALLBACK_BASELINE.site_pages_audited,
           site_pages_current: Number(m.site_pages_current) || FALLBACK_BASELINE.site_pages_current,
           audit_score_before: Number(m.audit_score_before) || FALLBACK_BASELINE.audit_score_before,
           audit_score_after: Number(m.audit_score_after) || FALLBACK_BASELINE.audit_score_after,
@@ -620,6 +655,7 @@ async function loadBaselineStats(request, env) {
           after_natural_mention: m.after_natural_mention || FALLBACK_BASELINE.after_natural_mention,
           before_line_accuracy: m.before_line_accuracy || FALLBACK_BASELINE.before_line_accuracy,
           after_line_accuracy: m.after_line_accuracy || FALLBACK_BASELINE.after_line_accuracy,
+          source: "data/case-cccnan.json",
           engines,
         };
       }
@@ -1136,19 +1172,11 @@ export async function onRequest(context) {
   }
 
   // 以下端點全部需要有效登入 Session
-  const auth = await verifySessionRequest(request, env, nowSec);
-  if (!auth.ok) {
-    return jsonResponse(
-      {
-        ok: false,
-        code: "UNAUTHORIZED",
-        error: "請先輸入管理密碼或合夥人口令登入。",
-        password_configured: Boolean(getAdminPassword(env)),
-        partner_enabled: Boolean(getPartnerAccessCode(env)),
-      },
-      401
-    );
+  const sessionGate = await requireAdminSession(request, env, nowSec);
+  if (!sessionGate.ok) {
+    return sessionGate.response;
   }
+  const auth = sessionGate.auth;
 
   // 嚴格角色隔離：合夥人僅允許呼叫白名單端點，其餘總名單／管理員端點一律回 403 FORBIDDEN
   if (auth.role === "partner" && !PARTNER_ALLOWED_ENDPOINTS.has(pathname)) {
@@ -1200,6 +1228,135 @@ export async function onRequest(context) {
         export_leads: true,
       },
     });
+  }
+
+  // 2.8 GET /api/admin/overview-summary（受 requireAdminSession 保護：站長讀公開基準＋D1 真實統計；合夥人僅讀公開基準、隔離內部名單統計）
+  if (pathname === "/api/admin/overview-summary") {
+    if (request.method !== "GET") {
+      return jsonResponse({ ok: false, code: "METHOD_NOT_ALLOWED", error: "此端點僅支援 GET。" }, 405);
+    }
+
+    const baseline = await loadBaselineStats(request, env);
+    const vipDelivery = {
+      title: "實體店網路吸客 5 堂實戰微課（VIP 結案交付專屬頁）",
+      path: "/guides/store-owner-vip/",
+      url: `${reqUrl.origin}/guides/store-owner-vip/`,
+      lessons_count: 5,
+      line_id: LINE_ID,
+      line_url: LINE_URL,
+    };
+
+    if (auth.role === "partner") {
+      return jsonResponse({
+        ok: true,
+        authenticated: true,
+        role: "partner",
+        db_connected: false,
+        stats_restricted: true,
+        stats: null,
+        baseline,
+        vip_delivery: vipDelivery,
+        generated_at: new Date(nowMs).toISOString(),
+      });
+    }
+
+    const emptyStats = {
+      leads_total: 0,
+      leads_last_7d: 0,
+      leads_avg_score: null,
+      latest_lead_at: null,
+      audits_total: 0,
+      audits_last_7d: 0,
+      audits_avg_score: null,
+      audits_green_count: 0,
+      audits_yellow_count: 0,
+      audits_red_count: 0,
+      latest_audit_at: null,
+      total_records: 0,
+    };
+
+    const hasDb = Boolean(env?.DB && typeof env.DB.prepare === "function");
+    if (!hasDb) {
+      return jsonResponse({
+        ok: true,
+        authenticated: true,
+        role: "admin",
+        db_connected: false,
+        stats: emptyStats,
+        baseline,
+        vip_delivery: vipDelivery,
+        generated_at: new Date(nowMs).toISOString(),
+      });
+    }
+
+    try {
+      await ensureAdminTables(env.DB);
+      const since7dIso = new Date(nowMs - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const [leadAgg, lead7dRow, auditAgg, audit7dRow] = await Promise.all([
+        env.DB.prepare(
+          "SELECT COUNT(*) AS cnt, AVG(score) AS avg_score, MAX(created_at) AS latest_at FROM leads"
+        ).first(),
+        env.DB.prepare("SELECT COUNT(*) AS cnt FROM leads WHERE created_at >= ?").bind(since7dIso).first(),
+        env.DB.prepare(
+          `SELECT
+             COUNT(*) AS cnt,
+             AVG(target_score) AS avg_score,
+             MAX(created_at) AS latest_at,
+             SUM(CASE WHEN target_light = 'green' THEN 1 ELSE 0 END) AS green_cnt,
+             SUM(CASE WHEN target_light = 'yellow' THEN 1 ELSE 0 END) AS yellow_cnt,
+             SUM(CASE WHEN target_light = 'red' THEN 1 ELSE 0 END) AS red_cnt
+           FROM audits`
+        ).first(),
+        env.DB.prepare("SELECT COUNT(*) AS cnt FROM audits WHERE created_at >= ?").bind(since7dIso).first(),
+      ]);
+
+      const leadsTotal = Number(leadAgg?.cnt || 0);
+      const auditsTotal = Number(auditAgg?.cnt || 0);
+      const leadsAvg =
+        leadsTotal > 0 && Number.isFinite(Number(leadAgg?.avg_score))
+          ? Math.round(Number(leadAgg.avg_score))
+          : null;
+      const auditsAvg =
+        auditsTotal > 0 && Number.isFinite(Number(auditAgg?.avg_score))
+          ? Math.round(Number(auditAgg.avg_score))
+          : null;
+
+      return jsonResponse({
+        ok: true,
+        authenticated: true,
+        role: "admin",
+        db_connected: true,
+        stats: {
+          leads_total: leadsTotal,
+          leads_last_7d: Number(lead7dRow?.cnt || 0),
+          leads_avg_score: leadsAvg,
+          latest_lead_at: leadAgg?.latest_at || null,
+          audits_total: auditsTotal,
+          audits_last_7d: Number(audit7dRow?.cnt || 0),
+          audits_avg_score: auditsAvg,
+          audits_green_count: Number(auditAgg?.green_cnt || 0),
+          audits_yellow_count: Number(auditAgg?.yellow_cnt || 0),
+          audits_red_count: Number(auditAgg?.red_cnt || 0),
+          latest_audit_at: auditAgg?.latest_at || null,
+          total_records: leadsTotal + auditsTotal,
+        },
+        baseline,
+        vip_delivery: vipDelivery,
+        generated_at: new Date(nowMs).toISOString(),
+      });
+    } catch {
+      return jsonResponse({
+        ok: true,
+        authenticated: true,
+        role: "admin",
+        db_connected: false,
+        db_error: true,
+        stats: emptyStats,
+        baseline,
+        vip_delivery: vipDelivery,
+        generated_at: new Date(nowMs).toISOString(),
+      });
+    }
   }
 
   // 3. GET /api/admin/overview
