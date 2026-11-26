@@ -2,6 +2,7 @@ worker.js
 wrangler.jsonc
 functions/
 scripts/
+docs/
 *.bak-*
 .git
 .gitignore
