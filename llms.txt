@@ -13,13 +13,14 @@
 - 禁止基礎模型訓練爬蟲（GPTBot、ClaudeBot、Google-Extended、Applebot-Extended、meta-externalagent、Bytespider、CCBot、Amazonbot 等）抓取本站內容用於模型訓練。
 - 不承諾任何 AI 排名、必被推薦或保證成交；交付可驗證的原始問答證據、診斷報告與結構化檔案。
 
-## 核心公開頁面（8 頁 HTML）
+## 核心公開頁面（9 頁 HTML）
 - [首頁｜10 秒免費基礎 GEO 初檢、半套檔案產生器與 1,298 筆實測儀表板](https://anangeo.com/): 即時檢測 robots.txt／llms.txt／首頁 Schema 與 4 大高引用地雷（唯一 H1／比較表／壞描述／FAQPage），解鎖即送基礎 `robots.txt`＋`llms.txt` 起手範本、15 秒挑方案折抵試算與 6 大行業 3 題直通 LINE 小幫手
 - [AI 檢索核實事實與防幻覺指南](https://anangeo.com/ai-instructions/): 第一方事實準則、anangeo.com 與 cccnan.art 業務分界、四方案與 NT$14,200 折抵核實表及同業協力邊界
 - [教學 01｜為什麼有官網，AI 還是找不到你？](https://anangeo.com/guides/why-ai-misses-your-site/): 拆解 AI 推薦三段漏斗、4 大技術地雷與 GeoLook 四層依賴修復順序
 - [教學 02｜一魚多吃：2026 跨平台信源佈局矩陣](https://anangeo.com/guides/multi-platform-citation-matrix/): 官網事實總倉搭配公眾號、小紅書、知乎、Reddit／GitHub 的跨引擎引用策略
 - [教學 03｜llms.txt、Schema 與問答結構化實戰指南](https://anangeo.com/guides/llms-txt-and-schema-guide/): robots.txt 爬蟲分流、精簡 llms.txt 範本、單一 @graph JSON-LD 與高引用段落寫法
 - [教學 04｜AI 報錯舊價破案實錄](https://anangeo.com/guides/ai-wrong-price-detective/): 從 1,298 筆實測抓出搜尋舊快照、舊測試網址與舊筆記三大影子分身並追回第 27 行原始碼
+- [教學 05｜實體店網路吸客第 1 堂（免費公開課）](https://anangeo.com/guides/store-owner-lesson-1/): 專為台灣實體店老闆撰寫的白話實戰第 1 堂，示範手機三行排版與連問三個為什麼痛點問答法，並預覽全套 5 堂客戶專屬電子書課綱（預約健檢／領取專屬贈品官方 LINE：@954pwtpz）
 - [完整常見問答（12 題 FAQ 專頁）](https://anangeo.com/faq/): 涵蓋入門折抵、小型官網改造範圍、企業 NDA 資安承諾、月費陪跑、GA4 AI 流量追蹤與 WAF 誤擋排錯
 - [B2B 企業 GEO 專頁｜四大產業盲點對照與 NDA 保密交付樣本](https://anangeo.com/enterprise/): 公開製造業 PDF、SaaS SPA、醫療美學舊價、電商 WAF 技術盲點、企業 5 件套交付樣本預覽與 NDA 四承諾
 
