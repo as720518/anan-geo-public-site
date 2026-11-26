@@ -676,7 +676,7 @@ export function generateWeeklyWuxingPrescription({ brandLabel, coreService, indu
     posts,
     cta_hooks: {
       site_upgrade:
-        "想把這套問答與體驗階梯直接寫進官網，讓搜尋與問答引擎主動推薦你？加官方 LINE @250ruauk 預約官網改造評估。",
+        "想把這套問答與體驗階梯直接寫進官網，讓搜尋與問答引擎主動推薦你？加官方 LINE @954pwtpz 預約官網改造評估。",
       line_helper:
         "沒空自己排版發文？開通 LINE@ 自動發文小幫手，對手機講 20 秒語音就幫你切好三行同步官網與 Threads！",
     },
@@ -829,7 +829,7 @@ export function formatPrescriptionPlainText(diagnosis, prescription) {
       }
     }
     lines.push("");
-    lines.push("想把問答與破冰階梯寫進官網，或開通 LINE@ 語音自動發文：加官方 LINE @250ruauk");
+    lines.push("想把問答與破冰階梯寫進官網，或開通 LINE@ 語音自動發文：加官方 LINE @954pwtpz");
   }
   return lines.join("\n").trim();
 }

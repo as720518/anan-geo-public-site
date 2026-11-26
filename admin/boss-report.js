@@ -8,8 +8,8 @@
  */
 
 const MAX_PK_COMPETITORS = 4;
-const LINE_ID = "@250ruauk";
-const LINE_URL = "https://line.me/R/ti/p/@250ruauk";
+const LINE_ID = "@954pwtpz";
+const LINE_URL = "https://line.me/R/ti/p/@954pwtpz";
 
 const PALETTE = [
   { key: "self", stroke: "#e4b65c", fill: "rgba(228, 182, 92, 0.28)", solid: "#e4b65c" },

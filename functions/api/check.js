@@ -1315,9 +1315,9 @@ export async function runGeoBasicCheck(targetUrlObj, fetchFn = globalThis.fetch)
     recommendations,
     disclaimer: DISCLAIMER_TEXT,
     next_step: {
-      line_id: "@250ruauk",
-      line_url: "https://line.me/R/ti/p/@250ruauk",
-      label: "加 LINE @250ruauk 預約完整 20 題與 9 維度健檢",
+      line_id: "@954pwtpz",
+      line_url: "https://line.me/R/ti/p/@954pwtpz",
+      label: "加 LINE @954pwtpz 預約完整 20 題與 9 維度健檢",
     },
   };
 }

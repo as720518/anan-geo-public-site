@@ -22,5 +22,5 @@ RSS-Feed: https://anangeo.com/rss.xml
 Robots: https://anangeo.com/robots.txt
 
 # 官方聯絡入口
-Contact-LINE: https://line.me/R/ti/p/@250ruauk
-Contact-LINE-ID: @250ruauk
+Contact-LINE: https://line.me/R/ti/p/@954pwtpz
+Contact-LINE-ID: @954pwtpz

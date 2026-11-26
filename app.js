@@ -910,7 +910,7 @@
     if (!resp.ok || !payload || payload.ok !== true) {
       const msg =
         payload?.error ||
-        `初檢服務暫時無法使用（HTTP ${resp.status}），請稍後再試或直接加 LINE @250ruauk 由真人協助診斷。`;
+        `初檢服務暫時無法使用（HTTP ${resp.status}），請稍後再試或直接加 LINE @954pwtpz 由真人協助診斷。`;
       return { ok: false, error: msg };
     }
     return { ok: true, data: payload };
@@ -985,7 +985,7 @@
       }
     } catch {
       setLiveStatus(
-        "連線至 /api/check 失敗，請確認網路連線正常；若需人工協助，歡迎加官方 LINE @250ruauk。",
+        "連線至 /api/check 失敗，請確認網路連線正常；若需人工協助，歡迎加官方 LINE @954pwtpz。",
         "error"
       );
     } finally {
@@ -1018,7 +1018,7 @@
           post.writing_tips.forEach((tip) => lines.push(`  • ${tip}`));
         }
       });
-      lines.push("", "預約官網改造評估或開通 LINE@ 語音自動發文：加官方 LINE @250ruauk");
+      lines.push("", "預約官網改造評估或開通 LINE@ 語音自動發文：加官方 LINE @954pwtpz");
     }
     return lines.join("\n").trim();
   }
@@ -1307,8 +1307,8 @@
       state.lastLeadMessage =
         data.message ||
         (data.mail_sent
-          ? "完整報告已解鎖並寄送至您的信箱！歡迎加官方 LINE @250ruauk 預約深度健檢。"
-          : "完整報告已為您免費解鎖！歡迎加官方 LINE @250ruauk 預約完整 20 題與 9 維度健檢。");
+          ? "完整報告已解鎖並寄送至您的信箱！歡迎加官方 LINE @954pwtpz 預約深度健檢。"
+          : "完整報告已為您免費解鎖！歡迎加官方 LINE @954pwtpz 預約完整 20 題與 9 維度健檢。");
       saveSessionUnlock(email);
 
       const metaNote = el("live-meta-note");
@@ -1598,16 +1598,16 @@
           `- robots.txt（${report.checks.robots.score}/${report.checks.robots.max_score}）：${report.checks.robots.summary}`,
           `- llms.txt（${report.checks.llms.score}/${report.checks.llms.max_score}）：${report.checks.llms.summary}`,
           `- 首頁結構（${report.checks.homepage.score}/${report.checks.homepage.max_score}）：${report.checks.homepage.summary}`,
-          "我想加 LINE @250ruauk 預約完整 20 題跨引擎實測與 9 維度健檢。"
+          "我想加 LINE @954pwtpz 預約完整 20 題跨引擎實測與 9 維度健檢。"
         );
 
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(summaryLines.join("\n"));
           }
-          copyFb.textContent = "已複製初檢摘要！請直接貼給官方 LINE @250ruauk 預約深度健檢。";
+          copyFb.textContent = "已複製初檢摘要！請直接貼給官方 LINE @954pwtpz 預約深度健檢。";
         } catch {
-          copyFb.textContent = `您的基礎初檢分數為 ${report.score}/100，請加官方 LINE @250ruauk 傳送網址預約完整健檢。`;
+          copyFb.textContent = `您的基礎初檢分數為 ${report.score}/100，請加官方 LINE @954pwtpz 傳送網址預約完整健檢。`;
         }
       });
     }
@@ -1923,16 +1923,16 @@
           `總分：${summary.score} / ${summary.total}（${summary.pct}%）`,
           `現況判定：${summary.tier}`,
           weakLines.length > 0 ? "尚未勾選項目：\n" + weakLines.join("\n") : "12 題皆已勾選通過。",
-          "我想預約 LINE @250ruauk 做 20 題跨引擎實測健檢，我的網站網址是：",
+          "我想預約 LINE @954pwtpz 做 20 題跨引擎實測健檢，我的網站網址是：",
         ].join("\n");
 
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(text);
           }
-          quizFeedback.textContent = "已複製自檢分數與弱點摘要！請直接貼給官方 LINE @250ruauk（記得補上您的網址）。";
+          quizFeedback.textContent = "已複製自檢分數與弱點摘要！請直接貼給官方 LINE @954pwtpz（記得補上您的網址）。";
         } catch {
-          quizFeedback.textContent = `您的自檢分數為 ${summary.score}/${summary.total}（${summary.pct}%），請加官方 LINE @250ruauk 傳送網址預約健檢。`;
+          quizFeedback.textContent = `您的自檢分數為 ${summary.score}/${summary.total}（${summary.pct}%），請加官方 LINE @954pwtpz 傳送網址預約健檢。`;
         }
       });
     }
@@ -1972,7 +1972,7 @@
     const feedback = el("copy-feedback");
     if (copyBtn && feedback) {
       copyBtn.addEventListener("click", async () => {
-        const lineId = "@250ruauk";
+        const lineId = "@954pwtpz";
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(lineId);
@@ -2884,7 +2884,7 @@
 
     const lineLink = el("open-line-q-link");
     if (lineLink) {
-      lineLink.href = `https://line.me/R/oaMessage/@250ruauk/?${encodeURIComponent(message)}`;
+      lineLink.href = `https://line.me/R/oaMessage/@954pwtpz/?${encodeURIComponent(message)}`;
     }
   }
 
@@ -2914,9 +2914,9 @@
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(message);
           }
-          fb.textContent = "已複製 3 道買家測試題與預約訊息！可直接貼給官方 LINE @250ruauk，或點右側按鈕一鍵帶字跳轉。";
+          fb.textContent = "已複製 3 道買家測試題與預約訊息！可直接貼給官方 LINE @954pwtpz，或點右側按鈕一鍵帶字跳轉。";
         } catch {
-          fb.textContent = "已準備好 3 道測試題，請點右側「一鍵帶這 3 題跳轉 LINE @250ruauk」直接送出。";
+          fb.textContent = "已準備好 3 道測試題，請點右側「一鍵帶這 3 題跳轉 LINE @954pwtpz」直接送出。";
         }
       });
     }

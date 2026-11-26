@@ -6,7 +6,7 @@
  * - 支援 POST /api/lead 與 OPTIONS CORS preflight（其他方法回 405）
  * - 嚴格驗證：Email 格式、consent === true、target_url（與選填 competitor_url）公開網址規則、分數摘要與負載大小上限（<= 32 KB）
  * - 若設定 env.RESEND_API_KEY：
- *   1. 第 1 封（當下立即寄出）：繁中「GEO 基礎初檢與對手差距報告」（含紅綠燈明細、修復建議、退訂說明與 LINE @250ruauk）
+ *   1. 第 1 封（當下立即寄出）：繁中「GEO 基礎初檢與對手差距報告」（含紅綠燈明細、修復建議、退訂說明與 LINE @954pwtpz）
  *   2. 第 2 封（scheduled_at = +72 小時／第 3 天）：《真實破案實錄：為什麼網站有做傳統 SEO，ChatGPT 與 Gemini 還是推薦對手或報錯價格？》
  *   3. 第 3 封（scheduled_at = +168 小時／第 7 天）：《專屬健檢折抵提醒：NT$3,800 深度 20 題健檢 30 天內可 100% 折抵改造費》
  *   4. 若設定 env.RESEND_AUDIENCE_ID：新增聯絡人至 Resend Audience
@@ -32,8 +32,8 @@ const MAX_BODY_BYTES = 32 * 1024;
 const RESEND_TIMEOUT_MS = 8000;
 const DEFAULT_FROM = "阿男 GEO 實戰工坊 <noreply@cccnan.art>";
 const SITE_URL = "https://anangeo.com";
-const LINE_ID = "@250ruauk";
-const LINE_URL = "https://line.me/R/ti/p/@250ruauk";
+const LINE_ID = "@954pwtpz";
+const LINE_URL = "https://line.me/R/ti/p/@954pwtpz";
 
 export const FOLLOWUP_DELAY_HOURS = {
   day3: 72,
@@ -934,7 +934,7 @@ export async function onRequest(context) {
           day7_at: null,
         },
         mode: "preview_unlock",
-        message: "完整報告已為您免費解鎖！歡迎加官方 LINE @250ruauk 預約 20 題深度健檢。",
+        message: "完整報告已為您免費解鎖！歡迎加官方 LINE @954pwtpz 預約 20 題深度健檢。",
       },
       200
     );
@@ -1058,8 +1058,8 @@ export async function onRequest(context) {
       admin_notified: Boolean(adminRes?.ok),
       mode: mailSent ? "resend_live" : "resend_fallback",
       message: mailSent
-        ? "完整報告已解鎖並同步寄送至您的信箱！歡迎加官方 LINE @250ruauk 預約深度健檢。"
-        : "完整報告已為您免費解鎖！（信件寄送暫時忙碌，您可直接檢視或複製完整明細並加 LINE @250ruauk）。",
+        ? "完整報告已解鎖並同步寄送至您的信箱！歡迎加官方 LINE @954pwtpz 預約深度健檢。"
+        : "完整報告已為您免費解鎖！（信件寄送暫時忙碌，您可直接檢視或複製完整明細並加 LINE @954pwtpz）。",
     },
     200
   );

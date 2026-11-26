@@ -3,7 +3,7 @@
  * 零外部依賴、純前端與 Node 測試共用模組（絕不外洩內部成本與分潤至客戶報價文字）
  */
 
-const LINE_ID = "@250ruauk";
+const LINE_ID = "@954pwtpz";
 
 export const PLANS = Object.freeze([
   Object.freeze({

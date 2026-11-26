@@ -44,7 +44,7 @@
 - 企業月費陪跑監測：NT$25,000／月起（每月跨引擎實測＋結構／內容優化＋GA4 AI 流量追蹤，依題庫與平台數報價）
 
 ## 官方聯絡入口
-- 預約 GEO 健檢：官方 LINE @250ruauk（https://line.me/R/ti/p/@250ruauk）
+- 預約 GEO 健檢：官方 LINE @954pwtpz（https://line.me/R/ti/p/@954pwtpz）
 - 公開倉庫：https://github.com/as720518/anan-geo-public-site
 
 ## 開源授權聲明

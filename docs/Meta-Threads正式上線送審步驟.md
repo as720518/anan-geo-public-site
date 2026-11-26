@@ -70,7 +70,7 @@ End-to-end user flow:
 ```text
 How our app works (demonstrated in the attached screencast):
 1. Visit https://anangeo.com/privacy/ and https://anangeo.com/data-deletion/ to verify our public bilingual Privacy Policy and Data Deletion Instructions.
-2. In the attached screen recording, a merchant initiates onboarding in our LINE Official Account (@250ruauk), taps the signed Threads OAuth link (https://relay.anangeo.com/oauth/threads/start), and grants `threads_basic` and `threads_content_publish` on Meta's official Threads login screen.
+2. In the attached screen recording, a merchant initiates onboarding in our LINE Official Account (@954pwtpz), taps the signed Threads OAuth link (https://relay.anangeo.com/oauth/threads/start), and grants `threads_basic` and `threads_content_publish` on Meta's official Threads login screen.
 3. After OAuth callback (https://relay.anangeo.com/oauth/threads/callback), the merchant receives a confirmation message in LINE.
 4. The merchant sends a sample store update (text + image) in LINE, inspects the preview card, and taps "Confirm & Publish".
 5. The post immediately appears live on the merchant's authorized Threads profile.
@@ -109,5 +109,5 @@ Meta 審查 `threads_content_publish` 時一定要附一段 **30～60 秒無聲�
 - **取消授權回呼**：`https://relay.anangeo.com/oauth/threads/deauthorize`
 - **資料刪除回呼**：`https://relay.anangeo.com/oauth/threads/data-deletion`
 - **刪除狀態查詢頁**：`https://relay.anangeo.com/oauth/threads/deletion-status?code=<confirmation_code>`
-- **官方 LINE 窗口**：`@250ruauk`（`https://line.me/R/ti/p/@250ruauk`）
+- **官方 LINE 窗口**：`@954pwtpz`（`https://line.me/R/ti/p/@954pwtpz`）
 - **隱私專責信箱**：`privacy@anangeo.com`

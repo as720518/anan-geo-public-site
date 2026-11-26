@@ -97,8 +97,8 @@ const MULTI_PART_PUBLIC_SUFFIXES = new Set([
   "com.my",
 ]);
 
-const LINE_ID = "@250ruauk";
-const LINE_URL = "https://line.me/R/ti/p/@250ruauk";
+const LINE_ID = "@954pwtpz";
+const LINE_URL = "https://line.me/R/ti/p/@954pwtpz";
 
 const LIGHT_LABELS = {
   green: "綠燈",
