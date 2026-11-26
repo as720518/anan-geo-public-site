@@ -5914,3 +5914,153 @@ html.has-cat-tabs .category-panel.is-cat-collapsed {
     width: 100%;
   }
 }
+
+/* ==================== geo-site-20：頂部「實戰微課」入口 ＋ 首屏快速引流橫幅 ==================== */
+.site-nav a.nav-highlight {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--accent-brass-soft);
+  border: 1px solid rgba(217, 167, 74, 0.42);
+  color: #f4d38c;
+  font-weight: 700;
+}
+
+.site-nav a.nav-highlight:hover {
+  background: rgba(217, 167, 74, 0.24);
+  border-color: var(--accent-brass);
+  color: #fff3d2;
+  text-decoration: none;
+}
+
+.hero-course-strip {
+  padding: 16px 0 4px;
+}
+
+.course-strip-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+  padding: 16px 22px;
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(125deg, rgba(217, 167, 74, 0.14) 0%, rgba(20, 31, 41, 0.94) 48%, rgba(52, 179, 153, 0.13) 100%);
+  border: 1px solid rgba(217, 167, 74, 0.42);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.26);
+}
+
+.course-strip-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1 1 300px;
+}
+
+.course-strip-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(217, 167, 74, 0.18);
+  border: 1px solid rgba(217, 167, 74, 0.45);
+  color: #f4d38c;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.course-strip-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-primary);
+  line-height: 1.55;
+}
+
+.course-strip-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.course-strip-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.16s ease, border-color 0.16s ease, transform 0.12s ease;
+}
+
+.course-strip-btn:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.course-strip-btn.is-primary {
+  background: var(--accent-brass);
+  color: #0b1117;
+}
+
+.course-strip-btn.is-primary:hover {
+  background: #e8bc66;
+  color: #0b1117;
+}
+
+.course-strip-btn.is-teal {
+  background: rgba(52, 179, 153, 0.16);
+  border-color: rgba(52, 179, 153, 0.52);
+  color: #8bf0d8;
+}
+
+.course-strip-btn.is-teal:hover {
+  background: rgba(52, 179, 153, 0.26);
+  border-color: var(--accent-teal);
+  color: #e6fff9;
+}
+
+@media (max-width: 1120px) {
+  .site-nav {
+    gap: 11px;
+  }
+
+  .site-nav a {
+    font-size: 0.85rem;
+  }
+
+  .site-nav a.nav-highlight {
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero-course-strip {
+    padding: 12px 0 4px;
+  }
+
+  .course-strip-card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .course-strip-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .course-strip-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

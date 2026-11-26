@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LINE 發文幫手 3 分鐘使用教學：講 20 秒語音同步官網＋Threads｜阿男 GEO 實戰工坊</title>
+  <meta name="description" content="台灣實體店老闆 3 分鐘上手教學：加官方 LINE @954pwtpz 輸入「我要開通」4 步綁定，每天拍照講 20 秒語音，四段式潤稿與原稿純排版一鍵切換，確認發布同步上官網與 Threads，沒靈感直接從 30 個客人痛點挑題。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://anangeo.com/guides/line-assistant-guide/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="阿男 GEO 實戰工坊 RSS" href="https://anangeo.com/rss.xml">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:site_name" content="阿男 GEO 實戰工坊">
+  <meta property="og:title" content="LINE 發文幫手 3 分鐘使用教學：講 20 秒語音同步官網＋Threads">
+  <meta property="og:description" content="加 @954pwtpz 輸入「我要開通」4 步設定，拍照講 20 秒語音，雙軌隨意切換，確認發布同步上官網＋Threads，附 30 題痛點靈感選題。">
+  <meta property="og:url" content="https://anangeo.com/guides/line-assistant-guide/">
+  <meta property="og:image" content="https://anangeo.com/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LINE 發文幫手 3 分鐘使用教學｜阿男 GEO 實戰工坊">
+  <meta name="twitter:description" content="台灣實體店老闆 3 分鐘白話教學：5 個步驟學會用 LINE 講 20 秒語音同步上官網與 Threads。">
+  <meta name="twitter:image" content="https://anangeo.com/og-cover.png">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .guide-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 14px;
+    }
+    .guide-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(217, 167, 74, 0.38);
+      background: rgba(217, 167, 74, 0.14);
+      color: #f4d38c;
+    }
+    .guide-pill.is-teal {
+      border-color: rgba(52, 179, 153, 0.42);
+      background: rgba(52, 179, 153, 0.15);
+      color: #82ebd2;
+    }
+    .step-jump-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .step-jump-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.16s ease, background 0.16s ease;
+    }
+    .step-jump-chip:hover {
+      border-color: var(--accent-brass);
+      background: var(--bg-elevated);
+      text-decoration: none;
+    }
+    .step-card {
+      scroll-margin-top: 88px;
+      position: relative;
+    }
+    .step-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .step-num-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 10px;
+      border-radius: 10px;
+      background: var(--accent-brass);
+      color: #0b1117;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 0.92rem;
+      flex-shrink: 0;
+    }
+    .step-head h2 {
+      margin: 0;
+      font-size: clamp(1.12rem, 2.2vw, 1.34rem);
+      line-height: 1.4;
+    }
+    .step-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .short-line {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.82;
+      color: var(--ink-primary);
+      max-width: 56ch;
+    }
+    .short-line.is-muted {
+      color: var(--ink-secondary);
+    }
+    .mini-flow-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .mini-flow-item {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(11, 17, 23, 0.56);
+      border: 1px solid var(--border-subtle);
+      text-align: center;
+    }
+    .mini-flow-item span {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--accent-brass);
+      margin-bottom: 4px;
+    }
+    .mini-flow-item strong {
+      display: block;
+      font-size: 0.94rem;
+      color: var(--ink-primary);
+    }
+    .inline-cmd-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(217, 167, 74, 0.08);
+      border: 1px solid rgba(217, 167, 74, 0.32);
+    }
+    .inline-cmd-code {
+      font-weight: 800;
+      color: #f4d38c;
+      font-size: 0.98rem;
+    }
+    .dual-track-box {
+      margin-top: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--border-strong);
+      background: rgba(11, 17, 23, 0.62);
+      padding: 16px;
+    }
+    .dual-track-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .dual-track-btn {
+      flex: 1 1 220px;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease;
+    }
+    .dual-track-btn.is-active {
+      background: rgba(52, 179, 153, 0.16);
+      border-color: var(--accent-teal);
+      color: #e9fff9;
+    }
+    .dual-track-panel {
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+    }
+    .dual-track-panel[hidden] {
+      display: none;
+    }
+    .dual-track-tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: rgba(217, 167, 74, 0.15);
+      color: #f4d38c;
+    }
+    .dual-track-sample {
+      margin: 0;
+      white-space: pre-line;
+      font-size: 0.94rem;
+      line-height: 1.78;
+      color: var(--ink-primary);
+    }
+    .sync-dest-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .sync-dest-card {
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(52, 179, 153, 0.08);
+      border: 1px solid rgba(52, 179, 153, 0.34);
+    }
+    .sync-dest-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #82ebd2;
+      font-size: 0.98rem;
+    }
+    .sync-dest-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--ink-secondary);
+    }
+    .compass-sample-box {
+      margin-top: 6px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border-left: 3px solid var(--accent-teal);
+      background: rgba(52, 179, 153, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .compass-sample-box strong {
+      color: #82ebd2;
+      font-size: 0.95rem;
+    }
+    .compass-sample-list {
+      margin: 0;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: var(--ink-primary);
+      font-size: 0.93rem;
+      line-height: 1.65;
+    }
+    .guide-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .guide-checklist label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(11, 17, 23, 0.45);
+      cursor: pointer;
+      line-height: 1.65;
+    }
+    .guide-checklist input[type="checkbox"] {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      accent-color: #34b399;
+      flex-shrink: 0;
+    }
+    .guide-feedback {
+      margin: 8px 0 0;
+      font-size: 0.88rem;
+      color: #82ebd2;
+      min-height: 1.3em;
+    }
+    @media (max-width: 720px) {
+      .mini-flow-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .sync-dest-grid {
+        grid-template-columns: 1fr;
+      }
+      .dual-track-btn {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://anangeo.com/#website",
+        "url": "https://anangeo.com/",
+        "name": "阿男 GEO 實戰工坊",
+        "inLanguage": "zh-Hant",
+        "publisher": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://anangeo.com/#organization",
+        "name": "阿男 GEO 實戰工坊",
+        "url": "https://anangeo.com/",
+        "logo": "https://anangeo.com/og-cover.png",
+        "founder": { "@id": "https://anangeo.com/#founder" },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "name": "阿男GEO總公司官方 LINE @954pwtpz",
+          "url": "https://line.me/R/ti/p/@954pwtpz",
+          "availableLanguage": ["zh-Hant"]
+        },
+        "sameAs": [
+          "https://github.com/as720518/anan-geo-public-site",
+          "https://www.linkedin.com/in/%E9%98%BF%E7%94%B7-cc-6bb966205/",
+          "https://youtube.com/@as720518",
+          "https://www.threads.com/@cccn0518",
+          "https://x.com/0518nan",
+          "https://www.cccnan.art/"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://anangeo.com/#founder",
+        "name": "阿男音樂｜張簡俊男",
+        "url": "https://www.cccnan.art/",
+        "worksFor": { "@id": "https://anangeo.com/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://anangeo.com/guides/line-assistant-guide/#webpage",
+        "url": "https://anangeo.com/guides/line-assistant-guide/",
+        "name": "LINE 發文幫手 3 分鐘使用教學：講 20 秒語音同步官網＋Threads｜阿男 GEO 實戰工坊",
+        "description": "專為台灣實體店老闆寫的 LINE 發文幫手 3 分鐘使用教學：5 步驟完成開通綁定、20 秒語音發文、四段式與原稿純排版雙軌切換、一鍵同步官網＋Threads，以及 30 題客人痛點靈感選題。",
+        "inLanguage": "zh-Hant",
+        "isPartOf": { "@id": "https://anangeo.com/#website" },
+        "breadcrumb": { "@id": "https://anangeo.com/guides/line-assistant-guide/#breadcrumb" },
+        "datePublished": "2026-11-26T12:15:00+08:00",
+        "dateModified": "2026-11-26T12:15:00+08:00"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://anangeo.com/guides/line-assistant-guide/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://anangeo.com/" },
+          { "@type": "ListItem", "position": 2, "name": "實戰教學", "item": "https://anangeo.com/#guides" },
+          { "@type": "ListItem", "position": 3, "name": "LINE 發文幫手 3 分鐘使用教學", "item": "https://anangeo.com/guides/line-assistant-guide/" }
+        ]
+      },
+      {
+        "@type": "Article",
+        "@id": "https://anangeo.com/guides/line-assistant-guide/#article",
+        "headline": "LINE 發文幫手 3 分鐘使用教學：拍照講 20 秒語音，一鍵同步官網＋Threads",
+        "description": "用 5 個白話步驟帶台灣實體店老闆上手阿男GEO總公司 LINE 發文幫手（@954pwtpz），手機三行好讀排版，零電腦門檻。",
+        "image": "https://anangeo.com/og-cover.png",
+        "inLanguage": "zh-Hant",
+        "author": { "@id": "https://anangeo.com/#founder" },
+        "publisher": { "@id": "https://anangeo.com/#organization" },
+        "mainEntityOfPage": { "@id": "https://anangeo.com/guides/line-assistant-guide/#webpage" },
+        "datePublished": "2026-11-26T12:15:00+08:00",
+        "dateModified": "2026-11-26T12:15:00+08:00"
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://anangeo.com/guides/line-assistant-guide/#howto",
+        "name": "3 分鐘學會用 LINE 發文幫手同步更新官網與 Threads",
+        "description": "加入阿男GEO總公司官方 LINE @954pwtpz，5 步完成開通綁定、20 秒語音發文、雙軌切換、一鍵確認發布與痛點選題。",
+        "inLanguage": "zh-Hant",
+        "totalTime": "PT3M",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "加 @954pwtpz 輸入「我要開通」完成 4 步綁定",
+            "text": "加入阿男GEO總公司官方 LINE @954pwtpz，在聊天室輸入「我要開通」，依畫面引導 4 步綁定店名、Logo、配色與 Threads。",
+            "url": "https://anangeo.com/guides/line-assistant-guide/#step-1"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "拍照＋對麥克風講 20 秒語音（或打兩句話）",
+            "text": "隨手拍一張店內實拍照傳進聊天室，再按住麥克風講 20 秒語音或打兩句話，系統立刻整理成手機好讀預覽卡。",
+            "url": "https://anangeo.com/guides/line-assistant-guide/#step-2"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "雙軌隨意切換：四段式或原稿純排版",
+            "text": "在預覽卡一鍵切換「✨ 系統幫我寫四段式」或「📄 改用原稿純排版（不改一個字，只幫你切好手機三行）」。",
+            "url": "https://anangeo.com/guides/line-assistant-guide/#step-3"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "一鍵按「確認發布」，同步上官網＋Threads",
+            "text": "預覽確認順眼後點選「確認發布」，貼文立刻同步更新到官網動態與 Threads 帳號，不必重複複製貼上。",
+            "url": "https://anangeo.com/guides/line-assistant-guide/#step-4"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 5,
+            "name": "沒靈感就點「🧭 下一篇發什麼？」從 30 個客人痛點挑題",
+            "text": "打開選單點擊「🧭 下一篇發什麼？」，從 30 個客人最常問的痛點挑一題來講 20 秒語音，輕鬆維持穩定更新。",
+            "url": "https://anangeo.com/guides/line-assistant-guide/#step-5"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand-lockup" href="/" aria-label="返回阿男 GEO 實戰工坊首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect x="1.5" y="1.5" width="31" height="31" rx="8" stroke="#D9A74A" stroke-width="1.6"/>
+            <path d="M9 22.5L14.2 11.5L18.5 19.5L22 14.2L25.5 22.5" stroke="#ECF1F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="25.5" cy="10.5" r="2.5" fill="#34B399"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>阿男 GEO 實戰工坊</strong>
+          <small>讓 ChatGPT 與 Google 推薦你的店</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">選單</button>
+
+      <nav class="site-nav" id="site-nav" aria-label="主要導覽">
+        <a href="/#live-check">10 秒免費檢測</a>
+        <a class="nav-highlight" href="/guides/store-owner-lesson-1/">實戰微課</a>
+        <a href="/#dashboard">實戰案例</a>
+        <a href="/#guides">做法指南</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/">常見問答</a>
+        <a class="nav-cta" href="https://line.me/R/ti/p/@954pwtpz" target="_blank" rel="noopener noreferrer">LINE 預約健檢</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="subpage-hero">
+      <div class="container">
+        <ol class="breadcrumb" aria-label="麵包屑導覽">
+          <li><a href="/">首頁</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li><a href="/#guides">實戰教學</a></li>
+          <li class="breadcrumb-sep" aria-hidden="true">/</li>
+          <li aria-current="page">LINE 發文幫手 3 分鐘使用教學</li>
+        </ol>
+        <div class="guide-pill-row">
+          <span class="guide-pill is-teal">📱 3 分鐘上手・手機三行好讀版</span>
+          <span class="guide-pill">官方 LINE：@954pwtpz（阿男GEO總公司）</span>
+        </div>
+        <h1>LINE 發文幫手 3 分鐘使用教學：拍照講 20 秒語音，一鍵同步官網＋Threads</h1>
+        <p class="subpage-lead">
+          不用開電腦，也不用學複雜後台。只要會用手機傳 LINE、拍一張照、對麥克風講幾句話，就能同步更新官網與 Threads。
+        </p>
+        <div class="subpage-meta">
+          <span>閱讀時間：約 3 分鐘</span>
+          <span>對象：忙於店務的台灣實體店老闆</span>
+          <span>最後更新：2026-11-26</span>
+        </div>
+        <div class="step-jump-row" aria-label="快速跳到各步驟">
+          <a class="step-jump-chip" href="#step-1">1. 輸入「我要開通」</a>
+          <a class="step-jump-chip" href="#step-2">2. 拍照講 20 秒語音</a>
+          <a class="step-jump-chip" href="#step-3">3. 雙軌隨意切換</a>
+          <a class="step-jump-chip" href="#step-4">4. 一鍵確認發布</a>
+          <a class="step-jump-chip" href="#step-5">5. 沒靈感 30 題挑題</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="subpage-body">
+      <div class="container subpage-stack">
+
+        <!-- 步驟 1 -->
+        <article class="subpage-card step-card" id="step-1">
+          <div class="step-head">
+            <span class="step-num-badge">01</span>
+            <h2>加 @954pwtpz 輸入「我要開通」，4 步完成開店綁定</h2>
+          </div>
+          <div class="step-body">
+            <p class="short-line">先加入阿男GEO總公司官方 LINE <strong>@954pwtpz</strong>，打開聊天室。</p>
+            <p class="short-line">直接在對話框輸入四個字：「<strong>我要開通</strong>」，馬上啟動開店精靈。</p>
+            <p class="short-line">照著畫面點按鈕，3 分鐘內就能依序綁好店名、Logo、配色與 Threads。</p>
+            <p class="short-line is-muted">全程都在 LINE 裡點一點就完成，不用下載新軟體，也不用碰電腦。</p>
+            <div class="mini-flow-row" aria-label="4 步開通綁定流程">
+              <div class="mini-flow-item">
+                <span>STEP 1</span>
+                <strong>填寫店名</strong>
+              </div>
+              <div class="mini-flow-item">
+                <span>STEP 2</span>
+                <strong>相簿傳 Logo</strong>
+              </div>
+              <div class="mini-flow-item">
+                <span>STEP 3</span>
+                <strong>挑選品牌配色</strong>
+              </div>
+              <div class="mini-flow-item">
+                <span>STEP 4</span>
+                <strong>綁定 Threads</strong>
+              </div>
+            </div>
+            <div class="inline-cmd-bar">
+              <span>開通指令：<span class="inline-cmd-code">我要開通</span></span>
+              <a class="btn btn-primary btn-sm" href="https://line.me/R/ti/p/@954pwtpz" target="_blank" rel="noopener noreferrer">馬上加 @954pwtpz →</a>
+              <button class="btn btn-secondary btn-sm" type="button" id="copy-open-cmd-btn">複製「我要開通」</button>
+            </div>
+            <p class="guide-feedback" id="open-cmd-feedback" aria-live="polite"></p>
+          </div>
+        </article>
+
+        <!-- 步驟 2 -->
+        <article class="subpage-card step-card" id="step-2">
+          <div class="step-head">
+            <span class="step-num-badge">02</span>
+            <h2>每天發文超簡單：拍照＋對麥克風講 20 秒語音（或打兩句話）</h2>
+          </div>
+          <div class="step-body">
+            <p class="short-line">剛送走客人、做好招牌服務，或想分享店裡小提醒，隨手拍張照傳進來。</p>
+            <p class="short-line">接著按住 LINE 麥克風，像跟熟客聊天一樣講 <strong>20 秒語音</strong>。</p>
+            <p class="short-line">現場人多不方便開口？直接<strong>打兩句話</strong>傳送，一樣能幫你整理好。</p>
+            <p class="short-line is-muted">不用想標題、也不用管段落，幾秒鐘就會回傳一張圖文預覽卡給你看。</p>
+          </div>
+        </article>
+
+        <!-- 步驟 3 -->
+        <article class="subpage-card step-card" id="step-3">
+          <div class="step-head">
+            <span class="step-num-badge">03</span>
+            <h2>雙軌隨意切：「✨ 系統幫我寫四段式」vs「📄 改用原稿純排版」</h2>
+          </div>
+          <div class="step-body">
+            <p class="short-line">看到預覽卡後，如果覺得語氣想換一下，下方一鍵就能隨時切換兩種模式。</p>
+            <p class="short-line">選「<strong>✨ 系統幫我寫四段式</strong>」，會幫你理出痛點、做法與預約提醒。</p>
+            <p class="short-line">選「<strong>📄 改用原稿純排版</strong>」，<strong>不改一個字，只幫你切好手機三行</strong>。</p>
+            <p class="short-line is-muted">想省力就交給系統潤順；喜歡自己原本的口氣，就切原稿純排版！</p>
+
+            <div class="dual-track-box" aria-label="雙軌模式效果即時對照">
+              <div class="dual-track-tabs" role="tablist" aria-label="切換模式預覽">
+                <button
+                  type="button"
+                  role="tab"
+                  class="dual-track-btn is-active"
+                  id="tab-track-auto"
+                  data-track-tab="auto"
+                  aria-selected="true"
+                >✨ 系統幫我寫四段式</button>
+                <button
+                  type="button"
+                  role="tab"
+                  class="dual-track-btn"
+                  id="tab-track-raw"
+                  data-track-tab="raw"
+                  aria-selected="false"
+                >📄 改用原稿純排版（不改一個字）</button>
+              </div>
+              <div class="dual-track-panel" id="panel-track-auto" data-track-panel="auto">
+                <span class="dual-track-tag">效果示例｜幫你把 20 秒語音整理成四段吸客文</span>
+                <p class="dual-track-sample">最近換季很多客人說，肩頸一到下午就緊到睡不好。
+
+其實平常低頭滑手機太久，肌肉一直在幫你撐著。
+我們店裡都會先聽你哪邊最痠，再用溫和手法慢慢鬆開。
+
+這週平日下午還有空檔，想先試試看歡迎直接私訊預約。</p>
+              </div>
+              <div class="dual-track-panel" id="panel-track-raw" data-track-panel="raw" hidden>
+                <span class="dual-track-tag">效果示例｜不改一個字，只幫你切好手機三行</span>
+                <p class="dual-track-sample">今天下午有位常客來按完肩頸說輕鬆很多。
+
+最近天氣變涼大家低頭滑手機真的特別容易緊，記得多起來伸展一下。
+
+我們這週三下午還有兩個時段可以約喔，有需要直接 LINE 跟我說就好。</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 步驟 4 -->
+        <article class="subpage-card step-card" id="step-4">
+          <div class="step-head">
+            <span class="step-num-badge">04</span>
+            <h2>一鍵按「確認發布」，同步上官網＋Threads</h2>
+          </div>
+          <div class="step-body">
+            <p class="short-line">照片跟文字都看順眼了？只要按一下預覽卡底部的「<strong>確認發布</strong>」。</p>
+            <p class="short-line">系統會立刻幫你<strong>同步上官網</strong>的最新動態區，同時發到 <strong>Threads</strong>。</p>
+            <p class="short-line">完全不用把同一段字複製貼上兩遍，也不會忘記更新官網。</p>
+            <p class="short-line is-muted">每發一篇就在官網多留一筆真實紀錄，搜尋引擎和問答工具也看得到。</p>
+            <div class="sync-dest-grid">
+              <div class="sync-dest-card">
+                <strong>🌐 同步上官網</strong>
+                <p>自動更新成純文字與圖片，累積店家的長期網路口碑資產。</p>
+              </div>
+              <div class="sync-dest-card">
+                <strong>🧵 同步發 Threads</strong>
+                <p>第一時間觸及滑手機的新舊朋友，讓熟客按讚、新客私訊問路。</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 步驟 5 -->
+        <article class="subpage-card step-card" id="step-5">
+          <div class="step-head">
+            <span class="step-num-badge">05</span>
+            <h2>沒靈感就點「🧭 下一篇發什麼？」從 30 個客人痛點挑一題來講</h2>
+          </div>
+          <div class="step-body">
+            <p class="short-line">忙店務腦袋一片空白，不知道今天該寫什麼？完全沒關係。</p>
+            <p class="short-line">點一下聊天室選單的「<strong>🧭 下一篇發什麼？</strong>」，讓幫手替你想題目。</p>
+            <p class="short-line">它會從 <strong>30 個客人最常問的痛點</strong>裡，挑出你最近最缺的 3 題推薦。</p>
+            <p class="short-line is-muted">點選想講的那一題，對麥克風回 20 秒你的看法，馬上就能生出下一篇！</p>
+            <div class="compass-sample-box">
+              <strong>30 題痛點庫會幫你輪流照顧這 5 種客人愛看的內容：</strong>
+              <ul class="compass-sample-list">
+                <li><strong>客人真實煩惱</strong>：解決新客半夜滑手機最常問的生活困擾。</li>
+                <li><strong>日常保養小知識</strong>：用 30 秒白話提醒，讓客人覺得你很專業又貼心。</li>
+                <li><strong>真實服務見證</strong>：分享客人做完最常講的一句真心話。</li>
+                <li><strong>店內日常溫度</strong>：開門準備、器物清潔、挑材料的小堅持。</li>
+                <li><strong>新手體驗引導</strong>：清楚說明第一次來怎麼選、怎麼預約最安心。</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3 分鐘上手檢核表 -->
+        <article class="subpage-card">
+          <h2>今天照著打勾，3 分鐘完成第一篇同步發文</h2>
+          <p class="short-line is-muted">不用記任何名詞，每完成一步打個勾，第一篇貼文就上線了：</p>
+          <ul class="guide-checklist" aria-label="LINE 發文幫手 3 分鐘上手清單">
+            <li>
+              <label>
+                <input type="checkbox" class="guide-step-check">
+                <span>加入官方 LINE <strong>@954pwtpz</strong>（阿男GEO總公司），傳送「我要開通」完成 4 步綁定。</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" class="guide-step-check">
+                <span>隨手拍一張店內照片，按住麥克風講 20 秒語音（或打兩句話）。</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" class="guide-step-check">
+                <span>切換試看「✨ 系統幫我寫四段式」與「📄 改用原稿純排版」，選喜歡的版本按「確認發布」。</span>
+              </label>
+            </li>
+          </ul>
+          <p class="guide-feedback" id="guide-check-progress" aria-live="polite">目前進度：已完成 0 / 3 步</p>
+        </article>
+
+        <!-- CTA 橫幅 -->
+        <section class="subpage-cta-banner" aria-label="立即加入官方 LINE 與領取 5 堂實戰微課">
+          <div class="subpage-cta-copy">
+            <span class="eyebrow">NEXT STEP・馬上開通或接著看免費微課</span>
+            <h2>加官方 LINE @954pwtpz 輸入「我要開通」，馬上開始省力發文</h2>
+            <p>
+              想先看怎麼寫出客人愛問的內容？推薦搭配《實體店網路吸客 5 堂實戰微課》免費第 1 堂一起看，或直接加阿男GEO總公司官方 LINE <strong>@954pwtpz</strong> 預約網站健檢。
+            </p>
+            <p class="guide-feedback" id="guide-copy-feedback" aria-live="polite"></p>
+          </div>
+          <div class="subpage-cta-actions">
+            <a class="btn btn-primary" href="https://line.me/R/ti/p/@954pwtpz" target="_blank" rel="noopener noreferrer">加官方 LINE @954pwtpz</a>
+            <button class="btn btn-secondary" type="button" id="guide-copy-line-btn">複製 LINE ID：@954pwtpz</button>
+            <a class="btn btn-secondary" href="/guides/store-owner-lesson-1/">免費讀 5 堂實戰微課 →</a>
+          </div>
+        </section>
+
+        <!-- 延伸閱讀 -->
+        <nav aria-label="延伸閱讀">
+          <h2 style="font-size:1.12rem;margin:0 0 12px;">延伸閱讀與專頁導覽</h2>
+          <div class="related-guides-grid">
+            <a class="related-guide-link" href="/guides/store-owner-lesson-1/">
+              <span class="mono">微課 01・免費公開</span>
+              <strong>實體店網路吸客第 1 堂：把冰冷價目表換成痛點問答</strong>
+            </a>
+            <a class="related-guide-link" href="/guides/why-ai-misses-your-site/">
+              <span class="mono">指南 01</span>
+              <strong>為什麼有官網，AI 還是找不到你？</strong>
+            </a>
+            <a class="related-guide-link" href="/guides/ai-wrong-price-detective/">
+              <span class="mono">破案實錄 04</span>
+              <strong>官網改價了，為什麼 AI 還在背舊價格？</strong>
+            </a>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong class="footer-brand">阿男 GEO 實戰工坊</strong>
+        <p class="footer-note">
+          方法架構基於開源專案 <a href="https://github.com/aigclink/geolook" target="_blank" rel="noopener noreferrer">GeoLook</a>（MIT 授權）延伸整理，與創辦人客製紀念歌曲品牌
+          <a href="https://www.cccnan.art/work/" target="_blank" rel="noopener noreferrer">阿男音樂（cccnan.art）</a> 分開營運。
+        </p>
+        <p class="footer-updated">最後更新：2026-11-26｜官方 LINE（阿男GEO總公司）：@954pwtpz</p>
+      </div>
+      <div class="footer-links">
+        <a href="/">首頁</a>
+        <a href="/guides/store-owner-lesson-1/">實戰微課</a>
+        <a href="/enterprise/">企業專頁</a>
+        <a href="/faq/">常見問答</a>
+        <a href="/privacy/">隱私權政策</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var navBtn = document.getElementById("nav-toggle");
+      var nav = document.getElementById("site-nav");
+      if (navBtn && nav) {
+        navBtn.addEventListener("click", function () {
+          var open = nav.classList.toggle("is-open");
+          navBtn.setAttribute("aria-expanded", String(open));
+        });
+      }
+
+      function copyWithFeedback(text, targetEl, okMsg, fallbackMsg) {
+        if (!targetEl) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            targetEl.textContent = okMsg;
+          }).catch(function () {
+            targetEl.textContent = fallbackMsg;
+          });
+        } else {
+          targetEl.textContent = fallbackMsg;
+        }
+      }
+
+      var openCmdBtn = document.getElementById("copy-open-cmd-btn");
+      var openCmdFb = document.getElementById("open-cmd-feedback");
+      if (openCmdBtn && openCmdFb) {
+        openCmdBtn.addEventListener("click", function () {
+          copyWithFeedback(
+            "我要開通",
+            openCmdFb,
+            "已複製「我要開通」，請加入 @954pwtpz 後直接貼上傳送。",
+            "請在 @954pwtpz 聊天室手動輸入「我要開通」。"
+          );
+        });
+      }
+
+      var copyLineBtn = document.getElementById("guide-copy-line-btn");
+      var copyLineFb = document.getElementById("guide-copy-feedback");
+      if (copyLineBtn && copyLineFb) {
+        copyLineBtn.addEventListener("click", function () {
+          copyWithFeedback(
+            "@954pwtpz",
+            copyLineFb,
+            "已複製官方 LINE ID：@954pwtpz（阿男GEO總公司），歡迎直接加好友輸入「我要開通」。",
+            "請手動複製官方 LINE ID：@954pwtpz（阿男GEO總公司）。"
+          );
+        });
+      }
+
+      var trackBtns = document.querySelectorAll("[data-track-tab]");
+      var trackPanels = document.querySelectorAll("[data-track-panel]");
+      trackBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var mode = btn.getAttribute("data-track-tab");
+          trackBtns.forEach(function (b) {
+            var active = b.getAttribute("data-track-tab") === mode;
+            b.classList.toggle("is-active", active);
+            b.setAttribute("aria-selected", String(active));
+          });
+          trackPanels.forEach(function (p) {
+            p.hidden = p.getAttribute("data-track-panel") !== mode;
+          });
+        });
+      });
+
+      var checks = document.querySelectorAll(".guide-step-check");
+      var progEl = document.getElementById("guide-check-progress");
+      function updateProgress() {
+        if (!progEl) return;
+        var done = 0;
+        checks.forEach(function (c) {
+          if (c.checked) done += 1;
+        });
+        progEl.textContent = done === checks.length
+          ? "太棒了！已完成 " + done + " / " + checks.length + " 步，你已經上手 LINE 發文幫手囉！"
+          : "目前進度：已完成 " + done + " / " + checks.length + " 步";
+      }
+      checks.forEach(function (c) {
+        c.addEventListener("change", updateProgress);
+      });
+    })();
+  </script>
+</body>
+</html>
